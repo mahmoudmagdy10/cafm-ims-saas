@@ -1,0 +1,122 @@
+<ng-container *ngIf="CodeObz$ | async as codes">
+  <div class="d-flex justify-content-end mb-3">
+    <button
+      *ngIf="codes?.PagePermissions?.PMScheduleEdit"
+      class="btn btn-primary"
+      (click)="schedules({ PMId: itemEdit.ID })"
+    >
+      <span>
+        <span> <i class="fa fa-plus"></i> </span>
+        <span> {{ "PM.MODAL.PM_CARD.ADD_SCHEDULE" | translate }} </span>
+      </span>
+    </button>
+  </div>
+
+  <ng-container *ngFor="let item of itemEdit.PMSchedules">
+    <div
+      *ngIf="itemEdit.PMSchedules && itemEdit.PMSchedules.length == 0"
+      class="p-2 border d-flex justify-content-center align-items-center mb-4"
+    >
+      {{ "PM.MODAL.PM_CARD.NO_SCHEDULING" | translate }}
+    </div>
+
+    <div
+      class="p-2 border d-flex justify-content-between align-items-center mb-4"
+      *ngIf="itemEdit.PMSchedules"
+    >
+      <div class="margin-end-3">
+        <div class="d-flex align-items-center justify-content-between">
+          <!-- <label class="checkbox">
+          <input
+            type="checkbox"
+            class="form-check-input margin-end-1 custom-checkbox-style"
+          />
+          <span></span>
+        </label> -->
+          <div
+            (click)="codes?.PagePermissions?.PMScheduleEdit && schedules(item)"
+          >
+            <!-- <p-chip [label]="'Repeat every : ' + item.OccuranceNo" [style.margin-right]="'10px'"></p-chip> -->
+            <p-chip
+              [label]="('Schedule_Type' | translate) + item.ScheduleType"
+              [style.margin-right]="'10px'"
+            ></p-chip>
+            <p-chip
+              [label]="('FROM' | translate) + item.StartDate"
+              [style.margin-right]="'10px'"
+            ></p-chip>
+            <p-chip
+              [label]="('TO' | translate) + item.EndDate"
+              [style.margin-right]="'10px'"
+            ></p-chip>
+            <p-chip
+              [label]="('NUMBER_OF_DAYS' | translate) + (item.DueDateDay || '')"
+              [style.margin-right]="'10px'"
+            ></p-chip>
+            <p-chip
+              [label]="('TIME' | translate) + (item.ScheduleTime || '00:00')"
+              [style.margin-right]="'10px'"
+            ></p-chip>
+            <!-- <p-chip [label]="'at : ' + (item.ScheduleTime || '00:00')" [style.margin-right]="'10px'"></p-chip> -->
+            <p-chip
+              [label]="('SKIP_EVERY' | translate) + item.OccuranceNoToSkip"
+              [style.margin-right]="'10px'"
+            ></p-chip>
+          </div>
+        </div>
+        <!-- <a href="javascript:;" >
+        Repeats Every  # {{  }} # #
+        {{ }} #  # {{  }} # from #
+        {{ item. }} # to # {{ item. }} # ,  #
+        {{ item.OccuranceNoToSkip }} #
+      </a> -->
+      </div>
+      <!-- ----------------- -->
+      <!-- <div class="margin-end-3">
+      start on
+      <div class="d-flex">
+        <label> {{ item.StartDate }}</label>
+      </div>
+    </div> -->
+      <!-- ----------------- -->
+      <!-- <div class="margin-end-3">
+      until
+      <div class="d-flex">
+        <label>{{ item.EndDate }} </label>
+      </div>
+    </div> -->
+      <!-- ----------------- -->
+      <!-- <div class="margin-end-3 d-flex flex-wrap">
+
+
+      <div class="form-group margin-end-2 mb-2">
+        <label class="checkbox">
+          <input
+            type="checkbox"
+            class="form-check-input margin-end-1 custom-checkbox-style"
+          />
+          <span></span>
+          Skip every
+        </label>
+      </div>
+    </div> -->
+      <div class="margin-end-3 d-flex flex-wrap">
+        <i
+          tooltipposition="top"
+          class="p-element fas fa-trash-alt action-icon delete-icon"
+          (click)="idDeleted = item.ID; confirmdeleteWorkOrder.openModal()"
+          *ngIf="codes?.PagePermissions?.PMScheduleEdit"
+        ></i>
+      </div>
+    </div>
+  </ng-container>
+  <confirm-delete
+    #confirmdeleteWorkOrder
+    massage="{{ 'CONFIRMDELETE.TASK' | translate }}"
+    (afterSave)="
+      $event ? deleteSchedules() : ''; confirmdeleteWorkOrder.CloseModal()
+    "
+  >
+  </confirm-delete>
+</ng-container>
+<ng-container *ngIf="DateAndTime$ | async as DateAndTime"></ng-container>

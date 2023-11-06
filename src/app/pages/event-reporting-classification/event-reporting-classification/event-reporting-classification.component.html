@@ -1,0 +1,155 @@
+<div class="card card-custom">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <i class="fas fa-clipboard-list fa-lg"></i>
+      <h4 class="fw-bolder mb-0 mx-2">
+        {{ "eventClasification.eventReportClasification" | translate }}
+      </h4>
+    </div>
+    <div class="card-header-actions">
+      <button class="general-btn filter-btn mx-1" (click)="filter()" [hidden]="true">
+        <span>
+          <span><i class="fas fa-filter"></i></span>
+          <span>{{ "ACCIDENTS_REPORTS.FILTER" | translate }}</span>
+        </span>
+      </button>
+
+      <button class="general-btn add-btn mx-1" (click)="addOrEditReport()">
+        <span>
+          <span><i class="fas fa-plus"></i></span>
+          <span>{{ "eventClasification.AddClasification" | translate }}</span>
+        </span>
+      </button>
+
+      <button class="btn btn-sm btn-success mx-1" (click)="fieldsManagment()">
+        <span>
+          <span><i class="fas fa-columns"></i></span>
+          <span>{{
+            "ACCIDENTS_REPORTS.MODALS.FIELDS_MANAGEMENT.MODAL_TITLE" | translate
+            }}</span>
+        </span>
+      </button>
+      <button class="btn btn-sm btn-success mx-1" (click)="export()" disabled>
+        <span>
+          <i class="fas fa-upload fa-lg"></i>
+
+          {{ "ASSETS.ACTIONSONSELECTEDMENU.EXPORTDATA" | translate }}
+        </span>
+      </button>
+      <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal" (click)="exportPDF()" disabled>
+        <span>
+          <span> <i class="fas fa-print fa-lg"></i> </span>
+          <span> {{ "GENERAL.PRINT" | translate }} </span>
+        </span>
+      </button>
+    </div>
+  </div>
+  <!-- end::Header -->
+  <!-- begin::Body -->
+
+  <div class="card-body" #Report>
+    <div class="d-flex justify-content-end mb-3">
+      <app-field-show-in-table (sendFeildsViewInTable)="feildsViewInTable = $event"
+        [DataFeild$]="fieldManagmentService.DataFeild$">
+      </app-field-show-in-table>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6">
+        <thead>
+          <tr class="fw-bolder fs-6 text-gray-800">
+            <th style="width: 8%;">{{ "eventClasification.Number" | translate }}</th>
+            <th>{{ "eventClasification.Name" | translate }}</th>
+            <th>{{ "eventClasification.CATEGORY" | translate }}</th>
+            <th>{{ "eventClasification.Priority" | translate }}</th>
+            <th>{{ "eventClasification.Date" | translate }}</th>
+            <th>{{ "ACCIDENTS_REPORTS.TABLE.USER_NAME" | translate }}</th>
+            <th *ngFor="let obj of feildsViewInTable">
+              {{ obj.Name }}
+            </th>
+            <th>{{ "ACCIDENTS_REPORTS.TABLE.PROCEDUERS" | translate }}</th>
+          </tr>
+        </thead>
+        <ng-container *ngIf="service.Loading$ | async; else body">
+          loading....
+        </ng-container>
+        <ng-template #body>
+          <tbody *ngIf="DataAccidentReport$ | async as data">
+            <ng-container *ngFor="let item of data">
+              <tr [style.background]="item?.isDuplicated ? '#ff000021' : 'white'">
+                <td style="width: 8%;"> {{ item?.InternalNumber }}</td>
+                <td>
+                  <a href="javascript:;" (click)="addOrEditReport(item)">{{
+                    item.Title
+                    }}</a>
+                </td>
+                <td>{{ item?.CategoryName }}</td>
+                <td>{{ item?.Periority }}</td>
+                <td>{{ item?.IncidentDate | date: "dd/MM/yyyy" }}</td>
+                <!-- <td>{{item.}}</td> -->
+                <td>{{ item.UserName }}</td>
+                <td *ngFor="let obj of feildsViewInTable">
+                  {{ ValueField(obj.ID, item.WorkRequestGatesFields) }}
+                </td>
+
+                <td>
+                  <i class="fas fa-edit action-icon edit-icon" tooltipPosition="top"
+                    pTooltip="{{ 'ACCIDENTS_REPORTS.TABLE.EDIT' | translate }}" (click)="addOrEditReport(item)"></i>
+
+                  <i class="fas fa-trash-alt action-icon delete-icon" tooltipPosition="top"
+                    pTooltip="{{ 'ACCIDENTS_REPORTS.TABLE.DELETE' | translate }}" (click)="
+                    IDIncidentReport = item.ID;
+                    confirmdeleteWorkOrder.openModal()
+                  "></i>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </ng-template>
+      </table>
+    </div>
+  </div>
+
+  <!-- end::Body -->
+
+  <!-- begin::Footer -->
+
+  <!-- end::Footer -->
+</div>
+<confirm-delete #confirmdeleteWorkOrder massage="{{ 'CONFIRMDELETE.REPORT' | translate }}"
+  (afterSave)="$event ? onDelete() : ''; confirmdeleteWorkOrder.CloseModal()">
+</confirm-delete>
+<table [hidden]="true" #TABLE
+  class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6">
+  <thead>
+    <tr class="fw-bolder fs-6 text-gray-800">
+      <th>{{ "ACCIDENTS_REPORTS.TABLE.REPORT_NUMBER" | translate }}</th>
+      <th>{{ "ACCIDENTS_REPORTS.TABLE.REPORT_NAME" | translate }}</th>
+      <th>{{ "ACCIDENTS_REPORTS.TABLE.TEMPLATE" | translate }}</th>
+      <th>{{ "ACCIDENTS_REPORTS.TABLE.ACCIDENT_DATE" | translate }}</th>
+      <th>{{ "ACCIDENTS_REPORTS.TABLE.USER_NAME" | translate }}</th>
+      <th *ngFor="let obj of DataFeild$ | async">
+        {{ obj.Name }}
+      </th>
+    </tr>
+  </thead>
+
+  <tbody *ngIf="TableExcel$ | async as data">
+    <tr *ngFor="let item of data">
+      <td>{{ item.InternalNumber }}</td>
+      <td>
+        <a href="javascript:;" (click)="addOrEditReport(item)">{{
+          item.Title
+          }}</a>
+      </td>
+      <td>{{ item.CategoryName }}</td>
+      <td>{{ item.IncidentDate | date: "dd/MM/yyyy" }}</td>
+      <!-- <td>{{item.}}</td> -->
+      <td>{{ item.UserName }}</td>
+      <td *ngFor="let obj of DataFeild$ | async">
+        {{ ValueField(obj.ID, item.WorkRequestGatesFields) }}
+      </td>
+    </tr>
+  </tbody>
+</table>

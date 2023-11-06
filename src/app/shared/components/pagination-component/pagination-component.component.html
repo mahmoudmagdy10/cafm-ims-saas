@@ -1,0 +1,117 @@
+<div class="d-flex justify-content-center align-items-center flex-wrap">
+  <ng-container *ngIf="listPagination.length > 1">
+    <span *ngIf="floatsltr">
+      <i
+        class="pi pi-angle-double-left cursor-pointer"
+        style="
+          font-size: 1.5rem;
+          border: solid 1px;
+          border-radius: 5px;
+          padding: 5px;
+        "
+        (click)="selectPageFirst()"
+      ></i>
+    </span>
+    <span *ngIf="floatsrtl">
+      <i
+        class="pi pi-angle-double-right cursor-pointer"
+        style="
+          font-size: 1.5rem;
+          border: solid 1px;
+          border-radius: 5px;
+          padding: 5px;
+        "
+        (click)="selectPageFirst()"
+      ></i>
+    </span>
+    <!-- <i
+    class="pi pi-angle-double-left cursor-pointer"
+    style="
+      font-size: 1.5rem;
+      border: solid 1px;
+      border-radius: 5px;
+      padding: 5px;
+    "
+    (click)="selectPageFirst()"
+  ></i> -->
+
+    <div class="d-flex flex-wrap py-2 mr-3">
+      <button
+        class="btn pagination-btn btn-primary mx-1 my-1"
+        (click)="selectPage('back')"
+        [disabled]="selectedPage == 1"
+      >
+        <i class="{{ 'GENERAL.GO_BACK' | translate }}"></i>
+      </button>
+      <button
+        *ngFor="
+          let item of listPagination
+            | slice
+              : (selectedPage < 4 ? 0 : selectedPage - 4)
+              : (selectedPage < 4 ? 5 : selectedPage + 1);
+          let index = index
+        "
+        [disabled]="selectedPage == item"
+        (click)="selectPage(item)"
+        [ngClass]="
+          selectedPage == item
+            ? 'btn pagination-btn btn-sm border-0 btn-primary btn-hover-primary active mx-1 my-1'
+            : 'btn pagination-btn btn-sm border-0 btn-light mx-1 my-1'
+        "
+      >
+        {{ item }}
+      </button>
+
+      <button
+        class="btn pagination-btn btn-primary mx-1 my-1"
+        (click)="selectPage('next')"
+        [disabled]="selectedPage == listPagination.length"
+      >
+        <i class="{{ 'GENERAL.GO_FORWARD' | translate }}"></i>
+      </button>
+    </div>
+    <span *ngIf="floatsltr">
+      <i
+        class="pi pi-angle-double-right cursor-pointer"
+        style="
+          font-size: 1.5rem;
+          border: solid 1px;
+          border-radius: 5px;
+          padding: 5px;
+        "
+        (click)="selectPageFinal()"
+      ></i>
+    </span>
+    <span *ngIf="floatsrtl">
+      <i
+        class="pi pi-angle-double-left cursor-pointer"
+        style="
+          font-size: 1.5rem;
+          border: solid 1px;
+          border-radius: 5px;
+          padding: 5px;
+        "
+        (click)="selectPageFinal()"
+      ></i> </span
+  ></ng-container>
+
+  <div
+    class="col-lg-3 d-flex align-items-center justify-content-start mx-2"
+    *ngIf="showPerPage"
+  >
+    <label class="col-lg-5 col-form-label"
+      >{{ "ITEM_PER_PAGE" | translate }}:</label
+    >
+    <div class="col-lg-3" style="height: 33px">
+      <select
+        [formControl]="selectRowCount"
+        class="form-select form-select-item"
+        (change)="onselectedRowCount($event.target)"
+      >
+        <option *ngFor="let item of perPaginator" [value]="item">
+          {{ item }}
+        </option>
+      </select>
+    </div>
+  </div>
+</div>

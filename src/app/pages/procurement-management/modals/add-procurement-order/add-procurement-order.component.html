@@ -1,0 +1,203 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fa fa-plus mx-1"></i>
+    {{ "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.MODAL_TITLE" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body" *ngIf="Codes$ | async as codes">
+  <form [formGroup]="procurementOrderForm">
+    <div class="row">
+      <!-- رقم الأمر -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.ORDER_NUMBER" | translate
+          }}
+        </label>
+        <input
+          type="number"
+          [min]="0"
+          class="form-control"
+          formControlName="PoNumber"
+        />
+      </div>
+
+      <!-- اسم الأمر -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2 required">
+          {{
+            "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.ORDER_NAME" | translate
+          }}
+        </label>
+        <input type="text" class="form-control" formControlName="PoName" />
+      </div>
+
+      <!-- الميزانية -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2 required">
+          {{ "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.BUDGET" | translate }}
+        </label>
+        <p-dropdown
+          appendTo="body"
+          [options]="budgets$ | async"
+          [style]="{ minWidth: '130px', display: 'flex' }"
+          optionLabel="BudgetName"
+          optionValue="ID"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          formControlName="BudgetId"
+          [filter]="true"
+          filterBy="name"
+          (onChange)="OnSelectItem($event)"
+        >
+        </p-dropdown>
+      </div>
+
+      <!-- المورد -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2 required">
+          {{ "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.VENDOR" | translate }}
+        </label>
+        <p-dropdown
+          appendTo="body"
+          [options]="codes.Vendors"
+          [style]="{ minWidth: '130px', display: 'flex' }"
+          optionLabel="name"
+          optionValue="code"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          formControlName="VendorId"
+          [filter]="true"
+          filterBy="name"
+        >
+        </p-dropdown>
+      </div>
+      <!--  -->
+      <!-- تاريخ الشراء -->
+
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <app-calender-feild
+          formControlName="PoDate"
+          label="{{
+            'PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.PURCHASE_DATE' | translate
+          }}"
+        >
+        </app-calender-feild>
+      </div>
+      <!-- <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2 required">
+          {{
+            "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.PURCHASE_DATE" | translate
+          }}</label
+        >
+
+        <div class="form-group custom-datepicker">
+          <input
+            class="form-control"
+            [matDatepicker]="pickerPoDate"
+            type="datetime"
+            placeholder="dd-mm-yy"
+            formControlName="PoDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerPoDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerPoDate></mat-datepicker>
+        </div>
+      </div> -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <app-calender-feild
+          formControlName="ExpectedDelivaryDate"
+          label="{{
+            'PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.EXPECTED_RECEIVED_DATE'
+              | translate
+          }}"
+          [minDate]="procurementOrderForm.get('PoDate')?.value!"
+        >
+        </app-calender-feild>
+      </div>
+      <!-- التاريخ المتوقع للاستلام -->
+      <!-- <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2 required">
+          {{
+            "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.EXPECTED_RECEIVED_DATE"
+              | translate
+          }}</label
+        >
+
+        <div class="form-group custom-datepicker">
+          <input
+            class="form-control"
+            [matDatepicker]="pickerExpectedDelivaryDate"
+            type="datetime"
+            placeholder="dd-mm-yy"
+            formControlName="ExpectedDelivaryDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerExpectedDelivaryDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerExpectedDelivaryDate></mat-datepicker>
+        </div>
+      </div> -->
+
+      <!-- المسؤول عن الشراء -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2 required">
+          {{
+            "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.RESPONSIBLE" | translate
+          }}
+        </label>
+        <label class="form-control form-control-solid" style="height: 39px">
+          {{ ArrayToString(this.PoCheckedTeams) }}
+          {{ ArrayToString(this.PoCheckedUsers) }}</label
+        >
+      </div>
+    </div>
+
+    <!-- ملاحظات -->
+    <label class="mb-2">
+      {{ "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.DESCRIPTION" | translate }}
+    </label>
+    <textarea
+      class="form-control"
+      row="3"
+      col="12"
+      formControlName="Notes"
+    ></textarea>
+  </form>
+</div>
+
+<div class="modal-footer position-relative">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-dismiss="modal"
+    (click)="addProcurementOrder()"
+  >
+    <span>
+      <span> <i class="fa fa-save"></i> </span>
+      <span> {{ "GENERAL.SAVE" | translate }} </span>
+    </span>
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span> {{ "GENERAL.CANCEL" | translate }} </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

@@ -1,0 +1,39 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-camera"></i>
+    {{"ASSETS.EDITIMAGEMODAL.MODALTITLE" | translate}}
+  </h5>
+
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+<!-- style="margin-top: 15px;" -->
+<!-- </div> -->
+<div class="card-body "  style="overflow-y: scroll !important; max-height: 40vh">
+  <input type="file" (change)="fileChangeEvent($event)" class="w-100" />
+  <div class="row">
+    <div class="text-center col-md-8">
+      <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 4"
+        [resizeToWidth]="150" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+    </div>
+    <!-- <div class="text-center col-md-4">
+                  <h5>Preview</h5>
+                  <img [src]="croppedImage" />
+              </div> -->
+  </div>
+</div>
+
+<div class="modal-footer position-relative">
+  <button type="button" class="btn btn-primary" (click)="saveImg()">
+    <i class="fa fa-save"></i>
+    {{"ASSETS.EDITIMAGEMODAL.SAVE" | translate}}
+  </button>
+  <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-light" (click)="Close()">
+    <i class="fa fa-times"></i>
+    {{"ASSETS.EDITIMAGEMODAL.CANCEL" | translate}}
+  </button>
+</div>

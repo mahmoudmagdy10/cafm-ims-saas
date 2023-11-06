@@ -1,0 +1,198 @@
+<div class="card card-custom">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch align-items-center d-flex">
+    <div class="card-title my-4 m-md-0">
+      <i class="fas fa-boxes fa-lg margin-end-1"></i>
+      <h4 class="fw-bolder mb-0 mx-2">{{ "ASSETS.CARDHEADER" | translate }}</h4>
+    </div>
+
+    <div
+      class="card-header-actions"
+      *ngIf="codes$ | async as code; else loading"
+    >
+      <button
+        *ngIf="ViewWay != 2"
+        class="general-btn filter-btn"
+        (click)="AddFilter()"
+      >
+        <i class="fas fa-filter"></i>
+        {{ "ASSETS.FILTERSMODAL.BUTTONNAME" | translate }}
+      </button>
+
+      <!-- <button
+        *ngIf="code?.PagePermissions?.AssetsAdd"
+        class="general-btn add-btn"
+        (click)="openAddAsset(true)"
+      >
+        <i class="fas fa-plus"></i>
+        {{ "Add_subLocation" | translate }}
+      </button> -->
+      <button
+        *ngIf="code?.PagePermissions?.AssetsAdd"
+        class="general-btn add-btn"
+        (click)="openAddAsset(false)"
+      >
+        <i class="fas fa-plus"></i>
+        {{ "Add_Asset" | translate }}
+      </button>
+      <button
+        *ngIf="code?.PagePermissions?.AssetsCommonFieldsEdit"
+        type="button"
+        class="general-btn add-btn"
+        (click)="fieldsManagment()"
+        icon="pi pi-info-circle"
+        label="Show"
+      >
+        {{ "ASSETS.FIELDMANAGEMENTMODAL.BUTTONNAME" | translate }}
+      </button>
+      <button
+        *ngIf="code?.PagePermissions?.AssetsExport"
+        class="btn btn-success mx-1 general-btn"
+        (click)="export()"
+      >
+        <span>
+          <i class="fas fa-upload fa-lg"></i>
+
+          {{ "ASSETS.ACTIONSONSELECTEDMENU.EXPORTDATA" | translate }}
+        </span>
+      </button>
+      <app-action-of-asset-selected
+        [permissions]="code?.PagePermissions"
+        *ngIf="ViewWay != 2"
+        (refreshAssets)="TableAssets.getAssets()"
+        [AssetsSelected]="TableAssets.AssetsSelected"
+      ></app-action-of-asset-selected>
+
+      <!-- <button class="general-btn d-none">
+        <i
+          class="fas fa-cog"
+          style="color: #fff; font-size: 16px; padding-left: 7px"
+        ></i>
+      </button> -->
+    </div>
+
+    <div class="col-menu d-block d-md-none">
+      <i
+        class="fa fa-bars fa-lg cursor-pointer"
+        data-kt-menu-trigger="click"
+        data-kt-menu-placement="bottom-start"
+      ></i>
+
+      <!--begin::Menu-->
+      <div
+        class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-200px py-4"
+        data-kt-menu="true"
+      >
+        <!--begin::Menu item-->
+        <div class="menu-item border-bottom border-top px-3">
+          <a href="javascript:;" class="menu-link px-3" (click)="AddFilter()">
+            <i class="fas fa-filter"></i>
+            <span class="mx-2">
+              {{ "ASSETS.FILTERSMODAL.BUTTONNAME" | translate }}
+            </span>
+          </a>
+        </div>
+        <!--end::Menu item-->
+
+        <!--begin::Menu item-->
+        <div class="menu-item border-bottom border-top px-3">
+          <a
+            href="javascript:;"
+            class="menu-link px-3"
+            (click)="openAddAsset()"
+          >
+            <i class="fas fa-plus"></i>
+            <span class="mx-2">
+              {{ "ASSETS.ADDASSETMODAL.BUTTONNAME" | translate }}
+            </span>
+          </a>
+        </div>
+
+        <!--end::Menu item-->
+
+        <!--begin::Menu item-->
+        <div
+          class="menu-item border-bottom border-top px-3"
+          *ngIf="code?.PagePermissions?.AssetsCommonFieldsEdit"
+        >
+          <a
+            href="javascript:;"
+            class="menu-link px-3"
+            (click)="fieldsManagment()"
+          >
+            <i class="pi pi-info-circle"></i>
+            <span class="mx-2">
+              {{ "ASSETS.FIELDMANAGEMENTMODAL.BUTTONNAME" | translate }}
+            </span>
+          </a>
+        </div>
+        <!--end::Menu item-->
+      </div>
+      <!--end::Menu-->
+    </div>
+  </div>
+
+  <!-- end::Header -->
+  <!-- begin::Body -->
+  <div class="card-body">
+    <div class="row mb-3 justify-content-end type-view">
+      <a href="javascript:;" style="width: unset">
+        {{ "TotalCount" | translate }} :
+        {{ (assetsSettings$ | async)?.TotalCount }}
+      </a>
+      <a href="javascript:;" style="width: unset">
+        {{ "TotalAssets" | translate }} :
+        {{ (assetsSettings$ | async)?.TotalCountAssets }}
+      </a>
+
+      <a
+        href="javascript:; "
+        [class]="ViewWay == 1 ? 'active' : ''"
+        style="width: unset"
+        (click)="ViewWay = 1"
+      >
+        {{ "ASSETS.DISPLAYASTABLE" | translate }}</a
+      >
+      <a
+        href="javascript:;"
+        style="width: unset"
+        [class]="ViewWay == 2 ? 'active' : ''"
+        (click)="ViewWay = 2"
+      >
+        {{ "ASSETS.DISPLAYASTREE" | translate }}</a
+      >
+      <!-- <a href="javascript:;" style="width: unset" (click)="ViewWay = 3">
+        {{ "ASSETS.DISPLAYASTREEHor" | translate }}</a
+      > -->
+      <a
+        href="javascript:;"
+        style="width: unset"
+        [class]="ViewWay == 4 ? 'active' : ''"
+        (click)="ViewWay = 4"
+      >
+        {{ "Display_As_Map" | translate }}</a
+      >
+      <app-field-show-in-table
+        *ngIf="ViewWay != 2"
+        style="width: 50px"
+        [DataFeild$]="DataFeild$"
+        (sendFeildsViewInTable)="feildsViewInTable = $event"
+      >
+      </app-field-show-in-table>
+    </div>
+
+    <app-table-assets
+      #TableAssets
+      [feildsViewInTable]="feildsViewInTable"
+      [code]="code"
+      [ViewWay]="ViewWay"
+    >
+    </app-table-assets>
+
+    <!-- ******************************** -->
+    <!-- ******************************** -->
+  </div>
+</div>
+<ng-template #loading>
+  <p-progressSpinner [style]="{ width: '40px' }"></p-progressSpinner>
+</ng-template>

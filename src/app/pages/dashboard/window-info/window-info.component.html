@@ -1,0 +1,81 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-map-marker-alt mx-2 ng-star-inserted mx-1"></i>
+    {{ "DASHBOARD.MAP.TITLE" | translate }}
+  </h5>
+
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+
+<!-- begin dialog body style="min-height: 360px; max-height: 360px; overflow-y: auto;" -->
+
+<div class="modal-body">
+  <div id="content" class="location-card position-relative text-center">
+    <div id="siteNotice"></div>
+
+    <div class="location-info">
+      <h3 id="firstHeading" class="firstHeading mb-6">
+        {{ data.LocationName }}
+      </h3>
+      <!--  (click)="ChangeLocationAndChangePage('/settings/locations')"-->
+      <p class="info">
+        <span>
+          <i class="fas fa-map-marker-alt ng-star-inserted fa-lg"></i>
+          <span> {{ "DASHBOARD.MAP.SUBLOCATION" | translate }} : </span>
+        </span>
+        <span class="fw-bolder margin-start-1"> {{ data?.SubLocation }} </span>
+      </p>
+      <!--  (click)="ChangeLocationAndChangePage('/Asset/Asset-main')" -->
+      <p class="info">
+        <span>
+          <i class="fas fa-boxes fa-lg"></i>
+          <span> {{ "DASHBOARD.MAP.MOUNTASSETE" | translate }} : </span>
+        </span>
+        <span class="fw-bolder margin-start-1"> {{ data.AssestsCount }} </span>
+      </p>
+
+      <!-- (click)="moveOn('settings/users', { LocationId: data.LocationId })"  -->
+
+      <p class="info" [style.cursor]="'pointer'">
+        <span>
+          <i class="fas fa-users fa-lg"></i>
+          <span> {{ "DASHBOARD.MAP.MOUNTUSERS" | translate }} : </span>
+        </span>
+        <span class="fw-bolder margin-start-1"> {{ data.UserCount }} </span>
+      </p>
+
+      <!-- <p
+        class="info mb-0"
+        (click)="ChangeLocationAndChangePage('/MaintenanceRequests')"
+      >
+        <span>
+          <i class="fas fa-clipboard-list fa-lg"></i>
+          <span> {{ "DASHBOARD.MAP.MOUNTREQUEST" | translate }} : </span>
+        </span>
+        <span class="fw-bolder margin-start-1">
+          {{ data.NoOfRequest }}
+        </span>
+      </p> -->
+    </div>
+  </div>
+</div>
+<!-- begin dialog body -->
+
+<!-- start footer -->
+<!-- <div class="modal-footer position-relative">
+  <button class="btn btn-primary">
+    <i class="fas fa-save"></i>
+    {{"CONFIGRATION.TAGSMANAGEMENT.SAVE" | translate}}
+  </button>
+
+  <button class="btn btn-sm btn-secondary">
+    <i class="fas fa-times"></i>
+    {{"CONFIGRATION.TAGSMANAGEMENT.CANCEL" | translate}}
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div> -->

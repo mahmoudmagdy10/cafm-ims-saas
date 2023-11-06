@@ -1,0 +1,28 @@
+<!-- <button type="button" class="text-left" style="float: left;background: none;border: none;font-size: 22px;color:#66a9ed;"
+  aria-label="Close" (click)="CloseModal()">
+  <span aria-hidden="true">&times;</span> -->
+<!-- </button> -->
+<!-- <i class="fa fa-times fa-lg" (click)="CloseModal()" style="margin-top: 15px; display: block; margin-left: 15px; "></i> -->
+
+<mat-tab-group mat-align-tabs="start" [selectedIndex]="selectedIndex"
+  style="margin: 0 0 0 5px; font-family: 'Almarai', sans-serif !important;">
+
+  <mat-tab label='{{"ADMINISTARTOR.ADDCOMPANY.COMPANYDATATAB.TABTITLE" | translate}}' *ngIf="!data.Datasub"
+    style="margin: 0 0 0 5px; font-family: 'Almarai', sans-serif !important;" class="admin-mat-tab">
+
+    <app-DataCompany (cancel)="onCancel()" [Codes]='data.Codes' [dataCamEdit]='dataCamEdit'
+      (afterEditCom)='afterEditCom($event)' (afterSaveCom)='AfterSaveCom($event)'></app-DataCompany>
+
+  </mat-tab>
+
+  <mat-tab *ngIf="!data.IDCom" label='{{"ADMINISTARTOR.ADDCOMPANY.SUBSCRIBEDATATAB.TABTITLE" | translate}}'
+    [disabled]='this.idCom?false:true' style="margin: 0 0 0 5px; font-family: 'Almarai', sans-serif !important;"
+    class="admin-mat-tab">
+
+    <app-DataSubscription (cancel)="onCancel()" [Codes]='data.Codes' [idCom]='idCom' (afterSaveSub)='afterSaveSub()'>
+    </app-DataSubscription>
+
+
+  </mat-tab>
+
+</mat-tab-group>

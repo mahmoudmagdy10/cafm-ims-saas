@@ -1,0 +1,56 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fa fa-plus margin-end-1"></i>
+    {{ "STORES.MODALS.ADD_VENDOR.MODAL_TITLE" | translate }}
+  </h5>
+
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+<!-- style="margin-top: 15px;" -->
+<!-- </div> -->
+<div class="card-body" *ngIf="Codes$ | async as code">
+    <div class="container">
+      <div class="row">
+        <!-- المورد -->
+        <div class="col-12 col-md-6 col-lg-5 mb-3">
+          <label class="mb-2">
+            {{ "STORES.MODALS.ADD_VENDOR.VENDOR" | translate }}
+          </label>
+          <p-dropdown  appendTo="body"
+            [options]="code.Vendors"
+            optionValue="code"
+            [filter]="true"
+            optionLabel="name"
+            [placeholder]="'GENERAL.SELECT' | translate"
+            [formControl]="VendorForm"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal-footer position-relative">
+  <button
+    pButton
+    type="button"
+    class="btn btn-primary mx-2"
+    (click)="save()"
+  >
+    <i class="fa fa-save"></i>
+    <span>{{ "ASSETS.ASSETCARDMODAL.CARDIMAGE.SAVE" | translate }}</span>
+  </button>
+  <button
+    type="button"
+    data-bs-dismiss="modal"
+    class="btn btn-sm btn-light"
+    (click)="Close()"
+  >
+    <i class="fa fa-times"></i>
+    <span>{{ "ASSETS.ASSETCARDMODAL.CARDIMAGE.CANCEL" | translate }}</span>
+  </button>
+</div>

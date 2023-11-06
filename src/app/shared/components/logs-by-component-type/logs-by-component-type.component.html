@@ -1,0 +1,112 @@
+<div class="card-header align-items-center border-0 mt-2">
+  <div class="d-flex justify-content-between">
+    <h5 class="card-title align-items-start flex-column">
+      <span class="fw-bolder mb-2 text-dark"> {{ "lOG" | translate }}</span>
+    </h5>
+    <i
+      class="fas fa-list-alt action-icon"
+      *ngIf="!isList"
+      (click)="isList = !isList"
+    ></i>
+    <i
+      class="fas fa-stream action-icon"
+      *ngIf="isList"
+      (click)="isList = !isList"
+    ></i>
+    <!-- <button
+    class="general-btn add-btn mx-1"
+    (click)="addAction()"
+  >
+    <i class="fas fa-plus"></i>
+    <span>
+      {{ "ASSETS.ASSETCARDMODAL.MOVEMENTHISTORYTAB.ADD" | translate }}
+    </span>
+  </button> -->
+  </div>
+</div>
+
+<ng-container *ngIf="Logs$ | async as Logs"
+  ><div class="table-responsive" *ngIf="isList">
+    <table
+      class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+    >
+      <thead>
+        <tr class="fw-bolder fs-6 text-gray-800">
+          <th>
+            {{
+              "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MOVEMENTS_LEVEL_TAB.STATEMENT"
+                | translate
+            }}
+          </th>
+          <th>
+            {{
+              "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MOVEMENTS_LEVEL_TAB.DATE"
+                | translate
+            }}
+          </th>
+          <th>
+            {{
+              "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MOVEMENTS_LEVEL_TAB.USER"
+                | translate
+            }}
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of Logs?.valueList">
+          <td>{{ item.LogDetails }}</td>
+          <td>{{ item.LogDate | date : "dd/MM/yyyy : HH:mm" }}</td>
+          <td>{{ item.UserName }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card-body pt-5" *ngIf="!isList">
+    <!-- begin::Timeline-->
+    <div *ngFor="let item of Logs?.timeline; let f = first">
+      <hr *ngIf="!f" />
+      <div
+        class="task-info bg-light p-3 mb-3 d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center"
+      >
+        <div class="user">
+          <span class="username fw-bolder mx-2"> {{ item?.date }} </span>
+        </div>
+      </div>
+      <div class="timeline-label mx-5">
+        <!-- begin::Item-->
+        <div class="timeline-item" *ngFor="let log of item?.logs">
+          <!-- begin::Label-->
+          <div class="timeline-label fw-bolder text-gray-800 fs-6">
+            {{ log?.LogDate | date : "HH:mm" }}
+          </div>
+          <!-- end::Label-->
+          <!-- begin::Badge-->
+          <div class="timeline-badge">
+            <i class="fa fa-genderless text-info fs-1"></i>
+          </div>
+          <!-- end::Badge-->
+          <!-- begin::Text-->
+          <div class="fw-mormal timeline-content text-muted ps-3">
+            {{ log?.LogDetails }}
+          </div>
+          <b style="margin-right: 180px; margin-left: 180px"
+            >{{ "BY" | translate }} ({{ log?.UserName }})</b
+          >
+          <!-- end::Text-->
+        </div>
+
+        <!-- end::Timeline-->
+      </div>
+    </div>
+
+    <!-- end: Card Body-->
+  </div>
+  <app-pagination-component
+    *ngIf="Logs?.Setting"
+    [Setting]="Logs?.Setting"
+    [(selectedPage)]="selectedPage"
+    (selectedPageChange)="filter()"
+  ></app-pagination-component
+></ng-container>

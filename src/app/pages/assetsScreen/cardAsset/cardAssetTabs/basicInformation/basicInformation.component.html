@@ -1,0 +1,170 @@
+<div class="row">
+  <div class="col-12 col-md-3 mb-3 mb-lg-0 basicInformation-tab-image-input">
+    <div
+      class="image-input image-input-outline image-input-empty"
+      data-kt-image-input="true"
+    >
+      <div
+        class="image-input-wrapper"
+        style="width: 140px; height: 148px; background-size: contain"
+        [style.cursor]="'pointer'"
+        [style.background-image]="
+          'url(' + (imgAssets ? imgAssets : defaultImageUrl) + ')'
+        "
+      ></div>
+      <!--  [style.background-image]="imageAsset || data?.isLocation ? 'url(assets/media/avatars/location.png)' : 'url(assets/media/avatars/factory-machine.png)'" -->
+      <label
+        data-kt-image-input-action="change"
+        data-bs-toggle="tooltip"
+        title=""
+        data-bs-original-title="Change avatar"
+        (click)="
+          code?.PagePermissions?.AssetsEdit ? AddCardImage() : consoleLog()
+        "
+      >
+        <i class="bi bi-pencil-fill fs-7"></i>
+      </label>
+    </div>
+  </div>
+
+  <div class="col-md-9">
+    <!-- <form [formGroup]="basicInformationForm"> -->
+    <div class="row">
+      <div class="col-12 col-lg-6 mb-3 mb-lg-0">
+        <label class="required mb-2 lableInputModle">
+          {{
+            data?.isAsset
+              ? ("Asset_Name" | translate)
+              : ("subLocation_Name" | translate)
+          }}
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          [disabled]="!code?.PagePermissions?.AssetsEdit"
+          [(ngModel)]="data.AssetName"
+          (blur)="isChange ? EditInAssets.emit() : ''; isChange = false"
+          (change)="isChange = true"
+        />
+      </div>
+      <div class="col-12 col-lg-6 mb-3 mb-lg-0" *ngIf="data?.isAsset">
+        <label class="required mb-2 lableInputModle">
+          {{ "Assets_Cost" | translate }}
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          [disabled]="!code?.PagePermissions?.AssetsEdit"
+          [(ngModel)]="data.AssetCost"
+          (blur)="isChange ? EditInAssets.emit() : ''; isChange = false"
+          (change)="isChange = true"
+        />
+      </div>
+      <div class="col-12 col-lg-6 mb-3 mb-lg-0">
+        <label class="required mb-2 lableInputModle">
+          {{
+            data?.isAsset
+              ? ("Asset_Type" | translate)
+              : ("subLocation_Type" | translate)
+          }}
+        </label>
+        <p-dropdown
+          [options]="code?.Categories"
+          [style]="{ minWidth: '130px', display: 'flex' }"
+          optionLabel="name"
+          optionValue="code"
+          [(ngModel)]="this.data.CategoryId"
+          [disabled]="!code?.PagePermissions?.AssetsEdit"
+          (onChange)="EditInAssets.emit()"
+          [filter]="true"
+          filterBy="name"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="row my-5">
+      <div class="col-12 col-sm-6" *ngIf="data?.isAsset">
+        <div class="d-fleFx align-items-center">
+          <label class="mb-2 lableInputModle">
+            {{ "ASSETS.ASSETCARDMODAL.BASICDATATAB.SUBORDINATETO" | translate }}
+          </label>
+          <button
+            class="general-btn add-btn mx-2"
+            (click)="opentree()"
+            [disabled]="!code?.PagePermissions?.AssetsEdit"
+          >
+            <i class="fas fa-plus"></i>
+            <span>{{
+              ParentAssetName ||
+                data?.ParentAssetName ||
+                ("ASSETS.ASSETCARDMODAL.BASICDATATAB.ADDPARENT" | translate)
+            }}</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6">
+        <div class="d-flex align-items-center flex-row">
+          <div class="mx-1">
+            <label class="mb-2">
+              {{ "ASSETS.ASSETCARDMODAL.BASICDATATAB.GEOLOCATION" | translate }}
+            </label>
+            <button
+              [disabled]="!code?.PagePermissions?.AssetsEdit"
+              class="fas fa-map-marker-alt fa-lg general-btn add-btn cursor-pointer mx-2"
+              (click)="openMap()"
+            ></button>
+            <b>#{{ data?.InternalId }}</b>
+          </div>
+          <!-- <div class="mx-1">
+            <button
+              [disabled]="!code?.PagePermissions?.AssetsEdit"
+              class="general-btn add-btn mx-2"
+              (click)="DuplicateAsset()"
+            >
+              <i class="fas fa-add"></i>
+              {{ "Duplicate Asset" | translate }}
+            </button>
+          </div> -->
+        </div>
+      </div>
+
+      <!-- <button class="general-btn add-btn" (click)="openMap()"> -->
+      <!-- </button> -->
+    </div>
+
+    <!-- </form> -->
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-sm-12">
+    <div class="col-md-12 my-3">
+      <label class="mb-2 lableInputModle">
+        {{ "ASSETS.ASSETCARDMODAL.SETTINGSTAB.DETAILS" | translate }}
+      </label>
+      <textarea
+        class="form-control"
+        rows="6"
+        [disabled]="!code?.PagePermissions?.AssetDepreciation"
+        [(ngModel)]="this.data.Notes"
+        (change)="EditInAssets.emit()"
+      ></textarea>
+    </div>
+  </div>
+</div>
+<hr />
+<!--
+<div class="d-flex justify-content-between mb-2">
+  <span></span> -->
+<!-- <button class="general-btn add-btn" (click)="addFeild()">
+    <i class="fas fa-plus"></i>
+    <span>
+      {{ "ASSETS.ASSETCARDMODAL.BASICDATATAB.ADDFIELD" | translate }}
+    </span>
+  </button> -->
+<!-- </div> -->
+<app-view-field-in-item
+  [dataItem]="data"
+  [disable]="!code?.PagePermissions?.AssetFields"
+  [catergoryId]="data.CategoryId"
+></app-view-field-in-item>

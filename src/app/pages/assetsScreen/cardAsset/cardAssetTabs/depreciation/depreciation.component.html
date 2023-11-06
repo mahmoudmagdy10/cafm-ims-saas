@@ -1,0 +1,106 @@
+<form [formGroup]="formDepreciation">
+  <div class="container">
+    <div class="col-4 d-flex justify-content-end flex-row-reverse mb-3">
+      <label for="toggleEnable">
+        {{ "ASSETS.ASSETCARDMODAL.DEPRECIATIONTAB.ENABLE" | translate }}
+      </label>
+      <p-inputSwitch
+        id="toggleEnable"
+        class="mx-1"
+        [formControl]="IsDepreciationEnabled"
+        (onChange)="diabledOrEnabledDepreciation($event.checked)"
+      ></p-inputSwitch>
+      <label for="toggleEnable">
+        {{ "ASSETS.ASSETCARDMODAL.DEPRECIATIONTAB.DISABLE" | translate }}
+      </label>
+    </div>
+
+    <div class="row mb-md-3">
+      <div class="col-12 col-lg-6 mb-3">
+        <label class="mb-2" for="buy-price">
+          {{
+            "ASSETS.ASSETCARDMODAL.DEPRECIATIONTAB.PURCHASINGDATE" | translate
+          }}
+        </label>
+        <input
+          type="number"
+          [min]="0"
+          class="form-control"
+          formControlName="PurchaseCost"
+          (blur)="saveChange()"
+        />
+      </div>
+
+      <div class="col-12 col-lg-6 mb-3">
+        <label class="mb-2" for="">
+          {{ "ASSETS.ASSETCARDMODAL.DEPRECIATIONTAB.REFUNDONSALE" | translate }}
+        </label>
+        <input
+          type="number"
+          [min]="0"
+          class="form-control"
+          formControlName="SalvageValue"
+          (blur)="saveChange()"
+        />
+      </div>
+    </div>
+
+    <div class="row mb-md-3">
+      <div class="col-12 col-lg-6 mb-3">
+        <label class="mb-2" for="">
+          {{
+            "ASSETS.ASSETCARDMODAL.DEPRECIATIONTAB.SERVICELENGTH" | translate
+          }}
+        </label>
+        <input
+          type="number"
+          [min]="0"
+          class="form-control"
+          formControlName="UsefulLife"
+          (blur)="saveChange()"
+        />
+      </div>
+
+      <!-- <div class="col-12 col-md-6">
+        <label class="required mb-2 ">تاريخ بدء الإهلاك</label>
+        <p-calendar placeholder="1-1-2001" class="depreciation-calendar"></p-calendar>
+      </div> -->
+
+      <div class="col-12 col-md-6 mb-3">
+        <label class="required mb-2 lableInputModle">
+          {{
+            "ASSETS.ASSETCARDMODAL.DEPRECIATIONTAB.DEPRECATIONSTARTDATE"
+              | translate
+          }}
+        </label>
+
+        <div class="form-group custom-datepicker">
+          <input
+            class="form-control m-input"
+            [matDatepicker]="depreciationDate"
+            type="datetime"
+            placeholder="dd-mm-yy"
+            formControlName="DepreciationStartDate"
+            (change)="saveChange()"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="depreciationDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #depreciationDate></mat-datepicker>
+        </div>
+      </div>
+    </div>
+
+    <p-button (click)="openDialog()">
+      {{
+        "ASSETS.ASSETCARDMODAL.DEPRECIATIONTAB.DEPRECATIONDATESENDTO"
+          | translate
+      }}
+      <a *ngIf="this.data as data" style="color: floralwhite">
+        {{ ArrayToString(this.itemsCheckedTeams) }}
+        {{ ArrayToString(this.itemsCheckedUsers) }}
+      </a>
+    </p-button>
+  </div>
+</form>

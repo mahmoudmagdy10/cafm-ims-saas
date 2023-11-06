@@ -1,0 +1,92 @@
+<div class="card-informations rounded" style="background-color: #fafafb; padding: 1rem">
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <div class="task-info border rounded bg-white p-3 mb-3">
+        <span>
+          <i class="fas fa-user" tooltipPosition="top" pTooltip="{{'RequesterName' | translate }}"></i>
+          <span> {{ dataClose?.RequesterName }} </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <div class="task-info border rounded bg-white p-3 mb-3">
+        <span>
+          <i class="fas fa-envelope-open-text mx-2" tooltipPosition="top"
+            pTooltip="{{ 'USERS.FLTERMODAL.EMAIL' | translate }}"></i>
+          <span>
+            {{dataClose?.RequesterEmail}}
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="task-info border rounded bg-white p-3 mb-3">
+        <span class="">
+          <i class="fas fa-phone margin-start-1" tooltipPosition="top" pTooltip="{{
+              'RequesterPhone'
+                | translate
+            }}"></i>
+          <span> {{ dataClose?.RequesterPhone }}</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="task-info bg-white d-flex justify-content-between border rounded p-3">
+
+    <span class="" *ngIf="dataClose?.TagDescription">
+      <i class="fas fa-exclamation-circle" tooltipPosition="top" pTooltip="{{
+          'ASSETS.FIELDMANAGEMENTMODAL.FIELDCATEGORY'
+            | translate
+        }}"></i>
+      <span class="text-success"> {{ dataClose?.TagDescription }} </span>
+    </span>
+
+    <span class="" *ngIf="dataClose?.PriorityName">
+      <i class="fas fa-exclamation-circle" tooltipPosition="top" pTooltip="{{
+          'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.HEADER_INFO.PRIORITY_LEVEL'
+            | translate
+        }}"></i>
+      <span [style]="{ color: 'rgb(0 117 255 / 72%)', fontWeight: 'bold' }">
+        {{ dataClose?.PriorityName }}
+      </span>
+    </span>
+
+    <span class="" *ngIf="dataClose?.CreatedDate">
+      <i class="far fa-calendar-alt" tooltipPosition="top" pTooltip="{{
+          'DYNAMIC_FIELD.DATE'
+            | translate
+        }}"></i>
+      <span> {{ dataClose?.CreatedDate | date: "dd/MM/YYYY HH:mm" }} </span>
+    </span>
+
+    <span class="" *ngIf="dataClose?.CloseReasonType">
+      <i class="fas fa-exclamation-circle" tooltipPosition="top" pTooltip="{{
+          'GENERAL.ReasonType'
+            | translate
+        }}"></i>
+      <span class="text-info"> {{ dataClose?.CloseReasonType }}</span>
+    </span>
+
+    <span class="" *ngIf="dataClose?.EventFilePdf">
+      <a href={{dataClose?.EventFilePdf}} download target="_blank" class="px-2"> <i class="fas fa-link text-info" tooltipPosition="top" pTooltip="{{
+          'GENERAL.LinkFile'
+            | translate
+        }}"></i>
+      {{
+        'GENERAL.LinkFile'
+          | translate
+      }}</a>
+    </span>
+
+  </div>
+  <div *ngIf="dataClose?.Notes" class="task-info bg-white d-flex border rounded p-3 mt-3">
+    <span class="text-info px-2" style="font-weight: 600;">
+      {{
+      'GENERAL.Notes'
+      | translate
+      }}: 
+    </span> <span> {{ dataClose?.Notes }}</span>
+  </div>
+</div>

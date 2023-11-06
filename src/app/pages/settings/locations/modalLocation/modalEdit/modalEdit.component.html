@@ -1,0 +1,508 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="far fa-edit mx-1"></i>
+    {{ "LOCATIONS_MANAGEMENT.EDIT_LOCATION_MODAL.MODAL_TITLE" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<div class="tab-content mt-5" id="myTabContent">
+  <!-- بداية البيانات الاساسية -->
+  <p-tabView>
+    <p-tabPanel leftIcon="p-tabview-left-icon fa fa-database mx-1" header="{{
+        'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.TAB_TITLE'
+          | translate
+      }}">
+      <div *ngIf="loadingValue$() | async; else FormEdit">
+        <!-- <div class="spinner-overlay"> -->
+        <mat-spinner></mat-spinner>
+      </div>
+    </p-tabPanel>
+
+    <p-tabPanel leftIcon="p-tabview-left-icon fa fa-database mx-1" header="{{
+        'SETTINGS'
+          | translate
+      }}">
+      <div class="modal-body mb-3" style="height: 65vh; overflow: auto" *ngIf="Data.Codes as code">
+        <form [formGroup]="formEdit">
+          <div class="row">
+
+            <div class="col-md-4 pt-4">
+              <label class="mb-3-form-label mb-3">{{
+                "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.DOES_EVERY_JOB_REQUEST_REQUIRE_CLIENT_APPROVAL"
+                | translate
+                }}</label>
+              <div class="col-lg-11">
+                <div class="d-flex align-items-center">
+                  <select (change)="saveClientAcceptance()" class="form-select d-flex flex-column justify-content-end"
+                    [formControl]="ClientAcceptanceRequied">
+                    <option *ngFor="let item of ClientAcceptanceRequiedCode" [ngValue]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!--  -->
+            <div class="col-12 col-lg-4 pt-4">
+              <label class="mb-3-form-label mb-3">{{
+                code.Labels[0].Name
+                }}</label>
+              <div class="col-lg-11">
+                <div class="d-flex align-items-center">
+                  <select (change)="savehasOwnTagsOnly()" class="form-select d-flex flex-column justify-content-end"
+                    [formControl]="hasOwnTagsOnly">
+                    <option *ngFor="let item of TagsAndPiriorty" [ngValue]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!--  -->
+            <div class="col-12 col-lg-4 pt-4">
+              <label class="mb-3-form-label mb-3">{{
+                code.Labels[1].Name
+                }}</label>
+              <div class="col-lg-11">
+                <div class="d-flex align-items-center">
+                  <select (change)="savehasOwnTagsOnly()" class="form-select d-flex flex-column justify-content-end"
+                    [formControl]="HasOwnPriorityOnly">
+                    <option *ngFor="let item of TagsAndPiriorty" [ngValue]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!--  -->
+            <div class="col-12 col-lg-4 pt-4">
+              <label class="mb-3-form-label mb-3">{{
+                code.Labels[2].Name
+                }}</label>
+              <div class="col-lg-11">
+                <div class="d-flex align-items-center">
+                  <select (change)="savehasOwnTagsOnly()" class="form-select d-flex flex-column justify-content-end"
+                    [formControl]="HasOwnReasonOnly">
+                    <option *ngFor="let item of TagsAndPiriorty" [ngValue]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4 pt-4">
+              <label class="mb-3-form-label mb-3">{{
+                "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.add_soft_services"
+                | translate
+                }}</label>
+                <div class="col-lg-11">
+                  <div class="d-flex align-items-center">
+                    <select class="form-select d-flex flex-column justify-content-end"
+                            formControlName="addedServiceCode" (change)="addSoftService()">
+                      <option *ngFor="let item of extraServicesOptions" [ngValue]="item.code">
+                        <span class="mt-1">{{ item.name }}</span> 
+                      </option>
+                    </select>
+                  </div>
+                </div>                
+            </div>
+          </div>
+        </form>
+        <div *ngIf="loading; else extraServiceTmpl">
+          <div class="spinner-overlay">
+            <mat-spinner></mat-spinner>
+          </div>
+        </div>
+        <ng-template #extraServiceTmpl>
+          <label class="mb-3-form-label mt-5" translate="CONFIGRATION.MAINTENANCE_TASKS_CONFIG.existing_soft_services"></label>
+          <div class="table-responsive pt-3">
+            <table class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6">
+              <thead class="fw-bolder">
+                <tr>
+                  <!-- <th scope="col" style="width: 25%">
+                    <span class="mx-2"> ID </span>
+                  </th> -->
+                  <th scope="col" class="d-md-table-cell text-left">
+                    <span class="px-3"  translate="CONFIGRATION.MAINTENANCE_TASKS_CONFIG.service_name"></span>
+                  </th>
+                  <th scope="col" class="d-md-table-cell text-center">
+                    <span translate="CONFIGRATION.MAINTENANCE_TASKS_CONFIG.Operations"></span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let service of extraServices">
+                  <tr>      
+                    <td class="d-md-table-cell ml-3">
+                     <span class="px-3"> {{service.name }}</span> 
+                    </td>
+                    <td class="d-flex justify-content-end">
+                      <i class="fas fa-trash-alt action-icon delete-icon"
+                          pTooltip="{{ 'CONFIGRATION.MAINTENANCE_TASKS_CONFIG.delete_soft_service' | translate }}"
+                          (click)="deleteService(service)"></i>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </div>
+
+    </p-tabPanel>
+  </p-tabView>
+
+  <ng-template #FormEdit>
+    <!-- begin dialog body -->
+    <div class="modal-body mb-3" style="height: 65vh; overflow: auto" *ngIf="Data.Codes as code">
+      <form [formGroup]="formEdit">
+        <div class="row">
+          <div class="col-12 col-md-3">
+            <div class="image-input image-input-outline image-input-empty" data-kt-image-input="true">
+              <div *ngIf="!IsImgLocation(imgLocation)" class="image-input-wrapper" code style="
+                  background-image: url(assets/media/avatars/location.png);
+                  width: 140px;
+                  height: 148px;
+                " [style.cursor]="'pointer'" (click)="disabled ? '' : showFullScreenImg(imgLocation)"></div>
+              <div *ngIf="IsImgLocation(imgLocation)" class="image-input-wrapper"
+                [style.background-image]="'url(' + imgLocation + ')'" style="width: 140px; height: 148px"
+                [style.cursor]="'pointer'" (click)="disabled ? '' : showFullScreenImg(imgLocation)"></div>
+
+              <label *ngIf="!disabled" data-kt-image-input-action="change" data-bs-toggle="tooltip" title=""
+                data-bs-original-title="Change avatar">
+                <i class="bi bi-pencil-fill fs-7" (click)="showEditImage()"></i>
+                <!-- <input type="file" name="avatar" accept=".png, .jpg, .jpeg">
+            <input type="hidden" name="avatar_remove" value="1"> -->
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-9">
+            <div class="row">
+              <div class="col-12 col-lg-6">
+                <label class="required mb-2 lableInputModle">
+                  {{
+                  "LOCATIONS_MANAGEMENT.EDIT_LOCATION_MODAL.LOCATION_NAME"
+                  | translate
+                  }}
+                </label>
+                <input type="text" class="form-control" formControlName="LocationName" />
+              </div>
+              <div class="col-12 col-lg-6">
+                <label class="required mb-2 lableInputModle">
+                  {{
+                  "LOCATIONS_MANAGEMENT.EDIT_LOCATION_MODAL.GEO_LOCATION"
+                  | translate
+                  }}
+                </label>
+                <ng-container *ngIf="DateAndTime$ | async as DateAndTime">
+                  {{ DateAndTime | date : "dd/MM/yyyy HH:mm" }}</ng-container>
+                <!-- <select name="role" data-control="select2" style="font-family:almarai!important;" data-hide-search="true"
+                class="form-select " formControlName='TimeZoneId'>
+                <option *ngFor="let item of code.TimeZoneId" [value]="item.Code">{{item.Name}}</option>
+              </select> -->
+                <p-dropdown appendTo="body" [style]="{ minWidth: '130px', display: 'flex' }" [filter]="true"
+                  [options]="code.TimeZoneId" formControlName="TimeZoneId" [placeholder]="'GENERAL.SELECT' | translate"
+                  optionValue="Code" optionLabel="Name"></p-dropdown>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12 col-lg-6">
+                <label class="mb-2 lableInputModle">
+                  {{
+                  "LOCATIONS_MANAGEMENT.EDIT_LOCATION_MODAL.ADDRESS"
+                  | translate
+                  }}
+                </label>
+                <input type="text" class="form-control" formControlName="Address" />
+              </div>
+              <div class="col-12 col-lg-6">
+                <label class="mb-2 lableInputModle">
+                  {{
+                  "LOCATIONS_MANAGEMENT.EDIT_LOCATION_MODAL.PHONE" | translate
+                  }}
+                </label>
+                <input type="number" class="form-control" formControlName="PhoneNumber" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-4 my-3 pt-4">
+            <label class="required mb-3 lableInputModle">
+              {{
+              "LOCATIONS_MANAGEMENT.EDIT_LOCATION_MODAL.WORKING_DAYS"
+              | translate
+              }}
+            </label>
+            <select class="form-select" aria-label="subordinateTo" formControlName="WorkingDayCount">
+              <option></option>
+              <option *ngFor="let item of WorkingDayCount" [value]="item">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+          <div class="col-12 col-md-3 my-3">
+            <label class="required mb-3 lableInputModle">
+              {{
+              "LOCATIONS_MANAGEMENT.EDIT_LOCATION_MODAL.DAILY_HOURS"
+              | translate
+              }}
+            </label>
+            <select class="form-select" aria-label="subordinateTo" formControlName="DailyWorkingHours">
+              <option></option>
+              <option *ngFor="let item of DailyWorkingHours" [value]="item">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+
+          <!-- <div class="col-md-4 my-15">
+          <input
+            (change)="saveClientAcceptance()"
+            class="form-check-input"
+            type="checkbox"
+            [formControl]="ClientAcceptanceRequied"
+          />
+
+          <span class="mx-2"> {{ "Approval" | translate }} </span>
+        </div> -->
+          <!-- <div class="col-12 col-lg-6">
+          <label class="mb-2 lableInputModle"> minStorageBudgetId </label>
+          <p-dropdown  appendTo="body"
+          [style]="{ minWidth: '130px', display: 'flex' }"
+          [filter]="true"
+          [options]="code.MinStorageBudgetId"
+          formControlName="TimeZoneId"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          optionValue="Code"
+          optionLabel="Name"
+        ></p-dropdown>
+        </div> -->
+          <div class="col-12 col-lg-6">
+            <label class="mb-2 lableInputModle">
+              {{
+              "LOCATIONS_MANAGEMENT.EDIT_LOCATION_MODAL.defaultBudgetId"
+              | translate
+              }}
+            </label>
+            <p-dropdown appendTo="body" [style]="{ minWidth: '130px', display: 'flex' }" [filter]="true"
+              [options]="code.Budgets" formControlName="DefaultBudgetId" [placeholder]="'GENERAL.SELECT' | translate"
+              optionValue="code" optionLabel="name"></p-dropdown>
+          </div>
+          <!-- <div class="col-md-4 my-3">
+          <label class="required mb-2 lableInputModle">
+            {{ "LOCATIONS_MANAGEMENT.EDIT_LOCATION_MODAL.HOURPRICE" | translate }}
+          </label>
+          <input
+            type="number" [min]="0"
+            class="form-control"
+            formControlName="AverageWage"
+          />
+        </div> -->
+          <div class="col-12 col-sm-6 col-md-4 my-3">
+            <div *ngIf="!disabled" class="d-flex align-items-start justify-content-between flex-column">
+              <label class="d-block mb-2">
+                {{
+                "LOCATIONS_MANAGEMENT.EDIT_LOCATION_MODAL.GEO_LOCATION"
+                | translate
+                }}
+              </label>
+              <i class="fas fa-map-marker-alt fa-lg general-btn add-btn cursor-pointer" (click)="openMap()"></i>
+            </div>
+          </div>
+          <div class="col-md-12 my-3">
+            <label class="mb-2 lableInputModle">
+              {{
+              "LOCATIONS_MANAGEMENT.EDIT_LOCATION_MODAL.ADDITIONAL_INFO"
+              | translate
+              }}
+            </label>
+            <textarea class="form-control" rows="6" formControlName="ExtraInformation">
+            </textarea>
+          </div>
+        </div>
+      </form>
+      <div class="row" [formGroup]="filesForm">
+        <div class="col-12 mt-2">
+          <div class="border px-3 pt-3">
+            <h5 class="text-center mx-1">
+              {{ "Files_With_Location" | translate }}
+            </h5>
+
+            <!-- <div class="chart text-center mb-3">
+              <p-chart type="pie" [data]="data" [style]="{ width: '40%' }"></p-chart>
+            </div> -->
+            <div class="d-flex justify-content-between container my-3">
+              <div style="width: 40%">
+                <div class="d-flex lign-items-center">
+                  <div *ngIf="!this.filesForm.get('File')?.value && !disabled">
+                    <p-fileUpload #fileUpload (onSelect)="uploadFile($event)" name="myfile[]" mode="basic"
+                      [auto]="true">
+                    </p-fileUpload>
+                  </div>
+
+                  <span *ngIf="this.filesForm.get('File')?.value">{{
+                    this.filesForm.get("File")?.value?.name
+                    }}</span>
+                </div>
+              </div>
+              <div>
+                <div class="form-group custom-datepicker">
+                  <input class="form-control" [matDatepicker]="startDate" type="datetime" placeholder="           dd-mm-yy"
+                    formControlName="StartDate" />
+                  <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                  <mat-datepicker #startDate></mat-datepicker>
+                </div>
+              </div>
+              <td>
+                <div class="form-group custom-datepicker">
+                  <input class="form-control" [matDatepicker]="endDate" type="datetime" placeholder="         dd-mm-yy"
+                    formControlName="EndDate" />
+                  <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                  <mat-datepicker #endDate></mat-datepicker>
+                </div>
+              </td>
+              <div>
+                <i *ngIf="!disabled" class="fa fa-save action-icon add-icon mt-1" (click)="saveNewFile()"></i>
+              </div>
+            </div>
+            <confirm-delete #confirmdeleteFile massage="{{ 'CONFIRMDELETE.USER' | translate }}" (afterSave)="
+                $event ? deleteFile() : ''; confirmdeleteFile.CloseModal()
+              ">
+            </confirm-delete>
+            <div class="table-responsive">
+              <table class="table table-rounded table-row-bordered border custom-table-style fs-6">
+                <thead>
+                  <tr class="fw-bolder fs-6 text-gray-800">
+                    <th>{{ "File" | translate }}</th>
+                    <th class="text-center">{{ "Start_Date" | translate }}</th>
+                    <th class="text-center">{{ "Finish_Date" | translate }}</th>
+                    <th class="text-center">{{ "options" | translate }}</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let value of ArrFiles; index as i"
+                    [ngClass]="{ 'table-danger': value?.isEndDateCompleted }">
+                    <td style="width: 30%">
+                      <div class="d-flex lign-items-center">
+                        <ng-container *ngIf="!(value?.FileExtension | isImage) && value">
+                          <a class="d-block" (click)="openFile(value?.FilePath)">
+                            {{ value.FileName + "." + value.FileExtension }}</a>
+                        </ng-container>
+                        <ng-container *ngIf="(value?.FileExtension | isImage) && value">
+                          <div class="image-input image-input-outline image-input-empty m-2 overflow-hidden border"
+                            data-kt-image-input="true">
+                            <p-image [src]="Avatar + value?.FilePath" alt="Image" height="80px" width="80px"
+                              [preview]="true"></p-image>
+                            <label data-kt-image-input-action="change" data-bs-toggle="tooltip" title=""
+                              data-bs-original-title="Change avatar" style="right: unset; left: -10px">
+                            </label>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      {{ value?.StartDate | date : "YYYY-MM-dd" }}
+                    </td>
+                    <td class="text-center">
+                      {{ value?.EndDate | date : "YYYY-MM-dd" }}
+                    </td>
+                    <td class="text-center">
+                      <i *ngIf="!disabled" class="fas fa-trash-alt action-icon delete-icon" pTooltip="{{
+                          'LOCATIONS_MANAGEMENT.DELETE_FILE' | translate
+                        }}" tooltipPosition="top" (click)="
+                          fileUUID = value?.Id; confirmdeleteFile.openModal()
+                        "></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- begin dialog body -->
+
+    <!-- start footer -->
+    <div class="dialog-footer m-0">
+      <div class="footer-actions">
+        <!-- <button
+        *ngIf="!data?.ClientAcceptanceRequied"
+        type="button"
+        class="btn  btn-success"
+        data-bs-dismiss="modal"
+        (click)="saveClientAcceptance(true)"
+      >
+        <span>
+          <span> <i class="fa fa-check"></i> </span>
+          <span> {{ "Client Aproval" | translate }} </span>
+        </span>
+      </button>
+      <button
+        *ngIf="data?.ClientAcceptanceRequied"
+        type="button"
+        class="btn  btn-danger"
+        data-bs-dismiss="modal"
+        (click)="saveClientAcceptance(false)"
+      >
+        <span>
+          <span> <i class="fa fa-times"></i> </span>
+          <span> {{ "Client Reject" | translate }} </span>
+        </span>
+      </button> -->
+        <button class="btn btn-primary mx-2" *ngIf="!disabled" (click)="onAddLocation()">
+          <i class="fas fa-save"></i>
+          {{ "LOCATIONS_MANAGEMENT.EDIT_LOCATION_MODAL.SAVE" | translate }}
+        </button>
+
+        <button class="btn btn-secondary mx-2" (click)="Close()">
+          <i class="fas fa-times"></i>
+          {{ "LOCATIONS_MANAGEMENT.EDIT_LOCATION_MODAL.CANCEL" | translate }}
+        </button>
+      </div>
+    </div>
+    <!-- end footer -->
+  </ng-template>
+
+  <p-dialog [modal]="true" [draggable]="false" [resizable]="false" header="{{ 'GENERAL.EDIT_AVATAR' | translate }}"
+    [(visible)]="displayEditImage" [style]="{ width: '40vw' }">
+    <div class="container" style="overflow-y: scroll !important; max-height: 40vh">
+      <div class="card">
+        <!-- <div class="card-header">
+
+      </div> -->
+        <!-- style="margin-top: 15px;" -->
+        <div class="card-body">
+          <input type="file" [formControl]="imageFile" (change)="fileChangeEvent($event)" />
+          <div class="row">
+            <div class="text-center col-md-12">
+              <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 4"
+                [resizeToWidth]="150" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+                <div *ngIf="isloadingImage$() | async">
+                  <mat-spinner></mat-spinner>
+                </div>
+              </image-cropper>
+            </div>
+            <!-- <div class="text-center col-md-4">
+            <h5>Preview</h5>
+            <img [src]="croppedImage" />
+          </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <button pButton type="button" (click)="saveImg()" label="{{ 'GENERAL.SAVE' | translate }}"></button>
+    </ng-template>
+  </p-dialog>
+</div>

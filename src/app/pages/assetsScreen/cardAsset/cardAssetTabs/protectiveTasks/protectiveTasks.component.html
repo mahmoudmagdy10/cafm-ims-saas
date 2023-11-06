@@ -1,0 +1,110 @@
+<div class="row mb-3">
+  <div class="col-12 col-md-6"></div>
+  <div class="col-12 col-md-6 d-flex justify-content-end">
+    <button class="general-btn add-btn mx-2" (click)="confirmDuplicateAsset()">
+      <i class="fas fa-add"></i>
+      {{ "Duplicate_Asset_PPM" | translate }}
+    </button>
+    <button class="general-btn add-btn mx-1" (click)="AddPM()">
+      <i class="fas fa-plus"></i>
+      <span>
+        {{ "ASSETS.ASSETCARDMODAL.PROTECTIVETASKSTAB.MODAL_TITLE" | translate }}
+      </span>
+    </button>
+  </div>
+</div>
+<div class="table-responsive">
+  <table
+    class="table table-rounded table-row-bordered border custom-table-style fs-6"
+  >
+    <thead>
+      <tr class="fw-bolder fs-6 text-gray-800">
+        <th>#</th>
+        <th>
+          {{ "ASSETS.ASSETCARDMODAL.PROTECTIVETASKSTAB.NAME" | translate }}
+        </th>
+        <!-- <th> {{"ASSETS.ASSETCARDMODAL.PROTECTIVETASKSTAB.NEXTMAINTENANCEDATE" | translate}} </th> -->
+        <th>
+          {{
+            "ASSETS.ASSETCARDMODAL.PROTECTIVETASKSTAB.PRIORITY_LEVEL"
+              | translate
+          }}
+        </th>
+        <th>
+          {{
+            "ASSETS.ASSETCARDMODAL.PROTECTIVETASKSTAB.MAINTENANCERESPONSIBLE"
+              | translate
+          }}
+        </th>
+        <!-- <th>
+          {{
+            "ASSETS.ASSETCARDMODAL.PROTECTIVETASKSTAB.PROCEDUERS" | translate
+          }}
+        </th> -->
+      </tr>
+    </thead>
+    <tbody *ngIf="DataPmsForAsset$ | async as data; else loading">
+      <tr *ngFor="let item of data; index as i">
+        <td>{{ i + 1 }}</td>
+        <td>
+          <a href="javascript:;" (click)="Card(item.id)">
+            <span>{{ item.TaskName }} </span>
+          </a>
+        </td>
+        <td [style]="{ color: item.PriorityColor }">
+          {{ item.PriorityName }}
+        </td>
+
+        <td>
+          {{ ArrayToString(item.TaskAssignmentUserTxt)
+          }}{{ ArrayToString(item.TaskAssignmentTeamTxt) }}
+        </td>
+        <!-- <td>
+          <div class="d-flex flex-nowrap">
+            <i
+              class="far fa-caret-square-down action-icon"
+              pTooltip="{{
+                'ASSETS.ASSETCARDMODAL.PROTECTIVETASKSTAB.UPCOMMING_DATES'
+                  | translate
+              }}"
+              tooltipPosition="top"
+            ></i>
+
+            <i
+              class="fa fa-wrench action-icon position-relative"
+              pTooltip="{{
+                'ASSETS.ASSETCARDMODAL.PROTECTIVETASKSTAB.START_TASK'
+                  | translate
+              }}"
+              tooltipPosition="top"
+            >
+              <i
+                class="fa fa-plus"
+                style="position: absolute; z-index: 1; bottom: 15px; left: 3px"
+              ></i>
+            </i>
+
+            <i
+              class="fas fa-print action-icon"
+              pTooltip="{{ 'GENERAL.PRINT' | translate }}"
+              tooltipPosition="top"
+            ></i>
+          </div>
+        </td> -->
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #loading></ng-template>
+<confirm-delete
+  customheader="{{ 'Duplicate_Asset_PPM' | translate }}"
+  customSure="{{ 'YES' | translate }}"
+  customIcon=" pi pi-copy"
+  customColor="btn btn-sm btn-success"
+  #confirmdeleteWorkOrder
+  customMassage="{{ 'CONFIRMDELETE.DUPLICATE_ASSET_CUSTOM' | translate }}"
+  (afterSave)="
+    $event ? DuplicateAsset() : ''; confirmdeleteWorkOrder.CloseModal()
+  "
+>
+</confirm-delete>

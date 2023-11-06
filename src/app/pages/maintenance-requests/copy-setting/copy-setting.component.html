@@ -1,0 +1,67 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-clone mx-1"></i>
+    {{ "MAINTENANCEREQUESTS.COPYSETTINGSMODAL.MODALTITLE" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body" style="max-height: 400px; overflow-y: auto">
+  <p class="mb-8">
+    {{ "MAINTENANCEREQUESTS.COPYSETTINGSMODAL.DESCRIPTION" | translate }}
+    <span class="fw-bolder"> ({{ this.data.LocationName }} ) </span>
+    {{ "MAINTENANCEREQUESTS.COPYSETTINGSMODAL.DESCRIPTION2" | translate }}
+  </p>
+
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="form-group">
+        <label class="mb-2"> {{ "MAINTENANCEREQUESTS.COPYSETTINGSMODAL.LOCATIONNAME" | translate }} </label>
+        <label class="form-control form-control-solid">
+          {{ this.data.LocationName }}
+        </label>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="form-group">
+        <label class="mb-2"> {{ "MAINTENANCEREQUESTS.COPYSETTINGSMODAL.COPYFROM" | translate }} </label>
+        <select
+          class="form-select"
+          data-placeholder="Select an option"
+          [formControl]="locationID">
+          <option *ngFor="let item of dataLocations" [value]="item.LocationId">
+            {{ item.LocationName }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer position-relative">
+  <button
+    type="button"
+    class="btn  btn-primary"
+    data-bs-dismiss="modal"
+    (click)="onTransfer()"
+  >
+    {{ "MAINTENANCEREQUESTS.COPYSETTINGSMODAL.SAVE" | translate }}
+  </button>
+
+  <button
+    type="button"
+    class="btn  btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    {{ "MAINTENANCEREQUESTS.COPYSETTINGSMODAL.CANCEL" | translate }}
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

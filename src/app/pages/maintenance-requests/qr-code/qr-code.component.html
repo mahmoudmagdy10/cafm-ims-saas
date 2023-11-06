@@ -1,0 +1,70 @@
+<div class="modal-header position-relative" media="print">
+  <h5 class="modal-title">
+    <i class="fa fa-qrcode mx-1"></i>
+    {{ "MAINTENANCEREQUESTS.QRMODAL.MODALTITLE" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="onClose()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body" style="max-height: 80vh; overflow-y: auto" #content>
+  <div class="text-center">
+    <button
+      class="btn btn-success  mx-2"
+      (click)="downloadQRCode()"
+      media="print"
+    >
+      <span>
+        <i class="fa fa-download"></i>
+        <span>
+          {{ "MAINTENANCEREQUESTS.QRMODAL.DOWNLOADPHOTO" | translate }}
+        </span>
+      </span>
+    </button>
+    <button
+      class="btn btn-secondary  mx-2"
+      (click)="print()"
+      media="print"
+    >
+      <span>
+        <i class="fas fa-print fa-lg"></i>
+        <span>
+          {{ "MAINTENANCEREQUESTS.QRMODAL.PRINTPHOTO" | translate }}
+        </span>
+      </span>
+    </button>
+  </div>
+  <h4 class="text-center my-5">
+    {{ "MAINTENANCEREQUESTS.QRMODAL.DETAILS" | translate }}
+  </h4>
+
+  <div class="text-center">
+    <qrcode
+      #qrcodeEl
+      id="qrcode"
+      [qrdata]="QrCode"
+      [width]="256"
+      [elementType]="'img'"
+      [errorCorrectionLevel]="'M'"
+    ></qrcode>
+    <a href="javascript:;" (click)="newTab(QrCode)">
+      {{ QrCode }}
+    </a>
+  </div>
+</div>
+<div class="modal-footer position-relative" media="print">
+  <button
+    type="button"
+    class="btn  btn-light"
+    data-bs-dismiss="modal"
+    (click)="onClose()"
+  >
+    {{ "MAINTENANCEREQUESTS.QRMODAL.CANCEL" | translate }}
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

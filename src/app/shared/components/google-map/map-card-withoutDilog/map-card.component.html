@@ -1,0 +1,15 @@
+<app-google-map
+  #googleMap
+  [option]="{
+    Longitude: +data.Longitude,
+    Latitude: +data.Latitude,
+    Zoom: +data.Zoom,
+    Name: data.Name
+  }"
+  [style]="{ width: width, height: height }"
+></app-google-map>
+<button type="button" class="btn btn-primary mt-2" (click)="onSave()">
+  <i class="fa fa-save"></i>
+  <span>{{ "SHARED.MAP_MODAL.SAVE" | translate }}</span>
+</button>
+<!-- begin dialog body -->

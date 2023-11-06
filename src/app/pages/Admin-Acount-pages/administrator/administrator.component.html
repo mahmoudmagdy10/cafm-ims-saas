@@ -1,0 +1,584 @@
+<div class="card card-custom">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <i class="fa fa-building fa-lg"></i>
+      <h4 class="fw-bolder mb-0 mx-2">
+        {{ "ADMINISTARTOR.CARDHEADER" | translate }}
+      </h4>
+    </div>
+
+    <div class="card-header-actions d-none d-md-flex">
+      <button
+        class="general-btn mail-compant-btn mx-1"
+        (click)="TemplateForBackup()"
+      >
+        Templates For Backup
+      </button>
+      <button (click)="openFilter()" class="general-btn filter-btn mx-1">
+        <i class="fas fa-filter"></i>
+        {{ "ADMINISTARTOR.FILTERMODAL.BUTTONNAME" | translate }}
+      </button>
+
+      <button (click)="opendialog()" class="general-btn add-btn mx-1">
+        <i class="fas fa-plus"></i>
+        {{ "ADMINISTARTOR.ADDCOMPANY.BUTTONNAME" | translate }}
+      </button>
+
+      <button
+        (click)="openSendEmail()"
+        class="general-btn mail-compant-btn mx-1"
+      >
+        <i class="fas fa-paper-plane" style="color: #fff; font-size: 16px"></i>
+        {{ "ADMINISTARTOR.SENDEMAAILTOLLCOMPANYMODAL.BUTTONNAME" | translate }}
+      </button>
+      <button class="btn btn-sm btn-success mx-1" (click)="export()">
+        <span>
+          <i class="fas fa-upload fa-lg"></i>
+
+          {{ "ASSETS.ACTIONSONSELECTEDMENU.EXPORTDATA" | translate }}
+        </span>
+      </button>
+    </div>
+
+    <div class="col-menu d-block d-md-none">
+      <i
+        class="fa fa-bars fa-lg cursor-pointer"
+        data-kt-menu-trigger="click"
+        data-kt-menu-placement="bottom-start"
+      ></i>
+
+      <!--begin::Menu-->
+      <div
+        class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-200px py-4"
+        data-kt-menu="true"
+      >
+        <!--begin::Menu item-->
+        <div class="menu-item border-bottom border-top px-3">
+          <a href="javascript:;" class="menu-link px-3" (click)="openFilter()">
+            <i class="fas fa-filter"></i>
+            <span class="mx-2">
+              {{ "ADMINISTARTOR.FILTERMODAL.BUTTONNAME" | translate }}
+            </span>
+          </a>
+        </div>
+        <!--end::Menu item-->
+
+        <!--begin::Menu item-->
+        <div class="menu-item border-bottom border-top px-3">
+          <a href="javascript:;" class="menu-link px-3" (click)="opendialog()">
+            <i class="fas fa-plus"></i>
+            <span class="mx-2">
+              {{ "ADMINISTARTOR.ADDCOMPANY.BUTTONNAME" | translate }}
+            </span>
+          </a>
+        </div>
+        <!--end::Menu item-->
+
+        <!--begin::Menu item-->
+        <div class="menu-item border-bottom border-top px-3">
+          <a
+            href="javascript:;"
+            class="menu-link px-3"
+            (click)="openSendEmail()"
+          >
+            <i class="fas fa-paper-plane"></i>
+            <span class="mx-2">
+              {{
+                "ADMINISTARTOR.SENDEMAAILTOLLCOMPANYMODAL.BUTTONNAME"
+                  | translate
+              }}
+            </span>
+          </a>
+        </div>
+        <!--end::Menu item-->
+      </div>
+      <!--end::Menu-->
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="filter-items-container d-flex mb-3" *ngIf="showLabelsFilter">
+      <i
+        class="fas fa-times action-icon delete-icon"
+        (click)="clearFilter()"
+      ></i>
+
+      <span class="filter-item">
+        <div (click)="openFilter()">
+          <label
+            class="lableInputModle"
+            *ngIf="FiltersSearch.CompanyName != ''"
+          >
+            اسم الشركة:
+          </label>
+          <label
+            class="filter-field ms-3 me-1 lableInputModle"
+            *ngIf="FiltersSearch.CompanyName != ''"
+            >{{ FiltersSearch.CompanyName }}</label
+          >
+          <label
+            class="lableInputModle"
+            *ngIf="FiltersSearch.SubscriptionStatusName != ''"
+          >
+            حالة الاشتراك :
+          </label>
+          <label
+            class="filter-field ms-3 me-1 lableInputModle"
+            *ngIf="FiltersSearch.SubscriptionStatusName != ''"
+            >{{ FiltersSearch.SubscriptionStatusName }}</label
+          >
+          <label
+            class="lableInputModle"
+            *ngIf="FiltersSearch.SubscriptionTypeName != ''"
+          >
+            نوع الاشتراك :
+          </label>
+          <label
+            class="filter-field ms-3 me-1 lableInputModle"
+            *ngIf="FiltersSearch.SubscriptionTypeName != ''"
+            >{{ FiltersSearch.SubscriptionTypeName }}</label
+          >
+          <label
+            class="lableInputModle"
+            *ngIf="FiltersSearch.ServicesName != ''"
+          >
+            الخدمات:
+          </label>
+          <label
+            class="filter-field ms-3 me-1 lableInputModle"
+            *ngIf="FiltersSearch.ServicesName != ''"
+            >{{ FiltersSearch.ServicesName }}</label
+          >
+          <label class="lableInputModle" *ngIf="FiltersSearch.StartDate != ''">
+            تاريخ الإنتهاء من:
+          </label>
+          <label
+            class="filter-field ms-3 me-1 lableInputModle"
+            *ngIf="FiltersSearch.StartDate != ''"
+            >{{ FiltersSearch.StartDate | date : "YYYY:MM:dd" }}</label
+          >
+          <label class="lableInputModle" *ngIf="FiltersSearch.EndDate != ''">
+            إلى:
+          </label>
+          <label
+            class="filter-field ms-3 me-1 lableInputModle"
+            *ngIf="FiltersSearch.EndDate != ''"
+            >{{ FiltersSearch.EndDate | date : "YYYY:MM:dd" }}</label
+          >
+        </div>
+      </span>
+    </div>
+
+    <div class="table-responsive">
+      <table
+        class="table table-rounded table-row-bordered border custom-table-style"
+      >
+        <thead class="fw-bolder">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">{{ "ADMINISTARTOR.COMPANYNAME" | translate }}</th>
+            <th scope="col">
+              {{ "ADMINISTARTOR.ACCOUNTOWNERNAME" | translate }}
+            </th>
+            <th scope="col">{{ "ADMINISTARTOR.COMPANYSTATUS" | translate }}</th>
+            <th scope="col">
+              {{ "ADMINISTARTOR.SUBSCRIBESTAATUS" | translate }}
+            </th>
+            <th scope="col">{{ "ADMINISTARTOR.SUBSCRIBETYPE" | translate }}</th>
+            <th scope="col">{{ "ADMINISTARTOR.STARTDATE" | translate }}</th>
+            <th scope="col">{{ "ADMINISTARTOR.ENDDATE" | translate }}</th>
+            <th scope="col">{{ "ADMINISTARTOR.PROCEEDURES" | translate }}</th>
+          </tr>
+        </thead>
+
+        <div *ngIf="loadingDataCom; else TableCampony">
+          <div class="spinner-overlay">
+            <mat-spinner style="margin-top: 100px"></mat-spinner>
+          </div>
+        </div>
+      </table>
+    </div>
+
+    <div
+      *ngIf="listPagination.length > 1"
+      class="d-flex justify-content-center align-items-center flex-wrap"
+    >
+      <div class="d-flex flex-wrap py-2 mr-3">
+        <button
+          class="btn pagination-btn btn-primary mx-1 my-1"
+          (click)="selectPage('back')"
+          [disabled]="selectedPage == 1"
+        >
+          <i
+            [class]="
+              dir == 'ltr' ? 'fas fa-chevron-left' : 'fas fa-chevron-right'
+            "
+          ></i>
+        </button>
+        <button
+          *ngFor="
+            let item of listPagination
+              | slice
+                : (selectedPage > 4 ? selectedPage - 3 : 0)
+                : selectedPage + 4
+          "
+          (click)="selectPage(item)"
+          [ngClass]="
+            selectedPage == item
+              ? 'btn pagination-btn btn-sm border-0 btn-primary btn-hover-primary active mx-1 my-1'
+              : 'btn pagination-btn btn-sm border-0 btn-light mx-1 my-1'
+          "
+        >
+          {{ item }}
+        </button>
+
+        <!-- <a  class="btn pagination-btn btn-sm border-0 btn-light mx-1 my-1">23</a>
+            <a  class="btn pagination-btn btn-sm border-0 btn-primary btn-hover-primary active mx-1 my-1">24</a> -->
+
+        <button
+          class="btn pagination-btn btn-primary mx-1 my-1"
+          (click)="selectPage('next')"
+          [disabled]="selectedPage == listPagination.length"
+        >
+          <i
+            [class]="
+              dir == 'rtl' ? 'fas fa-chevron-left' : 'fas fa-chevron-right'
+            "
+          ></i>
+        </button>
+      </div>
+    </div>
+    <!-- <mat-paginator [pageSizeOptions]="[ 30,50,100]"   [length]="200" [showFirstLastButtons]="true"
+        (page)=' change($event)'>
+
+        </mat-paginator> -->
+    <!-- </div> -->
+  </div>
+
+  <p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    header="جدول الاشتراكات"
+    [(visible)]="displayViewSub"
+    [style]="{ width: '70vw' }"
+  >
+    <div *ngIf="loadinggetSubscriptionByComID; else TableSup">
+      <div class="spinner-overlay">
+        <mat-spinner></mat-spinner>
+      </div>
+    </div>
+  </p-dialog>
+  <p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    header="{{ 'SUBSCRIPTIONS.ADD_SUBSCRIPTION' | translate }}"
+    [(visible)]="displayViewEditSub"
+    [style]="{ width: '70vw' }"
+  >
+    <div *ngIf="loadinggetSubscriptionByID; else ModalEditSup">
+      <div class="spinner-overlay">
+        <mat-spinner></mat-spinner>
+      </div>
+    </div>
+  </p-dialog>
+  <ng-template #TableSup>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">تاريخ بداية الاشتراك</th>
+            <th scope="col">تاريخ نهاية الاشتراك</th>
+            <th scope="col">نوع الاشتراك</th>
+            <th scope="col">عدد الاصول</th>
+            <th scope="col">عدد المواقع</th>
+            <th scope="col">عدد المستخدمين</th>
+            <th scope="col">اجمالي التكلفة</th>
+            <th scope="col">لاجراءات</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of SubscriptionByComID; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>
+              {{ item.StartDate }}
+            </td>
+            <td>
+              {{ item.EndDate }}
+            </td>
+            <td>
+              {{ item.SubscriptionTypeName }}
+            </td>
+            <td>
+              {{ item.SubscriptionTypeName }}
+            </td>
+            <td>
+              {{ item.NumberOfAssets }}
+            </td>
+            <td>
+              {{ item.NumberOfLocations }}
+            </td>
+            <td>
+              {{ item.NumberOfLicenses }}
+            </td>
+            <td>
+              {{ item.TotalCost }}
+            </td>
+            <td>
+              <button
+                mat-raised-button
+                style="border: none; background: none"
+                matTooltip="تعديل"
+                (click)="getSubscriptionByID(item.SubscriptionId)"
+                matTooltipClass="example-tooltip-red"
+                aria-label="Button that shows a red tooltip"
+                class="example-button"
+              >
+                <i
+                  class="far fa-edit"
+                  style="font-size: 20px; color: #0080ff; padding: 6px 4px"
+                ></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button
+      pButton
+      type="button"
+      (click)="AddNewSup()"
+      label=" اضافه اشتراك جديد"
+    ></button>
+  </ng-template>
+  <ng-template #ModalEditSup>
+    <app-DataSubscription
+      [Codes]="Codes"
+      [SubscriptionByID]="SubscriptionByID"
+      [idCom]="idComSelected"
+      (afterEditSub)="afterEditSub()"
+    ></app-DataSubscription>
+  </ng-template>
+
+  <p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    header="اضافه اشتراك جديد"
+    [(visible)]="displayAddNewSub"
+    [style]="{ width: '70vw' }"
+  >
+    <app-DataSubscription
+      [Codes]="Codes"
+      [idCom]="idComSelected"
+      (afterSaveSub)="afterSaveSub()"
+    >
+    </app-DataSubscription>
+  </p-dialog>
+
+  <p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    header="{{ 'ADMINISTARTOR.FILTERMODAL.MODALTITLE' | translate }}"
+    [(visible)]="displayViewfilter"
+    [style]="{ width: '60vw' }"
+  >
+    <app-Filter
+      #FilterModuleComponent
+      (cancel)="displayViewfilter = false"
+      (afterSearch)="afterSearch($event)"
+    >
+    </app-Filter>
+  </p-dialog>
+
+  <p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    header="{{ 'ADMINISTARTOR.LOCKMODAL.MODALTITLE' | translate }}"
+    [(visible)]="displayViewActivtion"
+    [style]="{ width: '30vw' }"
+  >
+    <app-ActivisionModule
+      (afterChangeStatus)="displayViewActivtion = false; changeStatus($event)"
+      [itemActivision]="itemActivision"
+      (cancel)="displayViewActivtion = false"
+    ></app-ActivisionModule>
+  </p-dialog>
+
+  <p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    header="{{ 'ADMINISTARTOR.SENDEMAILMODAL.MODALTITLE' | translate }}"
+    [(visible)]="displayViewSendEmail"
+    [style]="{ width: '60vw' }"
+  >
+    <app-SendEmail
+      (afterSendEmail)="displayViewSendEmail = false"
+      (cancel)="displayViewSendEmail = false"
+      [itemCamSendEmail]="itemCamSendEmail"
+    ></app-SendEmail>
+  </p-dialog>
+  <ng-template #TableCampony>
+    <tbody>
+      <tr
+        *ngFor="let val of DataView; let i = index"
+        style="vertical-align: middle"
+      >
+        <th>{{ val.index + 1 }}</th>
+        <td (click)="EditCampony(val.CompanyId, i)">
+          <a href="javascript:;"> {{ val.CompanyName }} </a>
+        </td>
+        <td>{{ val.FirstName }} {{ val.LastName }}</td>
+        <td>
+          {{ val.CompanyStatusName }}
+        </td>
+        <td>
+          {{ val.SubscriptionStatusName }}
+        </td>
+        <td>
+          {{ val.SubscriptionTypeName }}
+        </td>
+        <td>{{ val.StartDate }}</td>
+        <td>{{ val.EndDate }}</td>
+        <td>
+          <div class="d-flex flex-nowrap">
+            <i
+              (click)="EditCampony(val.CompanyId, i)"
+              class="far fa-edit action-icon edit-icon"
+              matTooltip="{{
+                'ADMINISTARTOR.PROCEEDURESICON.EDIT' | translate
+              }}"
+              matTooltipPosition="above"
+            ></i>
+            <i
+              class="fas fa-link action-icon"
+              (click)="openUsersLogs(val)"
+              matTooltip="{{ 'Logs' | translate }}"
+              tooltipPosition="top"
+            ></i>
+            <i
+              class="fas fa-money-bill action-icon showing-icon"
+              (click)="ViewSubScription(val.CompanyId, val.CompanyName)"
+              matTooltip="{{
+                'ADMINISTARTOR.PROCEEDURESICON.DISPLAYSUBSCRIBES' | translate
+              }}"
+              matTooltipPosition="above"
+            ></i>
+
+            <i
+              class="fas fa-paper-plane action-icon mail-icon"
+              (click)="openSendEmail(val)"
+              matTooltip="{{
+                'ADMINISTARTOR.PROCEEDURESICON.SENDEMAIL' | translate
+              }}"
+              matTooltipPosition="above"
+              matTooltipPosition="above"
+              pTooltip="top"
+            ></i>
+
+            <i
+              class="fas fa-lock action-icon activate-icon"
+              *ngIf="val?.DeActivate"
+              (click)="ActivisionModule(val, i)"
+              matTooltipPosition="above"
+              matTooltip="{{
+                'ADMINISTARTOR.PROCEEDURESICON.LOCK' | translate
+              }}"
+            ></i>
+            <i
+              class="fas fa-lock-open action-icon activate-icon"
+              *ngIf="!val?.DeActivate"
+              (click)="ActivisionModule(val, i)"
+              matTooltipPosition="above"
+              matTooltip="{{
+                'ADMINISTARTOR.PROCEEDURESICON.UNLOCK' | translate
+              }}"
+            ></i>
+            <i
+              class="fas fa-key action-icon lock-icon"
+              (click)="changePass(val.AdminUserID)"
+              tooltipPosition="top"
+            ></i>
+            <i
+              class="fas fa-columns action-icon"
+              (click)="TemplateForBackupForCompany(val.CompanyId)"
+              matTooltip="    Template For Back Up
+              "
+              matTooltipPosition="above"
+            ></i>
+            <i
+              class="fas fa-trash-alt action-icon delete-icon"
+              (click)="
+                CompanyIdDeleted = val.CompanyId;
+                confirmdeleteCompany.openModal()
+              "
+              matTooltip="{{
+                'ADMINISTARTOR.PROCEEDURESICON.DELETE' | translate
+              }}"
+              matTooltipPosition="above"
+            ></i>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </ng-template>
+</div>
+<confirm-delete
+  #confirmdeleteCompany
+  massage="{{ 'CONFIRMDELETE.SELECTED_USERS' | translate }}"
+  (afterSave)="$event ? onDelete() : ''; confirmdeleteCompany.CloseModal()"
+>
+</confirm-delete>
+<table
+  #TABLE
+  [hidden]="true"
+  class="table table-rounded table-row-bordered border custom-table-style"
+>
+  <thead class="fw-bolder">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">{{ "ADMINISTARTOR.COMPANYNAME" | translate }}</th>
+      <th scope="col">
+        {{ "ADMINISTARTOR.ACCOUNTOWNERNAME" | translate }}
+      </th>
+      <th scope="col">{{ "ADMINISTARTOR.COMPANYSTATUS" | translate }}</th>
+      <th scope="col">
+        {{ "ADMINISTARTOR.SUBSCRIBESTAATUS" | translate }}
+      </th>
+      <th scope="col">{{ "ADMINISTARTOR.SUBSCRIBETYPE" | translate }}</th>
+      <th scope="col">{{ "ADMINISTARTOR.STARTDATE" | translate }}</th>
+      <th scope="col">{{ "ADMINISTARTOR.ENDDATE" | translate }}</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr
+      *ngFor="let val of DataView; let i = index"
+      style="vertical-align: middle"
+    >
+      <th>{{ val.index + 1 }}</th>
+      <td (click)="EditCampony(val.CompanyId, i)">
+        <a href="javascript:;"> {{ val.CompanyName }} </a>
+      </td>
+      <td>{{ val.FirstName }} {{ val.LastName }}</td>
+      <td>
+        {{ val.CompanyStatusName }}
+      </td>
+      <td>
+        {{ val.SubscriptionStatusName }}
+      </td>
+      <td>
+        {{ val.SubscriptionTypeName }}
+      </td>
+      <td>{{ val.StartDate }}</td>
+      <td>{{ val.EndDate }}</td>
+    </tr>
+  </tbody>
+</table>

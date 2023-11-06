@@ -1,0 +1,323 @@
+<ng-container *ngIf="dataInStruction$ | async as data; else loadingIns">
+  <div
+    class="modal-body"
+    *ngIf="Codes$ | async as code"
+    style="max-height: 85vh; overflow-y: auto"
+  >
+    <div class="d-flex justify-content-end mb-3">
+      <button
+        *ngIf="code?.PagePermissions?.PMInstructionsEdit"
+        type="button"
+        class="btn  btn-primary"
+        (click)="addInstruction()"
+      >
+        <span>
+          <span> <i class="fa fa-plus"></i> </span>
+          <span>
+            {{
+              "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.EDIT_INSTRUCTION_MODAL.ACTIONS.ADD_INSTRUCTION"
+                | translate
+            }}
+          </span>
+        </span>
+      </button>
+    </div>
+    <p-tree
+      emptyMessage="{{
+        'PREVENTIVE_TASKS_MANAGEMENT.NO_ISTRUCTIONS' | translate
+      }}"
+      [value]="dataTree"
+      [filter]="false"
+      [loading]="loading"
+      class="work-order-edit-instructions"
+    >
+      <ng-template let-node pTemplate="default">
+        <div class="instructions-tree">
+          <div class="instruction">
+            <div class="instruction-container d-flex align-items-center">
+              <!-- <span class="reorder-row-icon"></span> -->
+              <icon-field [TypeField]="node.data.FieldTypeId"></icon-field>
+              <!-- <div contenteditable="true" class="d-inline-block min-w-100px form-control form-control-sm mx-2"
+              style="width: unset;">
+            </div> -->
+              <ng-container
+                *ngIf="
+                  node.data.FieldTypeId != 12 &&
+                  node.data.FieldTypeId != 13 &&
+                  node.data.FieldTypeId != 11
+                "
+              >
+                <input
+                  [disabled]="code.PagePermissions?.PMInstructionsEdit == false"
+                  type="text"
+                  class="form-control mx-2"
+                  [(ngModel)]="node.data.Name"
+                  (blur)="
+                    isChangeName ? changeName(node.data.Name, node.data) : '';
+                    isChangeName = false
+                  "
+                  (change)="isChangeName = true"
+              /></ng-container>
+              <ng-container *ngIf="node.data.FieldTypeId == 11">
+                <textarea
+                  class="form-control"
+                  rows="4"
+                  [(ngModel)]="node.data.Name"
+                  (blur)="
+                    isChangeName ? changeName(node.data.Name, node.data) : '';
+                    isChangeName = false
+                  "
+                  (change)="isChangeName = true"
+                  [disabled]="code.PagePermissions?.PMInstructionsEdit == false"
+                ></textarea>
+              </ng-container>
+              <field-dynamic
+                style="min-width: 90px"
+                [TypeField]="node.data.FieldTypeId"
+                [FieldOptions]="node.data.FieldOptions"
+                [readOnly]="true"
+                [viewAssigment]="true"
+                [valueField]="
+                  node.data.FieldTypeId == 13
+                    ? {
+                        requestAssignmentId: node.data.RequestAssignmentId,
+                        approvedAssginmentId: node.data.ApprovedAssginmentId,
+                        disapprovedAssginmentId:
+                          node.data.DisapprovedAssginmentId,
+                        RequestAssignmentTeamTxt:
+                          node.data.RequestAssignmentTeamTxt,
+                        ApprovedAssignmentTeamTxt:
+                          node.data.ApprovedAssignmentTeamTxt,
+                        DisapprovedAssignmentTeamTxt:
+                          node.data.DisapprovedAssignmentTeamTxt,
+                        RequestAssignmentUserTxt:
+                          node.data.RequestAssignmentUserTxt,
+                        ApprovedAssignmentUserTxt:
+                          node.data.ApprovedAssignmentUserTxt,
+                        DisapprovedAssignmentUserTxt:
+                          node.data.DisapprovedAssignmentUserTxt
+                      }
+                    : null
+                "
+                (SaveNewValue)="
+                  linkAssigmentWithSignaturInst($event, node.data)
+                "
+              ></field-dynamic>
+            </div>
+            <div class="instruction-actions d-flex mx-3">
+              <i
+                class="fas fa-plus action-icon add-icon"
+                tooltipPosition="top"
+                (click)="code.PagePermissions?.PMInstructionsEdit && addChild(node.ID, node.data.FieldTypeId)"
+                pTooltip="{{
+                  'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.EDIT_INSTRUCTION_MODAL.ACTIONS.ADD_INSTRUCTION'
+                    | translate
+                }}"
+              ></i>
+              <i
+                (click)="code.PagePermissions?.PMInstructionsEdit && deleteIns(node.ID)"
+                class="fas fa-trash-alt action-icon delete-icon"
+                tooltipPosition="top"
+                pTooltip="{{
+                  'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.EDIT_INSTRUCTION_MODAL.ACTIONS.DELETE'
+                    | translate
+                }}"
+              ></i>
+
+              <p-fileUpload
+                *ngIf="node.data.FieldTypeId != 12"
+                #fileUpload
+                (onSelect)="code.PagePermissions?.PMInstructionsEdit && AttachAfileORImage(fileUpload, node.data)"
+                name="myfile[]"
+                mode="basic"
+                [auto]="true"
+                [multiple]="true"
+                chooseIcon="pi pi-file"
+                styleClass="action-icon"
+              >
+              </p-fileUpload>
+
+              <p-fileUpload
+                *ngIf="node.data.FieldTypeId != 12"
+                #imageUpload
+                (onSelect)="code.PagePermissions?.PMInstructionsEdit && AttachAfileORImage(imageUpload, node.data)"
+                name="myfile[]"
+                [multiple]="true"
+                mode="basic"
+                [auto]="true"
+                accept="image/*"
+                chooseIcon="pi pi-camera"
+                styleClass="action-icon"
+              >
+              </p-fileUpload>
+
+              <i
+                *ngIf="
+                  node.data.FieldTypeId != 12 && node.data.FieldTypeId != 13
+                "
+                (click)="code.PagePermissions?.PMInstructionsEdit && LinkWithAsset(code.AssetId, node.data)"
+                [ngClass]="
+                  node.data.LogAssetId
+                    ? 'fas fa-link action-icon text-success'
+                    : 'fas fa-link action-icon '
+                "
+                tooltipPosition="top"
+                pTooltip="{{
+                  'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.EDIT_INSTRUCTION_MODAL.ACTIONS.LINK_TO_ASSET'
+                    | translate
+                }}"
+              ></i>
+              <i
+                *ngIf="
+                  node.data.FieldTypeId != 12 && node.data.FieldTypeId != 13
+                "
+                (click)="
+                code.PagePermissions?.PMInstructionsEdit && LinkWithFieldInAsset(
+                    code.AssetId,
+                    node.data.FieldTypeId,
+                    node.data
+                  )
+                "
+                [ngClass]="
+                  node.data.ComponentFieldId
+                    ? 'fas fa-file-import action-icon text-success'
+                    : 'fas fa-file-import action-icon '
+                "
+                tooltipPosition="top"
+                pTooltip="{{
+                  'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.EDIT_INSTRUCTION_MODAL.ACTIONS.LINK_TO_FILE'
+                    | translate
+                }}"
+              ></i>
+            </div>
+            <ng-container *ngFor="let itemFile of node.data.Files">
+              <div
+                *ngIf="!itemFile.IsValue"
+                class="d-flex gap-4"
+                style="flex-basis: 100%"
+              >
+                <!-- file -->
+
+                <!-- <span>
+                  <i class="fa fa-file"></i>
+                  <span class="mx-2">{{
+                    itemFile.FileName + "." + itemFile.FileExtension
+                  }}</span>
+                  <i
+                    (click)="confirmdeleteFileInSop(itemFile)"
+                    pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+                    tooltipposition="top"
+                    mat-fab
+                    class="fas fa-times action-icon delete-icon"
+                    style="
+                      border: 1px solid #e8a4a4;
+                      padding: 0;
+                      width: 16px;
+                      height: 16px;
+                      line-height: 14px;
+                      font-size: 10px;
+                    "
+                  ></i>
+                </span>
+                <p-image
+                  [src]="Avatar + itemFile?.FilePath"
+                  alt="Image"
+                  height="80px"
+                  width="80px"
+                  [preview]="true"
+                ></p-image> -->
+                <ng-container
+                  *ngIf="!(itemFile.FileExtension | isImage) && itemFile"
+                >
+                  <i
+                    (click)="code.PagePermissions?.PMInstructionsEdit && confirmdeleteFileInSop(itemFile)"
+                    pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+                    tooltipposition="top"
+                    mat-fab
+                    class="fas fa-times action-icon delete-icon"
+                    style="
+                      border: 1px solid #e8a4a4;
+                      padding: 0;
+                      width: 16px;
+                      height: 16px;
+                      line-height: 14px;
+                      font-size: 10px;
+                    "
+                  ></i>
+                  <a
+                    class=""
+                    [href]="Avatar + itemFile?.FilePath"
+                    target="_blank"
+                  >
+                    {{ itemFile.FileName + "." + itemFile.FileExtension }}</a
+                  >
+                </ng-container>
+                <ng-container
+                  *ngIf="(itemFile.FileExtension | isImage) && itemFile"
+                >
+                  <div
+                    class="image-input image-input-outline image-input-empty m-2 overflow-hidden border"
+                    data-kt-image-input="true"
+                  >
+                    <span>
+                      <!-- <i class="fa fa-file"></i> -->
+                      <!-- <span class="mx-2">{{
+                          itemFile.FileName + "." + itemFile.FileExtension
+                        }}</span> -->
+                      <i
+                        (click)="code.PagePermissions?.PMInstructionsEdit && confirmdeleteFileInSop(itemFile)"
+                        pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+                        tooltipposition="top"
+                        mat-fab
+                        class="fas fa-times action-icon delete-icon"
+                        style="
+                          border: 1px solid #e8a4a4;
+                          padding: 0;
+                          width: 16px;
+                          height: 16px;
+                          line-height: 14px;
+                          font-size: 10px;
+                        "
+                      ></i>
+                    </span>
+                    <p-image
+                      [src]="Avatar + itemFile?.FilePath"
+                      alt="Image"
+                      height="80px"
+                      width="80px"
+                      [preview]="true"
+                    ></p-image>
+                    <label
+                      data-kt-image-input-action="change"
+                      data-bs-toggle="tooltip"
+                      title=""
+                      data-bs-original-title="Change avatar"
+                      style="right: unset; left: -10px"
+                    >
+                    </label>
+                  </div>
+                </ng-container>
+
+                <!-- img -->
+                <!-- <span>
+                <i class="far fa-image"></i>
+                <span class="mx-2">hjdf hjgfg</span>
+              </span> -->
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </ng-template>
+    </p-tree>
+  </div>
+</ng-container>
+
+<ng-template #loadingIns> loading....</ng-template>
+<confirm-delete
+  #confirmdeletePMS
+  massage="{{ 'PM.CARD_HEADER' | translate }}"
+  (afterSave)="$event ? deleteFileInSop() : ''; confirmdeletePMS.CloseModal()"
+  [closed]="whenClosedconfirmdeleteFileInSop"
+>
+</confirm-delete>
+<!-- -->

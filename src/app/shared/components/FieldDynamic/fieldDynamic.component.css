@@ -1,0 +1,8 @@
+@media (max-width: 768px) {
+  .form-select.form-select-sm{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: none !important;
+  }
+}

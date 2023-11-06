@@ -1,0 +1,39 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-edit mx-1"></i>
+    {{"MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.MODALTITLE" | translate}}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="onClose()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+<ng-container *ngIf="Code$ | async as code">
+  <!-- begin dialog body -->
+  <div class="modal-body" style="max-height: 80vh; overflow-y: auto">
+    <p-tabView *ngIf="data">
+      <p-tabPanel header="{{'MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.TABTITLE'| translate}}">
+        <app-gate-design [data]="data" (EditWorkRequest)="onEdit()"></app-gate-design>
+      </p-tabPanel>
+
+      <p-tabPanel
+        header="{{'MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.MAINTINANCETEQUESTSETTINGS.TABTITLE'| translate}}">
+        <app-maintenance-request-settings [data]="data" (EditWorkRequest)="onEdit()"></app-maintenance-request-settings>
+      </p-tabPanel>
+
+      <p-tabPanel *ngIf="code.PagePermissions?.WorkRequestGatesCommonFieldsEdit" header="{{'MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.ADDITIONALFIELDS.TABTITLE'| translate}}">
+        <app-additional-fields [data]="data"></app-additional-fields>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+
+  <div class="modal-footer position-relative">
+
+    <button type="button" class="btn b btn-light" data-bs-dismiss="modal" (click)="onClose()">
+      {{ "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.CANCEL" | translate }}
+    </button>
+
+    <i class="fas fa-cogs modal-bg-icon"></i>
+  </div>
+</ng-container>

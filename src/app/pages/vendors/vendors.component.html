@@ -1,0 +1,197 @@
+<div class="card card-custom">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <i class="fa fa-truck-moving fa-lg"></i>
+      <h4 class="fw-bolder mb-0 mx-2">
+        {{ "VENDORS.CARD_TITLE" | translate }}
+      </h4>
+    </div>
+    <div
+      class="card-header-actions d-flex align-items-center"
+      *ngIf="Codes$ | async as code"
+    >
+      <ng-container>
+        <!-- <p-dropdown
+          *ngIf="locations?.length > 1"
+          appendTo="body"
+          [options]="code.Location"
+          optionLabel="Name"
+          optionValue="Code"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          [formControl]="LocationSelected"
+          [showClear]="true"
+        ></p-dropdown> -->
+        <!-- <b *ngIf="locations?.length == 1">{{ locations[0]?.LocationName }}</b> -->
+        <!-- <p-dropdown
+          class="mx-1"
+          style="min-width: 100px"
+          appendTo="body"
+          [options]="code.Location"
+          optionLabel="Name"
+          optionValue="Code"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          [formControl]="LocationSelected"
+        >
+        </p-dropdown
+      > -->
+      </ng-container>
+
+      <div class="add-new-task">
+        <button
+          class="general-btn filter-btn"
+          style="margin-inline-end: 0.2rem"
+          (click)="Filter()"
+        >
+          <span>
+            <span><i class="fas fa-filter"></i></span>
+            <span> {{ "VENDORS.FILTER" | translate }} </span>
+          </span>
+        </button>
+
+        <button
+          *ngIf="code?.PagePermissions?.VendorsAdd"
+          class="general-btn add-btn mx-1"
+          (click)="AddNewVendor()"
+        >
+          <span>
+            <span><i class="fas fa-plus"></i></span>
+            <span> {{ "VENDORS.ADD_NEW_VENDOR" | translate }} </span>
+          </span>
+        </button>
+        <button
+          *ngIf="code?.PagePermissions?.VendorsExport"
+          class="btn btn-success mx-1"
+          (click)="export()"
+        >
+          <span>
+            <i class="fas fa-upload fa-lg"></i>
+
+            {{ "ASSETS.ACTIONSONSELECTEDMENU.EXPORTDATA" | translate }}
+          </span>
+        </button>
+        <button *ngIf="code?.PagePermissions?.VendorsCommonFieldsEdit" class="general-btn add-btn mx-1" (click)="fieldsManagment()">
+          <span>
+            <span><i class="fas fa-columns"></i></span>
+            <span>
+              {{
+                "VENDORS.MODALS.FIELDS_MANAGEMENT_MODAL.MODAL_TITLE" | translate
+              }}
+            </span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- end::Header -->
+  <!-- begin::Body -->
+
+  <div class="card-body" *ngIf="Codes$ | async as code">
+    <div class="d-flex justify-content-end mb-3">
+      <app-field-show-in-table
+        (sendFeildsViewInTable)="feildsViewInTable = $event"
+        [DataFeild$]="fieldManagmentService.DataFeild$"
+      >
+      </app-field-show-in-table>
+    </div>
+    <div class="d-flex justify-content-start mb-3">
+      <app-view-data-filter [componentType]="'Vendors'"></app-view-data-filter>
+    </div>
+    <div
+      class="table-responsive"
+      *ngIf="AllVendors$ | async as vendors; else loading"
+    >
+      <table
+        class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+      >
+        <thead>
+          <tr class="fw-bolder fs-6 text-gray-800">
+            <th>#</th>
+
+            <th>{{ "VENDORS.TABLE.NAME" | translate }}</th>
+            <th>{{ "VENDORS.TABLE.EMAIL" | translate }}</th>
+            <th>{{ "VENDORS.TABLE.PHONE" | translate }}</th>
+            <th>{{ "VENDORS.TABLE.CONTACT" | translate }}</th>
+            <th>{{ "VENDORS.TABLE.ADDRESS" | translate }}</th>
+            <th *ngFor="let obj of feildsViewInTable">
+              {{ obj.Name }}
+            </th>
+            <th *ngIf="code?.PagePermissions?.VendorsDelete">{{ "VENDORS.TABLE.PROCEDUERS.DELETE" | translate }}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of vendors.Data; index as i">
+            <td>
+              <span class="reorder-row-icon">
+                {{ i + 1 + RowCount * (selectedPageVendor - 1) }}
+              </span>
+            </td>
+
+            <td>
+              <a
+                href="javascript:;"
+                class="mb-3"
+                (click)="
+                  code?.PagePermissions?.VendorsEdit ||
+                  code?.PagePermissions?.VendorsCard
+                    ? openCardVendor(item)
+                    : ''
+                "
+              >
+                {{ item.VendorName }}
+              </a>
+            </td>
+
+            <td>{{ item.Email }}</td>
+            <td>{{ item.Phone }}</td>
+            <td>{{ item.LicenseNumber }}</td>
+            <td>{{ item.Address }}</td>
+            <td *ngFor="let obj of feildsViewInTable">
+              {{ ValueField(obj.ID, item.Fields) }}
+            </td>
+            <td *ngIf="code?.PagePermissions?.VendorsDelete">
+              <div
+                class="d-flex flex-nowrap"
+                (click)="
+                  idVendorDeleted = item.ID; confirmdeleteVendor.openModal()
+                "
+              >
+                <i
+                  class="fas fa-trash-alt action-icon delete-icon"
+                  pTooltip="{{ 'VENDORS.DELETE' | translate }}"
+                  tooltipPosition="top"
+                ></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-pagination-component
+        [Setting]="vendors?.Setting"
+        [(selectedPage)]="selectedPageVendor"
+        (selectedPageChange)="changeListPage()"
+        (selectedRowCount)="selectedRowCount($event)"
+      ></app-pagination-component>
+    </div>
+  </div>
+
+  <!-- end::Body -->
+
+  <!-- begin::Footer -->
+
+  <!-- end::Footer -->
+</div>
+<confirm-delete
+  #confirmdeleteVendor
+  massage="vendor"
+  (afterSave)="$event ? deleteVendor() : ''; confirmdeleteVendor.CloseModal()"
+>
+</confirm-delete>
+<ng-template #loading>
+  <p-skeleton styleClass="mb-2"></p-skeleton>
+  <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+  <p-skeleton width="5rem" styleClass="mb-2"></p-skeleton>
+  <p-skeleton height="2rem" styleClass="mb-2"></p-skeleton>
+  <p-skeleton width="10rem" height="4rem"></p-skeleton>
+</ng-template>

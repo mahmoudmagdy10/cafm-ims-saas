@@ -1,0 +1,68 @@
+<form [formGroup]="storeMangmentForm">
+  <div class="row" *ngIf="itemEdit$ | async">
+    <!-- الحد الأدنى -->
+    <div class="col-12 col-sm-6 col-md-2">
+      <label class="mb-2">
+        {{ "STORES.MODALS.CARD.INVENTORY_MANAGEMENT.MIN" | translate }}
+      </label>
+      <input
+        type="number"
+        [min]="0"
+        formControlName="MinThreshold"
+        class="form-control form-control-sm"
+        value="-1"
+        id="MinThreshold"
+      />
+    </div>
+
+    <!-- الحد الأقصى -->
+    <div class="col-12 col-sm-6 col-md-2">
+      <label class="mb-2">
+        {{ "STORES.MODALS.CARD.INVENTORY_MANAGEMENT.MAX" | translate }}
+      </label>
+      <input
+        type="number"
+        [min]="0"
+        formControlName="MaxThreshold"
+        class="form-control form-control-sm"
+        value="-1"
+        id="MaxThreshold"
+      />
+    </div>
+
+    <!-- بداية التقادم بالأيام -->
+    <!-- <div class="col-12 col-sm-6 col-md-2">
+      <label class="mb-2">
+        {{
+          "STORES.MODALS.CARD.INVENTORY_MANAGEMENT.BEGINING_OF_EXPIRATION"
+            | translate
+        }}
+      </label>
+      <input
+        type="number"
+        [min]="0"
+        formControlName="StaleDays"
+        class="form-control form-control-sm"
+      />
+    </div> -->
+
+    <!-- الفريق / العضو المسؤول -->
+    <div class="col-12 col-sm-6 col-md-6">
+      <label class="mb-2">
+        {{ "STORES.MODALS.CARD.INVENTORY_MANAGEMENT.WORK_TEAM" | translate }}
+      </label>
+      <div class="form-group d-flex align-items-center">
+        <span class="form-control form-control-solid" style="height: 31.8px">
+          {{ ArrayToString(this.ThresholdAssignmentTeamTxt) }}
+          {{ ArrayToString(this.ThresholdAssignmentUserTxt) }}</span
+        >
+        <i
+          class="p-element fa fa-plus action-icon add-icon"
+          tooltipPosition="top"
+          (click)="partsStorageManagementEditPermission && chooseAssigment()"
+          pTooltip="{{ 'GENERAL.ADD' | translate }}"
+        ></i>
+      </div>
+    </div>
+  </div>
+</form>

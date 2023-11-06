@@ -1,0 +1,167 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-plus mx-1"></i>
+    {{ "ACCIDENTS_REPORTS.MODALS.ADD_REPORT.MODAL_TITLE" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body" style="min-height: 300px; max-height: 80vh; overflow: auto" *ngIf="Codes$ | async as codes">
+  <form [formGroup]="FormReport">
+    <div class="row">
+      <!-- عنوان التقرير -->
+      <div class="col-12 col-md-3 mb-3 mb-md-0">
+        <label class="mb-2">
+          {{ "ACCIDENTS_REPORTS.MODALS.ADD_REPORT.REPORT_TITLE" | translate }}
+        </label>
+        <input type="text" class="form-control" formControlName="Title" />
+      </div>
+      <div class="col-12 col-md-3 mb-3 mb-md-0">
+        <label for="" class="required form-label">
+          {{
+          "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.GATEGORIES" | translate
+          }}
+        </label>
+        <p-dropdown  appendTo="body"  [options]="codes.Categories" [style]="{ minWidth: '130px', display: 'flex' }" optionLabel="name"
+          optionValue="code" [placeholder]="'GENERAL.SELECT' | translate" formControlName="CategoryId" [filter]="true"
+          filterBy="name">
+        </p-dropdown>
+      </div>
+      <!-- تاريخ الحدث -->
+      <div class="col-12 col-md-3 mb-3 mb-md-0">
+        <label class="mb-2">
+          {{ "ACCIDENTS_REPORTS.MODALS.ADD_REPORT.ACCIDENT_DATE" | translate }}
+        </label>
+
+        <div class="form-group custom-datepicker">
+          <input class="form-control" [matDatepicker]="picker" type="datetime" placeholder="dd-mm-yy"
+            formControlName="IncidentDate" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </div>
+      </div>
+
+      <!-- وقت الحدث -->
+      <div class="col-12 col-md-3 mb-3 mb-md-0">
+        <label class="mb-2">
+          {{ "ACCIDENTS_REPORTS.MODALS.ADD_REPORT.ACCIDENT_TIME" | translate }}
+        </label>
+        <!-- [(ngModel)]="value" -->
+        <div class="form-group custom-datepicker" style="direction: ltr">
+          <p-calendar [showTime]="true" hourFormat="12" inputId="timeonly" [timeOnly]="true"
+            formControlName="IncidentDateT"></p-calendar>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-5" *ngIf="CommonFieldsByCategoryId$ | async as dataFields">
+      <!-- <div class="col-12 col-md-8">
+        <div style="max-height: 235px; overflow-y: auto"> -->
+      <table class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6">
+        <thead>
+          <tr class="fw-bolder fs-6 text-gray-800">
+            <th>#</th>
+            <th>
+              {{
+              "ACCIDENTS_REPORTS.MODALS.ADD_REPORT.TABLE.FIELD" | translate
+              }}
+            </th>
+            <th>
+              {{
+              "ACCIDENTS_REPORTS.MODALS.ADD_REPORT.TABLE.VALUE" | translate
+              }}
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of dataFields; index as indexField">
+            <td>{{ indexField + 1 }}</td>
+            <td>{{ item.FieldName }}</td>
+            <td>
+              <div class="row">
+                <div class="col-12">
+                  <field-dynamic style="min-width: 90px" [valueField]="item.FieldValue" [TypeField]="item.FieldType"
+                    [FieldOptions]="item.FieldOptions" (SaveNewValue)="
+                      item.FieldType != 5 && item.FieldType != 6
+                        ? (item.FieldValue = $event)
+                        : convertFileToBase64($event, indexField)
+                    "></field-dynamic>
+                  <ng-container *ngIf="item.FieldType == 6">
+                    <div class="d-flex align-items-center flex-wrap">
+                      <div class="image-input image-input-outline image-input-empty m-2" data-kt-image-input="true"
+                        *ngFor="let itemFile of item.Files">
+                        <div class="image-input-wrapper" style="width: 117px; height: 117px; "[style.cursor]="'pointer'"
+                          [style.background-image]="
+                            'url('+Avatar +
+                            itemFile?.FilePath +
+                            ')'
+                          "></div>
+
+                        <label data-kt-image-input-action="change" data-bs-toggle="tooltip" title=""
+                          data-bs-original-title="Change avatar" style="right: unset; left: -10px">
+                        </label>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="item.FieldType == 6">
+                    <div class="d-flex align-items-center flex-wrap">
+                      <div class="image-input image-input-outline image-input-empty m-2" data-kt-image-input="true"
+                        *ngFor="
+                          let itemFile of item.PicturesBase64;
+                          index as indexFieldPic
+                        ">
+                        <img style="width: 117px; height: 117px; " [style.cursor]="'pointer'"[src]="itemFile" />
+                        <label data-kt-image-input-action="change" data-bs-toggle="tooltip" title=""
+                          data-bs-original-title="Change avatar" style="right: unset; left: -10px">
+                          <i (click)="removeFile(indexField, indexFieldPic)" ptooltip="حذف" tooltipposition="top"
+                            mat-fab class="fas fa-times action-icon delete-icon" style="
+                              border: 1px solid #e8a4a4;
+                              padding: 0;
+                              width: 16px;
+                              height: 16px;
+                              line-height: 14px;
+                              font-size: 10px;
+                            "></i>
+                        </label>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- </div>
+      </div> -->
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer position-relative">
+  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="SaveIncidentReports()">
+    <span>
+      <span> <i class="fa fa-save"></i> </span>
+      <span>
+        {{ "ACCIDENTS_REPORTS.MODALS.ADD_REPORT.SAVE" | translate }}
+      </span>
+    </span>
+  </button>
+
+  <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal" (click)="Close()">
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span>
+        {{ "ACCIDENTS_REPORTS.MODALS.ADD_REPORT.CANCEL" | translate }}
+      </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

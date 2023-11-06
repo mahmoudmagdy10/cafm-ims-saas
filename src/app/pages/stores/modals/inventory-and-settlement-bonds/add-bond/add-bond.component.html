@@ -1,0 +1,104 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fa fa-plus mx-1"></i>
+    {{ "STORES.MODALS.ADD_INVENTORY_BOND.MODAL_TITLE" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body" style="max-height: 80vh;" *ngIf="Stores$ | async as data">
+  <form [formGroup]="bondForm">
+    <div class="row">
+      <!-- الاسم -->
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+        <div class="form-group">
+          <label class="mb-2"> {{ "STORES.MODALS.ADD_INVENTORY_BOND.NAME" | translate }} </label>
+          <input type="text" formControlName="AdjustmentName" class="form-control" />
+        </div>
+      </div>
+
+      <!-- التاريخ -->
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+        <label class="mb-2"> {{ "STORES.MODALS.ADD_INVENTORY_BOND.DATE" | translate }} </label>
+
+        <div class="form-group custom-datepicker">
+          <input class="form-control" [matDatepicker]="picker" type="datetime" placeholder="dd-mm-yy"
+            formControlName="AdjustmentDate" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </div>
+      </div>
+
+      <!-- المخزن -->
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+        <label class="mb-2"> {{ "STORES.MODALS.ADD_INVENTORY_BOND.STORE" | translate }} </label>
+        <p-dropdown  appendTo="body" class="custom-dropdown" [style]="{ minWidth: '130px', display: 'flex' }" optionLabel="StoreName"
+          optionValue="ID" [filter]="true" [options]="data" [placeholder]="'GENERAL.SELECT' | translate"
+          formControlName="StoreId">
+        </p-dropdown>
+      </div>
+
+      <!-- اسم/رقم القطعة -->
+      <div class="col-12 col-sm-12 mb-3">
+        <label class="mb-2"> {{ "STORES.MODALS.ADD_INVENTORY_BOND.PART_NUMBER" | translate }} - {{
+          "STORES.MODALS.ADD_INVENTORY_BOND.PART_NAME" | translate }} </label>
+        <input type="text" [matAutocomplete]="SearchOfParts" [formControl]="PartName" class="form-control" />
+        <mat-autocomplete #SearchOfParts="matAutocomplete">
+          <mat-option *ngFor="let item of SearchOfParts$ | async" [value]="item.Name"
+            (onSelectionChange)="onSelectPart(item)">{{ item.Name }}</mat-option>
+        </mat-autocomplete>
+      </div>
+    </div>
+  </form>
+
+  <div class="table-responsive" style="max-height: 400px; overflow:auto;">
+    <table class="table table-rounded table-row-bordered border custom-table-style fs-6">
+      <thead>
+        <tr class="fw-bolder fs-6 text-gray-800">
+          <th>{{ "STORES.MODALS.ADD_INVENTORY_BOND.PART_NUMBER" | translate }}</th>
+          <th>{{ "STORES.MODALS.ADD_INVENTORY_BOND.PART_NAME" | translate }}</th>
+          <th>{{ "STORES.MODALS.ADD_INVENTORY_BOND.QUANTITY_IN_STORE" | translate }}</th>
+          <th>{{ "STORES.MODALS.ADD_INVENTORY_BOND.NEW_QUANTITY" | translate }}</th>
+          <th>{{ "GENERAL.PROCEDUERS" | translate }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of listOfBond">
+          <td>{{ item.PartNumber }}</td>
+          <td>{{ item.Name }}</td>
+          <td>{{ item.StockQty }}</td>
+          <!-- <td>{{ item.PartNumber }}</td> -->
+          <td>
+            <input type="text" [(ngModel)]="item.AdjustmentQty" class="form-control form-control-sm w-85px" />
+          </td>
+          <td>
+            <i (click)="deletePart(item.Id)" tooltipposition="top" class="fas fa-trash-alt action-icon delete-icon"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="modal-footer position-relative">
+  <button type="button" class="btn  btn-primary" data-bs-dismiss="modal" (click)="save()">
+    <span>
+      <span> <i class="fa fa-save"></i> </span>
+      <span> {{ "GENERAL.SAVE" | translate }} </span>
+    </span>
+  </button>
+
+  <button type="button" class="btn  btn-light" data-bs-dismiss="modal" (click)="Close()">
+    <span>
+      <span> <i class="fa fa-times" (click)="Close()"></i> </span>
+      <span> {{ "GENERAL.CANCEL" | translate }} </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

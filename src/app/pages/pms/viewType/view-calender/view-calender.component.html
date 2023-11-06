@@ -1,0 +1,16 @@
+<!-- *ngIf="!loading; else loadingIns" -->
+<div class="fullCalenderContainer">
+  <full-calendar [options]="options"></full-calendar>
+  <ng-container *ngIf="CalenderList$ | async as data"
+    ><app-pagination-component
+      [Setting]="data?.Setting"
+      [(selectedPage)]="selectedCalenderPage"
+      (selectedPageChange)="changeListPage()"
+      (selectedRowCount)="selectedRowCount($event)"
+      [showPerPage]="false"
+    ></app-pagination-component
+  ></ng-container>
+</div>
+<ng-template #loadingIns>
+  <p-skeleton width="100%" height="500px"></p-skeleton>
+</ng-template>

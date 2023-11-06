@@ -1,0 +1,124 @@
+<div class="card card-custom">
+  <!-- begin::Header -->
+  <div
+    class="card-header card-header-stretch align-items-center d-flex"
+    *ngIf="Codes$ | async as codes"
+  >
+    <div class="card-title my-4 m-md-0">
+      <i class="fas fa-file-invoice-dollar"></i>
+      <h4 class="fw-bolder mb-0 mx-2">{{ "BILLS.CARD_HEADER" | translate }}</h4>
+    </div>
+
+    <div class="card-header-actions d-none d-md-flex">
+      <button class="general-btn filter-btn" (click)="BillsFilter()">
+        <i class="fas fa-filter"></i>
+        {{ "BILLS.FILTER" | translate }}
+      </button>
+      <button
+        class="btn btn-sm btn-success mx-1"
+        (click)="export()"
+        *ngIf="codes?.PagePermissions?.Exportpurchaseorders"
+      >
+        <span>
+          <i class="fas fa-upload fa-lg"></i>
+
+          {{ "ASSETS.ACTIONSONSELECTEDMENU.EXPORTDATA" | translate }}
+        </span>
+      </button>
+    </div>
+  </div>
+  <!-- end::Header -->
+
+  <!-- begin::Body -->
+  <div class="card-body" *ngIf="Codes$ | async as codes">
+    <div class="table-responsive">
+      <div class="d-flex justify-content-start mb-3">
+        <app-view-data-filter [componentType]="'Bills'"></app-view-data-filter>
+      </div>
+      <table
+        class="table table-rounded table-row-bordered border custom-table-style fs-6"
+      >
+        <thead>
+          <tr class="fw-bolder fs-6 text-gray-800">
+            <th>{{ "BILLS.TABLE.BILL_NUMBER" | translate }}</th>
+            <th>{{ "BILLS.TABLE.PURCHASE_ORDER" | translate }}</th>
+            <th>{{ "BILLS.TABLE.TOTAL_AMMOUNT" | translate }}</th>
+            <th>{{ "BILLS.TABLE.VENDOR" | translate }}</th>
+            <th>{{ "BILLS.TABLE.RELEASE_DATE" | translate }}</th>
+            <!-- <th>{{ "BILLS.TABLE.PAYMENT_DATE" | translate }}</th> -->
+            <th>{{ "BILLS.TABLE.BUDGET" | translate }}</th>
+            <th>{{ "BILLS.TABLE.STATUS" | translate }}</th>
+            <th>{{ "GENERAL.PROCEDUERS" | translate }}</th>
+          </tr>
+        </thead>
+
+        <tbody *ngIf="Bills$ | async as data; else loading">
+          <tr *ngFor="let item of data">
+            <td (click)="BillCard(item.ID)">
+              <a href="javascript:;"> {{ item.ID }}</a>
+            </td>
+            <td>{{ item.PurchaseOrders[0].POName }}</td>
+            <td>{{ item.TotalPrice }}</td>
+            <td>{{ item.PurchaseOrders[0].VendorName }}</td>
+            <td>{{ item.BillDate | date : "YYYY-MM-dd" }}</td>
+            <!-- <td>{{ item?.PurchaseOrders[0].ModifiedDate |date:'YYYY-MM-dd'}}</td> -->
+            <td>{{ item.PurchaseOrders[0].BudgetName }}</td>
+            <td>{{ item.PurchaseOrders[0].BillStatusName }}</td>
+            <td>
+              <i
+                *ngIf="codes?.PagePermissions?.POBillDelete"
+                (click)="billDeleted = item.ID; confirmdeleteBudget.openModal()"
+                class="fa fa-trash action-icon delete-icon"
+                tooltipPosition="top"
+                pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+              ></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ******************************** -->
+  </div>
+</div>
+
+<ng-template #loading>loading</ng-template>
+<table
+  [hidden]="true"
+  #TABLE
+  class="table table-rounded table-row-bordered border custom-table-style fs-6"
+>
+  <thead>
+    <tr class="fw-bolder fs-6 text-gray-800">
+      <th>{{ "BILLS.TABLE.BILL_NUMBER" | translate }}</th>
+      <th>{{ "BILLS.TABLE.PURCHASE_ORDER" | translate }}</th>
+      <th>{{ "BILLS.TABLE.TOTAL_AMMOUNT" | translate }}</th>
+      <th>{{ "BILLS.TABLE.VENDOR" | translate }}</th>
+      <th>{{ "BILLS.TABLE.RELEASE_DATE" | translate }}</th>
+      <th>{{ "BILLS.TABLE.PAYMENT_DATE" | translate }}</th>
+      <th>{{ "BILLS.TABLE.BUDGET" | translate }}</th>
+      <th>{{ "BILLS.TABLE.STATUS" | translate }}</th>
+    </tr>
+  </thead>
+
+  <tbody *ngIf="BillSExcel$ | async as data; else loading">
+    <tr *ngFor="let item of data">
+      <td>
+        <a href="javascript:;"> {{ item.ID }}</a>
+      </td>
+      <td>{{ item.PurchaseOrders[0].POName }}</td>
+      <td>{{ item.TotalPrice }}</td>
+      <td>{{ item.PurchaseOrders[0].VendorName }}</td>
+      <td>{{ item.BillDate }}</td>
+      <td>{{ item?.PurchaseOrders[0].ModifiedDate }}</td>
+      <td>{{ item.PurchaseOrders[0].BudgetName }}</td>
+      <td>{{ item.PurchaseOrders[0].BillStatusName }}</td>
+    </tr>
+  </tbody>
+</table>
+<confirm-delete
+  #confirmdeleteBudget
+  massage="{{ 'GENERAL.DELETE' | translate }}"
+  (afterSave)="$event ? onDelete() : ''; confirmdeleteBudget.CloseModal()"
+>
+</confirm-delete>

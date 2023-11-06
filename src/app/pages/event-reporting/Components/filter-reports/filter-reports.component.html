@@ -1,0 +1,74 @@
+<div class="modal-contents">
+  <form [formGroup]="FormFilter">
+
+    <!-- begin dialog body -->
+    <div class="modal-body">
+
+      <div class="row">
+
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label class="form-label">{{ "RequesterName" | translate }}</label>
+            <input type="text" class="form-control" formControlName='RequesterName' />
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label class="form-label">{{ "USERS.FLTERMODAL.EMAIL" | translate }}</label>
+            <input type="text" class="form-control" formControlName='RequesterEmail' />
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="row mt-5 mb-8">
+
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label class="form-label"> {{ "eventClasification.Department" | translate }}</label>
+            <!-- <p-dropdown appendTo="body" [options]="tagsDropdownOptions" [style]="{ minWidth: '130px', display: 'flex' }"
+              optionValue="code" optionLabel="Name" formControlName='TagId' [filter]="true">
+            </p-dropdown> -->
+            <input type="text" class="form-control" formControlName='dept' />
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label class="form-label">{{ "ASSETS.ASSETCARDMODAL.PROTECTIVETASKSTAB.PRIORITY_LEVEL" | translate
+              }}</label>
+            <!-- <p-dropdown appendTo="body" [placeholder]="'GENERAL.SELECT' | translate"
+              [style]="{minWidth: '130px', display: 'flex'}" [options]="priorityOptions" [filter]="true"
+              formControlName='PriorityId' optionLabel="Name" optionValue="code">
+            </p-dropdown> -->
+            <input type="text" class="form-control" formControlName='Priority' />
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- end dialog body -->
+
+    <!-- begin dialog footer -->
+    <div class="dialog-footer">
+      <div class="footer-actions">
+
+        <button class="btn  btn-primary" (click)="handleFilterReport()">
+          <i class="fas fa-search"></i>
+          {{"USERS.FLTERMODAL.SEARCH" | translate}}
+        </button>
+
+        <!-- <button class="btn  btn-secondary mx-2" (click)="Close()">
+          <i class="fas fa-times"></i>
+          {{"USERS.FLTERMODAL.CANCEL" | translate}}
+        </button> -->
+
+      </div>
+    </div>
+    <!-- end dialog footer -->
+
+  </form>
+</div>

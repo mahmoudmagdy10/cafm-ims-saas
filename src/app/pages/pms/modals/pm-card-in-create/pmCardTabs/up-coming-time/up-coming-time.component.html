@@ -1,0 +1,74 @@
+<ng-container *ngIf="CodeObz$ | async as codes">
+  <div class="table-responsive">
+    <table
+      class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+    >
+      <thead>
+        <tr class="fw-bolder fs-6 text-gray-800">
+          <th>#</th>
+          <th>{{ "Assigned_To" | translate }}</th>
+          <th>{{ "TIME" | translate }}</th>
+          <th>{{ "Will_Be_Due_On" | translate }}</th>
+          <th>{{ "DUE_DATE" | translate }}</th>
+          <th>{{ "PROCEDUERS" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of PMScheduletTime$ | async; index as i">
+          <td>{{ i + 1 }}</td>
+          <td>
+            {{ ArrayToString(itemEdit.TaskAssignmentTeamTxt) }}
+            {{ ArrayToString(itemEdit.TaskAssignmentUserTxt) }}
+          </td>
+          <td>
+            {{ item?.TimeExecute?.split(":").slice(0, 2).join(":") }}
+          </td>
+          <td>{{ item.ScheduleDate }}</td>
+          <td>
+            {{ item.DueDate | date : "dd/MM/yyyy HH:mm" }}
+          </td>
+          <td>
+            <div class="d-flex flex-nowrap">
+              <span *ngIf="codes?.PagePermissions?.PMUpcomingTimesEdit">
+                <i
+                  *ngIf="item.Status && !item?.WorkOrderID"
+                  tooltipposition="top"
+                  class="p-element fas fa-trash-alt action-icon delete-icon"
+                  (click)="
+                    deleteSchedulesTime(item.ID); item.Status = !item.Status
+                  "
+                ></i>
+              </span>
+              <span *ngIf="codes?.PagePermissions?.PMUpcomingTimesEdit">
+                <i
+                  *ngIf="!item.Status"
+                  class="fas fa-redo action-icon"
+                  (click)="
+                    deleteSchedulesTime(item.ID); item.Status = !item.Status
+                  "
+                ></i>
+              </span>
+              <i
+                *ngIf="item?.WorkOrderID"
+                (click)="openLink(item?.WorkOrderID)"
+                class="pi pi-external-link action-icon"
+                pTooltip="open link Work order"
+                tooltipPosition="top"
+              ></i>
+              <span *ngIf="codes?.PagePermissions?.PMUpcomingTimesEdit">
+                <i
+                  *ngIf="!item?.WorkOrderID"
+                  (click)="PMScheduleTimesToWorkOrder(item?.ID)"
+                  class="fa fa-wrench action-icon position-relative primary-icon"
+                  pTooltip="Convert Schedule PPM To Work Order"
+                  appendTo="body"
+                  tooltipPosition="top"
+                ></i>
+              </span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>
