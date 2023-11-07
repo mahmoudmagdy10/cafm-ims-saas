@@ -1,0 +1,215 @@
+<div class="container">
+  <div class="card card-custom">
+    <!-- Header -->
+    <div class="card-header card-header-stretch align-items-center">
+      <div class="card-title m-0">
+        <i class="far fa-building fa-lg"></i>
+        <h4 class="fw-bolder mb-0 mx-2">
+          {{ "DASHBOARD.CARD_TITLE" | translate }}
+        </h4>
+      </div>
+
+      <div class="card-header-actions">
+        <div class="header-actions">
+          <app-view-data-filter [icon]="'pi pi-calendar'" [isClear]="false"
+            [componentType]="'dashboard'"></app-view-data-filter>
+          <button class="general-btn filter-btn mx-1" (click)="filter()">
+            <span class="filter-icon">
+              <i class="fas fa-filter"></i>
+            </span>
+            {{ "PREVENTIVE_TASKS_MANAGEMENT.FILTER" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Body -->
+
+    <div class="body">
+      <ng-container *ngIf="dataDashboard$ | async as dataDashboard">
+        <ng-container *ngIf="!dataDashboard?.loading; else loader">
+          <div class="row m-4" [sortablejs]="dataItems" [sortablejsOptions]="sortableOptions">
+            <!-- Total session card -->
+            <div class="col-lg-3 col-md-6 mb-4" style="cursor: pointer" *ngFor="let item of dataItems">
+              <div class="card custom-card shadow-sm">
+                <div class="custom-card-header bg-white text-dark pb-1 pt-2">
+                  <i class="fas fa-info-circle card-icon mx-1 text-primary"></i>
+                  <span>{{ item.title }}</span>
+                </div>
+                <div class="cards-body bg-white text-dark card-statistic">
+                  <h4 class="mb-2 fw-normal">{{ item.count_items }}</h4>
+                  <!-- <svg
+                width="50%"
+                viewBox="0 0 115 40.5"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1 35.6498L2.24444 32.4319C3.48889 29.214 5.97778 22.7782 8.46667 20.3627C10.9556 17.9473 13.4444 19.5522 15.9333 21.7663C18.4222 23.9803 20.9111 26.8035 23.4 30.6606C25.8889 34.5176 28.3778 39.4085 30.8667 37.2137C33.3556 35.0189 35.8444 25.7383 38.3333 26.3765C40.8222 27.0146 43.3111 37.5714 45.8 38.9013C48.2889 40.2311 50.7778 32.3341 53.2667 31.692C55.7556 31.0499 58.2444 37.6628 60.7333 39.4617C63.2222 41.2607 65.7111 38.2458 68.2 34.9205C70.6889 31.5953 73.1778 27.9597 75.6667 23.5955C78.1556 19.2313 80.6444 14.1385 83.1333 13.8875C85.6222 13.6365 88.1111 18.2272 90.6 20.2425C93.0889 22.2578 95.5778 21.6977 98.0667 18.8159C100.556 15.9341 103.044 10.7306 105.533 7.37432C108.022 4.01806 110.511 2.50903 111.756 1.75451L113 1"
+                  stroke-width="1px"
+                  stroke="blue"
+                ></path>
+              </svg> -->
+                  <!-- يمكنك إضافة المزيد من العناصر هنا إذا كنت بحاجة إلى عرض مزيد من البيانات -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <canvas #tasksChart width="600" height="400"></canvas> -->
+
+          <p-tabView *ngIf="dataDashboardReports?.length">
+            <p-tabPanel *ngFor="let item of dataDashboardReports" [header]="item?.groupName">
+              <section>
+                <div class="report-grid" [sortablejs]="item?.values" [sortablejsOptions]="sortableOptions">
+                  <div class="report-box" style="cursor: pointer"
+                    *ngFor="let report of item?.values; index as reportIndex" [ngClass]="{
+                      'full-width-chart': report?.size == 'full'
+                    }">
+                    <!-- DropDowns for Chart Selection -->
+
+                    <div class="d-flex justify-content-between report-title-box">
+                      <h2 class="report-title" style="font-size: 13px">
+                        {{ report.ReportName }}
+                      </h2>
+                      <div class="d-flex">
+                        <div class="col-12 col-md-2">
+
+                          <div class="form-group d-flex align-items-center">
+                            <i (click)="openDialog(report.dashBoardReportID)"
+                              class="fas fa-users fa-lg card-icon mx-1 mt-3 text-primary" tooltipposition="top"
+                              ptooltip="Team List"></i>
+                          </div>
+                        </div>
+                        <div class="mx-1">
+                          <p-dropdown [(ngModel)]="report.size" [options]="chartSizes" optionLabel="label"
+                            optionValue="value">
+                            <ng-template let-option pTemplate="selectedItem">
+                              <i style="color: #66a9ed" [ngClass]="{
+                                  'fa fa-expand': report.size === 'full',
+                                  'fas fa-compress': report.size === 'half'
+                                }"></i>
+                            </ng-template>
+
+                            <ng-template let-option pTemplate="options">
+                              <i style="color: #66a9ed" [ngClass]="{
+                                  'fa fa-expand': option.value === 'full',
+                                  'fas fa-compress': option.value === 'half'
+                                }"></i>
+                            </ng-template>
+                          </p-dropdown>
+                        </div>
+
+                        <div class="mx-1">
+                          <p-dropdown [(ngModel)]="report.chartTypeSelected" [options]="report.chartTypes"
+                            optionLabel="label" optionValue="value">
+                            <ng-template let-option pTemplate="selectedItem">
+                              <i style="color: #66a9ed" [ngClass]="{
+                                  'fab fa-codiepie fa-lg':
+                                    report.chartTypeSelected === 'pie',
+                                  'far fa-chart-bar fa-lg':
+                                    report.chartTypeSelected === 'Bar',
+                                  'pi pi-chart-line fa-lg':
+                                    report.chartTypeSelected === 'Line',
+                                  'fas fa-table fa-lg':
+                                    report.chartTypeSelected === 'Table'
+                                }"></i>
+                              <!-- {{ option.label }} -->
+                            </ng-template>
+                            <ng-template let-option pTemplate="optionChart">
+                              <i style="color: #66a9ed" [ngClass]="{
+                                  'fab fa-codiepie fa-lg':
+                                    option.value === 'pie',
+                                  'far fa-chart-bar fa-lg':
+                                    option.value === 'Bar',
+                                  'pi pi-chart-line fa-lg':
+                                    option.value === 'Line',
+                                  'fas fa-table fa-lg': option.value === 'Table'
+                                }"></i>
+                              <!-- {{ option.label }} -->
+                            </ng-template>
+                          </p-dropdown>
+                        </div>
+
+                        <div class="mx-1">
+                          <p-dropdown [(ngModel)]="report.selectedPercentageType" [options]="report.PercentageType"
+                            optionLabel="label" optionValue="value">
+                            <ng-template let-option pTemplate="option">
+                              <i style="color: #66a9ed" [ngClass]="{
+                                  'fas fa-percentage fa-lg':
+                                    option.value === 'Percentage',
+                                  'fa fa-hashtag': option.value === 'Numbers'
+                                }"></i>
+                              <!-- {{ option.label }} -->
+                            </ng-template>
+                            <ng-template let-option pTemplate="selectedItem">
+                              <i style="color: #66a9ed" [ngClass]="{
+                                  'fas fa-percentage fa-lg':
+                                    option.value === 'Percentage',
+                                  'fa fa-hashtag': option.value === 'Numbers'
+                                }"></i>
+                              <!-- {{ option.label }} -->
+                            </ng-template></p-dropdown>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mt-4">
+                      <!-- Line Chart -->
+                      <ng-container *ngIf="report?.chartTypeSelected === 'Line'">
+                                    <p-chart width="600" height="400" type="line" [data]="report.LineChartData"
+                          [options]="lineOptions"></p-chart>
+                      </ng-container>
+
+                      <!-- Pie and Doughnut Chart -->
+                      <ng-container *ngIf="report?.chartTypeSelected === 'pie'">
+                        <!-- <canvas #tasksChart width="600" height="400"></canvas> -->
+
+                        <p-chart width="300" height="300" #tasksChart type="doughnut" [data]="
+                            report.selectedPercentageType == 'Numbers'
+                              ? report.chartNumbers
+                              : report.chartPer
+                          " [options]="pieOptions"></p-chart>
+                      </ng-container>
+
+                      <!-- Bar Chart -->
+                      <ng-container *ngIf="report?.chartTypeSelected === 'Bar'">
+                        <!-- <h4 class="report-title">{{ report.ReportName }}</h4> -->
+                        <p-chart width="600" height="400" type="bar" [data]="
+                            report.selectedPercentageType == 'Numbers'
+                              ? report.chartNumbers
+                              : report.chartPer
+                          " [options]="barOptions"></p-chart>
+                      </ng-container>
+                      <!-- Table -->
+                      <!-- Table -->
+                      <ng-container *ngIf="report?.chartTypeSelected === 'Table'">
+                        <div style="width: 100%; height: 100%">
+                          <app-Table-dashboard [report]="report"></app-Table-dashboard>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </p-tabPanel> </p-tabView>
+        </ng-container></ng-container>
+    </div>
+  </div>
+</div>
+<ng-template #loader>
+  <div class="p-5 row">
+    <div class="col-12 col-md-6 col-lg-3 mt-5" *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8]">
+      <p-skeleton width="98%" height="100px"></p-skeleton>
+    </div>
+  </div>
+
+  <div class="p-5 row border border-ligh">
+    <div class="col-6 col-md-4 col-lg-1 mt-5" *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]">
+      <p-skeleton width="98%" height="30px"></p-skeleton>
+    </div>
+  </div>
+  <div class="p-5 row">
+    <div class="col-12 col-md-6 col-lg-3 mt-5" *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]">
+      <p-skeleton width="98%" height="400px"></p-skeleton>
+    </div>
+  </div>
+</ng-template>

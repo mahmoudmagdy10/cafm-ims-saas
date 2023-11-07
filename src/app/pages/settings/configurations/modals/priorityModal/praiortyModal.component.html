@@ -1,0 +1,148 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-filter mx-1"></i>
+    <!-- {{"ASSETS.FILTERSMODAL.MODALTITLE" | translate}} -->
+    {{
+      "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.PRAIORTYMODAL.MODALTITLE"
+        | translate
+    }}
+  </h5>
+
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+
+<!-- begin dialog body style="min-height: 360px; max-height: 360px; overflow-y: auto;" -->
+
+<div class="modal-body">
+  <div class="d-flex justify-content-end mb-2">
+    <button class="general-btn add-btn" (click)="addPriority()">
+      <i class="fas fa-plus"></i>
+      <span>
+        {{
+          "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.PRAIORTYMODAL.ADD" | translate
+        }}
+      </span>
+    </button>
+  </div>
+
+  <table
+    class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle vertical-align-middle fs-6"
+  >
+    <thead>
+      <tr class="fw-bolder fs-6 text-gray-800">
+        <th>#</th>
+        <th>
+          {{
+            "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.PRAIORTYMODAL.COLOR"
+              | translate
+          }}
+        </th>
+        <th>
+          {{
+            "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.PRAIORTYMODAL.NAME_EN"
+              | translate
+          }}
+        </th>
+        <th>
+          {{
+            "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.PRAIORTYMODAL.NAME"
+              | translate
+          }}
+        </th>
+        <!-- <th>
+          {{
+            "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.PRAIORTYMODAL.DEFAULTVALUES"
+              | translate
+          }}
+        </th> -->
+        <th>
+          {{
+            "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.PRAIORTYMODAL.PROCEDUERS"
+              | translate
+          }}
+        </th>
+      </tr>
+    </thead>
+
+    <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+      <tr
+        cdkDrag
+        cdkDragLockAxis="y"
+        *ngFor="let item of prioritys; index as i"
+      >
+        <td cdkDragHandle>
+          <span
+            style="
+              border: 1px solid #e1e1e1;
+              padding: 6px 10px;
+              background-color: #f5f8fa;
+              border-radius: 3px;
+              margin: 0;
+              cursor: all-scroll;
+            "
+          >
+            {{ i + 1 }}
+          </span>
+        </td>
+
+        <td>
+          <p-colorPicker [(ngModel)]="item.PriorityColor"></p-colorPicker>
+        </td>
+        <td>
+          <input
+            type="text"
+            [(ngModel)]="item.PriorityNameEn"
+            class="form-control form-control-sm"
+          />
+        </td>
+        <td>
+          <input
+            type="text"
+            [(ngModel)]="item.PriorityName"
+            class="form-control form-control-sm"
+          />
+        </td>
+        <td>
+          <i
+            (click)="
+              IndexRowDeleted = i;
+              IdRowDeleted = item.PriorityId;
+              confirmdeleteUser.openModal()
+            "
+            pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+            tooltipPosition="top"
+            class="fas fa-trash-alt action-icon delete-icon"
+          ></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- begin dialog body -->
+
+<!-- start footer -->
+<div class="modal-footer position-relative">
+  <button class="btn btn-primary" (click)="onSave()">
+    <i class="fas fa-save"></i>
+    {{ "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.PRAIORTYMODAL.SAVE" | translate }}
+  </button>
+
+  <button class="btn btn-sm btn-secondary" (click)="Close()">
+    <i class="fas fa-times"></i>
+    {{
+      "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.PRAIORTYMODAL.CANCEL" | translate
+    }}
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>
+<confirm-delete
+  #confirmdeleteUser
+  massage="{{ 'CONFIRMDELETE.FIELD' | translate }}"
+  (afterSave)="$event ? onDelete() : ''; confirmdeleteUser.CloseModal()"
+>
+</confirm-delete>

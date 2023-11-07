@@ -1,0 +1,564 @@
+<div class="card card-custom">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <i class="far fa-building fa-lg"></i>
+      <h4 class="fw-bolder mb-0 mx-2">
+        {{ "LOCATIONS_MANAGEMENT.CARD_HEADER" | translate }}
+      </h4>
+    </div>
+    <div class="card-header-actions">
+      <div class="card-header-actions d-none d-md-flex">
+        <div
+          *ngIf="ViewWay == 1"
+          class="card-header-actions d-flex align-items-center"
+        >
+          <button class="general-btn filter-btn mx-1" (click)="filter()">
+            <span>
+              <span><i class="fas fa-filter"></i></span>
+              <span>{{
+                "PREVENTIVE_TASKS_MANAGEMENT.FILTER" | translate
+              }}</span>
+            </span>
+          </button>
+        </div>
+        <div
+          class="add-user"
+          *ngIf="codes?.PagePermissions?.LocationsManagementEdit"
+        >
+          <!-- <button class="general-btn add-btn mx-2" (click)="openAddAsset(true)">
+            <i class="fas fa-plus"></i>
+            {{ "Add subLocation" | translate }}
+          </button> -->
+          <button (click)="showModalAdd()" class="general-btn add-btn">
+            <i class="fas fa-plus"></i>
+            {{ "LOCATIONS_MANAGEMENT.ADD_SITE" | translate }}
+          </button>
+        </div>
+        <button class="btn  btn-success mx-1" (click)="export()">
+          <span>
+            <i class="fas fa-upload fa-lg"></i>
+
+            {{ "ASSETS.ACTIONSONSELECTEDMENU.EXPORTDATA" | translate }}
+          </span>
+        </button>
+
+        <button
+          *ngIf="codes?.PagePermissions?.LocationsManagementDelete"
+          [disabled]="WorkOrderSelected.length == 0"
+          type="button"
+          class="btn  btn-danger"
+          data-bs-dismiss="modal"
+          (click)="DeleyeSelected.openModal()"
+        >
+          <span> {{ "GENERAL.DELETE_SELECTED" | translate }} </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- end::Header -->
+  <div class="card-body">
+    <!-- begin::Body -->
+    <div class="row mb-3 justify-content-end type-view">
+      <a
+        href="javascript:; "
+        [class]="ViewWay == 1 ? 'active' : ''"
+        style="width: unset"
+        (click)="ViewWay = 1"
+      >
+        {{ "ASSETS.DISPLAYASTABLE" | translate }}</a
+      >
+      <a
+        href="javascript:;"
+        style="width: unset"
+        [class]="ViewWay == 2 ? 'active' : ''"
+        (click)="ViewWay = 2"
+      >
+        {{ "ASSETS.DISPLAYASTREE" | translate }}</a
+      >
+    </div>
+    <ng-container *ngIf="DataLocation$ | async as DataLocation; else loading">
+      <ng-container *ngIf="ViewWay == 2">
+        <ng-container *ngIf="dataTree$ | async">
+          <app-view-as-tree
+            #TreeLocation
+            [RefreshAfterAdd]="true"
+            [FormDynamicField]="false"
+            [configApi]="{
+              apiGetTree: '/Assets/SubLocationTree',
+              apiGetChildren: '/Assets/SubLocationTreev1'
+            }"
+            [initialPerants]="initialPerants"
+            [setting]="{ ShowMethode: 'Close' }"
+            [isOutSideActionSelect]="true"
+            [permission]="
+              codes?.PagePermissions?.LocationsManagementEdit
+                ? { AssetsAdd: true, AssetsCard: true }
+                : codes?.PagePermissions?.LocationsManagementView
+                ? { AssetsAdd: false, AssetsCard: false }
+                : ''
+            "
+            [isLocationInAdd]="true"
+            (outSideActionSelect)="
+              codes?.PagePermissions?.LocationsManagementEdit
+                ? outSideActionSelect($event)
+                : codes?.PagePermissions?.LocationsManagementView
+                ? outSideActionSelect($event, true)
+                : ''
+            "
+          ></app-view-as-tree>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="ViewWay == 1">
+        <!-- <div class="table-responsive"> -->
+        <!--begin::Table-->
+        <!-- <div class="table-responsive"> -->
+        <!-- <div class="table table-rounded table-row-bordered border custom-table-style"> -->
+
+        <div class="table-responsive">
+          <div class="d-flex justify-content-start mb-3">
+            <app-view-data-filter
+              [componentType]="'locations'"
+            ></app-view-data-filter>
+          </div>
+          <table
+            class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle"
+          >
+            <thead class="fw-bolder">
+              <tr>
+                <th scope="col">#</th>
+                <th style="width: 17%">
+                  <input
+                    type="checkbox"
+                    class="form-check-input margin-end-1 custom-checkbox-style"
+                  />
+                  {{ "LOCATIONS_MANAGEMENT.SITE_NAME" | translate }}
+                </th>
+
+                <th scope="col">
+                  {{ "LOCATIONS_MANAGEMENT.USERS_NUMBER" | translate }}
+                </th>
+                <th scope="col">
+                  {{ "LOCATIONS_MANAGEMENT.SUB_LOCATION_NUMBER" | translate }}
+                </th>
+                <th scope="col">
+                  {{ "LOCATIONS_MANAGEMENT.ASSETS_NUMBER" | translate }}
+                </th>
+                <!-- <th scope="col">
+                  {{ "LOCATIONS_MANAGEMENT.CLIENT_ACCEPTANCE" | translate }}
+                </th> -->
+                <!-- <th scope="col">
+                  {{ "LOCATIONS_MANAGEMENT.FAULTS_NUMBER" | translate }}
+                </th> -->
+                <th scope="col">
+                  {{ "LOCATIONS_MANAGEMENT.ACTIONS" | translate }}
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let item of DataLocation?.Data; index as i">
+                <td>
+                  <span class="reorder-row-icon">
+                    {{ i + 1 + RowCount * (selectedPageLocations - 1) }}
+                  </span>
+                </td>
+                <td>
+                  <div class="d-flex">
+                    <input
+                      *ngIf="item.HasSubLocation !== 1"
+                      type="checkbox"
+                      style="margin-left: 15px"
+                      class="form-check-input margin-end-1 custom-checkbox-style"
+                      [(ngModel)]="item.checked"
+                      (click)="selectSubLocation($event, item)"
+                    />
+
+                    <div
+                      (click)="
+                        codes?.PagePermissions?.LocationsManagementEdit
+                          ? outSideActionSelect(item)
+                          : codes?.PagePermissions?.LocationsManagementView
+                          ? outSideActionSelect(item, true)
+                          : ''
+                      "
+                      class="locodes?.PagePermissions?.LocationsManagementEditcation d-flex align-items-center"
+                    >
+                      <div
+                        class="symbol symbol-35px symbol-circle me-2"
+                        [style.cursor]="'pointer'"
+                      >
+                        <div
+                          class="symbol-label"
+                          [style.background-image]="
+                            'url(' + Avatar + item?.ImagePath + ')'
+                          "
+                        ></div>
+                      </div>
+                      <a href="javascript:;">
+                        {{ item.title }}
+                      </a>
+                    </div>
+                  </div>
+                </td>
+
+                <td>
+                  <p-avatar
+                    *ngIf="
+                      codes?.PagePermissions?.LocationsManagementEdit &&
+                      item.type == 'loc'
+                    "
+                    (click)="
+                      usersByLocation(item.LocationId, item.LocationName)
+                    "
+                    icon="fa fa-user"
+                    pBadge
+                    [value]="item.UserCount"
+                    [severity]="item.UserCount > 0 ? 'success' : 'danger'"
+                    styleClass="mr-2"
+                    [style.cursor]="'pointer'"
+                  ></p-avatar>
+                </td>
+                <td>
+                  <p-avatar
+                    *ngIf="item.type == 'loc'"
+                    icon="far fa-building fa-lg"
+                    pBadge
+                    [value]="item.NumberOfSublocations"
+                    [severity]="
+                      item.NumberOfSublocations > 0 ? 'success' : 'danger'
+                    "
+                    styleClass="mr-2"
+                  ></p-avatar>
+                </td>
+                <!-- <td>{{ item.ClientAcceptanceRequied }}</td> -->
+                <!-- <td>{{ item.FaultsNumber }}</td> -->
+                <td>
+                  <p-avatar
+                    *ngIf="item.type == 'loc'"
+                    icon="fa fa-boxes"
+                    pBadge
+                    [value]="item?.AssestsCount"
+                    [severity]="item?.AssestsCount > 0 ? 'success' : 'danger'"
+                    styleClass="mr-2"
+                  ></p-avatar>
+                </td>
+                <td>
+                  <!-- <a href="javaScript;" class="px-2" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                <i class="fas fa-cog fa-lg" style="color:#1492E6;"></i>
+              </a>
+
+              <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 py-4 custom-menu"
+                data-kt-menu="true">
+                <div class="menu-item">
+                  <a (click)="showModalEditLoc()" class="menu-link">
+                    <i class="fas fa-edit" style="color:#009ef7;"></i> تعديل
+                  </a>
+
+                </div>
+                <div class="menu-item">
+                  <a (click)="showModalThemesEmails()" class="menu-link">
+                    <i class="fas fa-envelope-open-text" style="color:#009ef7;"></i> قالب البريد
+                  </a>
+                </div>
+                <div class="menu-item" *ngIf="item.IsDeleted">
+                  <a href="#" class="menu-link">
+                    <i class="fas fa-trash-alt" style="color: #d86363;"></i> حذف
+                  </a>
+                </div>
+
+              </div>
+   -->
+                  <div class="actions d-flex flex-nowrap">
+                    <!-- <div class="check-actions"> -->
+                    <!-- <div class="check-item"> -->
+                    <div style="width: 20%">
+                      <i
+                        *ngIf="
+                          codes?.PagePermissions?.LocationsManagementEdit &&
+                          item.type == 'loc'
+                        "
+                        class="mat-tooltip-trigger fa fa-cog action-icon edit-icon"
+                        (click)="LocationReportSetting(item.LocationId)"
+                        [pTooltip]="'Report_Managment' | translate"
+                        tooltipPosition="top"
+                      ></i>
+                    </div>
+                    <div style="width: 20%">
+                      <i
+                        *ngIf="codes?.PagePermissions?.LocationsManagementEdit"
+                        [ngClass]="{
+                          'bg bg-danger text text-white':
+                            item?.isEndDateCompleted
+                        }"
+                        class="mat-tooltip-trigger far fa-edit action-icon edit-icon"
+                        (click)="outSideActionSelect(item)"
+                        pTooltip="{{
+                          'LOCATIONS_MANAGEMENT.EDIT_SITE_DATA' | translate
+                        }}"
+                        tooltipPosition="top"
+                      ></i>
+                    </div>
+
+                    <!-- *ngIf="item.IsDeleted" -->
+                    <div style="width: 20%">
+                      <i
+                        *ngIf="
+                          codes?.PagePermissions?.LocationsManagementDelete
+                        "
+                        class="fas fa-trash-alt action-icon delete-icon"
+                        pTooltip="{{
+                          'LOCATIONS_MANAGEMENT.DELETE_SITE' | translate
+                        }}"
+                        (click)="
+                          confirmdeleteUser.openModal();
+                          LocationIdDeleted = item;
+                          LocationIdDeletedIndex = i
+                        "
+                        tooltipPosition="top"
+                      ></i>
+                    </div>
+
+                    <!-- </div> -->
+                    <!-- </div> -->
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <app-pagination-component
+            [Setting]="DataLocation?.Setting"
+            [(selectedPage)]="selectedPageLocations"
+            (selectedPageChange)="changeListPage()"
+            (selectedRowCount)="selectedRowCount($event)"
+          ></app-pagination-component>
+        </div>
+        <!-- </div> -->
+        <!-- </div> -->
+
+        <!-- </div> -->
+
+        <!-- </div> -->
+        <div>
+          <!-- <div class="spinner-overlay"> -->
+
+          <!-- </div> -->
+
+          <!-- <div class="users-info">
+            <h5>ما عليك سوى النقر فوق الأحرف الزرقاء في قائمة المواقع أدناه لبدء تحرير الموقع</h5>
+
+            <div class="total users"></div>
+        </div> -->
+
+          <!-- <div class="users-list locations">
+
+            <div class="table-header">
+
+
+                <div class="name">
+                    <h3>اسم الموقع</h3>
+                </div>
+
+                <div class="roles-items">
+                    <h3>خيارات</h3>
+                </div>
+
+            </div>
+            <div class="user">
+
+                <div class="name" (click)="showModalNameLoc()">
+                    <div class="location-name">
+                        <i class="fas fa-location-arrow"></i>
+                        <a>
+                            <h4>الموقع الأول</h4>
+                        </a>
+                    </div>
+
+                </div>
+
+
+
+                <div class="actions">
+                    <div class="check-actions">
+
+
+                        <div class="check-item">
+                            <button class="btn-check-two btn btn-icon  btn-custom-action" (click)="showModalEditLoc()" pTooltip="تعديل معلومات الموقع" tooltipPosition="top">
+                  <span class="action-icon">
+                    <i class="fas fa-edit"></i>
+                  </span>
+
+                </button>
+                        </div>
+
+                        <div class="check-item">
+                            <button class="btn-check-two btn btn-icon  btn-custom-action" (click)="showModalEmail()" pTooltip=" تحرير هذا الموقع الافتراضي لقالب البريد الإلكتروني الذي يظهر في WO / PM. افتراضيا هو قوالب التنبيه تعطل الجهاز" tooltipPosition="top">
+                  <span class="action-icon">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+
+                </button>
+                        </div>
+
+
+                        <div class="check-item remove">
+                            <button class="btn btn-icon btn-circle  sm-xtra btn-light-danger" (click)="showModalDelete()" pTooltip="حذف الموقع" tooltipPosition="top"><i
+                        class="far fa-trash-alt"></i></button>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+
+        </div> -->
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <!-- end::Body -->
+
+    <!-- begin::Footer -->
+    <!-- <div class="card-footer py-6">
+          <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-9">
+              <button
+                type="button"
+                (click)="submitPreview()"
+                class="btn btn-primary me-2"
+                [disabled]="configLoading || resetLoading"
+              >
+                <ng-container *ngIf="!configLoading">
+                  <span class="indicator-label">Preview</span>
+                </ng-container>
+
+                <ng-container *ngIf="configLoading">
+                  <span class="indicator-progress" [style.display]="'block'">
+                    Please wait...{{ " " }}
+                    <span
+                      class="spinner-border spinner-border-sm align-middle ms-2"
+                    ></span>
+                  </span>
+                </ng-container>
+              </button>
+
+              <button
+                type="button"
+                id="kt_layout_builder_reset"
+                class="btn btn-active-light btn-color-muted"
+                (click)="resetPreview()"
+                [disabled]="configLoading || resetLoading"
+              >
+                <ng-container *ngIf="!resetLoading">
+                  <span class="indicator-label">Reset</span>
+                </ng-container>
+
+                <ng-container *ngIf="resetLoading">
+                  <span class="indicator-progress" [style.display]="'block'">
+                    Please wait...{{ " " }}
+                    <span
+                      class="spinner-border spinner-border-sm align-middle ms-2"
+                    ></span>
+                  </span>
+                </ng-container>
+              </button>
+            </div>
+          </div>
+        </div> -->
+
+    <!-- end::Footer -->
+  </div>
+
+  <!--
+  <button (click)="confirm()" pButton icon="pi pi-check" label="Confirm"></button>
+                              <p-messages [value]="msgs"></p-messages> -->
+
+  <!-- <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog> -->
+  <p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    header="{{
+      'LOCATIONS_MANAGEMENT.ADDLOCATIONMODAL.MODALTITLE' | translate
+    }}"
+    [(visible)]="displayAdd"
+    [style]="{ width: '50vw' }"
+  >
+    <modalAddLocation
+      [Codes$]="CodeLocation$"
+      (afterSave)="displayAdd = false; getLocation()"
+      (cancel)="displayAdd = false"
+    >
+    </modalAddLocation>
+  </p-dialog>
+  <p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    header="{{ 'LOCATIONS_MANAGEMENT.DELETE_SITE' | translate }}"
+    [(visible)]="displayDelete"
+    [style]="{ width: '50vw' }"
+  >
+    <modalDelete></modalDelete>
+  </p-dialog>
+  <p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    header="البريد الالكتروني"
+    [(visible)]="displayEmail"
+    [style]="{ width: '50vw' }"
+  >
+    <modalEmail></modalEmail>
+  </p-dialog>
+
+  <p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    header="اسم الموقع"
+    [(visible)]="displayNameLoc"
+    [style]="{ width: '50vw' }"
+  >
+    <modalClickLocName></modalClickLocName>
+  </p-dialog>
+
+  <p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    header="اختر قالب البريد الإلكتروني"
+    [(visible)]="displayThemesEmails"
+    [style]="{ width: '60vw' }"
+  >
+    <modalThemesEmail></modalThemesEmail>
+  </p-dialog>
+  <!--           [disabled]="WorkOrderSelected.length == 0"
+ -->
+
+  <confirm-delete
+    #confirmdeleteUser
+    massage="{{ 'CONFIRMDELETE.LOCATION' | translate }}"
+    (afterSave)="
+      $event ? onDeleteLocation() : ''; confirmdeleteUser.CloseModal()
+    "
+  >
+  </confirm-delete>
+  <confirm-delete
+    #DeleyeSelected
+    massage="{{ 'CONFIRMDELETE.LOCATION' | translate }}"
+    (afterSave)="$event ? deletSelected() : ''; DeleyeSelected.CloseModal()"
+  >
+  </confirm-delete>
+  <ng-template #loading>
+    <mat-spinner style="margin-top: 100px"></mat-spinner
+  ></ng-template>
+</div>
+
+<ng-container *ngIf="getLocation$ | async as getLocation"></ng-container>

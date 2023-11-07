@@ -1,0 +1,1063 @@
+<div class="card card-custom" *ngIf="Codes$ | async as code">
+
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <i class="fas fa-cog fa-lg"></i>
+      <h4 class="fw-bolder mb-0 mx-2" translate="CONFIGRATION.CARD_HEADER"></h4>
+    </div>
+  </div>
+
+  <form class="form" [formGroup]="ConfigurationsForm">
+    <div class="card-body" *ngIf="DataConfig$ | async">
+      <p-accordion [multiple]="true">
+
+        <p-accordionTab [selected]="true" *ngIf="code?.PagePermissions?.GeneralSettings"
+          header="{{ 'CONFIGRATION.GENERAL_CONFIG.TAB_TITLE' | translate }}">
+          <div class="container mt-5">
+            <div class="row mb-5">
+              <label class="col-lg-2 col-form-label">{{
+                "CONFIGRATION.GENERAL_CONFIG.DEFAULT_LANGUAGE" | translate
+                }}:</label>
+              <div class="col-lg-4">
+                <!-- form-select-solid -->
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="LanguageCode">
+                    <option *ngFor="let item of code?.LanguageCode" [value]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+
+                  <!-- <span class="tooltip-item svg-icon svg-icon-1"
+                    [inlineSVG]="'./assets/media/icons/duotune/general/gen044.svg'" pTooltip="Click to procced"
+                    tooltipPosition="left" pTooltip="Click to proceed"></span> -->
+                </div>
+                <!-- <div class="form-text text-muted">اختيار اللغة الافتراضية للنظام</div> -->
+              </div>
+            </div>
+
+            <div class="row mb-5">
+              <label class="col-lg-2 col-form-label">
+                {{ "CONFIGRATION.GENERAL_CONFIG.CURRENCY" | translate }}:</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="CurrencyId" (change)="setNewCurancy(code?.CurrencyId)">
+                    <option *ngFor="let item of code?.CurrencyId" [value]="item.Code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="row mb-5">
+              <label class="col-lg-2 col-form-label">
+                {{
+                  "CONFIGRATION.GENERAL_CONFIG.FISCAL_YEAR" | translate
+                }}:</label
+              >
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <input
+                    formControlName="FisalYear"
+                    class="form-control m-input"
+                    type="datetime"
+                    bsDatepicker
+                  />
+
+                  <span
+                    class="tooltip-item svg-icon svg-icon-1"
+                    [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    "
+                    pTooltip="Click to procced"
+                    tooltipPosition="left"
+                  ></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-5">
+              <label class="col-lg-2 col-form-label">
+                {{
+                  "CONFIGRATION.GENERAL_CONFIG.START_WORKING_WEEK" | translate
+                }}:</label
+              >
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="WeekStartDay">
+                    <option
+                      *ngFor="let item of code?.WeekStartDay"
+                      [value]="item.Code"
+                    >
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span
+                    class="tooltip-item svg-icon svg-icon-1"
+                    [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    "
+                    pTooltip="Click to procced"
+                    tooltipPosition="left"
+                  ></span>
+                </div>
+              </div>
+            </div> -->
+
+            <!-- <div class="row mb-5">
+                    <label class="col-lg-3 col-form-label "> المواسم:</label>
+                    <div class="col-lg-9 col-xl-4">
+                      <div class="d-flex align-items-center">
+
+                      <div class="clicable-link">
+                        <a href="#">تخصيص</a>
+                      </div>
+                      <span
+                      class="tooltip-item svg-icon svg-icon-1"
+                      [inlineSVG]="'./assets/media/icons/duotune/general/gen044.svg'"  pTooltip="Click to procced" tooltipPosition="left"
+                    ></span>
+                      </div>
+
+
+                    </div>
+                  </div>
+
+                  <div class="row mb-5">
+                    <label class="col-lg-3 col-form-label "> الأجازات:</label>
+                    <div class="col-lg-9 col-xl-4">
+                      <div class="d-flex align-items-center">
+
+                      <div class="clicable-link">
+                        <a href="#">تخصيص</a>
+                      </div>
+                      <span
+                      class="tooltip-item svg-icon svg-icon-1"
+                      [inlineSVG]="'./assets/media/icons/duotune/general/gen044.svg'"  pTooltip="Click to procced" tooltipPosition="left"
+                    ></span>
+                      </div>
+
+
+                    </div>
+                  </div> -->
+          </div>
+        </p-accordionTab>
+
+        <p-accordionTab [selected]="true" *ngIf="code?.PagePermissions?.SecuritySettings"
+          header="{{ 'CONFIGRATION.SECURITY_CONFIG.TAB_TITLE' | translate }}">
+          <div class="container mt-5">
+            <!-- <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">
+                {{
+                  "CONFIGRATION.SECURITY_CONFIG.AUTO_LOG_OUT_AFTER" | translate
+                }}</label
+              >
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="AutoUsersLogout">
+                    <option [value]="0.5">{{ "30 min" }}</option>
+
+                    <option *ngFor="let item of dataTime" [value]="item">
+                      {{ item + "hr" }}
+                    </option>
+                  </select>
+                  <span
+                    class="tooltip-item svg-icon svg-icon-1"
+                    [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    "
+                    pTooltip="Click to procced"
+                    tooltipPosition="left"
+                  ></span>
+                </div>
+              </div>
+            </div> -->
+
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">{{
+                "CONFIGRATION.SECURITY_CONFIG.EXPIRES" | translate
+                }}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="AutoPasswordExpiration">
+                    <option [value]="0">
+                      {{
+                      "CONFIGRATION.SECURITY_CONFIG.SELECT.INACTIVE"
+                      | translate
+                      }}
+                    </option>
+                    <option [value]="30">
+                      {{
+                      "CONFIGRATION.SECURITY_CONFIG.SELECT.MONTH" | translate
+                      }}
+                    </option>
+                    <option [value]="90">
+                      {{
+                      "CONFIGRATION.SECURITY_CONFIG.SELECT.THREE_MONTH"
+                      | translate
+                      }}
+                    </option>
+                    <option [value]="180">
+                      {{
+                      "CONFIGRATION.SECURITY_CONFIG.SELECT.SIX_MONTH"
+                      | translate
+                      }}
+                    </option>
+                    <option [value]="360">
+                      {{
+                      "CONFIGRATION.SECURITY_CONFIG.SELECT.YEAR" | translate
+                      }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-5" *ngIf="
+                this.ConfigurationsForm.get('AutoPasswordExpiration')?.value !=
+                0
+              ">
+              <label class="col-lg-3 col-form-label">
+                {{
+                "CONFIGRATION.SECURITY_CONFIG.NOTIFICATION_FOR_RESET_PASSWORD"
+                | translate
+                }}
+              </label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="AutoPasswordExpirationNotification">
+                    <option [value]="5">
+                      {{
+                      "CONFIGRATION.SECURITY_CONFIG.SELECT.FIVE_DAYS"
+                      | translate
+                      }}
+                    </option>
+                    <option [value]="10">
+                      {{
+                      "CONFIGRATION.SECURITY_CONFIG.SELECT.TEN_DAYS"
+                      | translate
+                      }}
+                    </option>
+                    <option [value]="15">
+                      {{
+                      "CONFIGRATION.SECURITY_CONFIG.SELECT.FIFTEEN"
+                      | translate
+                      }}
+                    </option>
+                    <option [value]="20">
+                      {{
+                      "CONFIGRATION.SECURITY_CONFIG.SELECT.TWENTY" | translate
+                      }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-accordionTab>
+
+        <p-accordionTab *ngIf="code?.PagePermissions?.AssetSettings" [selected]="true"
+          header="{{ 'CONFIGRATION.VIEW_ASSETS_CONFIG.TAB_TITLE' | translate }}">
+          <div class="container mt-5">
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">
+                {{
+                "CONFIGRATION.VIEW_ASSETS_CONFIG.VIEW_ASSETS_WHEN_SELECT_ASSET"
+                | translate
+                }}
+              </label>
+              <div class="col-lg-4">
+                <!-- form-select-solid -->
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="AssetPickingShow">
+                    <option *ngFor="let item of code?.AssetPickingShow" [value]="item.code">
+                      {{ item.Name | translate }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">
+                {{
+                "CONFIGRATION.VIEW_ASSETS_CONFIG.RANKING_ASSETS" | translate
+                }}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="AssetPickingOrder">
+                    <option *ngFor="let item of code?.AssetPickingOrder" [value]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">
+                {{
+                "CONFIGRATION.VIEW_ASSETS_CONFIG.VIEW_ASSETS_TREE_IN_MANAGMENT_ASSETS"
+                | translate
+                }}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="AssetManagingShow">
+                    <option *ngFor="let item of code?.AssetManagingShow" [value]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-accordionTab>
+        <!-- <div class="tab-pane" [ngClass]="{ active: activeTab === 'Content' }">
+                  <div class="row mb-5">
+                    <label class="col-lg-3 col-form-label ">بدء عرض طلب العمل يبدأ ...</label>
+                    <div class="col-lg-9 col-xl-2">
+                      <div class="d-flex align-items-center">
+
+                        <select class="form-select"   >
+                          <option value="fluid">بسيط</option>
+                          <option value="fixed">افتراضي</option>
+                        </select>
+                        <span class="tooltip-item svg-icon svg-icon-1"
+                          [inlineSVG]="'./assets/media/icons/duotune/general/gen044.svg'" pTooltip="Click to procced"
+                          tooltipPosition="left"></span>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="row mb-5">
+                    <label class="col-lg-3 col-form-label ">بدء قالب أمر العمل ...</label>
+                    <div class="col-lg-9 col-xl-2">
+                      <div class="d-flex align-items-center">
+
+                        <select class="form-select"   >
+                          <option value="fluid">نموذج</option>
+                          <option value="fixed">افتراضي</option>
+                        </select>
+                        <span class="tooltip-item svg-icon svg-icon-1"
+                          [inlineSVG]="'./assets/media/icons/duotune/general/gen044.svg'" pTooltip="Click to procced"
+                          tooltipPosition="left"></span>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="row mb-5">
+                    <label class="col-lg-3 col-form-label ">بدء نوع أمر العمل ...</label>
+                    <div class="col-lg-9 col-xl-2">
+                      <div class="d-flex align-items-center">
+
+                        <select class="form-select"   >
+                          <option value="fluid">غير منظم</option>
+                          <option value="fixed">افتراضي</option>
+                        </select>
+                        <span class="tooltip-item svg-icon svg-icon-1"
+                          [inlineSVG]="'./assets/media/icons/duotune/general/gen044.svg'" pTooltip="Click to procced"
+                          tooltipPosition="left"></span>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="row mb-5">
+                    <label class="col-lg-3 col-form-label ">بدء تاريخ الاستحقاق الافتراضي لأمر العمل هو ...</label>
+                    <div class="col-lg-9 col-xl-3">
+                      <div class="d-flex align-items-center">
+
+                        <select class="form-select"   >
+                          <option value="fluid">اليوم الذي بدأت فيه</option>
+                          <option value="fixed">افتراضي</option>
+                        </select>
+                        <span class="tooltip-item svg-icon svg-icon-1"
+                          [inlineSVG]="'./assets/media/icons/duotune/general/gen044.svg'" pTooltip="Click to procced"
+                          tooltipPosition="left"></span>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="row mb-5">
+                    <label class="col-lg-3 col-form-label ">يطلب بدء طلب العمل أولاً تحديد أصل ...</label>
+                    <div class="col-lg-9 col-xl-2">
+                      <div class="d-flex align-items-center">
+                        <select class="form-select"   >
+                          <option value="fluid">دائماً</option>
+                          <option value="fixed">افتراضي</option>
+                        </select>
+                        <span class="tooltip-item svg-icon svg-icon-1"
+                          [inlineSVG]="'./assets/media/icons/duotune/general/gen044.svg'" pTooltip="Click to procced"
+                          tooltipPosition="left"></span>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div> -->
+
+        <p-accordionTab [selected]="true" *ngIf="code?.PagePermissions?.WorkOrderSettings" header="{{
+            'CONFIGRATION.MAINTENANCE_TASKS_CONFIG.TAB_TITLE' | translate
+          }}">
+          <div class="container mt-5">
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">
+                {{
+                "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.WOLOGTIMEDESCRIPTION"
+                | translate
+                }}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="WOLogTimeDescription">
+                    <option *ngFor="let item of code?.WOLogTimeDescription" [value]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">
+                {{
+                "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.WOCOMPLETIONNOTE"
+                | translate
+                }}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="WOCompletionNote">
+                    <option *ngFor="let item of code?.WOCompletionNote" [value]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">{{
+                "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.WOPARTPRICEPRINTING"
+                | translate
+                }}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="WOPartPricePrinting">
+                    <option *ngFor="let item of code?.WOPartPricePrinting" [value]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">{{
+                "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.WOEXTERNALCOMMENTNOTIFICATION"
+                | translate
+                }}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="WOExternalCommentNotification">
+                    <option *ngFor="let item of code?.WOExternalCommentNotification" [value]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">
+                {{
+                "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.WOLOGTIMEMETHOD"
+                | translate
+                }}
+              </label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="WOLogTimeMethod">
+                    <option *ngFor="let item of code?.WOLogTimeMethod" [value]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">
+                {{
+                "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.LONGTASKRATIO"
+                | translate
+                }}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="LongTaskRatio">
+                    <option *ngFor="let item of code?.LongTaskRatio" [value]="item.Code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"
+                    pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label"
+                translate="CONFIGRATION.MAINTENANCE_TASKS_CONFIG.WODEFAULTTEMPLATE"></label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="WODefaultTemplate">
+                    <option *ngFor="let item of code?.WODefaultTemplate" [value]="item.Code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1"
+                    [inlineSVG]="'./assets/media/icons/duotune/general/gen044.svg'"
+                    pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"
+                    pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label"
+                translate="CONFIGRATION.MAINTENANCE_TASKS_CONFIG.WODEFAULTDUEDATE"></label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="WODefaultDueDate">
+                    <option *ngFor="let item of code?.WODefaultDueDate" [value]="item.Code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"
+                    pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label" translate="Defualt_Response_On_Time_Hours"></label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="ResponseTime">
+                    <option *ngFor="let item of dataTime" [value]="item">
+                      {{ item }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"
+                    pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label"
+                translate="CONFIGRATION.MAINTENANCE_TASKS_CONFIG.PRIORITY_LEVEL"></label>
+              <div class="col-lg-4">
+                <a href="javascript:;" (click)="openPriorty()"
+                  translate="CONFIGRATION.MAINTENANCE_TASKS_CONFIG.PRIORITY_LEVEL">
+                </a>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label" translate="Reasons"></label>
+              <div class="col-lg-4">
+                <a href="javascript:;" (click)="openReasons()" translate="Reasons"></a>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">
+                {{
+                "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.TAGS_MANAGEMENT"
+                | translate
+                }}
+              </label>
+              <div class="col-lg-4">
+                <a href="javascript:;" (click)="openTags()">
+                  {{
+                  "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.TAGS_MANAGEMENT"
+                  | translate
+                  }}
+                </a>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">{{
+                "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.AVGPriceCalculationMethod"
+                | translate
+                }}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="AVGPriceCalculationMethod">
+                    <option *ngFor="let item of code?.AVGPriceCalculationMethod" [value]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"
+                    pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">{{
+                "CONFIGRATION.MAINTENANCE_TASKS_CONFIG.DOES_EVERY_JOB_REQUEST_REQUIRE_CLIENT_APPROVAL"
+                | translate
+                }}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="ClientAcceptanceRequied">
+                    <option *ngFor="let item of ClientAcceptanceRequied" [ngValue]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-accordionTab>
+
+        <p-accordionTab [selected]="true" *ngIf="code?.PagePermissions?.WorkRequestSettings" header="{{
+            'CONFIGRATION.MAINTENANCE_TASKS_REQUEST_CONFIG.TAB_TITLE'
+              | translate
+          }}">
+          <div class="container mt-5">
+            <div class="row mb-5">
+              <label class="col-lg-2 col-form-label">
+                {{
+                "CONFIGRATION.MAINTENANCE_TASKS_REQUEST_CONFIG.MAINTENANCE_TASKS_REQUEST"
+                | translate
+                }}
+              </label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="WRCaptchaStatus">
+                    <option *ngFor="let item of code?.WRCaptchaStatus" [value]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="row mb-5">
+                      <label class="col-lg-3 col-form-label ">تاريخ الاستحقاق الافتراضي لطلبات العمل هو ...</label>
+                      <div class="col-lg-9 col-xl-2">
+                        <div class="d-flex align-items-center">
+                          <select class="form-select"   >
+                            <option value="fluid">٠ يوم</option>
+                            <option value="fixed">١ يوم</option>
+                          </select>
+                          <span class="tooltip-item svg-icon svg-icon-1"
+                            [inlineSVG]="'./assets/media/icons/duotune/general/gen044.svg'" pTooltip="Click to procced"
+                            tooltipPosition="left"></span>
+                        </div>
+
+
+                      </div>
+                    </div> -->
+
+            <div class="row mb-5">
+              <label class="col-lg-2 col-form-label">
+                {{
+                "CONFIGRATION.MAINTENANCE_TASKS_REQUEST_CONFIG.WRREQUESTERVIEWSCOPE"
+                | translate
+                }}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="WRRequesterViewScope">
+                    <option *ngFor="let item of code?.WRRequesterViewScope" [value]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-5">
+              <label class="col-lg-2 col-form-label">{{
+                "CONFIGRATION.MAINTENANCE_TASKS_REQUEST_CONFIG.PARTCONSUMTIONMETHOD"
+                | translate
+                }}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="PartConsumtionMethod">
+                    <option *ngFor="let item of code?.PartConsumtionMethod" [value]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-5">
+              <label class="col-lg-2 col-form-label">{{
+                "CONFIGRATION.MAINTENANCE_TASKS_REQUEST_CONFIG.WRSIMILIARITYRATIO"
+                | translate
+                }}
+              </label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="WRSimiliarityRatio">
+                    <option *ngFor="let item of pesantAge" [value]="item">
+                      {{ item + "%" }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-5">
+              <label class="col-lg-2 col-form-label">{{
+                "CONFIGRATION.MAINTENANCE_TASKS_REQUEST_CONFIG.INSERTIONTEMPLATE"
+                | translate
+                }}</label>
+
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="InsertionTemplate">
+                    <option *ngFor="let item of code?.InsertionTemplate" [value]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+
+            <!--
+                              <div class="row mb-5">
+                                <label class="col-lg-3 col-form-label ">التعيين الافتراضي لطلبات العمل هو ...</label>
+                                <div class="col-lg-9 col-xl-4">
+                                  <div class="d-flex align-items-center">
+                                    <div class="text-mutted">
+                                      <h5>يجب تعيينها ضمن إعداد طلبات العمل</h5>
+                                    </div>
+                                    <span class="tooltip-item svg-icon svg-icon-1"
+                                      [inlineSVG]="'./assets/media/icons/duotune/general/gen044.svg'" pTooltip="Click to procced"
+                                      tooltipPosition="left"></span>
+                                  </div>
+
+
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="tab-pane" [ngClass]="{ active: activeTab === 'Footer1' }">
+                              <div class="row mb-5">
+                                <label class="col-lg-3 col-form-label ">استهلاك الأجزاء</label>
+                                <div class="col-lg-9 col-xl-3">
+                                  <div class="d-flex align-items-center">
+                                    <select class="form-select"   >
+                                      <option value="fluid">أول من يدخل</option>
+                                      <option value="fixed">آخر من يدخل</option>
+                                    </select>
+                                    <span class="tooltip-item svg-icon svg-icon-1"
+                                      [inlineSVG]="'./assets/media/icons/duotune/general/gen044.svg'" pTooltip="Click to procced"
+                                      tooltipPosition="left"></span>
+                                  </div>
+
+
+                                </div>
+                              </div>
+
+                              <div class="row mb-5">
+                                <label class="col-lg-3 col-form-label ">طلب استجابة لخفض كمية الأجزاء يدويًا</label>
+                                <div class="col-lg-9 col-xl-2">
+                                  <div class="d-flex align-items-center">
+                                    <select class="form-select"   >
+                                      <option value="fluid">غير مفعل</option>
+                                      <option value="fixed">مفعل</option>
+                                    </select>
+                                    <span class="tooltip-item svg-icon svg-icon-1"
+                                      [inlineSVG]="'./assets/media/icons/duotune/general/gen044.svg'" pTooltip="Click to procced"
+                                      tooltipPosition="left"></span>
+                                  </div>
+
+
+                                </div>
+                              </div>
+                  -->
+            <!-- end::Footer -->
+          </div>
+        </p-accordionTab>
+
+        <p-accordionTab [selected]="true" *ngIf="code?.PagePermissions?.ThemeSettings"
+          header="{{ 'CONFIGRATION.THEME_CONFIG.TAB_TITLE' | translate }}">
+          <div class="container mt-5">
+            <!-- <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">{{
+                "CONFIGRATION.THEME_CONFIG.THEME_SETTINGS" | translate
+              }}</label>
+              <div class="col-lg-9 col-xl-4">
+                <div class="d-flex align-items-center">
+                  <div class="clicable-link">
+                    <a href="#">{{
+                      "CONFIGRATION.THEME_CONFIG.THEME_SETTINGS" | translate
+                    }}</a>
+                  </div>
+                  <span
+                    class="tooltip-item svg-icon svg-icon-1"
+                    [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    "
+                    pTooltip="Click to procced"
+                    tooltipPosition="left"
+                  ></span>
+                </div>
+              </div>
+            </div> -->
+
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">{{
+                "CONFIGRATION.THEME_CONFIG.ADD_LOGO" | translate
+                }}</label>
+              <div class="col-lg-9 col-xl-4">
+                <div class="d-flex align-items-center">
+                  <div class="clicable-link">
+                    <input type="file" class="form-control" (change)="SaveLogo($event)" accept="image/png" />
+                  </div>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-accordionTab>
+
+        <p-accordionTab [selected]="true" *ngIf="code?.PagePermissions?.ThemeSettings"
+          header="{{ 'PPM_Task' | translate }}">
+          <div class="container mt-5">
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">
+                {{code?.PPMTaskNamingLabel?.[0]?.Name}}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="PPMTaskNameMethod">
+                    <option *ngFor="let item of code?.PPMTaskNaming" [ngValue]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1"
+                    [inlineSVG]="'./assets/media/icons/duotune/general/gen044.svg'"
+                    pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"
+                    pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container mt-5">
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">
+                {{code?.SchedulingOverlappingLabel?.[0]?.Name}}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="SchedulingOverlapping">
+                    <option *ngFor="let item of code?.SchedulingOverlapping" [value]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"
+                    pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container mt-5">
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">
+                {{code?.ItemsUsedCheckOverLabel?.[0]?.Name}}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="ItemsUsedCheckOver">
+                    <option *ngFor="let item of code?.ItemsUsedCheckOver" [value]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1" [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen044.svg'
+                    " pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"
+                    pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-accordionTab>
+
+        <p-accordionTab *ngIf="isSuperUser || isUserManagerOnLocation" [selected]="true"
+          header="{{ 'CONFIGRATION.soft_services.tab_title' | translate }}">
+          <div class="container mt-5">
+            <div class="row mb-5">
+              <label class="col-lg-3 col-form-label">
+                {{code?.isExtraServiceForAllLocationLabel?.[0]?.Name}}</label>
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center">
+                  <select class="form-select" formControlName="isExtraServiceForAllLocation">
+                    <option *ngFor="let item of extraServiceForAllLocation" [ngValue]="item.code">
+                      {{ item.Name }}
+                    </option>
+                  </select>
+                  <span class="tooltip-item svg-icon svg-icon-1"
+                    [inlineSVG]="'./assets/media/icons/duotune/general/gen044.svg'"
+                    pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}" tooltipPosition="left"
+                    pTooltip="{{ 'CLICK_TO_PROCEED' | translate }}"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-accordionTab>
+
+        <!-- <p-accordionTab [selected]="true" [header]="'backup' | translate">
+          <div class="container mt-5">
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label class="form-label">
+                    {{ "choose_location" | translate }}
+                  </label>
+                  <p-dropdown
+                    appendTo="body"
+                    class="custom-dropdown"
+                    [options]="locations"
+                    [formControl]="localionIdControl"
+                    [style]="{ minWidth: '130px', display: 'flex' }"
+                    optionLabel="LocationName"
+                    optionValue="LocationId"
+                    [placeholder]="'GENERAL.SELECT' | translate"
+                    [filter]="true"
+                    filterBy="name"
+                  >
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-6">
+                <div
+                  class="actions d-flex flex-nowrap"
+                  style="margin-top: 30px"
+                >
+                  <i
+                    *ngIf="!loadingBackup && localionIdControl.value"
+                    (click)="downloadBackupForLocation()"
+                    class="fas fa-file-download action-icon"
+                    tooltipPosition="top"
+                  ></i>
+                  <i class="action-icon" *ngIf="loadingBackup">
+                    <div
+                      class="spinner-border text-dark"
+                      style="width: 10px; height: 10px"
+                      role="status"
+                    >
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-accordionTab> -->
+      </p-accordion>
+    </div>
+    <!-- <div class="card-footer py-6">
+        <div class="row">
+          <div class="col-lg-3"></div>
+          <div class="col-lg-9">
+            <button
+              type="button"
+              (click)="submitPreview()"
+              class="btn btn-primary me-2"
+              [disabled]="configLoading || resetLoading"
+            >
+              <ng-container *ngIf="!configLoading">
+                <span class="indicator-label">Preview</span>
+              </ng-container>
+
+              <ng-container *ngIf="configLoading">
+                <span class="indicator-progress" [style.display]="'block'">
+                  Please wait...{{ " " }}
+                  <span
+                    class="spinner-border spinner-border-sm align-middle ms-2"
+                  ></span>
+                </span>
+              </ng-container>
+            </button>
+
+            <button
+              type="button"
+              id="kt_layout_builder_reset"
+              class="btn btn-active-light btn-color-muted"
+              (click)="resetPreview()"
+              [disabled]="configLoading || resetLoading"
+            >
+              <ng-container *ngIf="!resetLoading">
+                <span class="indicator-label">Reset</span>
+              </ng-container>
+
+              <ng-container *ngIf="resetLoading">
+                <span class="indicator-progress" [style.display]="'block'">
+                  Please wait...{{ " " }}
+                  <span
+                    class="spinner-border spinner-border-sm align-middle ms-2"
+                  ></span>
+                </span>
+              </ng-container>
+            </button>
+          </div>
+        </div>
+      </div> -->
+  </form>
+</div>

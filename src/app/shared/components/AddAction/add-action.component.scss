@@ -1,0 +1,27 @@
+.custom-datetime-picker {
+  position: relative;
+  display: inline-block;
+  width: 250px; /* Adjust the width as needed */
+
+  /* Optional: Adjust the font size and color */
+  font-size: 14px;
+  color: #333;
+}
+
+.custom-datetime-picker input {
+  padding-right: 24px; /* Reserve space for the datepicker toggle button */
+}
+
+.custom-datetime-picker .mat-form-field-underline {
+  display: none; /* Remove the default underline */
+}
+
+.custom-datetime-picker .mat-form-field-label {
+  color: #999; /* Color of the placeholder text */
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.custom-datetime-picker .mat-input-element {
+  /* Optional: Add custom styles for the input element */
+}

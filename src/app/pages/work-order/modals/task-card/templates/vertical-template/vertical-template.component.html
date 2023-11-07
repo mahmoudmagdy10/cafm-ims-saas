@@ -1,0 +1,110 @@
+<ng-container *ngIf="taskEdit$ | async as dataEdit">
+  <!-- ----------------------------------------------------- -->
+
+  <div class="tab-content mt-5" id="myTabContent">
+    <!-- بداية البيانات الاساسية -->
+    <p-accordion [multiple]="true">
+      <p-accordionTab
+        [selected]="true"
+        leftIcon="p-tabview-left-icon fa fa-database mx-1"
+        header="{{
+          'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.TAB_TITLE'
+            | translate
+        }}"
+      >
+        <app-informtion-basic
+          [dataEdit]="dataEdit"
+          [preview]="preview"
+        ></app-informtion-basic>
+      </p-accordionTab>
+      <!-- نهاية البيانات الاساسية -->
+
+      <!-- بداية التعليمات -->
+      <p-accordionTab
+        [selected]="true"
+        leftIcon="p-tabview-left-icon fa fa-clipboard mx-1"
+        header="{{
+          'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.TAB_TITLE'
+            | translate
+        }}"
+      >
+        <app-instructions
+          [dataEdit]="dataEdit"
+          [preview]="preview"
+        ></app-instructions>
+      </p-accordionTab>
+      <!-- نهاية التعليمات -->
+
+      <!-- بداية سجل الحركات -->
+      <p-accordionTab
+        [selected]="true"
+        leftIcon="p-tabview-left-icon fa fa-clipboard-list mx-1"
+        header="{{
+          'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MOVEMENTS_LEVEL_TAB.TAB_TITLE'
+            | translate
+        }}"
+      >
+        <app-movement-record
+          [dataEdit]="dataEdit"
+          [preview]="preview"
+        ></app-movement-record>
+      </p-accordionTab>
+      <!-- نهاية سجل الحركات -->
+
+      <!-- بداية زمن الصيانة -->
+      <!-- <p-accordionTab
+        [selected]="true"
+        leftIcon="p-tabview-left-icon p-element far fa-clock mx-1"
+        header="{{
+          'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MAINTENANCE_TIME_TAB.TAB_TITLE'
+            | translate
+        }}"
+      >
+        <app-maintenance-time
+          #maintenanceTime
+          [dataEdit]="dataEdit"
+          (timeConsuming)="timeConsuming.emit($event)"
+          [preview]="preview"
+        >
+        </app-maintenance-time>
+      </p-accordionTab> -->
+      <!-- نهاية زمن الصيانة -->
+
+      <!-- بداية / قطع الغيار المستخدمة في مهمة الصيانة -->
+      <p-accordionTab
+        [selected]="true"
+        leftIcon="p-tabview-left-icon fa fa-clipboard-list mx-1"
+        header="{{
+          'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.SPAREPARTS_USED_IN_MAINTENANCE_TAB.TAB_TITLE'
+            | translate
+        }}"
+      >
+        <app-spare-part-in-work-order
+          [dataEdit]="dataEdit"
+          [preview]="preview"
+        ></app-spare-part-in-work-order>
+      </p-accordionTab>
+      <!-- نهاية / قطع الغيار المستخدمة في مهمة الصيانة -->
+
+      <!-- بداية / طلبات الشراء -->
+      <!-- <p-accordionTab
+        [selected]="true"
+        leftIcon="p-tabview-left-icon fa fa-clipboard-list mx-1"
+        header="{{
+          'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.PURCHASE_ORDER_TAB.TAB_TITLE'
+            | translate
+        }}"
+      >
+        <app-purchase-order [dataEdit]="dataEdit"></app-purchase-order>
+      </p-accordionTab> -->
+      <!-- نهاية / طلبات الشراء -->
+
+      <p-accordionTab
+        [selected]="true"
+        header="{{ 'ASSETS.ASSETCARDMODAL.QRTAB.TABTITLE' | translate }}"
+      >
+        <QRCode [dataEdit]="dataEdit"></QRCode>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+</ng-container>

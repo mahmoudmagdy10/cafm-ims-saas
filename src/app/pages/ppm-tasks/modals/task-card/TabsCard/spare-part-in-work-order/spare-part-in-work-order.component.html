@@ -1,0 +1,136 @@
+<div class="table-responsive" *ngIf="codes$ |async as codes">
+  <div class="d-flex justify-content-end mb-3"  *ngIf="codes?.PagePermissions?.WorkOrdersEditSparePart">
+
+    <button class="btn  btn-primary" *ngIf="!preview" (click)="AddSparePart()">
+      <span>
+        <span><i class="fa fa-plus"></i></span>
+        <span>{{
+          "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_PURCHASE_ORDER.REQUEST_SPARE_PART"
+            | translate
+        }}</span>
+      </span>
+    </button>
+  </div>
+
+  <table
+    class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+  >
+    <thead>
+      <tr class="fw-bolder fs-6 text-gray-800">
+        <th>#</th>
+        <th>
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.SPAREPARTS_USED_IN_MAINTENANCE_TAB.PART_NAME"
+              | translate
+          }}
+        </th>
+        <th>
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.SPAREPARTS_USED_IN_MAINTENANCE_TAB.Parts_Number"
+              | translate
+          }}
+        </th>
+        <th>
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.SPAREPARTS_USED_IN_MAINTENANCE_TAB.STORE_QUANTITY"
+              | translate
+          }}
+        </th>
+        <th>
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.SPAREPARTS_USED_IN_MAINTENANCE_TAB.QUANTITY"
+              | translate
+          }}
+        </th>
+        <th>
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.SPAREPARTS_USED_IN_MAINTENANCE_TAB.Created_Date"
+              | translate
+          }}
+        </th>
+
+        <th>
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.SPAREPARTS_USED_IN_MAINTENANCE_TAB.Status"
+              | translate
+          }}
+        </th>
+        <th>{{ "GENERAL.PROCEDUERS" | translate }}</th>
+      </tr>
+    </thead>
+
+    <tbody *ngIf="this.dataEdit.WorkOrdersParts">
+      <tr *ngFor="let item of this.dataEdit.WorkOrdersParts; index as i">
+        <td>{{ i + 1 }}</td>
+        <!-- <td>{{ item.partId }}</td> -->
+        <!-- <td>
+          <i
+            class="fas fa-external-link-alt margin-end-1"
+            tooltipPosition="top"
+            pTooltip="{{ 'GENERAL.EXTERNAL_SERVICE' | translate }}"
+          ></i>
+        </td> -->
+
+        <td>
+          <a href="javascript:;" (click)="SparePartCard(item?.PartId)">
+            <span> {{ item.PartName }}</span>
+            <!-- <span class="serial-number-style">{{ item.PartNumber }}</span> -->
+          </a>
+        </td>
+
+        <td>{{ item.PartNumber }}</td>
+        <td>{{ item.InStockQuantity }}</td>
+        <td>{{ item.Quantity }}</td>
+
+        <!-- <td>
+          <input
+            type="text"
+            class="form-control form-control-sm w-70px"
+            [(ngModel)]="item.quantity"
+          />
+        </td> -->
+        <td>{{ item.CreatedDate | date : "dd/MM/yyyy HH:mm" }}</td>
+        <td>
+          <ng-container *ngIf="item?.isAccepted == null">
+            <span class="badge badge-info">Pending</span>
+          </ng-container>
+          <ng-container *ngIf="item?.isAccepted == 0">
+            <span class="badge badge-danger">Rejected</span>
+          </ng-container>
+          <ng-container *ngIf="item?.isAccepted == 1">
+            <span class="badge badge-success">Approved</span>
+          </ng-container>
+        </td>
+        <td>
+          <div  *ngIf="codes?.PagePermissions?.WorkOrdersEditSparePart">
+            <i
+              (click)="showWorkOrderPartTransList(item)"
+              class="fas fa-th-list action-icon"
+              tooltipPosition="top"
+              pTooltip="Show Transactions"
+            ></i>
+            <i
+              (click)="
+                PartId = item;
+                confirmdeleteSparePartWorkOrder.openModal()
+              "
+              class="fas fa-trash action-icon delete-icon"
+              tooltipPosition="top"
+              pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+            ></i>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<confirm-delete
+  #confirmdeleteSparePartWorkOrder
+  massage="{{ 'CONFIRMDELETE.TASK' | translate }}"
+  (afterSave)="
+    $event ? deleteSparePart() : '';
+    confirmdeleteSparePartWorkOrder.CloseModal()
+  "
+>
+</confirm-delete>

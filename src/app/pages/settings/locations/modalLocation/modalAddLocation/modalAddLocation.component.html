@@ -1,0 +1,66 @@
+<form class="mb-3" [formGroup]="form">
+  <!-- begin dialog body -->
+  <div class="modal-body" *ngIf="Codes$ | async as code">
+    <div class="row form-group">
+      <div class="col-12 col-lg-6 mb-4">
+        <label class="required mb-2 lableInputModle">{{
+          "LOCATIONS_MANAGEMENT.ADDLOCATIONMODAL.LOCATIONNAME" | translate
+        }}</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="locationName"
+        />
+      </div>
+
+      <div class="col-12 col-lg-6 mb-4">
+        <!-- <select name="role" data-control="select2" style="font-family:almarai!important;" data-hide-search="true"
+          class="form-select " formControlName='timeZoneId'>
+          <option *ngFor="let item of code.TimeZoneId" [value]="item.Code">{{item.Name}}</option>
+
+
+        </select> -->
+        <div class="form-group">
+          <label class="required mb-2 lableInputModle">{{
+            "LOCATIONS_MANAGEMENT.ADDLOCATIONMODAL.GEOLOCATION" | translate
+          }}</label>
+          <p-dropdown
+            appendTo="body"
+            [style]="{ minWidth: '130px', display: 'flex' }"
+            [filter]="true"
+            [options]="code.TimeZoneId"
+            formControlName="timeZoneId"
+            [placeholder]="'GENERAL.SELECT' | translate"
+            optionValue="Code"
+            optionLabel="Name"
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- begin dialog body -->
+
+  <!-- start footer -->
+  <div class="dialog-footer">
+    <div class="footer-actions">
+      <button
+        type="button"
+        (click)="onAddLocation()"
+        class="btn  btn-primary mx-2"
+      >
+        <i class="fas fa-save"></i>
+        {{ "GENERAL.CREATE" | translate }}
+      </button>
+
+      <button
+        (click)="onCancel()"
+        type="button"
+        class="btn  btn-secondary mx-2"
+      >
+        <i class="fas fa-times"></i>
+        {{ "LOCATIONS_MANAGEMENT.ADDLOCATIONMODAL.CANCEL" | translate }}
+      </button>
+    </div>
+  </div>
+  <!-- end footer -->
+</form>

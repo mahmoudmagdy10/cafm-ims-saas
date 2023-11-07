@@ -1,0 +1,292 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="far fa-plus-square mx-1"></i>
+
+    {{
+      data?.isLocation
+        ? ("Add_subLocation" | translate)
+        : ("Add_Asset" | translate)
+    }}
+  </h5>
+
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+
+<!-- begin dialog body -->
+<div
+  class="modal-body"
+  style="max-height: 78vh; overflow-y: auto"
+  *ngIf="codes$ | async as codes"
+>
+  <form [formGroup]="addAssetsForm">
+    <div class="row">
+      <div
+        class="col-12 col-md-3 add-asset-image-input"
+        (click)="openChooseImage()"
+      >
+        <div
+          class="image-input image-input-outline image-input-empty"
+          data-kt-image-input="true"
+        >
+          <div
+            class="image-input-wrapper"
+            [style.background-image]="
+              imageAsset || data?.isLocation
+                ? 'url(assets/media/avatars/location.png)'
+                : 'url(assets/media/avatars/factory-machine.png)'
+            "
+            style="width: 140px; height: 148px; background-size: contain"
+            [style.cursor]="'pointer'"
+          >
+            <img
+              style="
+                height: auto;
+                width: -webkit-fill-available;
+                display: block;
+              "
+              class="img-fluid"
+              [src]="imageAsset?.croppedImage"
+            />
+          </div>
+          <label
+            data-kt-image-input-action="change"
+            data-bs-toggle="tooltip"
+            title=""
+            data-bs-original-title="Change avatar"
+          >
+            <i class="bi bi-pencil-fill fs-7"></i>
+          </label>
+        </div>
+      </div>
+
+      <div class="col-md-9">
+        <div class="row">
+          <div class="col-12 col-lg-6 mb-3 mb-lg-0">
+            <label class="required mb-2 lableInputModle">
+              {{
+                data?.isLocation
+                  ? ("subLocation_Name" | translate)
+                  : ("Asset_Name" | translate)
+              }}
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="assetName"
+            />
+          </div>
+          <div class="col-12 col-lg-6 mb-3 mb-lg-0">
+            <label class="required mb-2 lableInputModle">
+              {{
+                data?.isLocation
+                  ? ("subLocation_Type" | translate)
+                  : ("Asset_Type" | translate)
+              }}
+            </label>
+            <p-dropdown
+              [placeholder]="'GENERAL.SELECT' | translate"
+              [options]="codes.Categories"
+              [style]="{ minWidth: '130px', display: 'flex' }"
+              optionLabel="name"
+              optionValue="code"
+              formControlName="categoryId"
+              [filter]="true"
+              filterBy="name"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="row mt-md-3">
+          <div class="col-12 col-lg-6 mb-3 mb-lg-0">
+            <label class="mb-2 lableInputModle">
+              {{ "ASSETS.ADDASSETMODAL.WEEKLYWORKINGHOURS" | translate }}
+            </label>
+            <input
+              type="number"
+              [min]="0"
+              class="form-control"
+              formControlName="weeklyOperationHours"
+            />
+          </div>
+          <div class="col-12 col-lg-6 mb-3 mb-lg-0" *ngIf="!isLocation">
+            <label class="mb-2 lableInputModle">
+              {{ "Assets_Cost" | translate }}
+            </label>
+            <input
+              type="number"
+              [min]="0"
+              class="form-control"
+              formControlName="assetCost"
+            />
+          </div>
+          <div class="col-12 col-lg-6 mt-3 mb-lg-0">
+            <div class="col-12 col-sm-6">
+              <div class="d-flex align-items-center">
+                <label class="mb-2 lableInputModle" style="min-width: 80px">
+                  {{ "ASSETS.ADDASSETMODAL.SUBORDINATETO" | translate }}
+                </label>
+                <ng-container
+                  *ngIf="!this.data?.isLocation; else locationOrSubLocationName"
+                >
+                  <button
+                    class="general-btn add-btn mx-2"
+                    (click)="opentree()"
+                    style="min-width: 110px"
+                  >
+                    <i class="fas fa-plus"></i>
+                    <span>{{
+                      perantName ||
+                        data?.ParentData?.AssetName ||
+                        ("ASSETS.ADDASSETMODAL.ADDPARENT" | translate)
+                    }}</span>
+                  </button>
+                  <i
+                    class="fas fa-sync-alt action-icon"
+                    (click)="reloadCodes()"
+                  ></i
+                ></ng-container>
+                <ng-template #locationOrSubLocationName>
+                  <span
+                    class="form-control form-control-solid"
+                    style="height: auto"
+                  >
+                    ({{
+                      data?.ParentData?.LocationName ||
+                        data?.ParentData?.AssetName ||
+                        data?.ParentData?.label
+                    }})
+                  </span>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row align-items-start">
+      <div class="col-12 col-md-12">
+        <label class="mb-2">
+          {{ "ASSETS.ADDASSETMODAL.MAINTENANCEREQUEST" | translate }}
+        </label>
+
+        <div class="form-group d-flex align-items-center">
+          <span class="form-control form-control-solid" style="height: 39.8px">
+            {{ ArrayToString(this.itemsCheckedTeams) }}
+            {{ ArrayToString(this.itemsCheckedUsers) }}
+          </span>
+          <i
+            (click)="openDialog()"
+            class="fa fa-plus action-icon add-icon"
+            tooltipPosition="top"
+            pTooltip="{{
+              'PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.ADD' | translate
+            }}"
+          ></i>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 my-3">
+        <!-- <label class="required mb-2 lableInputModle">
+          {{ "ASSETS.ADDASSETMODAL.ADDDATE" | translate }}
+        </label> -->
+
+        <div class="form-group">
+          <app-calender-feild
+            [label]="'ASSETS.ADDASSETMODAL.ADDDATE' | translate"
+            formControlName="insertedDate"
+            [placeholder]="'dd-mm-yy'"
+          ></app-calender-feild>
+          <!-- <input
+            formControlName="insertedDate"
+            class="form-control"
+            [matDatepicker]="picker"
+            type="datetime"
+            placeholder="dd-mm-yy"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker> -->
+        </div>
+      </div>
+      <div class="col-md-4 my-3">
+        <label class="mb-2 invisible"> test </label>
+        <div class="form-check form-check-custom form-check-solid">
+          <input
+            class="form-check-input custom-checkbox-style"
+            type="checkbox"
+            value=""
+            formControlName="isSimilarityContainer"
+            id="main-maintinance-container"
+          />
+          <label class="form-check-label" for="main-maintinance-container">
+            {{ "ASSETS.ADDASSETMODAL.MAINCONTAINER" | translate }}
+          </label>
+        </div>
+      </div>
+      <!--  -->
+      <!-- <div class="col-md-4 my-3">
+        <label class="mb-2 invisible"> test </label>
+        <div class="form-check form-check-custom form-check-solid">
+          <input
+            class="form-check-input custom-checkbox-style"
+            type="checkbox"
+            value=""
+            formControlName="isAsset"
+            id="main-maintinance-container"
+          />
+          <label class="form-check-label" for="main-maintinance-container">
+            {{ "ASSETS.ADDASSETMODAL.ASSETS" | translate }}
+          </label>
+        </div>
+      </div> -->
+    </div>
+
+    <div class="col-md-12 my-3">
+      <label class="mb-2 lableInputModle">
+        {{ "ASSETS.ADDASSETMODAL.ADDITIONALINFO" | translate }}
+      </label>
+      <textarea
+        class="form-control"
+        rows="4"
+        formControlName="notes"
+      ></textarea>
+    </div>
+  </form>
+</div>
+<!-- begin dialog body -->
+
+<!-- <div class="dialog-footer">
+  <div class="footer-actions">
+
+    <button class="btn  btn-primary mx-2 pe-2">
+      <i class="fas fa-save ms-2"></i>
+      حفظ
+    </button>
+
+    <button class="btn  btn-secondary mx-2 pe-2"><i class="fas fa-times ms-2"></i> إلغاء</button>
+
+  </div>
+</div> -->
+
+<div class="modal-footer position-relative">
+  <button type="button" class="btn btn-primary" (click)="onSave()">
+    <i class="fa fa-save"></i>
+    <span> {{ "GENERAL.CREATE" | translate }} </span>
+  </button>
+  <button
+    type="button"
+    class="btn  btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <i class="fa fa-times"></i>
+    <span> {{ "ASSETS.ADDASSETMODAL.CANCEL" | translate }} </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

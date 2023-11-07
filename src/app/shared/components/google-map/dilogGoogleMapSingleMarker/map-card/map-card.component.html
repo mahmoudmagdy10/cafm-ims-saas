@@ -1,0 +1,93 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title d-flex align-items-center">
+    <i class="fas fa-map-marker-alt margin-end-1"></i>
+    {{ "SHARED.MAP_MODAL.MODALTITLE" | translate }}
+
+    <ng-container *ngIf="!data?.canNotEdit">
+      <div class="mx-3">
+        <input
+          style="width: 100px"
+          type="number"
+          class="form-control"
+          placeholder="Lat"
+          [formControl]="latControl"
+        />
+      </div>
+
+      <div class="mx-3">
+        <input
+          style="width: 100px"
+          type="number"
+          class="form-control"
+          placeholder="Lng"
+          [formControl]="lngControl"
+        />
+      </div>
+      <div class="mx-3">
+        <i
+          class="fas fa-plus text-white action-icon btn-success"
+          (click)="addPoint()"
+        ></i>
+      </div>
+    </ng-container>
+  </h5>
+  <div class="mx-3">
+    <!--begin::Close-->
+    <div class="close">
+      <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+    </div>
+    <!--end::Close-->
+  </div>
+</div>
+<!-- begin dialog body -->
+
+<div class="modal-body">
+  <app-google-map
+    #googleMap
+    [option]="{
+      Longitude: +data.Longitude,
+      Latitude: +data.Latitude,
+      Zoom: +data.Zoom,
+      Name: data.Name,
+      CenterLongitude: +data?.CenterLongitude,
+      CenterLatitude: +data?.CenterLatitude
+    }"
+    [canNotEdit]="data?.canNotEdit"
+    [infoWindowContext]="data?.infoWindowContext"
+  ></app-google-map>
+</div>
+<!-- begin dialog body -->
+
+<!-- start footer -->
+<div class="modal-footer position-relative">
+  <button
+    *ngIf="!data?.canNotEdit"
+    type="button"
+    class="btn btn-primary"
+    (click)="onSave()"
+  >
+    <i class="fa fa-save"></i>
+    <span>{{ "SHARED.MAP_MODAL.SAVE" | translate }}</span>
+  </button>
+
+  <button
+    type="button"
+    data-bs-dismiss="modal"
+    class="btn  btn-light"
+    (click)="Close()"
+  >
+    <i class="fa fa-times"></i>
+    <span>{{ "SHARED.MAP_MODAL.CANCEL" | translate }}</span>
+  </button>
+  <button
+    *ngIf="!data?.canNotEdit"
+    type="button"
+    data-bs-dismiss="modal"
+    class="btn  btn-danger"
+    (click)="remove()"
+  >
+    <span>{{ "Remove" | translate }}</span>
+  </button>
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>
+<!-- end footer -->

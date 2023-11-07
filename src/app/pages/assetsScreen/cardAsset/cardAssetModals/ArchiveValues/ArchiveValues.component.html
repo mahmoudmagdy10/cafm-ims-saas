@@ -1,0 +1,79 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="far fa-plus-square margin-end-1"></i>
+    ارشيف القيم
+  </h5>
+
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon"></i>
+  </div>
+  <!--end::Close-->
+</div>
+<div class="row mb-3">
+
+  <div class="col-12 col-md-6">
+    <ol class="breadcrumb breadcrumb-line text-muted fs-6 fw-bold">
+      <li class="breadcrumb-item"><a href="javascript:;" class="px-2"> السعر</a></li>
+      <li class="breadcrumb-item px-2 text-muted">لابتوب</li>
+    </ol>
+  </div>
+
+  <div class="col-12 col-md-6 d-flex justify-content-end">
+    <a href="javascript:;">
+      عرض كجدول
+      عرض كرسم بياني
+    </a>
+  </div>
+
+</div>
+
+<!-- begin dialog body -->
+
+
+<div class="col-12 col-md-6">
+  <input type="text" placeholder="{{ 'USERS.FLTERMODAL.SEARCH' | translate }}"
+    class="form-control form-conrol-solid mb-2">
+</div>
+
+<table class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6">
+  <thead class="fw-bolder">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col"> تاريخ التعديل </th>
+      <th scope="col"> القيمة </th>
+      <th scope="col"> اسم المستخدم </th>
+      <th scope="col"> مهمة الصيانة </th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td> 1 </td>
+      <td> 22-1-2022 </td>
+      <td> 60$ </td>
+      <td> احمد </td>
+      <td> المهمة رقم 6 </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<div class="chart">
+  <img src="./assets/media/chart3.png" alt="" width=" 100%" height="200px">
+</div>
+<!-- begin dialog body -->
+
+
+<!-- begin dialog footer -->
+<div class="dialog-footer">
+  <div class="footer-actions">
+
+    <button class="btn  btn-secondary">
+      <i class="fa fa-times"></i>
+      <span>إلغاء</span>
+    </button>
+
+  </div>
+</div>
+<!-- end dialog footer -->

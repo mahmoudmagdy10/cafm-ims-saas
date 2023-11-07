@@ -1,0 +1,49 @@
+.filter-items-container {
+  display: flex;
+  align-items: center;
+  margin: 0 2px;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  padding: 5px 15px;
+  background-color: #5797dd;
+  border: 1px solid rgb(212, 212, 212);
+  border-radius: 5px;
+  margin-left: 5px;
+  transition: all 0.4s ease;
+  color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #9db8d4;
+  }
+}
+
+.filter-item .icon {
+  margin-right: 5px;
+  margin-left: 5px;
+  font-size: 15px;
+  color: #fff !important;
+
+}
+
+.filter-label {
+  // color: rgb(148, 148, 148);
+  margin-right: 3px;
+}
+
+.filter-field {
+  font-weight: bold;
+  margin-right: 10px; /* adjust if you want space between items */
+}
+
+.delete-icon {
+  cursor: pointer;
+  margin-right: 10px; /* ensures some space between the delete icon and filter item */
+
+  &:hover {
+    color: rgb(204, 48, 48);
+  }
+}

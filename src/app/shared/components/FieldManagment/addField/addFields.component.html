@@ -1,0 +1,346 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="far fa-plus-square margin-end-1"></i>
+    {{ "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.MODALTITLE" | translate }}
+  </h5>
+  <!-- (click)="Close()" -->
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="this.Close('')"></i>
+  </div>
+  <!--end::Close-->
+</div>
+
+<div class="modal-body" style="max-height: 80vh; overflow-y: auto">
+  <div class="row">
+    <!-- field types -->
+    <div
+      class="col-12 col-lg-3 d-flex flex-wrap justify-content-center d-lg-block mb-3 mb-lg-0 border-lg-start"
+    >
+      <div
+        class="mx-1"
+        [ngClass]="item.checked ? 'field-type active' : 'field-type'"
+        *ngFor="let item of codes.FieldTypes"
+        (click)="selectFieldType(item.code)"
+      >
+        <span class="field-name">
+          <icon-field [TypeField]="item.code" class="margin-end-1"></icon-field>
+          {{ item.name }}
+        </span>
+        <i *ngIf="item.checked" class="fas fa-check active"></i>
+      </div>
+    </div>
+
+    <!-- field options -->
+    <ng-container *ngIf="Loading$() | async; else AddField">
+      <p-progressSpinner [style]="{ width: '40px' }"></p-progressSpinner>
+    </ng-container>
+
+    <ng-template #AddField>
+      <div class="col-12 col-lg-9" [formGroup]="formAddField">
+        <div class="row mb-3">
+          <div class="col-12 col-md-6 mb-3 mb-md-0">
+            <label class="required form-label">
+              {{ "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.NAME" | translate }}
+            </label>
+            <textarea
+              class="form-control"
+              style="height: 10%"
+              rows="3"
+              formControlName="Name"
+            ></textarea>
+            <!-- <input type="text" formControlName="Name" class="form-control" /> -->
+          </div>
+
+          <div class="col-12 col-md-6 mb-3 mb-md-0">
+            <label for="" class="required form-label">
+              {{
+                "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.GATEGORIES"
+                  | translate
+              }}
+            </label>
+            <p-dropdown
+              appendTo="body"
+              [options]="codes.Categories"
+              [style]="{ minWidth: '130px', display: 'flex' }"
+              optionLabel="name"
+              optionValue="code"
+              formControlName="ComponentCategoryId"
+              [filter]="true"
+              [placeholder]="'GENERAL.SELECT' | translate"
+              filterBy="name"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+        <ng-container
+          *ngIf="
+            service.ComponentType != 'IncidentReports' &&
+            service.ComponentType != 'Store' &&
+            service.ComponentType != 'Vendors'
+          "
+        >
+          <!-- <div class="row mb-3">
+            <div
+              class="col-12 col-md-4 mb-3 mb-md-0"
+              *ngIf="IdFieldSelected != 5 && IdFieldSelected != 6"
+            >
+              <div
+                class="form-check form-check-custom form-check-solid form-check-sm"
+              >
+                <input
+                  class="form-check-input custom-checkbox-style"
+                  type="checkbox"
+                  formControlName="ReplacedInChildren"
+                  id="ReplacedInChildren"
+                />
+                <label class="form-check-label" for="ReplacedInChildren">
+                  {{
+                    "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.COPYVALUETOCHILDREN"
+                      | translate
+                  }}
+                </label>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-4 mb-3 mb-md-0">
+              <div
+                class="form-check form-check-custom form-check-solid form-check-sm"
+              >
+                <input
+                  class="form-check-input custom-checkbox-style"
+                  type="checkbox"
+                  formControlName="DisplayedInTasks"
+                  id="DisplayedInTasks"
+                />
+                <label class="form-check-label" for="DisplayedInTasks">
+                  {{
+                    "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.VIEWINMAINTENANCETASK"
+                      | translate
+                  }}
+                </label>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-4 mb-3 mb-md-0">
+              <div
+                class="form-check form-check-custom form-check-solid form-check-sm"
+              >
+                <input
+                  class="form-check-input custom-checkbox-style"
+                  type="checkbox"
+                  formControlName="AutoAdded"
+                  id="AutoAdded"
+                />
+                <label class="form-check-label" for="AutoAdded">
+                  {{
+                    "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.AUTOADDTOASSET"
+                      | translate
+                  }}
+                </label>
+              </div>
+            </div>
+          </div> -->
+
+          <!-- <div class="row mb-3">
+            <div class="col-12 col-md-4 mb-3 mb-md-0">
+              <div
+                class="form-check form-check-custom form-check-solid form-check-sm"
+              >
+                <input
+                  class="form-check-input custom-checkbox-style"
+                  type="checkbox"
+                  formControlName="IsShown"
+                  id="IsShown"
+                />
+                <label class="form-check-label" for="IsShown">
+                  {{
+                    "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.HOWTOADMIN"
+                      | translate
+                  }}
+                </label>
+              </div>
+            </div>
+            <div class="col-12 col-md-4 mb-3 mb-md-0">
+              <div
+                class="form-check form-check-custom form-check-solid form-check-sm"
+              >
+                <input
+                  class="form-check-input custom-checkbox-style"
+                  type="checkbox"
+                  formControlName="IsShowInGrid"
+                  id="IsShowInGrid"
+                />
+                <label class="form-check-label" for="IsShowInGrid">
+                  {{
+                    "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.DISPLAYINTABLE"
+                      | translate
+                  }}
+                </label>
+              </div>
+            </div>
+            <div
+              class="col-12 col-md-4 mb-3 mb-md-0"
+              *ngIf="IdFieldSelected == 1 || IdFieldSelected == 2"
+            >
+              <div
+                class="form-check form-check-custom form-check-solid form-check-sm"
+              >
+                <input
+                  class="form-check-input custom-checkbox-style"
+                  type="checkbox"
+                  formControlName="IsUnique"
+                  id="IsUnique"
+                />
+                <label class="form-check-label" for="IsUnique">
+                  {{
+                    "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.UNIQUE"
+                      | translate
+                  }}
+                </label>
+              </div>
+            </div>
+
+            <div
+              class="col-12 col-md-4 mb-3 mb-md-0"
+              *ngIf="IdFieldSelected == 3"
+            >
+              <div
+                class="form-check form-check-custom form-check-solid w-150px"
+              >
+                <input
+                  class="form-check-input custom-checkbox-style"
+                  (change)="CheckedRemmeber($event)"
+                  type="checkbox"
+                  value=""
+                  id=""
+                />
+                <label class="form-check-label" for="">
+                  {{
+                    "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.REMIND"
+                      | translate
+                  }}
+                </label>
+                <input
+                  type="text"
+                  formControlName="ReminderDaysBefore"
+                  class="form-control form-control-solid form-control-sm mx-3"
+                />
+                <label class="form-label">
+                  {{
+                    "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.DAYS" | translate
+                  }}
+                </label>
+              </div>
+            </div>
+          </div> -->
+        </ng-container>
+        <div class="row" *ngIf="IdFieldSelected == 7">
+          <div class="col-12 col-md-6 mb-3 mb-md-0">
+            <div class="add-new-value my-3">
+              <div
+                (click)="Additem(item)"
+                class="add-new-value-header d-flex align-items-center"
+              >
+                <span>
+                  {{
+                    "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.AVAILABLEVAULUES"
+                      | translate
+                  }}
+                </span>
+                <i class="fas fa-plus action-icon add-icon mx-3"></i>
+              </div>
+
+              <div class="col-12 mt-3 d-flex align-items-center">
+                <span class="option-row">{{ numitem }}</span>
+                <div class="new-value">
+                  <form [formGroup]="formAddItem">
+                    <input
+                      type="text"
+                      #item
+                      formControlName="item"
+                      class="form-control form-control-sm form-control-solid mx-2"
+                      style="width: 95%"
+                    />
+                  </form>
+                </div>
+                <i
+                  pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+                  tooltipPosition="top"
+                  class="fas fa-trash-alt action-icon delete-icon"
+                ></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <table
+              class="table my-3 table-rounded table-row-bordered table-border custom-table-style"
+            >
+              <thead class="fw-bolder">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">
+                    {{
+                      "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.AVAILABLEVAULUES"
+                        | translate
+                    }}
+                  </th>
+                  <th scope="col">
+                    {{
+                      "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.PROCEDURE"
+                        | translate
+                    }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+                <tr
+                  cdkDrag
+                  cdkDragLockAxis="y"
+                  *ngFor="let item of Dataitem; index as i"
+                >
+                  <td cdkDragHandle>
+                    <span
+                      style="
+                        border: 1px solid #e1e1e1;
+                        padding: 6px 10px;
+
+                        border-radius: 3px;
+                        margin: 0;
+                        cursor: all-scroll;
+                      "
+                      ><i class="fas fa-bars"></i
+                    ></span>
+                  </td>
+                  <td>{{ item.OptionName }}</td>
+                  <td>
+                    <i
+                      pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+                      tooltipPosition="top"
+                      (click)="onDeleteData(i)"
+                      class="fas fa-trash-alt action-icon delete-icon"
+                    ></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<div class="modal-footer position-relative">
+  <button class="btn btn-primary" (click)="addFields()">
+    <i class="fas fa-save"></i>
+    {{ "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.ADD" | translate }}
+  </button>
+
+  <button class="btn btn-sm btn-secondary" (click)="this.Close('')">
+    <i class="fas fa-times"></i>
+    {{ "ASSETS.FIELDMANAGEMENTMODAL.ADDFIELDMODAL.CANCEL" | translate }}
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

@@ -1,0 +1,363 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-filter mx-1"></i>
+    {{
+      "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.MODAL_TITLE" | translate
+    }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body" *ngIf="Codes$ | async as code">
+  <form [formGroup]="FormFilter">
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.TASK_NUMBER"
+              | translate
+          }}
+        </label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="TaskNumber"
+        />
+      </div>
+      <!-- اسم المستخدم -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{ "Assigned_To" | translate }}
+        </label>
+        <p-dropdown
+          appendTo="body"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          class="custom-dropdown"
+          [style]="{ minWidth: '130px', display: 'flex' }"
+          optionLabel="Name"
+          optionValue="Code"
+          formControlName="UserID"
+          [options]="code.LocationUsers"
+        >
+        </p-dropdown>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.TASK_STATUS"
+              | translate
+          }}
+        </label>
+        <select formControlName="ShowLate" class="mat-select">
+          <option value="">{{ "GENERAL.SELECT" | translate }}</option>
+          <option value="1" *ngIf="!isCompleted">
+            {{ "DASHBOARD.LATE_TASKS_NUMBER" | translate }}
+          </option>
+          <option value="2">
+            {{ "DASHBOARD.COMPLETED_TASKS_NUMBER" | translate }}
+          </option>
+        </select>
+      </div>
+      <!-- [showClear]="true" -->
+
+      <!-- اسم المهمة -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.TASK_NAME"
+              | translate
+          }}
+        </label>
+        <input type="text" class="form-control" formControlName="TaskName" />
+      </div>
+
+      <!-- درجة الأهمية -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.PRIORITY_LEVEL"
+              | translate
+          }}
+        </label>
+        <p-dropdown
+          appendTo="body"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          [style]="{ minWidth: '130px', display: 'flex' }"
+          optionLabel="Name"
+          optionValue="code"
+          formControlName="PriorityId"
+          [options]="code.PriorityId"
+        >
+        </p-dropdown>
+      </div>
+
+      <!-- حالة المهمة -->
+      <!-- <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.TASK_STATUS"
+              | translate
+          }}
+        </label>
+        <p-dropdown
+          appendTo="body"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          [style]="{ minWidth: '130px', display: 'flex' }"
+          optionLabel="Name"
+          optionValue="code"
+          formControlName="TaskStatusId"
+          [options]="code.TaskStatusId"
+        >
+        </p-dropdown>
+      </div> -->
+
+      <!-- نوع المهمة -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.TASK_TYPE"
+              | translate
+          }}
+        </label>
+        <p-dropdown
+          appendTo="body"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          [style]="{ minWidth: '130px', display: 'flex' }"
+          optionLabel="Name"
+          optionValue="Code"
+          formControlName="TaskTypeId"
+          [options]="code.TaskTypeId"
+        >
+        </p-dropdown>
+      </div>
+
+      <!-- تاريخ الاستحقاق من -->
+      <!-- *ngIf="!isShedule" -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <!-- <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.DUE_TO_DATE_FROM"
+              | translate
+          }}
+        </label> -->
+
+        <div class="form-group custom-datepicker">
+          <app-calender-feild
+            [label]="
+              'PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.DUE_TO_DATE_FROM'
+                | translate
+            "
+            formControlName="FromDueDate"
+            [placeholder]="'dd-mm-yy'"
+          ></app-calender-feild>
+          <!-- <input
+            class="form-control"
+            [matDatepicker]="pickerStartDate"
+            type="datetime"
+            placeholder="dd-mm-yy"
+            formControlName="FromDueDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerStartDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerStartDate></mat-datepicker> -->
+        </div>
+      </div>
+
+      <!-- تاريخ الاستحقاق الى -->
+      <!-- *ngIf="!isShedule" -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <app-calender-feild
+          [label]="
+            'PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.DUE_TO_DATE_TO'
+              | translate
+          "
+          formControlName="ToDueDate"
+          [placeholder]="'dd-mm-yy'"
+          [minDate]="FormFilter.get('FromDueDate')?.value!"
+        ></app-calender-feild>
+        <!-- <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.DUE_TO_DATE_TO"
+              | translate
+          }}
+        </label>
+
+        <div class="form-group custom-datepicker">
+          <input
+            class="form-control"
+            [matDatepicker]="pickerToDate"
+            type="datetime"
+            placeholder="dd-mm-yy"
+            formControlName="ToDueDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerToDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerToDate></mat-datepicker>
+        </div> -->
+      </div>
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{ "PREVENTIVE_TASKS_MANAGEMENT.CREATED_BY" | translate }}
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="CreatedByName"
+        />
+      </div>
+      <div
+        *ngIf="isCompleted"
+        class="col-12 col-md-6 col-lg-4 mb-3"
+        style="display: flex; align-items: end"
+      >
+        <app-calender-feild
+          [label]="'Complete Date From' | translate"
+          formControlName="CompletionDateFrom"
+          [placeholder]="'dd-mm-yy'"
+        ></app-calender-feild>
+      </div>
+      <div
+        *ngIf="isCompleted"
+        class="col-12 col-md-6 col-lg-4 mb-3"
+        style="display: flex; align-items: end"
+      >
+        <app-calender-feild
+          [label]="'Complete Date To' | translate"
+          formControlName="CompletionDateTo"
+          [placeholder]="'dd-mm-yy'"
+        ></app-calender-feild>
+      </div>
+      <div
+        *ngIf="isCompleted"
+        class="col-12 col-md-6 col-lg-4 mb-3"
+        style="display: flex; align-items: end"
+      ></div>
+      <!-- مدة الصيانة من -->
+      <div class="col-12 col-md-6 col-lg-3 mb-3" *ngIf="isCompleted">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.MAINTENANCE_DURATION_DATE_FROM"
+              | translate
+          }}
+        </label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="FromMaintenanceDuration"
+        />
+      </div>
+
+      <!-- مدة الصيانة الى -->
+      <div class="col-12 col-md-6 col-lg-3 mb-3" *ngIf="isCompleted">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.MAINTENANCE_DURATION_DATE_TO"
+              | translate
+          }}
+        </label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="ToMaintenanceDuration"
+        />
+      </div>
+
+      <!-- مدة العطل من -->
+      <div class="col-12 col-md-6 col-lg-3 mb-3" *ngIf="isCompleted">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.BROKEN_DURATION_DATE_FROM"
+              | translate
+          }}
+        </label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="FromDamageDuration"
+        />
+      </div>
+      <!-- مدة العطل الى -->
+      <div class="col-12 col-md-6 col-lg-3 mb-3" *ngIf="isCompleted">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.BROKEN_DURATION_DATE_TO"
+              | translate
+          }}
+        </label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="ToDamageDuration"
+        />
+      </div>
+
+      <div class="col-12 col-md-12" *ngIf="isCompleted">
+        <label class="mb-2">
+          {{ "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.ASSET" | translate }}
+        </label>
+
+        <div class="form-group d-flex align-items-center">
+          <span
+            class="form-control form-control-solid"
+            style="min-height: 39.8px"
+          >
+            {{ AssetSelected }}
+          </span>
+          <i
+            (click)="opentree(code.AssetId)"
+            class="fa fa-plus action-icon add-icon"
+            tooltipPosition="top"
+            pTooltip="{{
+              'PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.ADD' | translate
+            }}"
+          ></i>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer position-relative">
+  <button
+    type="button"
+    (click)="onSearch()"
+    class="btn btn-primary"
+    data-bs-dismiss="modal"
+  >
+    <span>
+      <span> <i class="fa fa-search"></i> </span>
+      <span>
+        {{
+          "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.SEARCH" | translate
+        }}
+      </span>
+    </span>
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span>
+        {{
+          "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.CANCEL" | translate
+        }}
+      </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

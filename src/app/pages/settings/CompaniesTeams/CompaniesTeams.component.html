@@ -1,0 +1,204 @@
+<div class="card card-custom">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <i class="fas fa-users fa-lg"></i>
+      <h4 class="fw-bolder mb-0 mx-2">
+        {{ "WORKTEAMS.CARDHEADER" | translate }}
+      </h4>
+    </div>
+    <div class="card-header-actions">
+      <div class="add-team">
+        <button
+          *ngIf="PagePermissions?.TeamsEdit"
+          class="general-btn add-btn"
+          (click)="onAddCompaniesTeams()"
+        >
+          <i class="fas fa-plus"></i> {{ "WORKTEAMS.ADDTEAM" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- end::Header -->
+  <!-- begin::Body -->
+  <div class="card-body">
+    <div class="row mb-5">
+      <div class="col-lg-4 mb-5">
+        <div class="teams-list">
+          <div class="title justify-content-between">
+            <div class="d-flex">
+              <i class="fas fa-user-tag fa-lg"></i>
+              <h5 class="mx-2 mb-0">{{ "WORKTEAMS.TEAMSLIST" | translate }}</h5>
+            </div>
+            <p-badge value="{{CompaniesTeams.length}}" size="large"></p-badge>
+          </div>
+          <div class="team-items">
+            <div *ngIf="loading; else mainForm">
+              <!-- <mat-spinner></mat-spinner> -->
+              <!-- <p-progressSpinner [style]="{width: '40px'}"></p-progressSpinner> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 mb-5">
+        <div *ngIf="loadingPer; else perForm">
+          <!-- <mat-spinner></mat-spinner> -->
+          <div class="spinner-overlay">
+            <mat-spinner></mat-spinner>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end::Body -->
+</div>
+
+<div>
+  <p-toast position="bottom-left"></p-toast>
+
+  <ng-template #mainForm>
+    <div #teamContainer class="teams-container">
+      <div
+        *ngFor="let item of CompaniesTeams; index as i"
+        [ngClass]="item.checked ? 'team active' : 'team'"
+      >
+        <div
+          class="team-name"
+          (click)="
+            indexTeamEditName = i;
+            GetDataById(item.ID, item.TeamName);
+            item.checked = true;
+            TeamSelected = item
+          "
+        >
+          <p class="mb-0 px-2">{{ item?.TeamName }}</p>
+        </div>
+        <!-- readOnlyCheak(item.RoleStatus) -->
+        <div class="team-actions text-start">
+          <a *ngIf="PagePermissions?.TeamsEdit" class="d-inline-block" (click)="CopyTeam(item)">
+            <i
+              class="fas fa-clone action-icon copy-icon"
+              tooltipPosition="top"
+              pTooltip="{{ 'WORKTEAMS.COPYTEAMSETTING' | translate }}"
+            ></i>
+          </a>
+          <a
+            class="d-inline-block"
+            [hidden]="item?.RoleStatus"
+            *ngIf="PagePermissions?.TeamsDelete"
+            (click)="
+              deleteTeamId = item.ID;
+              deleteTeamIdIndex = i;
+              confirmdeleteRole.openModal()
+            "
+          >
+            <i
+              class="fas fa-trash-alt action-icon delete-icon"
+              tooltipPosition="top"
+              pTooltip="{{ 'WORKTEAMS.DELETETEAM' | translate }}"
+            ></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #perForm>
+    <div class="teams-details">
+      <div class="title">
+        <i class="fas fa-cog fa-lg"></i>
+        <h5 class="mx-2 mb-0">{{ "WORKTEAMS.MEMBERSDETAILS" | translate }}</h5>
+      </div>
+
+      <div class="team-info">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="">
+              <label class="form-label">{{
+                "WORKTEAMS.EDITTEAMNAME" | translate
+              }}</label>
+              <input
+                type="text"
+                class="form-control"
+                (blur)="EditNameTeam()"
+                [formControl]="TeamName"
+              />
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="">
+              <label class="form-label">{{
+                "WORKTEAMS.SEARCH" | translate
+              }}</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="searchedKeyword"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- (blur)="autoEditPer()" -->
+        <div class="teams-component">
+          <div class="teams-group">
+            <table
+              class="table table-rounded table-row-bordered border custom-table-style table-hover team-members-table"
+            >
+              <thead class="fw-bolder">
+                <tr>
+                  <th class="w-30px">#</th>
+                  <th>
+                    <div class="form-check form-check-custom form-check-solid">
+                      <h5 class="mx-2 mb-0">
+                        {{ "WORKTEAMS.MEMBERS" | translate }}
+                      </h5>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr
+                  *ngFor="
+                    let item of dataMenuMember | filter: searchedKeyword;
+                    let i = index
+                  "
+                >
+                <span class="reorder-row-icon">
+                  {{ i + 1 }}
+                </span>
+
+                  <td>
+                    <div
+                      class="form-check form-check-custom form-check-solid"
+                      (change)="autoChecked($event, item)"
+                    >
+                      <input
+                        [disabled]="!PagePermissions?.TeamsEdit"
+                        type="checkbox"
+                        class="form-check-input custom-checkbox-style"
+                        [checked]="item.checked"
+                        id="{{ i }}"
+                      />
+                      <label class="mx-2 cursor-pointer" for="{{ i }}">
+                        {{ item?.Name }}
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <confirm-delete
+    #confirmdeleteRole
+    massage="{{ 'CONFIRMDELETE.TEAM' | translate }}"
+    (afterSave)="$event ? deleteTeam() : ''; confirmdeleteRole.CloseModal()"
+  >
+  </confirm-delete>
+</div>

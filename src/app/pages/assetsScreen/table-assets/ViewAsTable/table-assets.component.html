@@ -1,0 +1,300 @@
+<div class="my-2">
+  <app-view-data-filter [componentType]="'Asset'"></app-view-data-filter>
+</div>
+<ng-container *ngIf="ViewWay == 1">
+  <div class="table-responsive">
+    <table
+      class="table table-rounded table-row-bordered border custom-table-style"
+    >
+      <thead class="fw-bolder">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col" style="width: 30%">
+            <input
+              type="checkbox"
+              class="form-check-input custom-checkbox-style mx-2"
+              [checked]="checkedAll"
+              (change)="CheckAll($event); checkedAll = !checkedAll"
+            />
+            {{ "ASSETS.ASSETNAME" | translate }}
+          </th>
+          <th scope="col" style="width: 20%">
+            {{ "ASSETS.LOCATIONNAME" | translate }}
+          </th>
+
+          <th scope="col">
+            {{ "ASSETS.ASSETTYPE" | translate }}
+          </th>
+          <th scope="col">{{ "ASSETS.HOURSNUMBER" | translate }}</th>
+          <th scope="col" *ngFor="let obj of feildsViewInTable">
+            {{ obj.Name }}
+          </th>
+          <th scope="col">{{ "ASSETS.PROCEDURES" | translate }}</th>
+        </tr>
+      </thead>
+      <ng-container
+        *ngIf="assetsService.LoadingAssets$ | async; else bodyTableAsset"
+      >
+        <p-progressSpinner [style]="{ width: '100px' }"></p-progressSpinner>
+      </ng-container>
+      <ng-template #bodyTableAsset>
+        <tbody *ngIf="Assets$ | async as list">
+          <tr
+            style="vertical-align: middle"
+            *ngFor="let itemAssets of list.Data; index as i"
+          >
+            <td>{{ i + 1 + (RowCount$ | async) * (selectedPage - 1) }}</td>
+            <td>
+              <div class="location d-flex align-items-center">
+                <input
+                  *ngIf="itemAssets.isAsset"
+                  type="checkbox"
+                  class="form-check-input custom-checkbox-style mx-2"
+                  [checked]="itemAssets?.checked"
+                  (change)="selectAsset($event, itemAssets, i)"
+                />
+
+                <div
+                  class="symbol symbol-35px symbol-circle border border-secondary me-2"
+                  [style.cursor]="'pointer'"
+                  (click)="assetCard(itemAssets)"
+                >
+                  <div
+                    class="symbol-label"
+                    [style.background-image]="
+                      itemAssets?.ImagePath
+                        ? 'url(' + Avatar + itemAssets?.ImagePath + ')'
+                        : ''
+                    "
+                  ></div>
+                </div>
+                <a href="javascript:;" (click)="assetCard(itemAssets)">
+                  {{ itemAssets.AssetName }}
+                </a>
+              </div>
+            </td>
+            <td>{{ itemAssets.FirstParentName }}</td>
+            <td>
+              <p-badge
+                [value]="itemAssets.CategoryName"
+                severity="info"
+                size="large"
+              ></p-badge>
+            </td>
+            <td>
+              <p-avatar
+                icon="pi pi-clock"
+                pBadge
+                [value]="itemAssets.WeeklyOperationHours || 0"
+                styleClass="mr-2"
+              ></p-avatar>
+            </td>
+            <td *ngFor="let obj of feildsViewInTable">
+              {{ ValueField(obj.ID, itemAssets.Fields) }}
+            </td>
+            <td>
+              <div class="d-flex flex-nowrap">
+                <i
+                  class="fa fa-list-alt action-icon"
+                  (click)="
+                    code?.PagePermissions?.AssetsAdd &&
+                      moveOnWorkOrderForAsset(itemAssets.ID)
+                  "
+                  pTooltip="{{ 'ASSETS.TASKS_FOR_THIS_ASSET' | translate }}"
+                  tooltipPosition="top"
+                ></i>
+                <i
+                  *ngIf="code?.PagePermissions?.AssetsAdd"
+                  class="fa fa-plus action-icon add-icon"
+                  pTooltip="{{ 'ASSETS.ADDCHILD' | translate }}"
+                  tooltipPosition="top"
+                  (click)="AddChildAsset(itemAssets.ID)"
+                ></i>
+                <i
+                  class="fas fa-trash-alt action-icon delete-icon"
+                  pTooltip="{{ 'ASSETS.DELETEASSET' | translate }}"
+                  tooltipPosition="top"
+                  *ngIf="
+                    code?.PagePermissions?.AssetsDelete && itemAssets.isAsset
+                  "
+                  (click)="
+                    confirmdeleteAsset.openModal();
+                    assetIdDeleted = itemAssets.ID
+                  "
+                ></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </ng-template>
+    </table>
+  </div>
+
+  <div
+    *ngIf="listPagination.length > 1"
+    class="d-flex justify-content-center align-items-center flex-wrap"
+  >
+    <div class="d-flex flex-wrap py-2 mr-3">
+      <span *ngIf="floatsltr">
+        <i
+          class="pi pi-angle-double-left cursor-pointer"
+          style="
+            font-size: 1.5rem;
+            border: solid 1px;
+            border-radius: 5px;
+            padding: 5px;
+          "
+          (click)="selectPage('backAll')"
+        ></i>
+      </span>
+      <span *ngIf="floatsrtl">
+        <i
+          class="pi pi-angle-double-right cursor-pointer"
+          style="
+            font-size: 1.5rem;
+            border: solid 1px;
+            border-radius: 5px;
+            padding: 5px;
+          "
+          (click)="selectPage('backAll')"
+        ></i>
+      </span>
+    </div>
+    <div class="d-flex flex-wrap py-2 mr-3">
+      <button
+        class="btn pagination-btn btn-primary mx-1 my-1"
+        (click)="selectPage('back')"
+        [disabled]="selectedPage == 1"
+      >
+        <i class="{{ 'GENERAL.GO_BACK' | translate }}"></i>
+      </button>
+      <button
+        *ngFor="
+          let item of listPagination
+            | slice
+              : (selectedPage > 4 ? selectedPage - 3 : 0)
+              : selectedPage + 4
+        "
+        (click)="selectPage(item)"
+        [ngClass]="
+          selectedPage == item
+            ? 'btn pagination-btn btn-sm border-0 btn-primary btn-hover-primary active mx-1 my-1'
+            : 'btn pagination-btn btn-sm border-0 btn-light mx-1 my-1'
+        "
+      >
+        {{ item }}
+      </button>
+
+      <button
+        class="btn pagination-btn btn-primary mx-1 my-1"
+        (click)="selectPage('next')"
+        [disabled]="selectedPage == listPagination.length"
+      >
+        <i class="{{ 'GENERAL.GO_FORWARD' | translate }}"></i>
+      </button>
+    </div>
+    <div class="d-flex flex-wrap py-2 mr-3">
+      <span *ngIf="floatsltr">
+        <i
+          class="pi pi-angle-double-right cursor-pointer"
+          style="
+            font-size: 1.5rem;
+            border: solid 1px;
+            border-radius: 5px;
+            padding: 5px;
+          "
+          (click)="selectPage('nextAll')"
+        ></i>
+      </span>
+      <span *ngIf="floatsrtl">
+        <i
+          class="pi pi-angle-double-left cursor-pointer"
+          style="
+            font-size: 1.5rem;
+            border: solid 1px;
+            border-radius: 5px;
+            padding: 5px;
+          "
+          (click)="selectPage('nextAll')"
+        ></i>
+      </span>
+    </div>
+  </div>
+</ng-container>
+
+<app-view-as-tree
+  [showFilter]="true"
+  #viewAsTree
+  [hidden]="ViewWay != 2"
+></app-view-as-tree>
+
+<app-display-as-map [hidden]="ViewWay != 4"></app-display-as-map>
+<confirm-delete
+  #confirmdeleteAsset
+  massage="{{ 'CONFIRMDELETE.ASSET' | translate }}"
+  (afterSave)="$event ? deleteAsset() : ''; confirmdeleteAsset.CloseModal()"
+>
+</confirm-delete>
+<table
+  #TABLE
+  [hidden]="true"
+  class="table table-rounded table-row-bordered border custom-table-style"
+>
+  <thead class="fw-bolder">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">
+        {{ "ASSETS.ASSETNAME" | translate }}
+      </th>
+      <th scope="col">{{ "ASSETS.ASSETTYPE" | translate }}</th>
+      <th scope="col">{{ "ASSETS.HOURSNUMBER" | translate }}</th>
+      <th scope="col" *ngFor="let obj of DataFeild$ | async">
+        {{ obj.Name }}
+      </th>
+    </tr>
+  </thead>
+
+  <tbody *ngIf="TableExcel$ | async as list">
+    <tr
+      style="vertical-align: middle"
+      *ngFor="let itemAssets of list.Data; index as i"
+    >
+      <td>{{ i + 1 }}</td>
+      <td>
+        <div class="location d-flex align-items-center">
+          <input
+            type="checkbox"
+            class="form-check-input custom-checkbox-style mx-2"
+            [checked]="itemAssets?.checked"
+            (change)="selectAsset($event, itemAssets, i)"
+          />
+
+          <div
+            class="symbol symbol-35px symbol-circle border border-secondary me-2"
+            [style.cursor]="'pointer'"
+            (click)="assetCard(itemAssets)"
+          >
+            <div
+              class="symbol-label"
+              [style.background-image]="
+                itemAssets?.ImagePath
+                  ? 'url(' + Avatar + itemAssets?.ImagePath + ')'
+                  : ''
+              "
+            ></div>
+          </div>
+          <a href="javascript:;" (click)="assetCard(itemAssets)">
+            {{ itemAssets.AssetName }}
+          </a>
+        </div>
+      </td>
+      <td>
+        {{ itemAssets.CategoryName }}
+      </td>
+      <td>{{ itemAssets.WeeklyOperationHours }}</td>
+      <td *ngFor="let obj of DataFeild$ | async">
+        {{ ValueField(obj.ID, itemAssets.Fields) }}
+      </td>
+    </tr>
+  </tbody>
+</table>

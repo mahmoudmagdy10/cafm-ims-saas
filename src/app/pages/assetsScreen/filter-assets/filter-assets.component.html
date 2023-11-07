@@ -1,0 +1,223 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-filter mx-1"></i>
+    {{ "ASSETS.FILTERSMODAL.MODALTITLE" | translate }}
+  </h5>
+
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+
+<!-- begin dialog body style="min-height: 360px; max-height: 360px; overflow-y: auto;" -->
+
+<div class="modal-body" *ngIf="codes$ | async as code">
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-12 col-md-4">
+        <div class="form-group mb-5">
+          <label class="form-label">
+            {{ "ASSETS.FILTERSMODAL.ASSETNAME" | translate }}
+          </label>
+          <input type="text" class="form-control" formControlName="AssetName" />
+        </div>
+
+        <div class="form-group mb-5">
+          <label class="form-label">
+            {{ "ASSETS.FILTERSMODAL.FIELDTYPE" | translate }}
+          </label>
+          <p-dropdown
+            appendTo="body"
+            class="custom-dropdown"
+            [options]="code?.Categories"
+            [style]="{ minWidth: '130px', display: 'flex' }"
+            optionLabel="name"
+            optionValue="code"
+            [placeholder]="'GENERAL.SELECT' | translate"
+            [filter]="true"
+            filterBy="name"
+            formControlName="AssetType"
+          >
+          </p-dropdown>
+        </div>
+        <!-- The association of assets with PM-->
+        <div class="form-group mb-5">
+          <label class="mb-2">{{
+            "THE_ASSOCIATION_OF_ASSETS_WITH_PM" | translate
+          }}</label>
+          <div class="d-flex align-items-center">
+            <select class="form-select" formControlName="isUnssignAssetId">
+              <option
+                *ngFor="let item of isUnssignAssetId"
+                [ngValue]="item.code"
+              >
+                {{ item.Name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <!-- <div class="form-group">
+          <label class="form-label">
+            {{ "ASSETS.FILTERSMODAL.ASSETSUBLOCATION" | translate }}
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="AssetSubLocation"
+          />
+        </div> -->
+        <!-- الأصل -->
+        <!-- <div
+          class="form-group mb-5"
+          *ngIf="CodesAssetTree$ | async as CodesAssetTree"
+        >
+          <label class="form-label">
+            {{ "ASSETS.FILTERSMODAL.ASSETSUBLOCATION" | translate }}
+          </label>
+          <p-dropdown
+            appendTo="body"
+            class="custom-dropdown"
+            [options]="CodesAssetTree?.Data"
+            [style]="{ minWidth: '130px', display: 'flex' }"
+            optionLabel="AssetName"
+            optionValue="ID"
+            [placeholder]="'GENERAL.SELECT' | translate"
+            [filter]="true"
+            filterBy="AssetName"
+            formControlName="AssetSubLocation"
+          >
+          </p-dropdown>
+        </div> -->
+        <div class="form-group mb-5">
+          <label class="mb-3">
+            {{ "ASSETS.FILTERSMODAL.ASSETSUBLOCATION" | translate }}
+          </label>
+
+          <div class="form-group d-flex align-items-center">
+            <span
+              class="form-control form-control-solid"
+              style="min-height: 40px"
+            >
+              {{ AssetSelected }}
+            </span>
+            <i
+              (click)="chooseAsset(code.AssetId)"
+              class="fa fa-plus action-icon add-icon"
+              tooltipPosition="top"
+              pTooltip="{{ 'GENERAL.SELECT' | translate }}"
+            ></i>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-5 d-md-none" />
+
+      <div class="col-12 col-md-8">
+        <div class="form-group mb-5 container-fluid">
+          <label class="form-label">
+            {{ "ASSETS.FILTERSMODAL.SELECTFIELD" | translate }}
+          </label>
+          <div class="d-flex align-items-center justify-content-between">
+            <p-dropdown
+              appendTo="body"
+              class="custom-dropdown"
+              style="flex-basis: 90%"
+              [filter]="true"
+              [options]="fields"
+              [placeholder]="'GENERAL.SELECT' | translate"
+              optionLabel="Name"
+              formControlName="FieldControl"
+            >
+            </p-dropdown>
+            <i
+              tooltipPosition="top"
+              pTooltip="{{ 'ASSETS.FILTERSMODAL.ADDFIELD' | translate }}"
+              class="fa fa-plus action-icon add-icon"
+              (click)="
+                AddFieldFilter(
+                  form.get('FieldControl')?.value
+                    ? form.get('FieldControl')?.value.fieldId
+                    : 0
+                )
+              "
+            ></i>
+          </div>
+        </div>
+
+        <div
+          class="field-info container-fluid"
+          style="overflow: auto; max-height: 200px"
+        >
+          <div
+            class="row align-items-center"
+            *ngFor="let item of listFieldsFilter"
+          >
+            <div class="col-12 col-lg-5 mb-3 mb-lg-0">
+              <div class="form-group">
+                <label class="form-label">
+                  {{ "ASSETS.FILTERSMODAL.FIELDNAME" | translate }}
+                </label>
+                <label class="form-label form-control form-control-solid">
+                  {{ item.Name }}
+                </label>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-6 mb-3 mt-lg-10">
+              <div class="form-group">
+                <field-dynamic
+                  [valueField]="item.fromValue"
+                  [TypeField]="item.FieldTypeId"
+                  [FieldOptions]="item.FieldsOptions"
+                  (SaveNewValue)="SaveValueField(item.fieldId, $event)"
+                >
+                </field-dynamic>
+                <ng-container *ngIf="findTypeToField(item.FieldTypeId)">
+                  <field-dynamic
+                    [valueField]="item.toValue"
+                    [TypeField]="item.FieldTypeId"
+                    [FieldOptions]="item.FieldsOptions"
+                    (SaveNewValue)="SaveValueField(item.fieldId, $event, true)"
+                  >
+                  </field-dynamic>
+                </ng-container>
+              </div>
+            </div>
+
+            <div class="col-1">
+              <div class="form-group">
+                <label class="form-label invisible mb-0 d-none d-lg-block">
+                  test
+                </label>
+                <i
+                  ptooltip="حذف"
+                  tooltipposition="top"
+                  class="fas fa-trash-alt action-icon delete-icon"
+                  (click)="deleteFieldFilter(item)"
+                ></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- begin dialog body -->
+
+<!-- start footer -->
+<div class="modal-footer position-relative">
+  <button class="btn btn-primary" (click)="onSearch()">
+    <i class="fas fa-search"></i>
+    {{ "ASSETS.FILTERSMODAL.SEARCH" | translate }}
+  </button>
+
+  <button class="btn btn-sm btn-secondary" (click)="Close()">
+    <i class="fas fa-times"></i>
+    {{ "ASSETS.FILTERSMODAL.CANCEL" | translate }}
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

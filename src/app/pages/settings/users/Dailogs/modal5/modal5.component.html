@@ -1,0 +1,236 @@
+<div *ngIf="loading; else mainForm">
+  <mat-spinner></mat-spinner>
+</div>
+
+<p-dialog
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  header="{{ 'USERS.EDITAVATARMODAL.MODALTITLE' | translate }}"
+  [(visible)]="display"
+  (visibleChange)="this.imageChangedEvent = ''; imageControl.reset()"
+  [style]="{ width: '40vw' }"
+>
+  <div
+    class="container"
+    style="overflow-y: scroll !important; max-height: 40vh"
+  >
+    <div class="card">
+      <!-- <div class="card-header"> -->
+      <!-- style="margin-top: 15px;" -->
+      <!-- </div> -->
+      <div class="card-body">
+        <input
+          type="file"
+          [formControl]="imageControl"
+          (change)="fileChangeEvent($event)"
+        />
+        <div class="row">
+          <div class="text-center col-md-8">
+            <!-- <h5>Format Picture</h5> -->
+            <image-cropper
+              [imageChangedEvent]="imageChangedEvent"
+              [maintainAspectRatio]="true"
+              [aspectRatio]="4 / 4"
+              [resizeToWidth]="150"
+              format="png"
+              (imageCropped)="imageCropped($event)"
+              (imageLoaded)="imageLoaded()"
+              (cropperReady)="cropperReady()"
+              (loadImageFailed)="loadImageFailed()"
+            ></image-cropper>
+          </div>
+          <!-- <div class="text-center col-md-4">
+                      <h5>Preview</h5>
+                      <img [src]="croppedImage" />
+                  </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <div
+      class="footer-actions"
+      style="margin-top: 1rem; margin-bottom: -0.5rem"
+    >
+      <button
+        pButton
+        type="button"
+        class="btn  btn-primary"
+        (click)="saveImg()"
+      >
+        <span>
+          <i class="fa fa-save"></i>
+          {{ "USERS.EDITAVATARMODAL.SAVE" | translate }}
+        </span>
+      </button>
+
+      <button
+        pButton
+        type="button"
+        class="btn  btn-secondary"
+        (click)="display = false; this.imageChangedEvent = ''"
+      >
+        <span>
+          <i class="fa fa-save"></i>
+          {{ "USERS.EDITAVATARMODAL.CANCEL" | translate }}
+        </span>
+      </button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<ng-template #mainForm>
+  <div class="modal-contents">
+    <div class="form" [formGroup]="formAddUser">
+      <div class="modal-body p-0">
+        <div class="row mb-5">
+          <div class="col-12 col-lg-2">
+            <label class="form-label">
+              <!-- {{ "USERS.EDITUSERMODAL.AVTAR" | translate }} -->
+            </label>
+
+            <div
+              data-kt-image-input="true"
+              class="image-input image-input-outline cursor-pointer"
+              style="
+                background-image: url('./assets/media/avatars/avatar.svg');
+                width: 130px;
+              "
+            >
+              <div
+                class="image-input-wrapper w-110px h-120px"
+                (click)="showEditImage()"
+                [style.background-image]="'url(' + imgProfile + ')'"
+                style="height: 120px !important"
+              ></div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-10">
+            <div class="row mb-5">
+              <div class="col-12 col-lg-6">
+                <label class="required form-label">
+                  {{ "USERS.EDITUSERMODAL.EMAIL" | translate }}
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="Email"
+                  placeholder="name@example.com"
+                />
+              </div>
+              <!-- <div class="col-12 col-lg-6">
+                <label class="required form-label">
+                  {{ "USERS.EDITUSERMODAL.USERNAME" | translate }}
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="UserName"
+                />
+              </div> -->
+
+              <div class="col-lg-6">
+                <label class="form-label required">{{
+                  "USERS.ADDUSERMODAL.JOBTITLE" | translate
+                }}</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="JobTitle"
+                  placeholder=""
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 col-lg-3">
+                <label class="required form-label">
+                  {{ "USERS.EDITUSERMODAL.FIRTNAME" | translate }}
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="FirstName"
+                  placeholder=""
+                />
+              </div>
+
+              <div class="col-12 col-lg-3">
+                <label class="required form-label">
+                  {{ "USERS.EDITUSERMODAL.LASTNAME" | translate }}
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="LastName"
+                  placeholder=""
+                />
+              </div>
+
+              <div class="col-12 col-lg-3">
+                <label class="form-label">
+                  {{ "USERS.EDITUSERMODAL.PHONENUMBER" | translate }}
+                </label>
+                <input
+                  type="number"
+                  [min]="0"
+                  class="form-control"
+                  formControlName="PhoneNumber"
+                  placeholder=""
+                />
+              </div>
+              <div class="col-lg-3">
+                <label class="form-label">{{
+                  "USERS.ADDUSERMODAL.work_Hour_Rate" | translate
+                }}</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="WorkHourRate"
+                  placeholder=""
+                />
+              </div>
+              <!-- <div class="col-12 col-lg-4"></div> -->
+              <div
+                class="col-12 col-lg-4"
+                *ngIf="isSuperAdmin && codes?.PagePermissions?.UsersSuperEdit"
+              >
+                <div
+                  class="form-check form-check-custom form-check-solid form-check-sm mt-5"
+                >
+                  <input
+                    class="form-check-input custom-checkbox-style"
+                    type="checkbox"
+                    formControlName="IsSuperUser"
+                    id="IsSuperUser"
+                  />
+                  <label class="form-check-label" for="IsSuperUser">
+                    {{ "USERS.EDITUSERMODAL.MAINACCOUNT" | translate }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- start footer -->
+      <div class="dialog-footer">
+        <div class="footer-actions">
+          <button (click)="EditUser()" class="btn  btn-primary mx-2">
+            <i class="fas fa-user-plus"></i>
+            {{ "USERS.EDITUSERMODAL.SAVE" | translate }}
+          </button>
+
+          <button (click)="onCancel()" class="btn  btn-secondary mx-2">
+            <i class="fas fa-times"></i>
+            {{ "USERS.EDITUSERMODAL.CANCEL" | translate }}
+          </button>
+        </div>
+      </div>
+      <!-- end footer -->
+    </div>
+  </div>
+</ng-template>

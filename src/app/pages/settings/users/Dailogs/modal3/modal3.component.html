@@ -1,0 +1,29 @@
+<div class="modal-contents">
+
+  <!-- begin dialog body -->
+  <div class="modal-body p-0 pb-5">
+    <p> {{"USERS.EMAILNOTIFICATIONSMODAL.DISCRIPTION" | translate}} </p>
+  </div>
+  <!-- end dialog body -->
+
+  <!-- begin dialog footer -->
+  <div class="dialog-footer">
+    <div class="footer-actions">
+
+      <button *ngIf="this.dataUser?.IsEmailNotification==true" (click)="ChangeStatus(true)"
+        class="btn  btn-danger">
+        <i class="fas fa-times"></i>
+        {{"USERS.EMAILNOTIFICATIONSMODAL.DISABLE" | translate}}
+      </button>
+
+      <!-- <button *ngIf="this.dataUser?.IsEmailNotification==false" (click)="ChangeStatus(true)"
+        class="btn  btn-primary mx-2 pe-2">
+        <i class="fas fa-check ms-2"></i>
+        تفعيل
+      </button> -->
+
+    </div>
+  </div>
+  <!-- end dialog footer -->
+
+</div>

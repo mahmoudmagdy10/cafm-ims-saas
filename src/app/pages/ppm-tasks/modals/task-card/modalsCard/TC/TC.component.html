@@ -1,0 +1,96 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">TC</h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<h6 class="mx-2 mt-2">
+  {{ "TC" | translate }}
+</h6>
+<div
+  class="modal-body"
+  style="max-height: 400px; overflow-y: auto"
+  [formGroup]="formCompleteTC"
+>
+  <div class="row">
+    <div class="col-12 col-md-6 mb-3">
+      <label class="mb-2">
+        {{ "GENERAL.HOUR" | translate }}
+      </label>
+      <select class="form-control" formControlName="hour">
+        <option *ngFor="let item of Hours" [value]="item">
+          {{ item }}
+        </option>
+      </select>
+    </div>
+
+    <!-- دقيقة -->
+    <div class="col-12 col-md-6 mb-3">
+      <label class="mb-2">
+        {{ "GENERAL.MIN" | translate }}
+      </label>
+      <select class="form-control" formControlName="min">
+        <option *ngFor="let item of Muints" [value]="item">
+          {{ item }}
+        </option>
+      </select>
+    </div>
+    <div class="col-12">
+      <div class="form-group">
+        <label class="mb-2 required">Notes </label>
+        <textarea
+          name=""
+          id=""
+          cols="30"
+          rows="5"
+          formControlName="StatusNotes"
+          class="form-control"
+        ></textarea>
+      </div>
+    </div>
+    <div class="col-12 mt-2">
+      <field-dynamic
+        [inPublic]="true"
+        [TypeField]="6"
+        (SaveNewValue)="SaveNewValue($event)"
+        [noOfImg]="4"
+      ></field-dynamic>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer position-relative">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-dismiss="modal"
+    (click)="TC()"
+  >
+    <span>
+      <span> <i class="fa fa-check"></i> </span>
+      <span>
+        {{ "GENERAL.CONFIRM" | translate }}
+      </span>
+    </span>
+  </button>
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <!-- {{ "MAINTENANCEREQUESTS.COPYSETTINGSMODAL.CANCEL" | translate }} -->
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span>
+        {{ "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.CANCEL" | translate }}
+      </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

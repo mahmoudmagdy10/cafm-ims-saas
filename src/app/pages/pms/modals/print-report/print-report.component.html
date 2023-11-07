@@ -1,0 +1,68 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">{{ "REPORT" | translate }}</h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div
+  class="modal-body"
+  style="max-height: 400px; overflow-y: auto"
+  [formGroup]="FormReport"
+>
+  <div class="row">
+    <div class="col-12 col-md-6 col-lg-5 mb-3">
+      <label class="mb-2 required"> {{ "From_Date" | translate }}</label>
+      <p-calendar
+        placeholder="dd-mm-yyyy"
+        dateFormat="dd/mm/yy"
+        formControlName="fromDate"
+        appendTo="body"
+        [showIcon]="true"
+        [readonlyInput]="false"
+        [showOnFocus]="false"
+      ></p-calendar>
+    </div>
+    <!-- تاريخ الاستحقاق -->
+    <div class="col-12 col-md-6 col-lg-5 mb-3">
+      <label class="mb-2 required">{{ "To_Date" | translate }}</label>
+      <p-calendar
+        placeholder="dd-mm-yyyy"
+        formControlName="toDate"
+        appendTo="body"
+        dateFormat="dd/mm/yy"
+        [showIcon]="true"
+        [readonlyInput]="false"
+        [showOnFocus]="false"
+      ></p-calendar>
+    </div>
+
+    <div class="col-12 col-md-2 col-lg-2 mb-3">
+      <button
+        style="margin-top: 30px"
+        type="button"
+        class="btn btn-primary"
+        data-bs-dismiss="modal"
+        (click)="printReport()"
+      >
+        <div
+          *ngIf="loadingPrint"
+          class="spinner-border text-dark"
+          style="width: 10px; height: 10px"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+        <span>
+          <span> <i class="fa fa-print"></i> </span>
+          <span>
+            {{ "GENERAL.PRINT" | translate }}
+          </span>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>

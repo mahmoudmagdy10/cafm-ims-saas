@@ -1,0 +1,126 @@
+<ng-container *ngIf="Codes$ | async as code">
+  <div class="modal-header position-relative">
+    <h5 class="modal-title">
+      <i class="fas fa-print"></i>
+      {{ "Print" | translate }}
+    </h5>
+    <!--begin::Close-->
+    <div class="close">
+      <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+    </div>
+    <!--end::-->
+  </div>
+
+  <!-- begin dialog body -->
+  <div class="modal-body" style="max-height: 80vh">
+    <form [formGroup]="printWeekly">
+      <div class="row mb-5">
+        <div class="col-12 col-md-5 mb-3">
+          <app-calender-feild
+            (onChangeDate)="changeDate()"
+            formControlName="FromDate"
+            [label]="'From Date' | translate"
+            [placeholder]="'dd-mm-yy'"
+          ></app-calender-feild>
+        </div>
+
+        <div class="col-12 col-md-5 mb-3">
+          <app-calender-feild
+            formControlName="ToDate"
+            [label]="'To Date' | translate"
+            [placeholder]="'dd-mm-yy'"
+            [minDate]="printWeekly.get('FromDate')?.value!"
+          ></app-calender-feild>
+        </div>
+        <!-- حالة المهمة -->
+        <ng-container *ngIf="!(isShedule$ | async)"
+          ><div class="col-12 col-md-4 mb-3">
+            <label class="mb-2">
+              {{
+                "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.TASK_STATUS"
+                  | translate
+              }}
+            </label>
+            <p-dropdown
+              appendTo="body"
+              [style]="{ minWidth: '130px', display: 'flex' }"
+              optionLabel="Name"
+              optionValue="code"
+              [placeholder]="'GENERAL.SELECT' | translate"
+              [options]="code.TaskStatusId"
+              [showClear]="true"
+              formControlName="TaskStatusId"
+            >
+            </p-dropdown></div
+        ></ng-container>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer position-relative">
+    <button
+      (click)="Print()"
+      type="button"
+      class="btn btn-primary"
+      data-bs-dismiss="modal"
+    >
+      <span>
+        <span> <i class="fas fa-print fa-lg"></i> </span>
+        <span> {{ "Print" | translate }} </span>
+      </span>
+      <div
+        *ngIf="loadingPrint"
+        class="spinner-border text-dark"
+        style="width: 10px; height: 10px"
+        role="status"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </button>
+
+    <button
+      *ngIf="code?.PagePermissions?.TransferPPMToWo"
+      type="button"
+      class="btn  btn-danger"
+      data-bs-dismiss="modal"
+      (click)="confirmTransfer()"
+    >
+      <span>
+        <div
+          *ngIf="loadingTransferPrint"
+          class="spinner-border text-dark"
+          style="width: 10px; height: 10px"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+        <span> <i class="pi pi-external-link"></i> </span>
+        <span> {{ "Transfer" | translate }} </span>
+      </span>
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-light"
+      data-bs-dismiss="modal"
+      (click)="Close()"
+    >
+      <span>
+        <span> <i class="fa fa-times" (click)="Close()"></i> </span>
+        <span> {{ "GENERAL.CANCEL" | translate }} </span>
+      </span>
+    </button>
+
+    <i class="fas fa-cogs modal-bg-icon"></i>
+  </div>
+  <confirm-delete
+    customheader="{{ 'TRANSFER' | translate }}"
+    customSure="{{ 'YES' | translate }}"
+    customIcon=" pi pi-external-link"
+    customColor="btn  btn-success"
+    #confirmdeleteTransfer
+    customMassage="{{ 'CONFIRMDELETE.TRANSFER_CUSTOM' | translate }}"
+    (afterSave)="$event ? Transfer() : ''; confirmdeleteTransfer.CloseModal()"
+  >
+  </confirm-delete>
+</ng-container>

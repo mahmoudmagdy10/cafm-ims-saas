@@ -1,0 +1,54 @@
+<ng-container *ngIf="itemEdit$ |async as dataEdit">
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-primary" (click)="openVendor(dataEdit)">
+      <span>
+        <span><i class="fa fa-plus"></i></span>
+        <span>{{ "STORES.MODALS.CARD.VENDORS.ADD_VENDOR" | translate }}</span>
+      </span>
+    </button>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-rounded table-row-bordered border custom-table-style fs-6">
+      <thead>
+        <tr class="fw-bolder fs-6 text-gray-800">
+          <!-- <th></th> -->
+          <th>{{ "STORES.MODALS.CARD.VENDORS.VENDOR_NAME" | translate }}</th>
+          <!-- <th>
+          {{ "STORES.MODALS.CARD.VENDORS.LAST_PURCHASE_BOND" | translate }}
+        </th> -->
+          <th>
+            {{ "STORES.MODALS.CARD.VENDORS.PART_NUMBER_AT_VENDOR" | translate }}
+          </th>
+          <th>{{ "STORES.MODALS.CARD.VENDORS.PART_PRICE" | translate }}</th>
+          <th>{{ "STORES.MODALS.CARD.VENDORS.STATUS" | translate }}</th>
+          <th>{{ "GENERAL.PROCEDUERS" | translate }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of dataEdit.Vendors">
+          <!-- <td >
+          <div class="form-check form-check-solid">
+            <div class="mb-4">
+              <label class="radio d-block">
+                <input type="radio" class="margin-inline-end-1" value="daily" />
+              </label>
+            </div>
+          </div>
+        </td> -->
+          <td>{{item.VendorName}}</td>
+          <td>{{item.VendorPartNumber}}</td>
+          <!-- <td>{{item.VendorName}}</td> -->
+          <td>{{item.VendorPrice}}</td>
+          <td>{{item.IsManual?('GENERAL.MANUALLY'|translate):('GENERAL.AUTOMATIC'|translate)}}</td>
+          <td>
+            <i class="fas fa-trash-alt action-icon delete-icon" tooltipPosition="top"
+              pTooltip="{{ 'GENERAL.DELETE' | translate }}" (click)="deleteLinkPartWithVendor(item.ID,dataEdit)"></i>
+
+            <!-- حط هان ايقونة للتلقائي -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>

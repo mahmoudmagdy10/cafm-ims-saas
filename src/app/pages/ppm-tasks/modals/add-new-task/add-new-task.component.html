@@ -1,0 +1,334 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fa fa-plus mx-1"></i>
+    {{ "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.MODAL_TITLE" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div
+  class="modal-body"
+  style="max-height: 400px; overflow-y: auto"
+  *ngIf="Codes$ | async as code"
+>
+  <form [formGroup]="FormTask">
+    <div class="row">
+      <!-- اسم المهمة -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2 required">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.TASK_NAME" | translate
+          }}
+        </label>
+        <input type="text" class="form-control" formControlName="TaskName" />
+      </div>
+
+      <!-- نوع المهمة -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2 required">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.TASK_TYPE" | translate
+          }}
+        </label>
+        <p-dropdown
+          appendTo="body"
+          [style]="{ minWidth: '130px', display: 'flex' }"
+          optionLabel="Name"
+          optionValue="Code"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          [options]="code.TaskTypeId"
+          formControlName="TaskTypeId"
+        >
+        </p-dropdown>
+      </div>
+
+      <!-- حالة المهمة -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2 required">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.TASK_STATUS"
+              | translate
+          }}
+        </label>
+        <p-dropdown
+          appendTo="body"
+          [style]="{ minWidth: '130px', display: 'flex' }"
+          optionLabel="Name"
+          optionValue="code"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          [options]="code.TaskStatusId"
+          formControlName="TaskStatusId"
+        >
+        </p-dropdown>
+      </div>
+
+      <!-- درجة الاهمية -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2 required">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.PRIORITY_LEVEL"
+              | translate
+          }}
+        </label>
+        <p-dropdown
+          appendTo="body"
+          [style]="{ minWidth: '130px', display: 'flex' }"
+          optionLabel="Name"
+          optionValue="code"
+          [options]="code.PriorityId"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          formControlName="PriorityId"
+        >
+        </p-dropdown>
+      </div>
+      <!-- تاريخ بداية المهمة  -->
+
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.TASK_START_DATE"
+              | translate
+          }}
+        </label>
+        <p-calendar
+          placeholder="dd-mm-yy"
+          dateFormat="dd/mm/yy"
+          formControlName="StartDate"
+          [showTime]="true"
+          inputId="time"
+          appendTo="body"
+          [showIcon]="true"
+        ></p-calendar>
+
+        <!-- <div class="form-group custom-datepicker">
+          <input
+            class="form-control"
+            [matDatepicker]="pickerStartDate"
+            type="datetime"
+            placeholder="dd-mm-yy"
+            formControlName="StartDate"
+            [min]="minDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerStartDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerStartDate></mat-datepicker>
+        </div> -->
+      </div>
+      <!-- تاريخ الاستحقاق -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2 required">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.DUE_DATE" | translate
+          }}
+        </label>
+        <p-calendar
+          placeholder="dd-mm-yy"
+          [showTime]="true"
+          formControlName="DueDate"
+          inputId="time"
+          appendTo="body"
+          dateFormat="dd/mm/yy"
+          [showIcon]="true"
+        ></p-calendar>
+
+        <!-- <div class="form-group custom-datepicker">
+          <input
+            class="form-control"
+            [matDatepicker]="pickerDueDate"
+            type="datetime"
+            placeholder="dd-mm-yy"
+            formControlName="DueDate"
+            [min]="minDate"
+
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerDueDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerDueDate></mat-datepicker>
+        </div> -->
+      </div>
+
+      <!-- قالب الصيانة -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{ "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.TAGS" | translate }}
+        </label>
+
+        <p-multiSelect
+          [style]="{ width: '100%', display: 'flex' }"
+          optionLabel="Name"
+          [options]="code.TagsId"
+          formControlName="TagsId"
+        ></p-multiSelect>
+      </div>
+
+      <!--  مدة الصيانة المتوقعة -->
+      <div class="col-12 col-md-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.MAINTENANCE_TIME_EXPECTED"
+              | translate
+          }}</label
+        >
+
+        <div class="time d-flex justify-content-between">
+          <span style="font-size: 13px; margin-top: 5px">{{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.H" | translate
+          }}</span>
+          <div
+            class="form-group form-group margin-end-1"
+            style="flex-basis: 50%"
+          >
+            <select class="form-control" formControlName="EstimatedTimeH">
+              <option *ngFor="let item of Hours" [value]="item">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+          <span style="font-size: 13px; margin-top: 5px">{{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.min" | translate
+          }}</span>
+
+          <div class="form-group form-group" style="flex-basis: 50%">
+            <select class="form-control" formControlName="EstimatedTimeM">
+              <option *ngFor="let item of Muints" [value]="item">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- الاصل -->
+      <div class="col-12 col-md-6">
+        <label class="mb-2">
+          {{ "Select_Assets" | translate }}
+        </label>
+
+        <div class="form-group d-flex align-items-center">
+          <span
+            class="form-control form-control-solid"
+            style="min-height: 39.8px"
+          >
+            {{ AssetSelected }}
+          </span>
+          <i
+            (click)="opentree(code.AssetId)"
+            class="fa fa-plus action-icon add-icon"
+            tooltipPosition="top"
+            pTooltip="{{
+              'PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.ADD' | translate
+            }}"
+          ></i>
+        </div>
+      </div>
+
+      <!-- فريق الصيانة -->
+      <div class="col-12 col-md-6">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.MAINTENANCE_TEAMS"
+              | translate
+          }}
+        </label>
+
+        <div class="form-group d-flex align-items-center">
+          <span
+            class="form-control form-control-solid"
+            style="min-height: 39.8px"
+          >
+            {{ ArrayToString(this.itemsCheckedTeams) | cutLongString : 50 }}
+
+            {{ ArrayToString(this.itemsCheckedUsers) | cutLongString : 50 }}
+          </span>
+          <i
+            (click)="openDialog()"
+            class="fa fa-plus action-icon add-icon"
+            tooltipPosition="top"
+            pTooltip="{{
+              'PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.ADD' | translate
+            }}"
+          ></i>
+        </div>
+      </div>
+
+      <!-- وصف المهمة -->
+      <div class="col-md-12 mt-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.TASK_DISCRIPTION"
+              | translate
+          }}
+        </label>
+        <textarea
+          class="form-control"
+          rows="4"
+          formControlName="TaskDescription"
+        ></textarea>
+        <!-- <p-editor
+          #pEditor
+          formControlName="TaskDescription"
+          [style]="{ height: '320px' }"
+        >
+          <ng-template pTemplate="header">
+            <span class="ql-formats">
+              <button type="button" class="ql-bold" aria-label="Bold"></button>
+              <button
+                type="button"
+                class="ql-italic"
+                aria-label="Italic"
+              ></button>
+              <button
+                type="button"
+                class="ql-underline"
+                aria-label="Underline"
+              ></button>
+            </span>
+          </ng-template>
+        </p-editor> -->
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer position-relative">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-dismiss="modal"
+    (click)="addNewTask()"
+  >
+    <!-- {{ "MAINTENANCEREQUESTS.COPYSETTINGSMODAL.SAVE" | translate }} -->
+    <span>
+      <span> <i class="fa fa-save"></i> </span>
+      <span>
+        {{ "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.SAVE" | translate }}
+      </span>
+    </span>
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <!-- {{ "MAINTENANCEREQUESTS.COPYSETTINGSMODAL.CANCEL" | translate }} -->
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span>
+        {{ "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.CANCEL" | translate }}
+      </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

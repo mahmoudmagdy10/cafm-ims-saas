@@ -1,0 +1,46 @@
+.task-info{
+  display: flex;
+  align-items: center;
+  border: 1px solid #E4E6EF;
+
+}
+
+.task-info .user-task-info{
+  text-align: end;
+}
+.filter-items-container .filter-item {
+  position: relative;
+  padding: 5px 15px;
+  color: rgb(148, 148, 148);
+  background-color: rgb(243, 243, 243);
+  border: 1px solid rgb(212, 212, 212);
+  border-radius: 5px;
+  margin: 0 3px;
+  font-size: 1rem;
+  transition: all 0.4s ease;
+
+  .filter-field {
+    font-weight: bold;
+  }
+  i {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    cursor: pointer;
+    &:hover {
+      color: rgb(204, 48, 48);
+    }
+  }
+
+  &:hover {
+    background-color: #e8e8e8;
+  }
+
+
+
+}
+.type-view{
+  .active{
+    color: #50CD89;
+  }
+}

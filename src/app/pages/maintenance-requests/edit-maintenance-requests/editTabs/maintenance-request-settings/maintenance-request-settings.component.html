@@ -1,0 +1,99 @@
+<div class="row" *ngIf="codes$ | async as code">
+  <div class="col-12 col-md-6 mb-3">
+    <div class="form-group">
+      <label class="mb-2">
+        {{
+          "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.MAINTINANCETEQUESTSETTINGS.MAILTO"
+            | translate
+        }}
+      </label>
+      <input
+        [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
+        [(ngModel)]="data.NotifiedEmails"
+        (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false"
+        (change)="isChange = true"
+        type="email"
+        class="form-control"
+      />
+    </div>
+  </div>
+
+  <div class="col-12 col-md-6 mb-3">
+    <div class="form-group">
+      <label class="mb-2">
+        {{
+          "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.MAINTINANCETEQUESTSETTINGS.SERVICETITLE"
+            | translate
+        }}
+      </label>
+      <input
+        [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
+        [(ngModel)]="data.SurveyText"
+        (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false"
+        (change)="isChange = true"
+        type="email"
+        class="form-control"
+      />
+    </div>
+  </div>
+
+  <div class="col-12 col-md-6 mb-3">
+    <div class="form-group">
+      <label class="mb-2">
+        {{
+          "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.MAINTINANCETEQUESTSETTINGS.SERVICELINK"
+            | translate
+        }}
+      </label>
+      <input
+        [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
+        [(ngModel)]="data.SurveyURL"
+        (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false"
+        (change)="isChange = true"
+        type="email"
+        class="form-control"
+      />
+    </div>
+  </div>
+
+  <!-- <div class="row align-items-center"> -->
+  <div class="col-12 col-lg-6 mb-3">
+    <label class="mb-2 lableInputModle">
+      {{
+        "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.MAINTINANCETEQUESTSETTINGS.NOTESTOAPPLICANT"
+          | translate
+      }}
+    </label>
+    <select
+      [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
+      class="form-select"
+      data-control="select2"
+      data-placeholder="Select an option"
+      [(ngModel)]="data.WRequesterComments"
+      (change)="EditWorkRequest.emit()"
+    >
+      <option></option>
+      <option [value]="true">{{ "GENERAL.YES" | translate }}</option>
+      <option [value]="false">{{ "GENERAL.NO" | translate }}</option>
+    </select>
+  </div>
+  <div class="col-12 col-lg-6 mb-3">
+    <input type="checkbox" [(ngModel)]="data.isConvertedDirectlyWorkOrder" (change)="handleChange($event)">{{
+      "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.MAINTINANCETEQUESTSETTINGS.convertWorkOrderDirectly"
+        | translate
+    }}
+  </div>
+</div>
+<!-- <div class="col-12 col-lg-6 mb-3"> -->
+<!-- <p>
+      {{ "ASSETS.ASSETCARDMODAL.SETTINGSTAB.REQUESTTO" | translate }}
+      <a
+        href="javascript:;"
+        (click)="EditAssigment(); UserTeams.openDialog('فرق العمل')"
+      >
+        {{ ArrayToString(this.itemsCheckedTeams) }}
+        {{ ArrayToString(this.itemsCheckedUsers) }}
+      </a>
+    </p> -->
+<!-- </div> -->
+<!-- </div> -->

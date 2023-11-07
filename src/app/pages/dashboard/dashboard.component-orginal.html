@@ -1,0 +1,437 @@
+<div class="card card-custom" *ngIf="DashboardData$ | async as data">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <i class="fas fa-home fa-lg"></i>
+      <h4 class="fw-bolder mb-0 mx-2">
+        {{ "DASHBOARD.DASHBOARD" | translate }}
+      </h4>
+    </div>
+  </div>
+  <!-- *ngIf=" DashboardData$ |async as item" -->
+  <div class="card-body">
+    <div class="row mb-9 text-center">
+      <div class="col">
+        <!-- <h1>
+          مرحبا {{Fullname()}}
+        </h1> -->
+        <p class="fs-1">
+          {{ "DASHBOARD.CARDS.TITLE_DASHBOARD.TITLE" | translate }}
+        </p>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <!-- بطاقة المواقع -->
+      <div class="d-flex w-100px h-100px w-lg-200px h-lg-150px">
+        <!--begin::Card-->
+        <div class="card overflow-hidden w-100">
+          <!--begin::Card body-->
+          <div class="card-body p-2">
+            <!--begin::Heading-->
+            <div class="text-center">
+              <div class="fs-1 fw-bolder">
+                {{ data[0].NumberOfLocations }}
+              </div>
+              <div class="fs-4 fw-bold text-gray-400 mb-7">
+                <i class="far fa-building"></i>
+                {{ "DASHBOARD.CARDS.LOCATIONS.CARD_TITLE" | translate }}
+              </div>
+            </div>
+            <!--end::Heading-->
+            <!--begin::Wrapper-->
+            <div
+              class="d-flex flex-wrap justify-content-between align-items-center"
+            >
+              <!--begin::Chart-->
+              <!-- <div class="d-flex flex-center h-100px w-100px "> -->
+              <!-- <img src="./assets/media/chart2.png" alt=""> -->
+              <!-- <canvas id="kt_project_list_chart"
+                    style="display: block; box-sizing: border-box; height: 100px; width: 100px;" width="100"
+                    height="100"></canvas> -->
+              <!-- </div> -->
+              <!--end::Chart-->
+              <!--begin::Labels-->
+              <div class="">
+                <!--begin::Label-->
+                <!-- <div class="d-flex fs-6 fw-bold align-items-center mb-3" *ngFor="let item of dataLocation() index as i">
+                  <div
+                    [ngClass]="i==0?'bullet bg-primary me-3':i==1?'bullet bg-success me-3':i==2?'bullet bg-gray-300 me-3':''">
+                  </div>
+                  <div class="text-gray-400 mx-2"> </div>
+                  <div class="ms-auto fw-bolder text-gray-700">{{item.LocationName}}</div>
+                </div> -->
+                <!--end::Label-->
+                <!--begin::Label-->
+                <!-- <div class="d-flex fs-6 fw-bold align-items-center mb-3">
+                    <div class="bullet bg-success me-3"></div>
+                    <div class="text-gray-400 mx-2">  في الفروانية</div>
+                    <div class="ms-auto fw-bolder text-gray-700">7</div>
+                  </div> -->
+                <!--end::Label-->
+                <!--begin::Label-->
+                <!-- <div class="d-flex fs-6 fw-bold align-items-center">
+                    <div class="bullet bg-gray-300 me-3"></div>
+                    <div class="text-gray-400 mx-2"> في حولي </div>
+                    <div class="ms-auto fw-bolder text-gray-700">25</div>
+                  </div> -->
+                <!--end::Label-->
+              </div>
+              <!--end::Labels-->
+            </div>
+
+            <!--end::Wrapper-->
+            <div class="d-flex align-items-center">
+              <button
+                class="general-btn add-btn mx-auto"
+                (click)="routeInLocations()"
+              >
+                {{ "DASHBOARD.CARDS.LOCATIONS.BUTTON" | translate }}
+              </button>
+            </div>
+          </div>
+          <!--end::Card body-->
+        </div>
+        <!--end::Card-->
+      </div>
+
+      <!-- بطاقة المهام -->
+      <div class="d-flex w-100px h-100px w-lg-200px h-lg-150px">
+        <div class="card w-100">
+          <div class="card-body p-2">
+            <div class="text-center">
+              <div class="fs-1 fw-bolder">{{ data[0].TotalTask }}</div>
+              <!-- -->
+              <div class="fs-4 fw-bold text-gray-400 mb-3">
+                <i class="fas fa-clipboard-list"></i>
+                {{ "DASHBOARD.CARDS.TASKS.CARD_TITLE" | translate }}
+              </div>
+            </div>
+
+            <!-- المهام المكتملة -->
+            <div class="fs-6 d-flex justify-content-between mb-1">
+              <div class="fw-bold">
+                {{ "DASHBOARD.CARDS.TASKS.COMPLETED_TASKS" | translate }}
+              </div>
+              <div class="d-flex fw-bolder">
+                <span class="margin-end-1">
+                  <i class="fa fa-check margin-end-1 text-success"></i>
+                  <span>{{ data[0].CompletedTask }} </span>
+                </span>
+              </div>
+            </div>
+
+            <div class="separator separator-dashed"></div>
+
+            <!-- المهام قيد العمل -->
+            <div class="fs-6 d-flex justify-content-between mb-1">
+              <div class="fw-bold">
+                {{ "DASHBOARD.CARDS.TASKS.IN_PROGRESS_TASKS" | translate }}
+              </div>
+              <div class="d-flex fw-bolder">
+                <span class="margin-end-1">
+                  <i class="fas fa-cog margin-end-1 text-info"></i>
+                  <span>{{ data[0].InprogressTask }}</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="separator separator-dashed"></div>
+
+            <!-- المهام المتاخرة -->
+            <div class="fs-6 d-flex justify-content-between mb-1">
+              <div class="fw-bold">
+                {{ "DASHBOARD.CARDS.TASKS.OVERDUE_TASKS" | translate }}
+              </div>
+              <div class="d-flex fw-bolder">
+                <span class="margin-end-1">
+                  <i class="fas fa-clock margin-end-1 text-danger"></i>
+                  <span>{{ data[0].DeliedTask }}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- المهام المخطط/غير المخطط لها -->
+      <div class="d-flex w-100px h-100px w-lg-200px h-lg-150px">
+        <div class="card w-100">
+          <div class="card-body p-2">
+            <div
+              class="d-flex justify-content-between align-items-center h-100 flex-nowrap"
+            >
+              <div class="text-center">
+                <div class="fw-bolder">
+                  <span class="text-success fs-3">
+                    {{
+                      (data[0].Planned /
+                        (data[0].Planned + data[0].Unplanned)) *
+                        100 | number: "1.1-1"
+                    }}
+                  </span>
+                  <span class="text-success fs-3"> % </span>
+                </div>
+                <p class="mb-0 fs-3">
+                  {{ "DASHBOARD.CARDS.TASKS_2.PLANNED_TASKS" | translate }}
+                </p>
+              </div>
+
+              <div class="align-self-center">
+                <i class="fas fa-arrows-alt-h fw-bolder text-dark"></i>
+              </div>
+
+              <div class="text-center">
+                <div class="fw-bolder">
+                  <span class="text-danger fs-3">
+                    {{
+                      (data[0].Unplanned /
+                        (data[0].Planned + data[0].Unplanned)) *
+                        100 | number: "1.1-1"
+                    }}
+                  </span>
+                  <span class="text-danger fs-3"> % </span>
+                </div>
+                <p class="mb-0 fs-3">
+                  {{ "DASHBOARD.CARDS.TASKS_2.UNPLANNED_TASKS" | translate }}
+                </p>
+              </div>
+            </div>
+
+            <!-- <div class="col-5 planned-tasks text-success">
+                <div class="fs-6 fw-bolder">
+                  <span class="text-success fs-1"> 81 </span>
+                  <span class="text-success fs-1"> % </span>
+                  <p class="mb-0 fs-7"> المهام المجدولة </p>
+                </div>
+                <div class="fs-4 text-success-400 mb-7">
+                  {{ "DASHBOARD.PLANNEDTASKS" | translate }}
+                </div>
+              </div>
+
+              <span class="col-2 fs-9 fw-bolder"> VS </span>
+
+              <div class="col-5 unplanned-tasks text-danger">
+                <div class="fs-6 fw-bolder">
+                  <span class="text-danger fs-1"> 19 </span>
+                  <span class="text-danger fs-1"> % </span>
+                  <p class="mb-0 fs-7"> المهام غير المجدولة </p>
+                </div>
+              </div> -->
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="row justify-content-center mt-8"> -->
+
+      <!-- بطاقة المستخدمين -->
+      <div class="d-flex w-100px h-100px w-lg-200px h-lg-150px">
+        <div class="card w-100">
+          <div class="card-body p-2">
+            <!--begin::Heading-->
+            <div class="text-center">
+              <!-- NumberOfAssets: 0
+              : 6
+              OpenTask: 0 -->
+              <div class="fs-1 fw-bolder">{{ data[0].NumberOfLicenses }}</div>
+              <div class="fs-4 fw-bold text-gray-400 mb-7">
+                <i class="fas fa-users"></i>
+                {{ "DASHBOARD.CARDS.USERS.CARD_TITLE" | translate }}
+              </div>
+            </div>
+            <!--end::Heading-->
+            <!--begin::Users group-->
+            <div class="symbol-group symbol-hover">
+              <!-- <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                data-bs-original-title="Alan Warden">
+                <span class="symbol-label bg-warning text-inverse-warning fw-bolder">A</span>
+              </div> -->
+              <!-- <div style="margin-right: 150px;" class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                data-bs-original-title="Michael Eberon">
+                <img alt="Pic" [src]="imageProfile()!='http://cmms-api.accessline.ps/resources/Files/null'?imageProfile():'./assets/media/avatars/avatar.svg'">
+              </div> -->
+
+              <!-- <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                data-bs-original-title="Michelle Swanston">
+                <img alt="Pic" src="./assets/media/avatars/150-4.jpg">
+              </div>
+              <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                data-bs-original-title="Francis Mitcham">
+                <img alt="Pic" src="./assets/media/avatars/150-6.jpg">
+              </div>
+              <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                data-bs-original-title="Susan Redwood">
+                <span class="symbol-label bg-primary text-inverse-primary fw-bolder">S</span>
+              </div>
+              <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                data-bs-original-title="Melody Macy">
+                <img alt="Pic" src="./assets/media/avatars/150-8.jpg">
+              </div>
+              <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                data-bs-original-title="Perry Matthew">
+                <span class="symbol-label bg-info text-inverse-info fw-bolder">P</span>
+              </div>
+              <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                data-bs-original-title="Barry Walter">
+                <img alt="Pic" src="./assets/media/avatars/150-10.jpg">
+              </div>
+              <a href="#" class="symbol symbol-35px symbol-circle" data-bs-toggle="modal"
+                data-bs-target="#kt_modal_view_users">
+                <span class="symbol-label bg-dark text-gray-300 fs-8 fw-bolder">42</span> -->
+              <!-- </a>  -->
+            </div>
+            <!--end::Users group-->
+            <!--begin::Actions-->
+            <div class="d-flex">
+              <!-- <a href="javascrip:;" class="btn btn-primary  mx-auto"
+           > عرض جميع المستخدمين </a> -->
+              <button
+                (click)="routeInUser()"
+                class="general-btn add-btn mx-auto"
+              >
+                {{ "DASHBOARD.CARDS.USERS.BUTTON" | translate }}
+              </button>
+              <!-- <a href="#" class="btn btn-light  d-none" data-bs-toggle="modal"
+                  data-bs-target="#kt_modal_users_search">دعوة
+                  </a> -->
+            </div>
+            <!--end::Actions-->
+          </div>
+        </div>
+      </div>
+
+      <!-- بطاقة الأصول -->
+      <div class="d-flex w-100px h-100px w-lg-200px h-lg-150px">
+        <!--begin::Card-->
+        <div class="card overflow-hidden w-100">
+          <!--begin::Card body-->
+          <div class="card-body p-2">
+            <!--begin::Heading-->
+            <div class="text-center">
+              <div class="fs-1 fw-bolder">{{ data[0].NumberOfAssets }}</div>
+              <div class="fs-4 fw-bold text-gray-400 mb-7">
+                <i class="fas fa-boxes"></i>
+                {{ "DASHBOARD.CARDS.ASSETS.CARD_TITLE" | translate }}
+              </div>
+            </div>
+            <!--end::Heading-->
+            <!--begin::Wrapper-->
+            <div
+              class="d-flex flex-wrap justify-content-between align-items-center"
+            >
+              <div class=""></div>
+              <!--end::Labels-->
+            </div>
+            <!--end::Wrapper-->
+            <div class="d-flex align-items-center">
+              <button
+                class="general-btn add-btn mx-auto"
+                (click)="routeInAssets()"
+              >
+                {{ "DASHBOARD.CARDS.ASSETS.BUTTON" | translate }}
+              </button>
+            </div>
+          </div>
+          <!--end::Card body-->
+        </div>
+        <!--end::Card-->
+      </div>
+
+      <!-- </div> -->
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="loading$ | async; else map">
+  <mat-spinner></mat-spinner>
+</ng-container>
+<ng-template #map>
+  <p-gmap
+    #gmap
+    [options]="options"
+    [style]="{ width: '100%', height: '500px' }"
+    [overlays]="overlays"
+    (onOverlayClick)="handleOverlayClick($event)"
+  ></p-gmap>
+</ng-template>
+
+<!-- </div>
+
+
+
+
+
+
+
+<!-- begin::Row -->
+<!-- <div class="row gy-5 g-xl-8">
+  <div class="col-xxl-4">
+    <app-mixed-widget2
+      class="card card-xl-stretch mb-xl-8"
+      chartColor="danger"
+      chartHeight="200px"
+      strokeColor="#cb1e46"
+    ></app-mixed-widget2>
+  </div>
+  <div class="col-xxl-4">
+    <app-lists-widget5 class="card card-xxl-stretch"></app-lists-widget5>
+  </div>
+  <div class="col-xxl-4">
+    <app-mixed-widget10
+      class="card card-xxl-stretch-50 mb-5 mb-xl-8"
+      chartColor="primary"
+      chartHeight="150px"
+    ></app-mixed-widget10>
+    <app-mixed-widget11
+      class="card card-xxl-stretch-50 mb-5 mb-xl-8"
+      chartColor="primary"
+      chartHeight="175px"
+    ></app-mixed-widget11>
+  </div>
+</div> -->
+<!-- end::Row -->
+
+<!-- begin::Row -->
+<!-- <div class="row gy-5 gx-xl-8">
+  <div class="col-xxl-4">
+    <app-lists-widget3
+      class="card card-xxl-stretch mb-xl-3"
+    ></app-lists-widget3>
+  </div>
+  <div class="col-xl-8">
+    <app-tables-widget10
+      class="card card-xxl-stretch mb-5 mb-xl-8"
+    ></app-tables-widget10>
+  </div>
+</div> -->
+<!-- end::Row -->
+
+<!-- begin::Row -->
+<!-- <div class="row gy-5 g-xl-8">
+  <div class="col-xl-4">
+    <app-lists-widget2 class="card card-xl-stretch mb-xl-8"></app-lists-widget2>
+  </div>
+  <div class="col-xl-4">
+    <app-lists-widget6 class="card card-xl-stretch mb-xl-8"></app-lists-widget6>
+  </div>
+  <div class="col-xl-4">
+    <app-lists-widget4
+      class="card card-xl-stretch mb-5 mb-xl-8"
+    ></app-lists-widget4>
+  </div>
+</div> -->
+<!-- end::Row -->
+
+<!-- <div class="row g-5 gx-xxl-8">
+  <div class="col-xxl-4">
+    <app-mixed-widget8
+      class="card card-xxl-stretch mb-xl-3"
+      chartColor="success"
+      chartHeight="150px"
+    ></app-mixed-widget8>
+  </div>
+  <div class="col-xxl-8">
+    <app-tables-widget5
+      class="card card-xxl-stretch mb-5 mb-xxl-8"
+    ></app-tables-widget5>
+  </div>
+</div> -->

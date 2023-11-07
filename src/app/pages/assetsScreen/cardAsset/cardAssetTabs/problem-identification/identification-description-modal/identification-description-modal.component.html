@@ -1,0 +1,29 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-filter mx-1"></i>
+    {{ "وصف العطل" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+<!-- begin dialog body -->
+<div class="modal-body" style="max-height: 80vh">
+  <form [formGroup]="FormGroup">
+    <div class="row">
+      <div class="field col-12 md:col-4">
+        <span>وصف العطل</span>
+        <div
+          class="flex items-center justify-center bg-blue-100 rounded mt-2"
+          style="width: 100%; height: 3rem"
+        >
+          <div class="font-medium text-blue-400">
+            {{ Description }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

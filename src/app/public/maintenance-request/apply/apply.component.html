@@ -1,0 +1,126 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title"></h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="close()"></i>
+  </div>
+  <!--end::-->
+</div>
+<div class="card card-custom">
+  <!-- begin::Body -->
+
+  <div class="card-body" *ngIf="pageDirection == 'ltr'">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 border border-secondary rounded p-5">
+          <div class="text-center">
+            <h1 class="text-center my-5">The Request Saved Successfully</h1>
+
+            <div class="my-5">
+              <div class="position-reltive">
+                <i class="fa fa-check task-complete-icon" [ngStyle]="{'top': WRTitleOptionId != 58 ? '33%' : '40%'}"></i>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  version="1.1"
+                  width="100px"
+                  height="100px"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    stroke-linecap="round"
+                    class="task-complete"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <div class="info" style="font-size: 1.4rem">
+              <div class="form-group mb-3">
+                <label> Thank you ! </label>
+              </div>
+
+              <div class="form-group mb-3" *ngIf="WRTitleOptionId != 58">
+                <label> Task Number:{{ dataTask.InternalNumber }} #</label>
+                <p>has been created</p>
+              </div>
+
+              <!-- <div class="form-group mb-3">
+                <label> Asset Name: </label>
+                <span> abc </span>
+              </div> -->
+
+              <!-- <div class="form-group mb-3">
+                <label> Description: </label>
+                <p> {{ data.RequestDescription }} </p>
+              </div> -->
+              <div (click)="close()">
+                <a href="javascript:;">Submit another request</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body" *ngIf="pageDirection == 'rtl'">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 border border-secondary rounded p-5">
+          <div class="text-center">
+            <h1 class="text-center my-5">تم حفظ الطلب</h1>
+
+            <div class="my-5">
+              <div class="position-reltive">
+                <i class="fa fa-check task-complete-icon" [ngStyle]="{'top': WRTitleOptionId != 58 ? '33%' : '40%'}"></i>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  version="1.1"
+                  width="100px"
+                  height="100px"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    stroke-linecap="round"
+                    class="task-complete"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <div class="info" style="font-size: 1.4rem">
+              <div class="form-group mb-3">
+                <label>شكرا لكم </label>
+              </div>
+
+              <div class="form-group mb-3" *ngIf="WRTitleOptionId != 58">
+                <span> {{ dataTask.InternalNumber }} :رقم المهمة </span>
+                <p>تم الانشاء</p>
+              </div>
+
+              <!-- <div class="form-group mb-3">
+                <label> Asset Name: </label>
+                <span> abc </span>
+              </div> -->
+
+              <!-- <div class="form-group mb-3">
+
+                <label> :التفاصيل </label>
+                <p> {{ dataTask.RequestDescription }} </p>
+              </div> -->
+
+              <div (click)="close()">
+                <a href="javascript:;"> اضافة طلبات اخرى </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end::Body -->
+</div>

@@ -1,0 +1,252 @@
+<ng-container *ngIf="Codes$ | async as codes">
+  <ng-container *ngIf="orderEdit$ | async as data">
+    <div class="d-flex justify-content-end mb-3">
+      <button
+        *ngIf="codes?.PagePermissions?.POPartsEdit"
+        [disabled]="!data.CanChange"
+        class="btn btn-primary btn-sm margin-end-2"
+        (click)="AddSparePart(data.ID)"
+      >
+        <span>
+          <span><i class="fa fa-plus"></i></span>
+          <span>
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.ADD_SPARE_PART"
+                | translate
+            }}
+          </span>
+        </span>
+      </button>
+
+      <button
+        *ngIf="codes?.PagePermissions?.POServicesEdit"
+        [disabled]="!data.CanChange"
+        class="btn btn-primary btn-sm"
+        (click)="AddFroginService(data.ID)"
+      >
+        <span>
+          <span><i class="fa fa-plus"></i></span>
+          <span>
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.ADD_EXTERNAL_SERVICE"
+                | translate
+            }}
+          </span>
+        </span>
+      </button>
+    </div>
+    <div class="table-responsive">
+      <table
+        class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+      >
+        <thead>
+          <tr class="fw-bolder fs-6 text-gray-800">
+            <th>
+              {{
+                "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.TYPE"
+                  | translate
+              }}
+            </th>
+            <th>
+              {{
+                "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.NAME"
+                  | translate
+              }}
+            </th>
+            <th>
+              {{
+                "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.DESCRIPTION"
+                  | translate
+              }}
+            </th>
+            <th class="text-center w-85px">
+              {{
+                "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.QUANTITY"
+                  | translate
+              }}
+            </th>
+            <th class="text-center w-85px">
+              {{
+                "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.PRICE"
+                  | translate
+              }}
+            </th>
+            <!-- <th class="text-center w-85px">
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.TAX"
+                | translate
+            }}
+            %
+          </th> -->
+            <th class="text-center w-85px">
+              {{
+                "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.DISCOUNT"
+                  | translate
+              }}
+              %
+            </th>
+            <th class="text-center w-85px">
+              {{
+                "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.SHIPPING"
+                  | translate
+              }}
+              {{ " " + cur }}
+            </th>
+            <th>
+              {{
+                "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.TOTAL"
+                  | translate
+              }}
+            </th>
+            <th>{{ "GENERAL.PROCEDUERS" | translate }}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of orderEdit.PurchaseOrdersItems; index as i">
+            <td>
+              <i class="fas fa-cogs margin-end-1"></i>
+              <span>
+                {{
+                  item.ItemType == 1 ? "Spare Part " : "External Service "
+                }}</span
+              >
+            </td>
+            <td>
+              {{ item.ItemType == 1 ? item.PartName : item.ServiceName }}
+            </td>
+            <td>
+              <textarea
+                rows="1"
+                class="form-control form-control-sm"
+                [(ngModel)]="item.ItemDescription"
+                (change)="onEdit(item, i)"
+                [disabled]="!data.CanChange || !codes?.PagePermissions?.POEdit"
+              ></textarea>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control form-control-sm text-center"
+                [(ngModel)]="item.Quantity"
+                (change)="onEdit(item, i)"
+                [disabled]="!data.CanChange || !codes?.PagePermissions?.POEdit"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control form-control-sm text-center"
+                [(ngModel)]="item.ItemPrice"
+                (change)="onEdit(item, i)"
+                [disabled]="!data.CanChange || !codes?.PagePermissions?.POEdit"
+              />
+            </td>
+            <!-- <td>
+            <div class="d-flex align-items-center">
+              <input
+                type="text"
+                class="form-control form-control-sm text-center"
+                [(ngModel)]="item.TaxRatio"
+                (change)="onEdit(item, i)"
+                [disabled]="!data.CanChange||!codes?.PagePermissions?.POEdit"
+              />%
+            </div>
+          </td> -->
+            <td>
+              <div class="d-flex align-items-center">
+                <input
+                  type="text"
+                  class="form-control form-control-sm text-center"
+                  [(ngModel)]="item.DiscountRatio"
+                  (change)="onEdit(item, i)"
+                  [disabled]="
+                    !data.CanChange || !codes?.PagePermissions?.POEdit
+                  "
+                />%
+              </div>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control form-control-sm text-center"
+                [(ngModel)]="item.ShippingCost"
+                (change)="onEdit(item, i)"
+                [disabled]="!data.CanChange || !codes?.PagePermissions?.POEdit"
+              />
+            </td>
+            <td>{{ total(item) }}{{ " " + cur }}</td>
+            <td>
+              <i
+                *ngIf="data.CanChange && codes?.PagePermissions?.POItemDelete"
+                (click)="deleteItemInPart(item.ID)"
+                class="fa fa-trash action-icon delete-icon"
+                tooltipPosition="top"
+                pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+              ></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ملخص -->
+    <div class="d-flex justify-content-end">
+      <div class="fs-6 border rounded py-3 px-4">
+        <div class="d-flex justify-content-between">
+          <span class="margin-end-3">
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.TOTAL_AMOUNT_OF_ITEMS"
+                | translate
+            }}
+          </span>
+          <span> {{ TotalTotal }}{{ " " + cur }}</span>
+        </div>
+        <div class="d-flex justify-content-between">
+          <span class="margin-end-3">
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.TOTAL_DISCOUNT"
+                | translate
+            }}
+          </span>
+          <span> {{ Totaldiscount }}{{ " " + cur }} </span>
+        </div>
+
+        <!-- <div class="d-flex justify-content-between">
+        <span class="margin-end-3">
+          {{
+            "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.TOTAL_TAX"
+              | translate
+          }}
+        </span>
+        <span> {{ TotalTaxcount }}$ </span>
+      </div> -->
+
+        <div class="d-flex justify-content-between">
+          <span class="margin-end-3">
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.SHIPPING"
+                | translate
+            }}
+          </span>
+          <span> {{ TotalShippingCost }}{{ " " + cur }} </span>
+        </div>
+
+        <hr />
+
+        <div class="d-flex justify-content-between">
+          <span class="margin-end-3">
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.THE_TOTAL_AMOUNT"
+                | translate
+            }}
+          </span>
+          <span>
+            {{ TotalTaxcount + TotalTotal + +TotalShippingCost - Totaldiscount
+            }}{{ " " + cur }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

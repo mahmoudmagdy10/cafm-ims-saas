@@ -1,0 +1,114 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-columns margin-end-1"></i>
+    {{
+      "ASSETS.FIELDMANAGEMENTMODAL.CATEGORIESMANAGEMENTMODAL.MODALTITLE"
+        | translate
+    }}
+  </h5>
+  <!--  -->
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+
+<div
+  class="modal-body"
+  style="max-height: 80vh; overflow-y: auto"
+  *ngIf="Codes$ | async as codes"
+>
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <div class="col-10">
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder=""
+            [formControl]="CategoriesName"
+          />
+        </div>
+      </div>
+      <div class="col-2" style="text-align: end">
+        <i
+          (click)="addCategories(this.CategoriesName.value, 0)"
+          tooltipPosition="top"
+          pTooltip="{{
+            'ASSETS.FIELDMANAGEMENTMODAL.ADD_CATEGORY' | translate
+          }}"
+          class="fa fa-plus action-icon add-icon"
+        ></i>
+      </div>
+    </div>
+
+    <div class="fields mt-8">
+      <div
+        class="row align-items-center mb-3"
+        *ngFor="let item of codes.Categories; index as i"
+      >
+        <div class="col-9">
+          <div class="form-group">
+            <label
+              *ngIf="!item.showEdit"
+              class="form-control form-control-solid"
+            >
+              {{ item.name }}</label
+            >
+            <input
+              *ngIf="item.showEdit"
+              type="text"
+              class="form-control"
+              [(ngModel)]="item.name"
+              placeholder=""
+            />
+          </div>
+        </div>
+        <div class="col-3" style="text-align: end">
+          <i
+            *ngIf="!item.showEdit"
+            (click)="item.showEdit = true"
+            tooltipPosition="top"
+            pTooltip="{{ 'GENERAL.EDIT' | translate }}"
+            class="far fa-edit action-icon edit-icon"
+          ></i>
+          <i
+            *ngIf="item.showEdit"
+            (click)="addCategories(item.name, item.code); item.showEdit = false"
+            tooltipPosition="top"
+            pTooltip="{{ 'GENERAL.SAVE' | translate }}"
+            class="fa fa-save action-icon"
+          ></i>
+          <i
+            (click)="
+              IndexFieldDeleted = i;
+              IDFieldDeleted = item.code;
+              confirmdeleteUser.openModal()
+            "
+            tooltipPosition="top"
+            pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+            class="fas fa-trash-alt action-icon delete-icon"
+          ></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer position-relative">
+  <button class="btn btn-sm btn-secondary" (click)="Close()">
+    <i class="fas fa-times"></i>
+    {{
+      "ASSETS.FIELDMANAGEMENTMODAL.CATEGORIESMANAGEMENTMODAL.CANCEL" | translate
+    }}
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>
+<confirm-delete
+  #confirmdeleteUser
+  massage="{{ 'CONFIRMDELETE.CATEGORY' | translate }}"
+  (afterSave)="$event ? onDelete() : ''; confirmdeleteUser.CloseModal()"
+>
+</confirm-delete>

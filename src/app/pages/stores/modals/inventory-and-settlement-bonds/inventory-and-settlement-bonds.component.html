@@ -1,0 +1,152 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-clipboard-list mx-1"></i>
+    {{ "STORES.MODALS.INVENTORY_AND_SETTLEMENT_BONDS.MODAL_TITLE" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div
+  class="modal-body"
+  style="max-height: 80vh; overflow: scroll"
+  *ngIf="codes$ | async as codes"
+>
+  <div class="d-flex justify-content-end mb-3">
+    <button
+      class="btn  btn-primary"
+      (click)="AddBond()"
+      *ngIf="codes?.PagePermissions?.PartsAdjustmentVouchersEdit"
+    >
+      <span>
+        <span><i class="fa fa-plus"></i></span>
+        <span>{{
+          "STORES.MODALS.INVENTORY_AND_SETTLEMENT_BONDS.ADD_BOND" | translate
+        }}</span>
+      </span>
+    </button>
+  </div>
+
+  <div class="table-responsive">
+    <table
+      class="table table-rounded table-row-bordered border custom-table-style fs-6"
+    >
+      <thead>
+        <tr class="fw-bolder fs-6 text-gray-800">
+          <th>
+            {{
+              "STORES.MODALS.INVENTORY_AND_SETTLEMENT_BONDS.BOND_NUMBER"
+                | translate
+            }}
+          </th>
+          <th>
+            {{
+              "STORES.MODALS.INVENTORY_AND_SETTLEMENT_BONDS.NAME" | translate
+            }}
+          </th>
+          <th>
+            {{
+              "STORES.MODALS.INVENTORY_AND_SETTLEMENT_BONDS.DATE" | translate
+            }}
+          </th>
+          <th>
+            {{
+              "STORES.MODALS.INVENTORY_AND_SETTLEMENT_BONDS.STATUS" | translate
+            }}
+          </th>
+          <th>{{ "GENERAL.PROCEDUERS" | translate }}</th>
+        </tr>
+      </thead>
+
+      <tbody *ngIf="Adjustment$ | async as data">
+        <tr *ngFor="let item of data; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.AdjustmentName }}</td>
+
+          <td>{{ item.AdjustmentDate | date : "YYYY-MM-DD" }}</td>
+          <td>{{ item.IsCompleted ? "completed" : "notCompleted" }}</td>
+          <td>
+            <i
+              *ngIf="!item.IsCompleted"
+              (click)="PartAdjustmentsComplete(item.ID)"
+              class="fas fa-check action-icon primary-icon"
+              tooltipPosition="top"
+              pTooltip="{{ 'GENERAL.APPROVAL' | translate }}"
+            ></i>
+
+            <i
+              *ngIf="
+                !item.IsCompleted &&
+                codes?.PagePermissions?.PartsAdjustmentVouchersEdit
+              "
+              (click)="AddBond(item)"
+              class="fas fa-edit action-icon edit-icon"
+              tooltipPosition="top"
+              pTooltip="{{ 'GENERAL.EDIT' | translate }}"
+            ></i>
+
+            <i
+              *ngIf="
+                !item.IsCompleted &&
+                codes?.PagePermissions?.PartsAdjustmentVouchersDelete
+              "
+              class="fas fa-trash-alt action-icon delete-icon"
+              tooltipPosition="top"
+              pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+              (click)="idDeleted = item.ID; confirmdeletePart.openModal()"
+            ></i>
+            <!-- <i
+              class="fas fa-trash-alt action-icon delete-icon"
+              tooltipPosition="top"
+              pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+            ></i> -->
+
+            <i
+              *ngIf="item.IsCompleted"
+              (click)="PartAdjustmentsComplete(item.ID)"
+              class="fas fa-times action-icon delete-icon"
+              tooltipPosition="top"
+              pTooltip="{{ 'GENERAL.NOT_APPROVAL' | translate }}"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal-footer position-relative">
+  <button type="button" class="btn  btn-primary" data-bs-dismiss="modal">
+    <span>
+      <span> <i class="fa fa-save"></i> </span>
+      <span> {{ "GENERAL.SAVE" | translate }} </span>
+    </span>
+  </button>
+
+  <button
+    type="button"
+    class="btn  btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <span>
+      <span> <i class="fa fa-times" (click)="Close()"></i> </span>
+      <span> {{ "GENERAL.CANCEL" | translate }} </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>
+
+<confirm-delete
+  #confirmdeletePart
+  massage="   {{
+    'STORES.MODALS.INVENTORY_AND_SETTLEMENT_BONDS.MODAL_TITLE' | translate
+  }} "
+  (afterSave)="$event ? deleteAdjustment() : ''; confirmdeletePart.CloseModal()"
+>
+</confirm-delete>

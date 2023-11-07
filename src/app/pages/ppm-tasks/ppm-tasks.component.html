@@ -1,0 +1,644 @@
+<div class="row justify-content-center">
+  <ng-container *ngIf="!workOrderCompleted && !service.isShedule?.value">
+    <div class="col-3 d-none d-lg-block">
+      <ng-container *ngIf="statistics$ | async as statistics; else loading">
+        <!-- open tasks card -->
+        <div class="card mb-4">
+          <div
+            class="card-header align-items-center justify-content-center px-4"
+            style="min-height: 45px !important"
+          >
+            <h4 class="mb-0 fw-normal">
+              <i class="fas fa-info-circle margin-end-1"></i>
+              {{ "PREVENTIVE_TASKS_MANAGEMENT.CAEDS.OPEN_TASKS" | translate }}
+            </h4>
+          </div>
+          <div class="card-body p-4">
+            <blockquote class="blockquote mb-0">
+              <p class="mb-0 text-center fs-2rem">
+                {{ statistics.OpenTask }}
+              </p>
+            </blockquote>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="col-3 d-none d-lg-block">
+      <ng-container *ngIf="statistics$ | async as statistics; else loading">
+        <!-- open tasks card -->
+
+        <!-- completed tasks card -->
+        <div class="card mb-4 text-center">
+          <div
+            class="card-header align-items-center justify-content-center px-4"
+            style="min-height: 45px !important"
+          >
+            <h4 class="mb-0 fw-normal">
+              <i class="fas fa-check-square margin-end-1"></i>
+              {{
+                "PREVENTIVE_TASKS_MANAGEMENT.CAEDS.COMPLETED_TASKS" | translate
+              }}
+            </h4>
+          </div>
+          <div class="card-body p-4">
+            <blockquote class="blockquote mb-0">
+              <p class="mb-0 text-center fs-2rem">
+                {{ statistics.CompletedTask }}
+              </p>
+              <!-- <footer class="blockquote-footer border-top pt-3 mt-3">
+            {{
+              "PREVENTIVE_TASKS_MANAGEMENT.CAEDS.LAST_30_DAYS"
+                | translate
+            }}
+          </footer> -->
+            </blockquote>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="col-3 d-none d-lg-block">
+      <ng-container *ngIf="statistics$ | async as statistics; else loading">
+        <!-- open tasks card -->
+
+        <!-- completed tasks card -->
+
+        <!-- planned vs unplanned card -->
+        <div class="card mb-4">
+          <div
+            class="card-header align-items-center justify-content-center px-4"
+            style="min-height: 45px !important"
+          >
+            <h4 class="mb-0 fw-normal">
+              <!-- <i class="fas fa-info-circle margin-end-1"></i> -->
+              {{
+                "PREVENTIVE_TASKS_MANAGEMENT.CAEDS.PLANNED_VS_UNPLANNED"
+                  | translate
+              }}
+            </h4>
+          </div>
+          <div class="card-body p-4">
+            <blockquote class="blockquote mb-0 text-center">
+              <span class="text-success fs-2rem">{{ statistics.Planned }}</span>
+              <span class="mx-3">VS</span>
+              <span class="text-danger fs-2rem">{{
+                statistics.Unplanned
+              }}</span>
+            </blockquote>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="col-3 d-none d-lg-block">
+      <ng-container *ngIf="statistics$ | async as statistics; else loading">
+        <!-- open tasks card -->
+        <div class="card mb-4">
+          <div
+            class="card-header align-items-center justify-content-center px-4"
+            style="min-height: 45px !important"
+          >
+            <h4 class="mb-0 fw-normal">
+              <i class="fas fa-info-circle margin-end-1"></i>
+              {{ "PREVENTIVE_TASKS_MANAGEMENT.CAEDS.PPM_TASKS" | translate }}
+            </h4>
+          </div>
+          <div class="card-body p-4">
+            <blockquote class="blockquote mb-0">
+              <p class="mb-0 text-center fs-2rem">
+                {{ statistics?.PPMTask || 0 }}
+              </p>
+            </blockquote>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!workOrderCompleted && service.isShedule?.value">
+    <ng-container *ngIf="statistics$ | async as statistics; else loading">
+      <!-- open tasks card -->
+
+      <p-accordion>
+        <p-accordionTab
+          header="Show Statistics"
+          headerStyle="{'background-color': 'rebeccapurple'}"
+        >
+          <div class="row justify-content-center">
+            <div
+              class="col-2 d-none d-lg-block"
+              *ngFor="let item of statistics"
+            >
+              <div class="card mb-4">
+                <div
+                  class="card-header align-items-center justify-content-center px-4"
+                  style="min-height: 45px !important"
+                >
+                  <h4 class="mb-0 fw-normal">
+                    <i class="fas fa-info-circle margin-end-1"></i>
+                    {{ item?.ScheduleType }} {{ item?.yearNo }}
+                  </h4>
+                </div>
+                <div class="card-body p-4">
+                  <blockquote class="blockquote mb-0">
+                    <p class="mb-0 text-center fs-1rem opacity-50">
+                      {{ item?.count }}
+                    </p>
+                  </blockquote>
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+      <!-- <div class="row justify-content-center">
+        <div class="col-2 d-none d-lg-block" *ngFor="let item of statistics">
+          <div class="card mb-4">
+            <div
+              class="card-header align-items-center justify-content-center px-4"
+              style="min-height: 45px !important"
+            >
+              <h4 class="mb-0 fw-normal">
+                <i class="fas fa-info-circle margin-end-1"></i>
+                {{ item?.ScheduleType }} {{ item?.yearNo }}
+              </h4>
+            </div>
+            <div class="card-body p-4">
+              <blockquote class="blockquote mb-0">
+                <p class="mb-0 text-center fs-1rem opacity-50">
+                  {{ item?.count }}
+                </p>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </ng-container>
+  </ng-container>
+</div>
+<div class="card card-custom">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <i class="fas fa-tools fa-lg" *ngIf="!workOrderCompleted"></i>
+      <h4 class="fw-bolder mb-0 mx-2" *ngIf="!workOrderCompleted && !isSoftService">
+        {{
+          ("PREVENTIVE_TASKS_MANAGEMENT.CARD_TITLE" | translate) +
+            "" +
+            (" PPM" | translate)
+        }}
+      </h4>
+      <img *ngIf="workOrderCompleted" 
+            src="../../../assets/media/icons/duotune/sideNav/completed-ppm.svg"
+            alt="Completed PPM Icon" width="20px" height="20px">
+      <h4 class="fw-bolder mb-0 mx-2" *ngIf="workOrderCompleted && !isSoftService && !CompletedSST">
+        {{
+          CompletedType 
+            ? ("PREVENTIVE_TASKS_MANAGEMENT.WORK_ORDER_REGECTED" | translate) +
+              " " +
+              ("PPM" | translate)
+            : ("PREVENTIVE_TASKS_MANAGEMENT.COMPLETED_PPM_TASKS" | translate)
+        }}
+      </h4>
+      <h4 class="fw-bolder mb-0 mx-2" *ngIf="isSoftService && !CompletedSST" translate="SIDEBAR.SOFT_SERVICES_TASKS"></h4>
+      <h4 class="fw-bolder mb-0 mx-2" *ngIf="CompletedSST && !isSoftService" translate="SIDEBAR.COMPLETED_SOFT_SERVICES_TASKS"></h4>
+    </div>
+    <!-- <div class="card-title m-0">
+      <i class="fas fa-tools fa-lg" *ngIf="!workOrderCompleted"></i>
+      
+      <h4 class="fw-bolder mb-0 mx-2">
+        {{
+          !workOrderCompleted && (!isSoftService || CompletedSST)
+            ? ("PREVENTIVE_TASKS_MANAGEMENT.CARD_TITLE" | translate) + " " + ("PPM" | translate)
+            : workOrderCompleted
+              ? (CompletedType
+                ? ("PREVENTIVE_TASKS_MANAGEMENT.WORK_ORDER_REJECTED" | translate) + " " + ("PPM" | translate)
+                : ("PREVENTIVE_TASKS_MANAGEMENT.COMPLETED_PPM_TASKS" | translate))
+              : isSoftService
+                ? ("SIDEBAR.SOFT_SERVICES_TASKS" | translate)
+                : CompletedSST
+                  ? ("SIDEBAR.COMPLETED_SOFT_SERVICES_TASKS" | translate)
+                  : ''
+        }}
+      </h4>
+    
+      <svg
+        *ngIf="workOrderCompleted"
+        xmlns="http://www.w3.org/2000/svg"
+        width="20px"
+        height="20px"
+        viewBox="18 18 65 65"
+        fill="#66a9ed"
+      >
+        <g>
+          <path
+            d="m49.91 50.6-4.91-4.91a1.36 1.36 0 0 0 -2 0l-1.94 2a1.33 1.33 0 0 0 0 1.94l6.94 6.81a2.7 2.7 0 0 0 1.95.83 2.67 2.67 0 0 0 1.94-.83l-4.55 4.56v.78a13.85 13.85 0 1 1 -6.7-11.81l2.45-2.44a4.84 4.84 0 0 1 6.89 0l2 2a4.9 4.9 0 0 1 1.43 3.7 4.66 4.66 0 0 1 -1.52 3.21z"
+          />
+        </g>
+      </svg>
+    </div> -->
+    
+    <div
+      class="card-header-actions d-flex align-items-center"
+      *ngIf="codes$ | async as code"
+    >
+      <div class="add-new-task align-items-center d-flex">
+        <button
+          *ngIf="!(isShedule$ | async) && Codes?.isCustomizeReport"
+          class="general-btn filter-btn mx-1"
+          (click)="filterReport()"
+        >
+          <span>
+            <div
+              *ngIf="!(DataTasksForReport$ | async)"
+              class="spinner-border text-dark mx-1"
+              style="width: 10px; height: 10px"
+              role="status"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+            <span *ngIf="DataTasksForReport$ | async"
+              ><i class="fas fa-filter"></i
+            ></span>
+
+            <span>{{ "filter_Report" | translate }}</span>
+          </span>
+        </button>
+        <button class="general-btn filter-btn mx-1" (click)="filter()">
+          <span>
+            <span><i class="fas fa-filter"></i></span>
+            <span>{{ "PREVENTIVE_TASKS_MANAGEMENT.FILTER" | translate }}</span>
+          </span>
+        </button>
+        <!-- <button
+          *ngIf="workOrderCompleted"
+          class="general-btn add-btn mx-1"
+          (click)="openReport()"
+        >
+          <span>
+            <span><i class="fas fa-print"></i></span>
+            <span>{{ "Report" | translate }}</span>
+          </span>
+        </button>-->
+        <!--   *ngIf="code?.PagePermissions?.WorkOrdersPrint && !workOrderCompleted" -->
+        <button
+          *ngIf="code?.PagePermissions?.WorkOrdersPrint"
+          type="button"
+          class="general-btn filter-btn mx-1"
+          data-bs-dismiss="modal"
+          (click)="weeklyPrint()"
+        >
+          <span>
+            <span> <i class="fas fa-print fa-lg"></i> </span>
+            <span> {{ "GENERAL.PRINT" | translate }} </span>
+          </span>
+        </button>
+
+        <p-toggleButton
+          styleClass="p-button-sm "
+          *ngIf="workOrderCompleted"
+          [(ngModel)]="CompletedType"
+          [onLabel]="'PREVENTIVE_TASKS_MANAGEMENT.TASK_REJECTed' | translate"
+          [offLabel]="'PREVENTIVE_TASKS_MANAGEMENT.TASK_REJECTed' | translate"
+          [onIcon]="'pi pi-check'"
+          offIcon="pi pi-times"
+          (onChange)="this.refreshData()"
+        ></p-toggleButton>
+
+        <ng-container *ngIf="!workOrderCompleted">
+          <app-actions-of-work-order-selected
+            [workOrderCompleted]="workOrderCompleted"
+            (export)="export()"
+          >
+          </app-actions-of-work-order-selected>
+
+          <p-sidebar [(visible)]="showStatistic" position="left">
+            <ng-container
+              *ngIf="
+                !workOrderCompleted &&
+                showStatistic &&
+                (viewType == 'AccordingToUser' ||
+                  viewType == 'List' ||
+                  viewType == 'DailyWo')
+              "
+            >
+              <div class="col-3 d-none d-lg-block">
+                <ng-container
+                  *ngIf="statistics$ | async as statistics; else loading"
+                >
+                  <!-- open tasks card -->
+                  <div class="card mb-4">
+                    <div
+                      class="card-header align-items-center justify-content-center px-4"
+                      style="min-height: 45px !important"
+                    >
+                      <h4 class="mb-0 fw-normal">
+                        <i class="fas fa-info-circle margin-end-1"></i>
+                        {{
+                          "PREVENTIVE_TASKS_MANAGEMENT.CAEDS.OPEN_TASKS"
+                            | translate
+                        }}
+                      </h4>
+                    </div>
+                    <div class="card-body p-4">
+                      <blockquote class="blockquote mb-0">
+                        <p class="mb-0 text-center fs-2rem">
+                          {{ statistics.OpenTask }}
+                        </p>
+                      </blockquote>
+                    </div>
+                  </div>
+
+                  <!-- completed tasks card -->
+                  <div class="card mb-4">
+                    <div
+                      class="card-header align-items-center justify-content-center px-4"
+                      style="min-height: 45px !important"
+                    >
+                      <h4 class="mb-0 fw-normal">
+                        <i class="fas fa-check-square margin-end-1"></i>
+                        {{
+                          "PREVENTIVE_TASKS_MANAGEMENT.CAEDS.COMPLETED_TASKS"
+                            | translate
+                        }}
+                      </h4>
+                    </div>
+                    <div class="card-body p-4">
+                      <blockquote class="blockquote mb-0">
+                        <p class="mb-0 text-center fs-2rem">
+                          {{ statistics.CompletedTask }}
+                        </p>
+                        <!-- <footer class="blockquote-footer border-top pt-3 mt-3">
+                        {{
+                          "PREVENTIVE_TASKS_MANAGEMENT.CAEDS.LAST_30_DAYS"
+                            | translate
+                        }}
+                      </footer> -->
+                      </blockquote>
+                    </div>
+                  </div>
+
+                  <!-- planned vs unplanned card -->
+                  <div class="card mb-4">
+                    <div
+                      class="card-header align-items-center justify-content-center px-4"
+                      style="min-height: 45px !important"
+                    >
+                      <h4 class="mb-0 fw-normal">
+                        <!-- <i class="fas fa-info-circle margin-end-1"></i> -->
+                        {{
+                          "PREVENTIVE_TASKS_MANAGEMENT.CAEDS.PLANNED_VS_UNPLANNED"
+                            | translate
+                        }}
+                      </h4>
+                    </div>
+                    <div class="card-body p-4">
+                      <blockquote class="blockquote mb-0 text-center">
+                        <span class="text-success fs-2rem">{{
+                          statistics.Planned
+                        }}</span>
+                        <span class="mx-3">VS</span>
+                        <span class="text-danger fs-2rem">{{
+                          statistics.Unplanned
+                        }}</span>
+                      </blockquote>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-container>
+          </p-sidebar>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <!-- end::Header -->
+  <!-- begin::Body -->
+
+  <div class="card-body pt-1" #Report>
+    <div class="row mb-3">
+      <div class="col-5" style="text-align: start">
+        <ng-container *ngIf="filter$ | async as filter">
+          <div
+            class="filter-items-container d-flex"
+            *ngIf="filter && filter?.length > 0"
+          >
+            <i
+              class="fas fa-times action-icon delete-icon"
+              (click)="clearFilter()"
+            ></i>
+            <span class="filter-item">
+              <div (click)="filter()">
+                <ng-container *ngFor="let item of filter">
+                  <label class=""> {{ item.label | translate }}: </label>
+                  <label class="filter-field ms-3 me-1">{{
+                    item?.value
+                  }}</label>
+                </ng-container>
+              </div>
+            </span>
+          </div></ng-container
+        >
+      </div>
+      <div class="col-7 type-view" style="text-align: end">
+        <span>
+          {{ "Total" | translate }}
+        </span>
+        <span class="fs-1 margin-end-1">:</span>
+        <a href="javascript:;" *ngIf="viewType == 'List'">{{
+          (Setting && Setting[0]?.TotalCount) || 0
+        }}</a>
+        <a href="javascript:;" *ngIf="viewType == 'AccordingToUser'">{{
+          ((DataTasksGroup$|async)?.Setting?.[0]?.TotalCount) || 0
+        }}</a>
+        <a href="javascript:;" *ngIf="viewType == 'DailyWo'">{{
+          ((Tasks$|async)?.Setting?.[0]?.TotalCount) || 0
+        }}</a>
+        <a href="javascript:;" *ngIf="viewType == 'FullCalender'">{{
+          ((TotalCalender$|async)?.Setting?.[0]?.TotalCount) || 0
+        }}</a>
+
+        |
+        <span>
+          {{ "PREVENTIVE_TASKS_MANAGEMENT.DISPLAY_AS.DISPLAY_AS" | translate }}
+        </span>
+        <span class="fs-1 margin-end-1">:</span>
+        <a
+          href="javascript:;"
+          [class]="viewType == 'List' ? 'active' : ''"
+          (click)="viewType = 'List'"
+          >{{
+            "PREVENTIVE_TASKS_MANAGEMENT.DISPLAY_AS.DISPLAY_AS_LIST" | translate
+          }}</a
+        >
+
+        |
+        <a
+          href="javascript:;"
+          [class]="viewType == 'AccordingToUser' ? 'active' : ''"
+          *ngIf="
+            !workOrderCompleted &&
+            Codes?.PagePermissions?.WorkOrdersDelete &&
+            Codes?.PagePermissions?.WorkOrdersShowByUser
+          "
+          (click)="viewType = 'AccordingToUser'"
+          >{{
+            "PREVENTIVE_TASKS_MANAGEMENT.DISPLAY_AS.DISPLAY_AS_USER" | translate
+          }}</a
+        >
+
+        |
+        <a
+          href="javascript:;"
+          [class]="viewType == 'DailyWo' ? 'active' : ''"
+          *ngIf="
+            !workOrderCompleted &&
+            Codes?.PagePermissions?.WorkOrdersDelete &&
+            Codes?.PagePermissions?.WorkOrdersShowByUser
+          "
+          (click)="viewType = 'DailyWo'"
+          >{{ "DailyWo" | translate }}</a
+        >
+
+        |
+        <a
+          *ngIf="!workOrderCompleted"
+          href="javascript:;"
+          [class]="viewType == 'FullCalender' ? 'active' : ''"
+          (click)="viewType = 'FullCalender'"
+        >
+          <!-- <span style="color: #000">|</span
+          > -->
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.DISPLAY_AS.DISPLAY_AS_CALENDAR"
+              | translate
+          }}</a
+        >
+        <!-- <a
+          *ngIf="!workOrderCompleted"
+          href="javascript:;"
+          (click)="viewType = 'TimeLineForUserGroup'"
+          [class]="viewType == 'TimeLineForUserGroup' ? 'active' : ''"
+        >
+          <span style="color: #000">|</span
+          >{{
+            "PREVENTIVE_TASKS_MANAGEMENT.DISPLAY_AS.DISPLAY_AS_TIME_LINE"
+              | translate
+          }}</a
+        > -->
+
+        <!-- <a
+          *ngIf="!workOrderCompleted"
+          href="javascript:;"
+          (click)="viewType = 'TimeLineForTasks'"
+          [class]="viewType == 'TimeLineForTasks' ? 'active' : ''"
+        >
+          <span style="color: #000">|</span
+          >{{
+            "PREVENTIVE_TASKS_MANAGEMENT.DISPLAY_AS.DISPLAY_AS_TIME_LINE_For_Tasks"
+              | translate
+          }}</a
+        > -->
+        <input
+          class="form-control mx-1"
+          [placeholder]="'#' + ('No' | translate)"
+          style="width: 60px; display: inline"
+          [formControl]="InternalNumberToScroll"
+        />
+        <i class="fas fa-chevron-down action-icon" (click)="scrollDown()"></i>
+      </div>
+    </div>
+
+    <div class="row">
+      <div [class]="'col-12'" *ngIf="!this.workOrderCompleted">
+        <p-tabMenu
+          [model]="filterStatuses"
+          [activeItem]="activeStatus"
+        ></p-tabMenu>
+      </div>
+
+      <div
+        [class]="
+          workOrderCompleted ||
+          viewType == 'FullCalender' ||
+          viewType == 'TimeLineForUserGroup' ||
+          viewType == 'TimeLineForTasks'
+            ? 'col-12 mt-4'
+            : 'col-12 mt-4'
+        "
+      >
+        <ng-container *ngIf="!workOrderCompleted">
+          <ng-container *ngIf="viewType == 'AccordingToUser'">
+            <app-according-to-users
+              (openLink)="openLink($event)"
+              (openCardTask)="openCardTask($event)"
+              (resetInstructionFromTasks)="resetInstructionFromTasks($event)"
+              (openHistoryWorkersForTask)="openHistoryWorkersForTask($event)"
+              (refresh)="refreshData()"
+            ></app-according-to-users>
+          </ng-container>
+          <ng-container *ngIf="viewType == 'DailyWo'">
+            <according-to-created-date
+              (openLink)="openLink($event)"
+              (openCardTask)="openCardTask($event)"
+              (resetInstructionFromTasks)="resetInstructionFromTasks($event)"
+              (openHistoryWorkersForTask)="openHistoryWorkersForTask($event)"
+              (refresh)="refreshData()"
+            ></according-to-created-date>
+          </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="viewType == 'List'">
+          <app-list
+            (openLink)="openLink($event)"
+            (openCardTask)="openCardTask($event)"
+            (resetInstructionFromTasks)="resetInstructionFromTasks($event)"
+            (openHistoryWorkersForTask)="openHistoryWorkersForTask($event)"
+            (refresh)="refreshData()"
+          ></app-list>
+        </ng-container>
+
+        <ng-container *ngIf="viewType == 'FullCalender' && !workOrderCompleted">
+          <app-full-calender
+            (openCardTask)="openCardTask($event)"
+            (resetInstructionFromTasks)="resetInstructionFromTasks($event)"
+            (refreshData)="refreshData()"
+          ></app-full-calender>
+        </ng-container>
+        <!-- <ng-container *ngIf="!workOrderCompleted">
+          <ng-container *ngIf="viewType == 'TimeLineForUserGroup'">
+            <app-time-line-for-user-group
+              (openCardTask)="openCardTask($event)"
+            ></app-time-line-for-user-group> </ng-container
+        ></ng-container> -->
+        <ng-container *ngIf="!workOrderCompleted">
+          <ng-container *ngIf="viewType == 'TimeLineForTasks'">
+            <app-time-line-for-tasks
+              (openCardTask)="openCardTask($event)"
+            ></app-time-line-for-tasks> </ng-container
+        ></ng-container>
+      </div>
+    </div>
+    <ng-container *ngIf="Tasks$ | async"></ng-container>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="custom-skeleton p-4">
+    <!-- <div class="d-flex mb-3">
+      <div>
+        <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+        <p-skeleton width="5rem" styleClass="mb-2"></p-skeleton>
+        <p-skeleton height=".5rem"></p-skeleton>
+      </div>
+    </div> -->
+    <p-skeleton width="100%" height="100px"></p-skeleton>
+    <!-- <div class="d-flex justify-content-between mt-3">
+      <p-skeleton width="4rem" height="2rem"></p-skeleton>
+      <p-skeleton width="4rem" height="2rem"></p-skeleton>
+    </div> -->
+  </div>
+</ng-template>
+<app-report-work-order-pdf></app-report-work-order-pdf>
+<!-- end::Body -->
+
+<!-- begin::Footer -->
+
+<!-- end::Footer -->

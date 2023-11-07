@@ -1,0 +1,249 @@
+<div class="modal-body"*ngIf="codes$ | async as code">
+  <div
+    class="d-flex justify-content-end mb-3"
+    *ngIf="dataEdit.TaskStatusId != 3 && !preview"
+  >
+    <ng-container >
+      <button
+        *ngIf="code.PagePermissions?.WorkOrdersInstructionsEdit"
+        class="btn btn-primary margin-end-1"
+        (click)="editInstruction()"
+      >
+        <span>
+          <span> <i class="fa fa-edit"></i> </span>
+          <span>{{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.EDIT_INSTRUCTION_MODAL.BUTTON_NAME"
+              | translate
+          }}</span>
+        </span>
+      </button>
+    </ng-container>
+    <!-- <button class="btn btn-primary" (click)="chooseTemplate()">
+      <span>
+        <span><i class="far fa-square"></i></span>
+        <span>{{
+          "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.CHOOSE_TEMPLATE_MODAL.BUTTON_NAME"
+            | translate
+        }}</span>
+      </span>
+    </button> -->
+  </div>
+  <ng-container *ngIf="dataInStruction$ | async as data; else loadingIns">
+    <div style="max-height: 40vh; overflow-y: auto">
+      <p-tree
+        [value]="dataTree"
+        [filter]="false"
+        emptyMessage="{{
+          'PREVENTIVE_TASKS_MANAGEMENT.NO_ISTRUCTIONS' | translate
+        }}"
+        [loading]="loading"
+        class="work-order-instruction-tree"
+      >
+        <ng-template let-node pTemplate="default">
+          <div class="instructions-tree">
+            <div class="instruction">
+              <div
+                class="position-relative instruction-container align-node.datas-center"
+              >
+                <div class="align-items-center d-flex">
+                  <b>{{ node.index + 1 }}-</b>
+                  <icon-field [TypeField]="node.data.FieldTypeId"></icon-field>
+                  <label
+                    *ngIf="node.data.FieldTypeId != 11"
+                    [ngClass]="{
+                      'custom-instruction-label-class':
+                        node.data.FieldTypeId == 12 ||
+                        node.data.FieldTypeId == 13,
+                      'mx-2': true
+                    }"
+                    >{{ node.label }}</label
+                  >
+                </div>
+
+                <ng-container *ngIf="node.data.FieldTypeId == 11">
+                  <textarea
+                    class="form-control"
+                    rows="4"
+                    [(ngModel)]="node.data.Name"
+                    [disabled]="true"
+                  ></textarea>
+                </ng-container>
+                <field-dynamic
+                  [loading]="node?.loading"
+                  style="width: 100%"
+                  [inSOP]="true"
+                  [TypeField]="node.data.FieldTypeId"
+                  [(valueField)]="node.data.Value"
+                  [FieldOptions]="node.option | optionInstrSelrct"
+                  [readOnly]="
+                    dataEdit.TaskStatusId == 3 || preview||!code.PagePermissions?.WorkOrdersExecute ? true : false
+                  "
+                  (SaveNewValue)="
+                    node.data.FieldTypeId != 5 &&
+                    node.data.FieldTypeId != 6 &&
+                    node.data.FieldTypeId != 7
+                      ? SaveNewValue(node.data, $event)
+                      : node.data.FieldTypeId == 7
+                      ? choseOption(node, $event)
+                      : SaveNewValueFile(node, $event)
+                  "
+                  [ngClass]="{
+                    'custom-instruction-field-class':
+                      node.data.FieldTypeId == 12 ||
+                      node.data.FieldTypeId == 13,
+                    'shadow-sm': node.data.FieldTypeId == 11
+                  }"
+                >
+                </field-dynamic>
+                &nbsp;&nbsp;
+                <!-- <i style="color: red;" class="fa fa-arrow-right"></i> -->
+              </div>
+            </div>
+            <ng-container
+              *ngIf="node.data.FieldTypeId == 6 || node.data.FieldTypeId == 5"
+            >
+              <div class="d-flex align-items-center flex-wrap">
+                <ng-container
+                  *ngFor="let itemFile of node.data.Files; let i = index"
+                >
+                  <ng-container
+                    *ngIf="!(itemFile.FileExtension | isImage) && itemFile"
+                  >
+                    <a
+                      class="d-block"
+                      [href]="Avatar + itemFile?.FilePath"
+                      target="_blank"
+                    >
+                      {{ itemFile.FileName + "." + itemFile.FileExtension }}</a
+                    >
+                  </ng-container>
+                  <ng-container
+                    *ngIf="(itemFile.FileExtension | isImage) && itemFile"
+                  >
+                    <div
+                      class="image-input image-input-outline image-input-empty m-2 overflow-hidden border"
+                      data-kt-image-input="true"
+                    >
+                      <span>
+                        <!-- <i class="fa fa-file"></i> -->
+                        <!-- <span class="mx-2">{{
+                          itemFile.FileName + "." + itemFile.FileExtension
+                        }}</span> -->
+                        <i
+                          (click)="confirmdeleteFileInSop(itemFile)"
+                          pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+                          tooltipposition="top"
+                          mat-fab
+                          class="fas fa-times action-icon delete-icon"
+                          style="
+                            border: 1px solid #e8a4a4;
+                            padding: 0;
+                            width: 16px;
+                            height: 16px;
+                            line-height: 14px;
+                            font-size: 10px;
+                          "
+                        ></i>
+                      </span>
+                      <p-image
+                        [src]="Avatar + itemFile?.FilePath"
+                        alt="Image"
+                        height="80px"
+                        width="80px"
+                        [preview]="true"
+                      ></p-image>
+                      <label
+                        data-kt-image-input-action="change"
+                        data-bs-toggle="tooltip"
+                        title=""
+                        data-bs-original-title="Change avatar"
+                        style="right: unset; left: -10px"
+                      >
+                      </label>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </ng-container>
+            <ng-container
+              *ngIf="node.data.FieldTypeId != 6 && node.data.FieldTypeId != 7"
+            >
+              <div class="d-flex align-items-center flex-wrap">
+                <ng-container
+                  *ngFor="let itemFile of node.data.Files; let i = index"
+                >
+                  <!-- <div
+                    class="image-input-wrapper"
+                    style="width: 117px; height: 117px; cursor: pointer"
+                    [style.background-image]="
+                      'url(http://cmms-api.accessline.ps/resources/Files/' +
+                      itemFile?.FilePath +
+                      ')'
+                    "
+                  ></div> -->
+                  <ng-container
+                    *ngIf="
+                      itemFile.FileExtension != 'jpg' &&
+                      itemFile.FileExtension != 'png' &&
+                      !itemFile.IsValue
+                    "
+                  >
+                    <a
+                      class="d-block"
+                      [href]="Avatar + itemFile?.FilePath"
+                      target="_blank"
+                    >
+                      {{ itemFile.FileName + "." + itemFile.FileExtension }}</a
+                    >
+                  </ng-container>
+                  <ng-container
+                    *ngIf="
+                      (itemFile.FileExtension == 'jpg' ||
+                        itemFile.FileExtension == 'png') &&
+                      !itemFile.IsValue
+                    "
+                  >
+                    <div
+                      class="image-input image-input-outline image-input-empty m-2 overflow-hidden border"
+                      data-kt-image-input="true"
+                    >
+                      <p-image
+                        [src]="Avatar + itemFile?.FilePath"
+                        alt="Image"
+                        height="80px"
+                        width="80px"
+                        [preview]="true"
+                      ></p-image>
+                      <label
+                        data-kt-image-input-action="change"
+                        data-bs-toggle="tooltip"
+                        title=""
+                        data-bs-original-title="Change avatar"
+                        style="right: unset; left: -10px"
+                      >
+                      </label>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+        </ng-template>
+      </p-tree>
+    </div>
+  </ng-container>
+  <ng-template #loadingIns>
+    <p-skeleton styleClass="mb-2"></p-skeleton>
+    <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+    <p-skeleton width="5rem" styleClass="mb-2"></p-skeleton>
+    <p-skeleton height="2rem" styleClass="mb-2"></p-skeleton>
+    <p-skeleton width="10rem" height="4rem"></p-skeleton
+  ></ng-template>
+</div>
+<confirm-delete
+  #confirmdeletePMS
+  massage="{{ 'PM.CARD_HEADER' | translate }}"
+  (afterSave)="$event ? deleteFileInSop() : ''; confirmdeletePMS.CloseModal()"
+  [closed]="whenClosedconfirmdeleteFileInSop"
+>
+</confirm-delete>

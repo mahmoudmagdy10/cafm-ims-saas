@@ -1,0 +1,17 @@
+<!-- <label class="mb-2">
+  {{ "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.ASSET" | translate }}
+</label> -->
+
+<div class="form-group d-flex align-items-center">
+  <span class="form-control form-control-solid" style="min-height: 39.8px">
+    {{ AssetSelected }}
+  </span>
+  <i
+    (click)="opentree()"
+    class="fa fa-plus action-icon add-icon"
+    tooltipPosition="top"
+    pTooltip="{{
+      'PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.ADD' | translate
+    }}"
+  ></i>
+</div>

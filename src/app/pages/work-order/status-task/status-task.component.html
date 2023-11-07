@@ -1,0 +1,10 @@
+<i
+  class="action-icon completed-request-status"
+  pTooltip="{{ TaskStatusName }}"
+  [style]="{'color':item?.ClientUserDisApproveName?'red':'black'}"
+  tooltipPosition="top"
+  (click)="permission && menu.toggle($event)"
+  >{{ TaskStatusName | chartFirst }}</i
+>
+<p-menu #menu [popup]="true" [model]="TaskStatus$ | async" appendTo="body">
+</p-menu>

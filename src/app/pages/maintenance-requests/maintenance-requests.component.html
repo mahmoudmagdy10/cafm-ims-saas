@@ -1,0 +1,159 @@
+<div class="card card-custom" *ngIf="Code$ | async as code">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <svg
+        width="20px"
+        height="20px"
+        viewBox="0 0 32 32"
+        id="icon"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <style>
+            .cls-1 {
+              fill: none;
+            }
+          </style>
+        </defs>
+        <rect x="8" y="14" width="6" height="2" />
+        <rect x="8" y="6" width="12" height="2" />
+        <rect x="8" y="10" width="12" height="2" />
+        <rect x="8" y="24" width="6" height="2" />
+        <path
+          d="M30,24V22H27.8989a4.9678,4.9678,0,0,0-.7319-1.7529l1.49-1.49-1.414-1.414-1.49,1.49A4.9678,4.9678,0,0,0,24,18.1011V16H22v2.1011a4.9678,4.9678,0,0,0-1.7529.7319l-1.49-1.49-1.414,1.414,1.49,1.49A4.9678,4.9678,0,0,0,18.1011,22H16v2h2.1011a4.9678,4.9678,0,0,0,.7319,1.7529l-1.49,1.49,1.414,1.414,1.49-1.49A4.9678,4.9678,0,0,0,22,27.8989V30h2V27.8989a4.9678,4.9678,0,0,0,1.7529-.7319l1.49,1.49,1.414-1.414-1.49-1.49A4.9678,4.9678,0,0,0,27.8989,24Zm-7,2a3,3,0,1,1,3-3A3.0033,3.0033,0,0,1,23,26Z"
+        />
+        <path
+          d="M14,30H6a2.0021,2.0021,0,0,1-2-2V4A2.0021,2.0021,0,0,1,6,2H22a2.0021,2.0021,0,0,1,2,2V14H22V4H6V28h8Z"
+        />
+        <rect
+          id="_Transparent_Rectangle_"
+          data-name="&lt;Transparent Rectangle&gt;"
+          class="cls-1"
+          width="32"
+          height="32"
+        />
+      </svg>
+      <h4 class="fw-bolder mb-0 mx-2">
+        {{ "MAINTENANCEREQUESTS.CARDHEADER" | translate }}
+      </h4>
+    </div>
+
+    <div
+      class="card-header-actions"
+      *ngIf="code?.PagePermissions?.WorkRequestGatesCommonFieldsEdit"
+    >
+      <button class="general-btn add-btn" (click)="managmentFields()">
+        <i class="fas fa-columns"></i>
+        {{ "ASSETS.FIELDMANAGEMENTMODAL.BUTTONNAME" | translate }}
+      </button>
+      <button class="btn btn-success mx-1" (click)="export()">
+        <span>
+          <i class="fas fa-upload fa-lg"></i>
+
+          {{ "ASSETS.ACTIONSONSELECTEDMENU.EXPORTDATA" | translate }}
+        </span>
+      </button>
+    </div>
+  </div>
+  <!-- end::Header -->
+  <!-- begin::Body -->
+  <div class="card-body">
+    <p>
+      {{ "MAINTENANCEREQUESTS.DETAILS" | translate }}
+    </p>
+
+    <div class="table-responsive">
+      <table
+        class="table table-rounded table-row-bordered border custom-table-style"
+      >
+        <thead class="fw-bolder">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">
+              {{ "MAINTENANCEREQUESTS.LOCATIONNAME" | translate }}
+            </th>
+            <th scope="col">{{ "MAINTENANCEREQUESTS.LINK" | translate }}</th>
+            <th scope="col">
+              {{ "MAINTENANCEREQUESTS.PROCEDURES" | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of WorkRequestGates$ | async; index as i">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.LocationName }}</td>
+            <td>
+              <a href="javascript:;" (click)="newTab(convertURl(item.ID))">
+                {{ convertURl(item.ID) }}
+              </a>
+            </td>
+            <td>
+              <div class="d-flex flex-nowrp">
+                <i
+                  class="fa fa-qrcode action-icon"
+                  tooltipPosition="top"
+                  pTooltip="{{ 'MAINTENANCEREQUESTS.QRCODE' | translate }}"
+                  (click)="openQRCode(convertURl(item.ID))"
+                ></i>
+
+                <i
+                  *ngIf="code?.PagePermissions?.WorkRequestGatesEdit"
+                  class="fas fa-edit action-icon edit-icon"
+                  tooltipPosition="top"
+                  pTooltip="{{ 'MAINTENANCEREQUESTS.EDIT' | translate }}"
+                  (click)="openEdit(item)"
+                ></i>
+                <i
+                  *ngIf="code?.PagePermissions?.WorkRequestGatesLock"
+                  [class]="
+                    item.IsActive
+                      ? 'fas fa-lock-open action-icon activate-icon'
+                      : 'fas fa-lock action-icon activate-icon'
+                  "
+                  tooltipPosition="top"
+                  pTooltip="{{item.IsActive ? ('MAINTENANCEREQUESTS.LOCK' | translate) : ('MAINTENANCEREQUESTS.UNLOCK' | translate) }}"
+                  (click)="changeStates(item); item.IsActive = !item.IsActive"
+                ></i>
+                <i
+                  class="fas fa-clone action-icon copy-icon"
+                  *ngIf="code?.PagePermissions?.WorkRequestGatesEdit"
+                  tooltipPosition="top"
+                  pTooltip="{{ 'MAINTENANCEREQUESTS.COPY' | translate }}"
+                  (click)="CopySetting(item)"
+                ></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- end::Body -->
+</div>
+<table
+  #TABLE
+  [hidden]="true"
+  class="table table-rounded table-row-bordered border custom-table-style"
+>
+  <thead class="fw-bolder">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">
+        {{ "MAINTENANCEREQUESTS.LOCATIONNAME" | translate }}
+      </th>
+      <th scope="col">{{ "MAINTENANCEREQUESTS.LINK" | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of Excel$ | async; index as i">
+      <td>{{ i + 1 }}</td>
+      <td>{{ item.LocationName }}</td>
+      <td>
+        <a href="javascript:;" (click)="newTab(convertURl(item.ID))">
+          {{ convertURl(item.ID) }}
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>

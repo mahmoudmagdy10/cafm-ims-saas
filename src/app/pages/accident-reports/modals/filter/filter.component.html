@@ -1,0 +1,166 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-filter mx-1"></i>
+    {{
+      "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.MODAL_TITLE" | translate
+    }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body">
+  <form [formGroup]="FormFilter">
+    <div class="row">
+      <!-- عنوان التقرير -->
+      <div class="form-group col-md-4 mb-5">
+        <label class="form-label">
+          {{ "ACCIDENTS_REPORTS.MODALS.FILTER.REPORT_TITLE" | translate }}
+        </label>
+        <input type="text" class="form-control" formControlName="Title" />
+      </div>
+      <div class="form-group col-md-4 mb-5">
+        <label class="form-label">
+          {{ "ACCIDENTS_REPORTS.TABLE.REPORT_NUMBER" | translate }}
+        </label>
+        <input
+          type="number" [min]="0"
+          class="form-control"
+          formControlName="InternalNumber"
+        />
+      </div>
+      <!-- تاريخ الحدث من -->
+      <div class="form-group col-md-4 mb-5">
+        <label class="mb-2">
+          {{ "ACCIDENTS_REPORTS.MODALS.FILTER.ACCIDENT_DATE_FROM" | translate }}
+        </label>
+
+        <div class="form-group custom-datepicker">
+          <input
+            class="form-control"
+            [matDatepicker]="IncidentDateFrom"
+            type="datetime"
+            placeholder="dd-mm-yy"
+            formControlName="IncidentDateFrom"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="IncidentDateFrom"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #IncidentDateFrom></mat-datepicker>
+        </div>
+      </div>
+
+      <!-- تاريخ الحدث الى -->
+      <div class="form-group col-md-4 mb-5">
+        <label class="mb-2">
+          {{ "ACCIDENTS_REPORTS.MODALS.FILTER.ACCIDENT_DATE_TO" | translate }}
+        </label>
+
+        <div class="form-group custom-datepicker">
+          <input
+            class="form-control"
+            [matDatepicker]="IncidentDateTo"
+            type="datetime"
+            placeholder="dd-mm-yy"
+            formControlName="IncidentDateTo"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="IncidentDateTo"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #IncidentDateTo></mat-datepicker>
+        </div>
+      </div>
+
+      <!-- القالب -->
+      <ng-container *ngIf="this.Codes$ | async as codes">
+        <div class="form-group col-md-4 mb-5">
+          <label class="mb-2">
+            {{ "ACCIDENTS_REPORTS.MODALS.FILTER.TEMPLATE" | translate }}
+          </label>
+          <p-dropdown  appendTo="body"
+            [options]="codes.Categories"
+            [style]="{ minWidth: '130px', display: 'flex' }"
+            optionLabel="name"
+            optionValue="code"
+            [placeholder]="'GENERAL.SELECT' | translate"
+            formControlName="CategoryId"
+            [filter]="true"
+            filterBy="name"
+          >
+          </p-dropdown></div
+      ></ng-container>
+    </div>
+
+    <!-- <hr class="my-5 d-md-none" />
+
+      <div class="col-12 col-md-8">
+        <div class="form-group col-md-4 mb-5 container-fluid">
+          <label class="form-label"> {{"ACCIDENTS_REPORTS.MODALS.FILTER.CHOOSE_FIELD" | translate }} </label>
+          <div class="d-flex align-items-center justify-content-between">
+            <p-dropdown  appendTo="body" class="custom-dropdown" style="flex-basis: 90%" [filter]="true" optionLabel="Name"
+              formControlName="FieldControl">
+            </p-dropdown>
+            <i tooltipPosition="top" pTooltip='{{"ACCIDENTS_REPORTS.MODALS.FILTER.ADD" | translate }}'
+              class="fa fa-plus action-icon add-icon"></i>
+          </div>
+        </div>
+
+        <div class="field-info container-fluid" style="overflow: auto; max-height: 200px">
+          <div class="row align-items-center ">
+            <div class="col-12 col-lg-5 mb-3 mb-lg-0">
+              <div class="form-group"><label class="form-label"> {{"ACCIDENTS_REPORTS.MODALS.FILTER.FIELD_NAME" |
+                  translate }} </label>
+                <label class="form-label form-control form-control-solid"> asdasas </label>
+              </div>
+            </div>
+            <div class="col-12 col-lg-6 mb-3 mt-lg-10">
+              <div class="form-group">
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            <div class="col-1">
+              <div class="form-group"><label class="form-label invisible mb-0 d-none d-lg-block"> test </label>
+                <i pTooltip='{{"ACCIDENTS_REPORTS.MODALS.FILTER.DELETE" | translate }}' tooltipPosition="top"
+                  class="fas fa-trash-alt action-icon delete-icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    <!-- </div> -->
+  </form>
+</div>
+
+<div class="modal-footer position-relative">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-dismiss="modal"
+    (click)="onSearch()"
+  >
+    <span>
+      <span> <i class="fa fa-search"></i> </span>
+      <span> {{ "ACCIDENTS_REPORTS.MODALS.FILTER.SEARCH" | translate }} </span>
+    </span>
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span> {{ "ACCIDENTS_REPORTS.MODALS.FILTER.CANCEL" | translate }} </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

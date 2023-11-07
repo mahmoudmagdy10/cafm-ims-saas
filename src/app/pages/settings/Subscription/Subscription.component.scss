@@ -1,0 +1,21 @@
+.cradSubscription {
+  border: 1.5px solid #f4f4f4;
+  width: 160px;
+  height: 100px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .5s ease;
+
+  &:hover{
+    background-color: #f9f9f9;
+  }
+
+  .card-subscriotion-info{
+    font-weight: bold;
+  }
+}
+// ********************************
+// icons color in tah card body
+.card-title i {
+  color: #66a9ed;
+}

@@ -1,0 +1,1158 @@
+<div class="card card-custom">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch overflow-auto">
+    <ul
+      class="nav nav-stretch nav-line-tabs fw-bold border-transparent flex-nowrap"
+      role="tablist"
+    >
+      <li class="nav-item">
+        <a
+          class="nav-link cursor-pointer"
+          [ngClass]="{ active: activeTab === 'Header' }"
+          (click)="setActiveTab('Header')"
+          role="tab"
+        >
+          الإعدادات العامة
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link cursor-pointer"
+          [ngClass]="{ active: activeTab === 'Toolbar' }"
+          (click)="setActiveTab('Toolbar')"
+          role="tab"
+        >
+          اعدادات الأمان
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link cursor-pointer"
+          [ngClass]="{ active: activeTab === 'PageTitle' }"
+          (click)="setActiveTab('PageTitle')"
+          role="tab"
+        >
+          اعدادات واجهة المستخدم
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link cursor-pointer"
+          [ngClass]="{ active: activeTab === 'Aside' }"
+          (click)="setActiveTab('Aside')"
+          role="tab"
+        >
+          إعدادات المهام العامة
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link cursor-pointer"
+          [ngClass]="{ active: activeTab === 'Content' }"
+          (click)="setActiveTab('Content')"
+          role="tab"
+        >
+          إعدادات أمر العمل
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link cursor-pointer"
+          [ngClass]="{ active: activeTab === 'Footer' }"
+          (click)="setActiveTab('Footer')"
+          role="tab"
+        >
+          إعدادات طلب العمل
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a
+          class="nav-link cursor-pointer"
+          [ngClass]="{ active: activeTab === 'Footer1' }"
+          (click)="setActiveTab('Footer1')"
+          role="tab"
+        >
+          إعدادات الأجزاء
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a
+          class="nav-link cursor-pointer"
+          [ngClass]="{ active: activeTab === 'Footer2' }"
+          (click)="setActiveTab('Footer2')"
+          role="tab"
+        >
+          إعدادات الفواتير
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a
+          class="nav-link cursor-pointer"
+          [ngClass]="{ active: activeTab === 'Footer3' }"
+          (click)="setActiveTab('Footer3')"
+          role="tab"
+        >
+          إعدادات API
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a
+          class="nav-link cursor-pointer"
+          [ngClass]="{ active: activeTab === 'Footer4' }"
+          (click)="setActiveTab('Footer4')"
+          role="tab"
+        >
+          تكوين السمة
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- end::Header -->
+  <!-- begin::Form -->
+  <form class="form" novalidate #form="ngForm" (ngSubmit)="submitPreview()">
+    <!-- begin::Body -->
+    <div class="card-body">
+      <div class="tab-content pt-3">
+        <!-- begin::Header -->
+        <div class="tab-pane" [ngClass]="{ active: activeTab === 'Header' }">
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >اللغة الافتراضية:</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <!-- form-select-solid -->
+
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">العربية</option>
+                  <option value="fixed">الانجليزية</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                  pTooltip="Click to proceed"
+                ></span>
+              </div>
+              <div class="form-text text-muted">
+                اختيار اللغة الافتراضية للنظام
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"> العملة:</label>
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">ريال سعودي</option>
+                  <option value="fixed">دولار أمريكي</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end">
+              السنة المالية:</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <input type="text" value="29/05/2021" class="form-control" />
+
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end">
+              بداية أسبوع العمل:</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">الأحد</option>
+                  <option value="fixed">السبت</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"> المواسم:</label>
+            <div class="col-lg-9 col-xl-4">
+              <div class="d-flex align-items-center">
+                <div class="clicable-link">
+                  <a href="#">تخصيص</a>
+                </div>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end">
+              الأجازات:</label
+            >
+            <div class="col-lg-9 col-xl-4">
+              <div class="d-flex align-items-center">
+                <div class="clicable-link">
+                  <a href="#">تخصيص</a>
+                </div>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end::Header -->
+        <!-- begin::Header -->
+        <div class="tab-pane" [ngClass]="{ active: activeTab === 'Toolbar' }">
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >تسجيل خروج المستخدم تلقائيًا بعد...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <!-- form-select-solid -->
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">٤ ساعات</option>
+                  <option value="fixed">١٠ ساعات</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >تنتهي صلاحية كلمات مرور المستخدم تلقائيًا...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">مفعل</option>
+                  <option value="fixed">غير مفعل</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >تعيين الحد الأدنى المطلوب لطول كلمة المرور ...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">٨ أحرف</option>
+                  <option value="fixed">١٠ أحرف</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end::Toolbar -->
+
+        <!-- begin::Page Title -->
+        <div class="tab-pane" [ngClass]="{ active: activeTab === 'PageTitle' }">
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >اختيار الأصول - بدء التدرج الهرمي ...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <!-- form-select-solid -->
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">موسع</option>
+                  <option value="fixed">غير موسع</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end">
+              اختيار الأصول - ترتيب الشجرة الهرمية حسب ...</label
+            >
+            <div class="col-lg-9 col-xl-3">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">أبجديا حسب اسم الأصول</option>
+                  <option value="fixed">طلب يدوي مخصص</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >إدارة الأصول - بدء التدرج الهرمي ...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">افتراضي</option>
+                  <option value="fixed">موسع</option>
+                  <option value="fixed">غير موسع</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end::Page Title -->
+
+        <!-- begin::Content -->
+        <div class="tab-pane" [ngClass]="{ active: activeTab === 'Content' }">
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >بدء عرض طلب العمل يبدأ ...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">بسيط</option>
+                  <option value="fixed">افتراضي</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >بدء قالب أمر العمل ...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">نموذج</option>
+                  <option value="fixed">افتراضي</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >بدء نوع أمر العمل ...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">غير منظم</option>
+                  <option value="fixed">افتراضي</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >بدء تاريخ الاستحقاق الافتراضي لأمر العمل هو ...</label
+            >
+            <div class="col-lg-9 col-xl-3">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">اليوم الذي بدأت فيه</option>
+                  <option value="fixed">افتراضي</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >يطلب بدء طلب العمل أولاً تحديد أصل ...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">دائماً</option>
+                  <option value="fixed">افتراضي</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end::Content -->
+
+        <!-- begin::Aside -->
+        <div class="tab-pane" [ngClass]="{ active: activeTab === 'Aside' }">
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >تذكير بتسجيل الوقت إذا عرضت المهمة أطول من ...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <!-- form-select-solid -->
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">٥ دقائق</option>
+                  <option value="fixed">١٠ دقائق</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >عند إكمال مهمة ، تكون ملاحظات الإنجاز ...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">اختياري</option>
+                  <option value="fixed">غير اختياري</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >عند تسجيل الوقت في مهمة ، يكون الوصف ...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">اختياري</option>
+                  <option value="fixed">غير اختياري</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >عند إكمال مهمة اعرض رسالة مكافأة</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">مفعل</option>
+                  <option value="fixed">غير مفعل</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end">الأولويات</label>
+            <div class="col-lg-9 col-xl-4">
+              <div class="d-flex align-items-center">
+                <div class="clicable-link">
+                  <a href="#">تخصيص</a>
+                </div>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >إظهار أسعار الأجزاء عند طباعة المهام المكتملة</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">مفعل</option>
+                  <option value="fixed">غير مفعل</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >أضف المعلقين والمستخدمين المذكورين إلى سلسلة الإشعارات</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">مفعل</option>
+                  <option value="fixed">غير مفعل</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >إخفاء التعليقات من المستخدمين الخارجيين.</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">مفعل</option>
+                  <option value="fixed">غير مفعل</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end::Aside -->
+        <!-- begin::Footer -->
+        <div class="tab-pane" [ngClass]="{ active: activeTab === 'Footer' }">
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >أنا لست روبوتًا ...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">مفعل</option>
+                  <option value="fixed">افتراضي</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >تاريخ الاستحقاق الافتراضي لطلبات العمل هو ...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">٠ يوم</option>
+                  <option value="fixed">١ يوم</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >عند التحقق من طلبات العمل ، يمكن لمقدمي الطلبات عرض ...</label
+            >
+            <div class="col-lg-9 col-xl-3">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">فقط طلبات عملهم</option>
+                  <option value="fixed">جميع طلبات العمل</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >بدء تاريخ الاستحقاق الافتراضي لأمر العمل هو ...</label
+            >
+            <div class="col-lg-9 col-xl-3">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">اليوم الذي بدأت فيه</option>
+                  <option value="fixed">افتراضي</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >عند استكمال طلب العمل ، تكون الملاحظات إلى مقدم الطلب ...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">اختياري</option>
+                  <option value="fixed">افتراضي</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >عند إرسال طلب عمل ، أظهر طلبات عمل مفتوحة مماثلة إذا كانت متطابقة
+              ...</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">اختياري</option>
+                  <option value="fixed">٢ عبارات</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >ما هي الأصول التي يجب أن نتحقق منها من الطلبات المماثلة في</label
+            >
+            <div class="col-lg-9 col-xl-4">
+              <div class="d-flex align-items-center">
+                <div class="text-mutted">
+                  <h5>يجب ضبطه ضمن إعدادات الأصول.</h5>
+                </div>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >التعيين الافتراضي لطلبات العمل هو ...</label
+            >
+            <div class="col-lg-9 col-xl-4">
+              <div class="d-flex align-items-center">
+                <div class="text-mutted">
+                  <h5>يجب تعيينها ضمن إعداد طلبات العمل</h5>
+                </div>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" [ngClass]="{ active: activeTab === 'Footer1' }">
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >استهلاك الأجزاء</label
+            >
+            <div class="col-lg-9 col-xl-3">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">أول من يدخل</option>
+                  <option value="fixed">آخر من يدخل</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >طلب استجابة لخفض كمية الأجزاء يدويًا</label
+            >
+            <div class="col-lg-9 col-xl-2">
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  name="model.header.width"
+                  [(ngModel)]="model.header.width"
+                >
+                  <option value="fluid">غير مفعل</option>
+                  <option value="fixed">مفعل</option>
+                </select>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- end::Footer -->
+        </div>
+
+        <div class="tab-pane" [ngClass]="{ active: activeTab === 'Footer2' }">
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >فئات العمل</label
+            >
+            <div class="col-lg-9 col-xl-4">
+              <div class="d-flex align-items-center">
+                <div class="clicable-link">
+                  <a href="#">تخصيص</a>
+                </div>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- end::Footer -->
+        </div>
+
+        <div class="tab-pane" [ngClass]="{ active: activeTab === 'Footer3' }">
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >مصادقة API</label
+            >
+            <div class="col-lg-9 col-xl-4">
+              <div class="d-flex align-items-center">
+                <div class="clicable-link">
+                  <a href="#">إنشاء مفاتيح API</a>
+                </div>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >نقطة نهاية Webhook للمهمة</label
+            >
+            <div class="col-lg-9 col-xl-4">
+              <div class="d-flex align-items-center">
+                <a href="#" class="btn btn-primary"
+                  ><span
+                    class="svg-icon svg-icon-2"
+                    [inlineSVG]="
+                      './assets/media/icons/duotune/arrows/arr013.svg'
+                    "
+                  ></span
+                  >&nbsp; اضافة</a
+                >
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >نقطة نهاية PO Webhook</label
+            >
+            <div class="col-lg-9 col-xl-4">
+              <div class="d-flex align-items-center">
+                <a href="#" class="btn btn-primary"
+                  ><span
+                    class="svg-icon svg-icon-2"
+                    [inlineSVG]="
+                      './assets/media/icons/duotune/arrows/arr013.svg'
+                    "
+                  ></span
+                  >&nbsp; اضافة</a
+                >
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >نقطة نهاية Webhook لعنصر صندوق البريد</label
+            >
+            <div class="col-lg-9 col-xl-4">
+              <div class="d-flex align-items-center">
+                <a href="#" class="btn btn-primary"
+                  ><span
+                    class="svg-icon svg-icon-2"
+                    [inlineSVG]="
+                      './assets/media/icons/duotune/arrows/arr013.svg'
+                    "
+                  ></span
+                  >&nbsp; اضافة</a
+                >
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- end::Footer -->
+        </div>
+
+        <div class="tab-pane" [ngClass]="{ active: activeTab === 'Footer4' }">
+          <div class="row mb-5">
+            <label class="col-lg-3 col-form-label text-lg-end"
+              >تخصيص سمة التطبيق</label
+            >
+            <div class="col-lg-9 col-xl-4">
+              <div class="d-flex align-items-center">
+                <div class="clicable-link">
+                  <a href="#">تخصيص</a>
+                </div>
+                <span
+                  class="tooltip-item svg-icon svg-icon-1"
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen044.svg'
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- end::Footer -->
+        </div>
+      </div>
+    </div>
+    <!-- end::Body -->
+
+    <!-- begin::Footer -->
+    <!-- <div class="card-footer py-6">
+      <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-9">
+          <button
+            type="button"
+            (click)="submitPreview()"
+            class="btn btn-primary me-2"
+            [disabled]="configLoading || resetLoading"
+          >
+            <ng-container *ngIf="!configLoading">
+              <span class="indicator-label">Preview</span>
+            </ng-container>
+
+            <ng-container *ngIf="configLoading">
+              <span class="indicator-progress" [style.display]="'block'">
+                Please wait...{{ " " }}
+                <span
+                  class="spinner-border spinner-border-sm align-middle ms-2"
+                ></span>
+              </span>
+            </ng-container>
+          </button>
+
+          <button
+            type="button"
+            id="kt_layout_builder_reset"
+            class="btn btn-active-light btn-color-muted"
+            (click)="resetPreview()"
+            [disabled]="configLoading || resetLoading"
+          >
+            <ng-container *ngIf="!resetLoading">
+              <span class="indicator-label">Reset</span>
+            </ng-container>
+
+            <ng-container *ngIf="resetLoading">
+              <span class="indicator-progress" [style.display]="'block'">
+                Please wait...{{ " " }}
+                <span
+                  class="spinner-border spinner-border-sm align-middle ms-2"
+                ></span>
+              </span>
+            </ng-container>
+          </button>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- end::Footer -->
+  </form>
+  <!-- end::Form -->
+</div>

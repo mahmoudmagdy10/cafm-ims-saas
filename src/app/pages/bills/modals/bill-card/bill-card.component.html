@@ -1,0 +1,353 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <!-- <i class="fas fa-filter mx-1"></i> -->
+    {{ "BILLS.MODALS.BILL_CARD.MODAL_TITLE" | translate }} (#52621)
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div
+  #Report
+  class="modal-body"
+  style="max-height: 80vh; overflow: scroll"
+  *ngIf="billById$ | async as data"
+>
+  <div class="row">
+    <!-- رقم الفاتورة -->
+    <!-- <div class="col-12 col-sm-6 col-md-4 mb-3">
+        <div class="form-group">
+          <label class="mb-2">
+            {{ "BILLS.MODALS.BILL_CARD.BILL_NUMBER" | translate }}
+          </label>
+          <input type="text" formControlName="" class="form-control" />
+        </div>
+      </div> -->
+
+    <!-- اسم الفاتورة -->
+    <!-- <div class="col-12 col-sm-6 col-md-4 mb-3">
+        <div class="form-group">
+          <label class="mb-2">
+            {{ "BILLS.MODALS.BILL_CARD.BILL_NAME" | translate }}
+          </label>
+          <input type="text" formControlName="" class="form-control" />
+        </div>
+      </div> -->
+
+    <!-- المورد -->
+    <div class="col-12 col-md-4 mb-3">
+      <label class="mb-2">{{
+        "BILLS.MODALS.BILL_CARD.VENDOR" | translate
+      }}</label>
+      <label class="form-control form-control-solid" style="height: 38.5px">{{
+        data.PurchaseOrders[0].VendorName
+      }}</label>
+    </div>
+
+    <!-- أمر الشراء -->
+    <div class="col-12 col-md-4 mb-3">
+      <label class="mb-2">{{
+        "BILLS.MODALS.BILL_CARD.PURCHASE_ORDER" | translate
+      }}</label>
+      <label
+        class="form-control form-control-solid"
+        (click)="procurementOrderCard(data.PurchaseOrders[0].ID)"
+      >
+        <a href="javascript:;"> {{ data.PurchaseOrders[0].POName }} </a>
+      </label>
+    </div>
+
+    <!-- تاريخ الفاتورة -->
+    <div class="col-12 col-md-4 mb-3">
+      <label class="mb-2">{{
+        "BILLS.MODALS.BILL_CARD.BILL_DATE" | translate
+      }}</label>
+      <label class="form-control form-control-solid" style="height: 38.5px">
+        {{ originalDate | date : "MM/dd/yyyy" }}</label
+      >
+    </div>
+  </div>
+
+  <hr />
+
+  <span class="d-inline-block fw-bolder border-bottom border-dark fs-5 mb-2">
+    {{ "BILLS.MODALS.BILL_CARD.BILL_ELEMENTS" | translate }} :
+  </span>
+  <div class="table-responsive">
+    <table
+      class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+    >
+      <thead>
+        <tr class="fw-bolder fs-6 text-gray-800">
+          <th>
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.TYPE"
+                | translate
+            }}
+          </th>
+          <th>
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.NAME"
+                | translate
+            }}
+          </th>
+          <th>
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.DESCRIPTION"
+                | translate
+            }}
+          </th>
+          <th class="text-center w-85px">
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.QUANTITY"
+                | translate
+            }}
+          </th>
+          <th class="text-center w-85px">
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.PRICE"
+                | translate
+            }}
+          </th>
+          <th class="text-center w-85px">
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.TAX"
+                | translate
+            }}
+            %
+          </th>
+          <th class="text-center w-85px">
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.DISCOUNT"
+                | translate
+            }}
+            %
+          </th>
+          <th class="text-center w-85px">
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.SHIPPING"
+                | translate
+            }}
+            {{ " " + cur }}
+          </th>
+          <th>
+            {{
+              "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.TOTAL"
+                | translate
+            }}
+          </th>
+          <th>{{ "GENERAL.PROCEDUERS" | translate }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          *ngFor="
+            let item of this.orderEdit.PurchaseOrdersBillsItems;
+            index as i
+          "
+        >
+          <td>
+            <i class="fas fa-cogs margin-end-1"></i>
+            <span>
+              {{
+                item.ItemType == 1 ? "Spare Part " : "External Service "
+              }}</span
+            >
+          </td>
+          <td>
+            {{ item.ItemName }}
+          </td>
+          <td>
+            <textarea
+              [disabled]="true"
+              rows="1"
+              class="form-control form-control-sm"
+              [(ngModel)]="item.ItemDescription"
+            ></textarea>
+          </td>
+          <td>
+            <input
+              [disabled]="true"
+              type="text"
+              class="form-control form-control-sm text-center"
+              [(ngModel)]="item.Quantity"
+            />
+          </td>
+          <td>
+            <input
+              [disabled]="true"
+              type="text"
+              class="form-control form-control-sm text-center"
+              [(ngModel)]="item.ItemPrice"
+            />
+          </td>
+          <td>
+            <div class="d-flex align-items-center">
+              <input
+                [disabled]="true"
+                type="text"
+                class="form-control form-control-sm text-center"
+                [(ngModel)]="item.TaxRatio"
+              />%
+            </div>
+          </td>
+          <td>
+            <div class="d-flex align-items-center">
+              <input
+                [disabled]="true"
+                type="text"
+                class="form-control form-control-sm text-center"
+                [(ngModel)]="item.DiscountRatio"
+              />%
+            </div>
+          </td>
+          <td>
+            <input
+              [disabled]="true"
+              type="text text-center"
+              class="form-control form-control-sm text-center"
+              [(ngModel)]="item.ShippingCost"
+            />
+          </td>
+          <td>{{ total(i, item) }}{{ " " + cur }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ملخص -->
+  <div class="d-flex justify-content-end">
+    <div class="fs-6 border rounded py-3 px-4">
+      <div class="d-flex justify-content-between">
+        <span class="margin-end-3">
+          {{
+            "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.TOTAL_AMOUNT_OF_ITEMS"
+              | translate
+          }}
+        </span>
+        <span> {{ TotalTotal }}{{ " " + cur }} </span>
+      </div>
+      <div class="d-flex justify-content-between">
+        <span class="margin-end-3">
+          {{
+            "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.TOTAL_DISCOUNT"
+              | translate
+          }}
+        </span>
+        <span> {{ Totaldiscount }}{{ " " + cur }} </span>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <span class="margin-end-3">
+          {{
+            "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.TOTAL_TAX"
+              | translate
+          }}
+        </span>
+        <span> {{ TotalTaxcount }}{{ " " + cur }} </span>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <span class="margin-end-3">
+          {{
+            "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.SHIPPING"
+              | translate
+          }}
+        </span>
+        <span> {{ TotalShippingCost }}{{ " " + cur }} </span>
+      </div>
+
+      <hr />
+
+      <div class="d-flex justify-content-between">
+        <span class="margin-end-3">
+          {{
+            "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.THE_TOTAL_AMOUNT"
+              | translate
+          }}
+        </span>
+        <span>
+          {{ TotalTaxcount + TotalTotal + +TotalShippingCost - Totaldiscount
+          }}{{ " " + cur }}</span
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- تاريخ السداد -->
+  <div
+    class="d-flex justify-content-end align-items-end mt-3"
+    *ngIf="Codes$ | async as codes"
+  >
+    <div class="margin-end-2">
+      <label class="mb-2">
+        {{ "BILLS.MODALS.BILL_CARD.DATA_OF_PAYMENT" | translate }}
+      </label>
+      <div class="form-group custom-datepicker">
+        <input
+          class="form-control"
+          [matDatepicker]="picker"
+          type="datetime"
+          placeholder="MM/DD/YYYY"
+          style="height: 30px !important"
+          [(ngModel)]="BillEdit.BillDate"
+        />
+
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker"
+          class="d-flex align-items-center"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </div>
+    </div>
+    <button *ngIf=" codes?.PagePermissions?.BillPayment" class="btn btn-sm btn-success" (click)="updateBillMessg()">
+      <span>
+        <span></span>
+        <span>{{ "BILLS.MODALS.BILL_CARD.PAYMENT" | translate }}</span>
+      </span>
+    </button>
+  </div>
+</div>
+
+<div class="modal-footer position-relative"     *ngIf="Codes$ | async as codes">
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <span>
+      <span> <i class="fa fa-times" (click)="Close()"></i> </span>
+      <span> {{ "GENERAL.CANCEL" | translate }} </span>
+    </span>
+  </button>
+  <button
+  *ngIf=" codes?.PagePermissions?.PrintBill"
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="exportPDF()"
+  >
+    <span>
+      <span> <i class="fas fa-print fa-lg"></i> </span>
+      <span> {{ "GENERAL.PRINT" | translate }} </span>
+    </span>
+  </button>
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>
+<confirm-delete
+  customheader="{{ 'BILLS.MODALS.BILL_CARD.PAYMENT' | translate }}"
+  customSure="{{ 'YES' | translate }}"
+  customIcon=" fa fa-check"
+  customColor="btn btn-sm btn-success"
+  #confirmdeleteBill
+  customMassage="{{ 'ARE_YOU_SURE' | translate }}"
+  (afterSave)="$event ? updateBill() : ''; confirmdeleteBill.CloseModal()"
+>
+</confirm-delete>

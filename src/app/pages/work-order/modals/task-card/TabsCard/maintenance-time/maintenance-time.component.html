@@ -1,0 +1,109 @@
+<div class="d-flex justify-content-end">
+  <button
+    class="btn btn-primary"
+    *ngIf="dataEdit.TaskStatusId != 3&&!preview"
+    (click)="timeConsuming.emit(true)"
+  >
+    {{
+      "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MAINTENANCE_TIME_TAB.ADD"
+        | translate
+    }}
+  </button>
+</div>
+<!-- <div class="d-flex justify-content-between align-items-end mb-3">
+  <div class="timer d-flex align-items-end">
+    <span class="margin-end-1" style="font-size: 1.25rem">{{
+      "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MAINTENANCE_TIME_TAB.TIMER"
+        | translate
+    }}</span>
+    <div class="time" style="font-size: 1.25rem; font-weight: bold">
+      <span>{{ display }}</span>
+    </div>
+    <button
+      *ngIf="!stop && dataEdit.TaskStatusId != 3&&!preview"
+      class="btn btn-primary mx-2"
+      (click)="startTimer()"
+    >
+      {{
+        "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MAINTENANCE_TIME_TAB.START"
+          | translate
+      }}
+    </button>
+    <button
+      *ngIf="stop && dataEdit.TaskStatusId != 3&&!preview"
+      class="btn btn-primary mx-2"
+      (click)="pauseTimer()"
+    >
+      {{
+        "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MAINTENANCE_TIME_TAB.STOP"
+          | translate
+      }}
+    </button>
+  </div>
+
+  <div class="total-time d-flex align-items-end">
+    <span class="margin-end-1" style="font-size: 1.25rem">{{
+      "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MAINTENANCE_TIME_TAB.TOTAL_TIME"
+        | translate
+    }}</span>
+    <div class="time" style="font-size: 1.25rem; font-weight: bold">
+      <span>{{ dataEdit.RealCompletionTime * 60 | transformTime }}</span>
+    </div>
+  </div>
+</div> -->
+
+<div class="table-responsive">
+  <table
+    class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+  >
+    <thead>
+      <tr class="fw-bolder fs-6 text-gray-800">
+        <th>
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MAINTENANCE_TIME_TAB.DURATION"
+              | translate
+          }}
+        </th>
+        <th>
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MAINTENANCE_TIME_TAB.DATE"
+              | translate
+          }}
+        </th>
+        <th>
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MAINTENANCE_TIME_TAB.USER"
+              | translate
+          }}
+        </th>
+        <th>
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MAINTENANCE_TIME_TAB.Log_Description"
+              | translate
+          }}
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of dataEdit.WorkOrderTimeLogs">
+        <td>{{ item.LogPeriod * 60 | transformTime }}</td>
+        <td>{{ item.LogDate }}</td>
+        <td>{{ item.UserName }}</td>
+        <td>{{ item?.LogDescription }}</td>
+        <td [hidden]="true">
+          <div class="d-flex" *ngIf="dataEdit.TaskStatusId != 3&&!preview">
+            <i
+              class="fas fa-trash action-icon delete-icon"
+              tooltipPosition="top"
+              pTooltip="{{
+                'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MAINTENANCE_TIME_TAB.DELETE'
+                  | translate
+              }}"
+            ></i>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

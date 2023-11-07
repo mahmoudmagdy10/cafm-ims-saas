@@ -1,0 +1,104 @@
+<!-- Modal Header -->
+<div class="modal-header">
+  <h5 class="modal-title">
+    <i class="fas fa-filter me-2"></i>
+    {{
+      "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.MODAL_TITLE" | translate
+    }}
+  </h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="Close()"
+  ></button>
+</div>
+
+<!-- Modal Body -->
+<div class="modal-body">
+  <div class="row equal-height">
+    <!-- Last Days Section -->
+    <div class="col-4 last-days-section">
+      <form [formGroup]="FormFilter">
+        <div *ngFor="let item of LastDays" class="form-check mb-2">
+          <input
+            class="form-check-input"
+            type="radio"
+            [value]="item.code"
+            formControlName="LastDaysID"
+            (change)="onRadioChange(item.code)"
+            [id]="item.code"
+          />
+          <label class="form-check-label" [for]="item.code">
+            {{ item.Name }}
+          </label>
+        </div>
+      </form>
+    </div>
+
+    <!-- Custom Date Input Fields -->
+    <div class="col-8 date-section">
+      <form [formGroup]="FormFilter">
+        <div class="row">
+          <!-- Added this row to align date fields horizontally -->
+          <div class="col-12 col-md-6 col-lg-6 mb-3">
+            <app-calender-feild
+              [submitted]="submitted"
+              (onChangeDate)="changeDate(); change()"
+              formControlName="FromDate"
+              [label]="'DATE_FROM' | translate"
+              [placeholder]="'dd-mm-yy'"
+            ></app-calender-feild>
+          </div>
+          <div class="col-12 col-md-6 col-lg-6 mb-3">
+            <app-calender-feild
+              [submitted]="submitted"
+              (onChangeDate)="change()"
+              formControlName="ToDate"
+              [placeholder]="'dd-mm-yy'"
+              [label]="'DATE_TO' | translate"
+              [minDate]="FormFilter.get('FromDate')?.value!"
+            ></app-calender-feild>
+          </div>
+        </div>
+      </form>
+      <div class="row">
+        <div class="col-12">
+          <p-calendar
+            [(ngModel)]="rangeDates"
+            selectionMode="range"
+            [inline]="true"
+            (onSelect)="onDateRangeSelect($event)"
+          ></p-calendar>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Footer -->
+<div class="modal-footer">
+  <button
+    type="button"
+    (click)="onFilter()"
+    class="btn btn-primary"
+    data-bs-dismiss="modal"
+  >
+    <i class="fa fa-search me-2"></i>
+    {{ "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.SEARCH" | translate }}
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <i class="fa fa-times me-2"></i>
+    {{ "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.CANCEL" | translate }}
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>
+
+<ng-container *ngIf="this.dataDashboard$ | async"></ng-container>

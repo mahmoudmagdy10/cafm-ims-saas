@@ -1,0 +1,204 @@
+<!-- Search toolbar -->
+<!-- <div class="d-flex align-items-center" [ngClass]="toolbarButtonMarginClass">
+  <div
+    class="btn btn-icon btn-active-light-primary position-relative"
+    [ngClass]="toolbarButtonHeightClass"
+    data-kt-menu-trigger="click"
+    data-kt-menu-attach="parent"
+    data-kt-menu-placement="bottom-end"
+    data-kt-menu-flip="bottom"
+  >
+    <span
+      [inlineSVG]="'./assets/media/icons/duotune/general/gen021.svg'"
+      class="svg-icon"
+      [ngClass]="toolbarButtonIconSizeClass"
+    ></span>
+  </div>
+  <app-search-result-inner></app-search-result-inner>
+</div> -->
+
+<!-- Activities -->
+<!-- <div class="d-flex align-items-center" [ngClass]="toolbarButtonMarginClass"> -->
+<!-- begin::Drawer toggle -->
+<!-- <div
+    class="btn btn-icon btn-active-light-primary"
+    [ngClass]="toolbarButtonHeightClass"
+    id="kt_activities_toggle"
+  >
+    <span
+      [inlineSVG]="'./assets/media/icons/duotune/general/gen032.svg'"
+      class="svg-icon"
+      [ngClass]="toolbarButtonIconSizeClass"
+    ></span>
+  </div> -->
+<!-- end::Drawer toggle -->
+<!-- </div> -->
+
+<!-- NOTIFICATIONS -->
+<!-- <div class="d-flex align-items-center" [ngClass]="toolbarButtonMarginClass">
+  <div
+    class="btn btn-icon btn-active-light-primary position-relative"
+    [ngClass]="toolbarButtonHeightClass"
+    data-kt-menu-trigger="click"
+    data-kt-menu-attach="parent"
+    data-kt-menu-placement="bottom-end"
+    data-kt-menu-flip="bottom"
+  >
+    <span
+      [inlineSVG]="'./assets/media/icons/duotune/general/gen022.svg'"
+      class="svg-icon"
+      [ngClass]="toolbarButtonIconSizeClass"
+    ></span>
+  </div>
+  <app-notifications-inner></app-notifications-inner>
+</div> -->
+
+<!-- CHAT -->
+<!-- <div class="d-flex align-items-center" [ngClass]="toolbarButtonMarginClass"> -->
+<!-- begin::Menu wrapper -->
+<!-- <div
+    class="btn btn-icon btn-active-light-primary position-relative"
+    [ngClass]="toolbarButtonHeightClass"
+    id="kt_drawer_chat_toggle"
+  >
+    <span
+      [inlineSVG]="'./assets/media/icons/duotune/communication/com012.svg'"
+      class="svg-icon"
+      [ngClass]="toolbarButtonIconSizeClass"
+    ></span>
+    <span
+      class="
+        bullet bullet-dot
+        bg-success
+        h-6px
+        w-6px
+        position-absolute
+        translate-middle
+        top-0
+        start-50
+        animation-blink
+      "
+    ></span>
+  </div> -->
+<!-- end::Menu wrapper -->
+<!-- </div> -->
+
+<!-- Quick links -->
+<!-- <div class="d-flex align-items-center" [ngClass]="toolbarButtonMarginClass">
+  <div
+    class="btn btn-icon btn-active-light-primary"
+    [ngClass]="toolbarButtonHeightClass"
+    data-kt-menu-trigger="click"
+    data-kt-menu-attach="parent"
+    data-kt-menu-placement="bottom-end"
+    data-kt-menu-flip="bottom"
+  >
+    <span
+      [inlineSVG]="'./assets/media/icons/duotune/general/gen025.svg'"
+      class="svg-icon"
+      [ngClass]="toolbarButtonIconSizeClass"
+    ></span>
+  </div>
+  <app-quick-links-inner></app-quick-links-inner>
+</div> -->
+<!-- begin::Actions  -->
+
+<!-- NOTIFICATIONS -->
+<ng-container *ngIf="UserAlertNotifications$ | async"></ng-container>
+
+<div
+  [class]="'d-flex align-items-center '"
+  [ngClass]="toolbarButtonMarginClass"
+>
+  <div
+    (click)="notificationsNotReading = 0"
+    class="btn btn-icon btn-active-light-primary position-relative"
+    [ngClass]="toolbarButtonHeightClass"
+    data-kt-menu-trigger="click"
+    data-kt-menu-attach="parent"
+    data-kt-menu-placement="bottom-end"
+    data-kt-menu-flip="bottom"
+    style="padding: 0.75rem 1.5rem; border: 1px solid #eff2f5"
+  >
+    <i
+      *ngIf="notificationsNotReading"
+      class="pi pi-bell p-text-secondary"
+      pBadge
+      style="font-size: 2rem"
+      [value]="notificationsNotReading"
+    ></i>
+    <i
+      *ngIf="!notificationsNotReading"
+      class="pi pi-bell p-text-secondary"
+      style="font-size: 2rem"
+    ></i>
+
+    <!-- <span
+      [inlineSVG]="'./assets/media/icons/duotune/general/gen022.svg'"
+      class="svg-icon"
+      [ngClass]="toolbarButtonIconSizeClass"
+    ></span> -->
+  </div>
+  <app-notifications-inner></app-notifications-inner>
+</div>
+
+<!-- begin::User -->
+<div
+  class="d-flex align-items-center"
+  [ngClass]="toolbarButtonMarginClass"
+  id="kt_header_user_menu_toggle"
+>
+  <!-- begin::Toggle -->
+  <div
+    class="cursor-pointer symbol mx-3"
+    [ngClass]="toolbarUserAvatarHeightClass"
+    data-kt-menu-trigger="click"
+    data-kt-menu-attach="parent"
+    data-kt-menu-placement="bottom-end"
+    data-kt-menu-flip="bottom"
+  >
+    <img
+      [src]="
+        imageProfile() != Avatar + 'null'
+          ? imageProfile()
+          : './assets/media/avatars/avatar.svg'
+      "
+    />
+  </div>
+  <!-- end::Toggle  -->
+  <app-user-inner
+    (openModalChangePass)="displayChangePasswordModal = true"
+    [imageProfile]="imageProfile()"
+  >
+  </app-user-inner>
+</div>
+<!-- end::User -->
+
+<ng-container *ngIf="headerLeft === 'menu'">
+  <div
+    class="d-flex align-items-center d-lg-none ms-2 me-n3"
+    title="Show header menu"
+  >
+    <div
+      class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px"
+      id="kt_header_menu_mobile_toggle"
+    >
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/text/txt001.svg'"
+        class="svg-icon svg-icon-1"
+      ></span>
+    </div>
+  </div>
+</ng-container>
+<p-dialog
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  header="{{ 'TOP_BAR.MODALS.CHANGE_PASSWORD_MODAL.MODAL_TITLE' | translate }}"
+  [(visible)]="displayChangePasswordModal"
+  [style]="{ width: '35vw' }"
+>
+  <ChangePasswordModal
+    (cancel)="displayChangePasswordModal = false"
+  ></ChangePasswordModal>
+</p-dialog>

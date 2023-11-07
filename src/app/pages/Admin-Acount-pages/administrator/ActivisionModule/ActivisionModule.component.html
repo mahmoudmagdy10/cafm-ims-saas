@@ -1,0 +1,35 @@
+<!-- begin dialog body -->
+<div class="modal-body" style="padding:0; padding-bottom: 1rem;">
+
+  <p *ngIf="itemActivision?.DeActivate">
+    {{"ADMINISTARTOR.PROCEEDURESICON.UNLOCK" | translate}}
+  </p>
+
+  <p *ngIf="!itemActivision?.DeActivate">
+    {{"ADMINISTARTOR.PROCEEDURESICON.LOCK" | translate}}
+  </p>
+
+</div>
+<!-- begin dialog body -->
+
+<!-- start footer -->
+<div class="dialog-footer">
+  <div class="footer-actions">
+    <button *ngIf="itemActivision?.DeActivate" (click)="ChangeStatus(false)" type="submit"
+      class="general-btn activation-btn mx-2">
+      <i class="fas fa-lock-open"></i>
+      {{"ADMINISTARTOR.LOCKMODAL.UNLOCK" | translate}}
+    </button>
+    <button *ngIf="!itemActivision?.DeActivate" (click)="ChangeStatus(true)" type="submit"
+      class="general-btn disable-btn mx-2">
+      <i class="fas fa-lock"></i>
+      {{"ADMINISTARTOR.LOCKMODAL.LOCK" | translate}}
+    </button>
+
+    <button class="btn  btn-secondary"(click)='onCancel()'>
+      <i class="fas fa-times"></i>
+      {{ "GENERAL.CANCEL" | translate }}
+    </button>
+  </div>
+</div>
+<!-- end footer -->

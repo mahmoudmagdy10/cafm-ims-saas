@@ -1,0 +1,101 @@
+<ng-container *ngIf="taskEdit$ | async as dataEdit">
+  <!-- ----------------------------------------------------- -->
+
+  <div class="tab-content mt-5" id="myTabContent">
+    <!-- بداية البيانات الاساسية -->
+    <p-tabView>
+      <p-tabPanel
+        leftIcon="p-tabview-left-icon fa fa-database mx-1"
+        header="{{
+          'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.TAB_TITLE'
+            | translate
+        }}"
+      >
+        <app-informtion-basic [dataEdit]="dataEdit"></app-informtion-basic>
+      </p-tabPanel>
+      <!-- نهاية البيانات الاساسية -->
+
+      <!-- بداية التعليمات -->
+      <p-tabPanel
+        leftIcon="p-tabview-left-icon fa fa-clipboard mx-1"
+        header="{{
+          'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.TAB_TITLE'
+            | translate
+        }}"
+      >
+        <app-instructions [dataEdit]="dataEdit"></app-instructions>
+      </p-tabPanel>
+      <!-- نهاية التعليمات -->
+      <!-- بداية / قطع الغيار المستخدمة في مهمة الصيانة -->
+      <p-tabPanel
+        leftIcon="p-tabview-left-icon fa fa-clipboard-list mx-1"
+        header="{{
+          'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.SPAREPARTS_USED_IN_MAINTENANCE_TAB.TAB_TITLE'
+            | translate
+        }}"
+      >
+        <app-spare-part-in-work-order
+          [dataEdit]="dataEdit"
+        ></app-spare-part-in-work-order>
+      </p-tabPanel>
+      <!-- بداية سجل الحركات -->
+      <p-tabPanel
+        leftIcon="p-tabview-left-icon fa fa-clipboard-list mx-1"
+        header="{{
+          'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MOVEMENTS_LEVEL_TAB.TAB_TITLE'
+            | translate
+        }}"
+      >
+        <app-movement-record [dataEdit]="dataEdit"></app-movement-record>
+      </p-tabPanel>
+      <p-tabPanel
+      *ngIf="workOrderCompleted"
+      leftIcon="p-tabview-left-icon fa fa-clipboard-list mx-1"
+      header="{{
+        'Task_Cost'
+          | translate
+      }}"
+    >
+      <app-workorder-cost [dataEdit]="dataEdit"></app-workorder-cost>
+    </p-tabPanel>
+      <!-- نهاية سجل الحركات -->
+
+      <!-- بداية زمن الصيانة -->
+      <!-- <p-tabPanel
+        leftIcon="p-tabview-left-icon p-element far fa-clock mx-1"
+        header="{{
+          'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MAINTENANCE_TIME_TAB.TAB_TITLE'
+            | translate
+        }}"
+      >
+        <app-maintenance-time
+          #maintenanceTime
+          [dataEdit]="dataEdit"
+          (timeConsuming)="timeConsuming.emit($event)"
+        >
+        </app-maintenance-time>
+      </p-tabPanel> -->
+      <!-- نهاية زمن الصيانة -->
+
+      <!-- نهاية / قطع الغيار المستخدمة في مهمة الصيانة -->
+
+      <!-- بداية / طلبات الشراء -->
+      <!-- <p-tabPanel
+      leftIcon="p-tabview-left-icon fa fa-clipboard-list mx-1"
+      header="{{
+        'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.PURCHASE_ORDER_TAB.TAB_TITLE'
+          | translate
+      }}"
+    >
+      <app-purchase-order [dataEdit]="dataEdit"></app-purchase-order>
+    </p-tabPanel> -->
+      <!-- نهاية / طلبات الشراء -->
+
+      <p-tabPanel
+        header="{{ 'ASSETS.ASSETCARDMODAL.QRTAB.TABTITLE' | translate }}"
+      >
+        <QRCode [dataEdit]="dataEdit"></QRCode>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</ng-container>
