@@ -13,6 +13,7 @@ import { workOrderService } from '../../workOrder.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UserAndTeamsModal } from 'src/app/shared/modalsShared/User&TeamsModal/User&TeamsModal.component';
 import * as moment from 'moment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-copy-setting-work-order-add',
@@ -36,7 +37,7 @@ export class AddNewTaskComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public fb: UntypedFormBuilder,
     private service: workOrderService,
-
+    private translate: TranslateService,
     public dialog: MatDialog
   ) {
     this.FormTask = this.fb.group({
@@ -59,13 +60,7 @@ export class AddNewTaskComponent implements OnInit {
   }
   ngOnInit(): void {
     this.dialogRef.disableClose = true;
-    // this.dialogRef.backdropClick().subscribe((_) => {
-    //   if (confirm('do you want leave this page?')) {
-    //     this.Close();
-    //   }
-    // });
     this.pageDirection = document.dir;
-
     this.Codes$ = this.service.Codes$.pipe(
       map((value) => {
         return {
@@ -76,6 +71,15 @@ export class AddNewTaskComponent implements OnInit {
             } else {
               return value;
             }
+          }),
+          TaskStatusId: value.TaskStatusId.map((value: any) => {
+            if (value.code == 5) {
+              return {
+                ...value,
+                Name: this.translate.instant('Pending'),
+              };
+            }
+            return value;
           }),
         };
       }),
