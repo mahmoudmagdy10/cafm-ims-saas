@@ -1,0 +1,104 @@
+<form [formGroup]="vendorForm">
+  <div class="row" *ngIf="Locations$ | async as Locations">
+    <div class="col-12 col-md-4 mb-3 mb-md-0">
+      <div class="locations-container shadow-sm">
+        <header class="locations-header">
+          <h5 class="mb-0 mx-2">
+            {{ "VENDORS.MODALS.ADD_NEW_VENDOR_MODAL.LOCATIONS" | translate }}
+          </h5>
+        </header>
+        <div class="p-2" style="max-height: 165px; overflow: auto">
+          <div
+            class="service-item d-flex align-items-center"
+            *ngFor="let item of Locations"
+          >
+            <i
+              class="fas fa-level-down-alt fa-rotate-90 subscription-data-child-icon"
+            ></i>
+            <div class="location">
+              <div
+                class="form-check form-check-custom form-check-solid form-check-sm"
+              >
+                <input
+                  type="checkbox"
+                  class="form-check-input mx-1"
+                  id="{{ item.Code }}"
+                  [checked]="item.checked"
+                  [disabled]="disable"
+                  (change)="selectLocaltion($event.target, item.Code)"
+                />
+              </div>
+              <label
+                class="form-check-label service-name"
+                for="{{ item.Code }}"
+              >
+                {{ item.Name }}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-8">
+      <div class="row">
+        <div class="col-12 col-md-6 mb-3">
+          <label class="mb-2">
+            {{ "VENDORS.MODALS.VENDOR_CARD_MODAL.INFO_TAB.NAME" | translate }}
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="VendorName"
+          />
+        </div>
+
+        <div class="col-12 col-md-6 mb-3">
+          <label class="mb-2">
+            {{ "VENDORS.MODALS.VENDOR_CARD_MODAL.INFO_TAB.ID" | translate }}
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="LicenseNumber"
+          />
+        </div>
+
+        <div class="col-12 col-md-6 mb-3">
+          <label class="mb-2">
+            {{ "VENDORS.MODALS.ADD_NEW_VENDOR_MODAL.CONTACT" | translate }}
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="ContactPerson"
+          />
+        </div>
+
+        <div class="col-12 col-md-6 mb-3">
+          <label class="mb-2">
+            {{ "VENDORS.MODALS.VENDOR_CARD_MODAL.INFO_TAB.EMAIL" | translate }}
+          </label>
+          <input type="text" class="form-control" formControlName="Email" />
+        </div>
+
+        <div class="col-12 col-md-6 mb-3">
+          <label class="mb-2">
+            {{ "VENDORS.MODALS.VENDOR_CARD_MODAL.INFO_TAB.PHONE" | translate }}
+          </label>
+          <input type="text" class="form-control" formControlName="Phone" />
+        </div>
+        <div class="col-12 col-md-6 mb-3">
+          <label class="mb-2">
+            {{ "VENDORS.MODALS.ADD_NEW_VENDOR_MODAL.ADDRESS" | translate }}
+          </label>
+          <input type="text" class="form-control" formControlName="Address" />
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<hr />
+
+<app-view-field-in-item [dataItem]="dataCard" [havePermission]="codes?.PagePermissions?.VendorsCommonFieldsEdit"></app-view-field-in-item>

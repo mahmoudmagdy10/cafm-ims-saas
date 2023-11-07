@@ -1,0 +1,89 @@
+.teams-list {
+  box-shadow: 0 7px 20px -5px #e7e4e4;
+  .title {
+    min-height: 55px;
+    display: flex;
+    align-items: center;
+    background-color: #f5f6fa;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 0 10px;
+    border-bottom: 2px solid #b9b4c2;
+  }
+
+  .teams-container {
+    height: 410px;
+    overflow-y: auto;
+    padding: 5px 0 0 0;
+
+    .team {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 7px;
+      height: 50px;
+      cursor: pointer;
+      border: 1px solid #e3e3e3;
+      border-radius: 5px;
+      margin-bottom: 6px;
+      box-shadow: 0 0 7px -2px #e3e3e3;
+
+      &:hover {
+        box-shadow: 0 0 15px -5px #d5d3d3;
+        border-color: #d0cfd1;
+      }
+
+      .team-name{
+        display: flex;
+        flex: 0 1 73%;
+        align-items: center;
+        height: 100%;
+      }
+
+      .team-actions{
+        display: flex;
+        flex: 1 0 25%;
+        justify-content: flex-end;
+      }
+    }
+    .team.active {
+      background-color: #e3e3e3;
+    }
+  }
+}
+
+.teams-details {
+  .title {
+    min-height: 55px;
+    display: flex;
+    align-items: center;
+    background-color: #f5f6fa;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 0 10px;
+    border-bottom: 2px solid #b9b4c2;
+  }
+  .team-info {
+    margin-top: 1rem;
+  }
+  .team-card {
+    background: #fbfbfb;
+    margin-bottom: 5px;
+    border-radius: 0.35rem;
+    border: 1px solid #e3e3e3;
+  }
+
+  .team-members-table {
+    border: 1px solid #eff2f5;
+    margin: 1rem 0;
+    box-shadow: 0 7px 20px -5px #d4d2d2;
+  }
+}
+
+// ********************************
+// icons color in tah card body
+.card-title i,
+.team-list .title i,
+.team-details .title i{
+  color: #66a9ed;
+}

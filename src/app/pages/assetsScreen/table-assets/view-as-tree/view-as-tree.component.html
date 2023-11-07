@@ -1,0 +1,205 @@
+<div class="d-flex flex-row justify-content-start" *ngIf="showFilter">
+  <!-- <label class="mb-2 required">
+            {{ "Filter" | translate }}
+          </label> -->
+  <div class="mx-1">
+    <input
+      matInput
+      style="width: 270px"
+      type="text"
+      class="form-control"
+      placeholder=""
+      [formControl]="AssetName"
+      (keyup.enter)="$event.stopPropagation(); onEnterSearch($event)"
+    />
+    <input
+      hidden
+      style="width: 270px"
+      type="text"
+      class="form-control"
+      [formControl]="AssetName"
+      placeholder=""
+    />
+  </div>
+  <div class="mx-1">
+    <button
+      class="general-btn filter-btn h-40px text-white"
+      type="button"
+      style="border-radius: 8px; background-color: #66a9ed"
+      (click)="getTree()"
+    >
+      <i class="fas fa-filter text-white"></i>
+      {{ "ASSETS.FILTERSMODAL.BUTTONNAME" | translate }}
+    </button>
+  </div>
+</div>
+
+<ng-container *ngIf="setting; else loading">
+  <ng-container *ngIf="FormDynamicField || (codes$ | async) as code">
+    <ng-container *ngIf="setting?.ShowMethode == 'Close'"
+      ><p-blockUI [target]="myTree" [blocked]="blockedPanel">
+        <i class="pi pi-lock" style="font-size: 3rem"></i>
+      </p-blockUI>
+
+      <hr />
+      <p-tree
+        #myTree
+        [value]="dataTree"
+        [loading]="loadingTree"
+        (onNodeExpand)="nodeExpand($event)"
+        [layout]="layout"
+        [emptyMessage]="'emptyMessage' | translate"
+        [selectionMode]="selectionMode"
+        [(selection)]="selectedFile"
+        [propagateSelectionUp]="false"
+        [propagateSelectionDown]="false"
+        [styleClass]="'testtttt'"
+      >
+        <ng-template let-node pTemplate="default">
+          <!-- <p-treenode [node]="node"> -->
+          <div
+            class="d-flex align-items-center justify-content-between TESTTest"
+            [attr.isAsset]="node?.isAsset || false"
+          >
+            <div class="d-flex align-items-center">
+              <b (click)="FormDynamicField ? '' : onNodeSelect(node)">{{
+                node?.label
+              }}</b>
+
+              <i *ngIf="!node.isAsset" class="fas fa-map-marker-alt mx-2"></i>
+
+              <div
+                class="spinner-border mx-3"
+                *ngIf="node.loading"
+                style="width: 10px; height: 10px"
+                role="status"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+            <div
+              class="d-flex align-items-center justify-content-between TESTTest"
+            >
+              <i
+                *ngIf="code?.PagePermissions?.AssetsAdd && node.isAsset"
+                class="fas fa-clone"
+                style="color: #66a9ed; font-size: 2rem"
+                (click)="confirmDuplicateAsset(node)"
+                pTooltip="{{ 'Duplicate_Parent_Tree' | translate }}"
+                tooltipPosition="top"
+              ></i>
+              <i
+                *ngIf="code?.PagePermissions?.AssetsAdd && node.isAsset"
+                class="fa fa-list-alt action-icon"
+                (click)="moveOnWorkOrderForAsset(node.ID)"
+                pTooltip="{{ 'ASSETS.TASKS_FOR_THIS_ASSET' | translate }}"
+                tooltipPosition="top"
+              ></i>
+              <i
+                *ngIf="
+                  code?.PagePermissions?.AssetsAdd || permission?.AssetsAdd
+                "
+                class="fa fa-plus action-icon add-icon"
+                (click)="AddChildAsset(node)"
+                pTooltip="{{ 'ASSETS.ADDCHILD' | translate }}"
+                tooltipPosition="top"
+              ></i>
+              <i
+                *ngIf="code?.PagePermissions?.AssetsAdd && node.isAsset"
+                class="pi pi-clock"
+                style="color: #66a9ed; font-size: 2rem"
+                (click)="AddPM(node)"
+                pTooltip="{{ 'ADD_PM_TASK' | translate }}"
+                tooltipPosition="top"
+              ></i>
+
+              <i
+                *ngIf="code?.PagePermissions?.AssetsDelete"
+                [hidden]="true"
+                class="fas fa-trash-alt action-icon delete-icon"
+                pTooltip="{{ 'ASSETS.DELETEASSET' | translate }}"
+                tooltipPosition="top"
+              ></i>
+            </div>
+          </div>
+          <!-- </p-treenode> -->
+        </ng-template>
+      </p-tree>
+    </ng-container></ng-container
+  >
+</ng-container>
+
+<ng-container *ngIf="setting?.ShowMethode == 'Open'">
+  <p-tree
+    #myTree
+    [value]="dataTree"
+    [layout]="layout"
+    [loading]="loadingTree"
+    [selectionMode]="selectionMode"
+    [(selection)]="selectedFile"
+    [propagateSelectionUp]="false"
+    [propagateSelectionDown]="false"
+    [styleClass]="'testtttt'"
+  >
+    <ng-template let-node pTemplate="default">
+      <div
+        class="d-flex align-items-center justify-content-between TESTTest"
+        [attr.isAsset]="node?.isAsset || false"
+      >
+        <b (click)="code?.PagePermissions?.AssetsCard ? onNodeSelect(node) : ''"
+          >{{ node.label }}
+          <i *ngIf="!node.isAsset" class="fas fa-map-marker-alt mx-2"></i
+        ></b>
+
+        <div>
+          <i
+            *ngIf="code?.PagePermissions?.AssetsAdd && node.isAsset"
+            class="fa fa-list-alt action-icon"
+            (click)="moveOnWorkOrderForAsset(node.ID)"
+            pTooltip="Tasks For This Asset"
+            tooltipPosition="top"
+          ></i>
+
+          <i
+            *ngIf="code?.PagePermissions?.AssetsAdd || permission?.AssetsAdd"
+            class="fa fa-plus action-icon add-icon"
+            (click)="AddChildAsset(node)"
+            pTooltip="{{ 'ASSETS.ADDCHILD' | translate }}"
+            tooltipPosition="top"
+          ></i>
+          <i
+            *ngIf="code?.PagePermissions?.AssetsDelete"
+            [hidden]="true"
+            class="fas fa-trash-alt action-icon delete-icon"
+            pTooltip="{{ 'ASSETS.DELETEASSET' | translate }}"
+            tooltipPosition="top"
+          ></i>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template let-node pTemplate="loading"> tt </ng-template>
+  </p-tree>
+</ng-container>
+<!-- <confirm-delete
+  #confirmdeleteAsset
+  massage="اصل"
+  (afterSave)="$event ? deleteAsset() : ''; confirmdeleteAsset.CloseModal()"
+>
+</confirm-delete> -->
+<!-- (click)="AddChildAsset(node.ID)" -->
+<!-- (click)="confirmdeleteAsset.openModal(); assetIdDeleted = node.ID" -->
+<ng-template #loading>
+  <p-progressSpinner [style]="{ width: '55px' }"></p-progressSpinner>
+</ng-template>
+<confirm-delete
+  customheader="{{ 'Duplicate_Parent_Tree' | translate }}"
+  customSure="{{ 'YES' | translate }}"
+  customIcon=" pi pi-copy"
+  customColor="btn btn-sm btn-success"
+  #confirmdeleteWorkOrder
+  customMassage="{{ 'CONFIRMDELETE.DUPLICATE_ASSET_CUSTOM' | translate }}"
+  (afterSave)="
+    $event ? DuplicateAsset() : ''; confirmdeleteWorkOrder.CloseModal()
+  "
+>
+</confirm-delete>

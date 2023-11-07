@@ -1,0 +1,115 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fa fa-truck-moving mx-1"></i>
+    {{ "VENDORS.MODALS.VENDOR_CARD_MODAL.MODAL_TITLE" | translate }} ({{
+      this.dataCard.VendorName
+    }})
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body style="height: calc(100% - 107px); overflow-y: auto"-->
+<div
+  class="modal-body"
+  style="max-height: 80vh; overflow-y: auto"
+  *ngIf="dataCard"
+>
+  <p-tabView>
+    <!-- info -->
+    <p-tabPanel
+      header="{{
+        'VENDORS.MODALS.VENDOR_CARD_MODAL.INFO_TAB.TAB_TITLE' | translate
+      }}"
+      leftIcon="fa fa-truck-moving mx-1"
+    >
+      <app-vendor-info [dataCard]="dataCard"></app-vendor-info>
+    </p-tabPanel>
+
+    <!-- -------------------------------------------- -->
+
+    <!-- shared tasks -->
+    <!-- <p-tabPanel header="{{
+        'VENDORS.MODALS.VENDOR_CARD_MODAL.SHARED_TASKS_TAB.TAB_TITLE'
+          | translate
+      }}" leftIcon="fas fa-share-alt mx-1">
+      <app-task-shared></app-task-shared>
+    </p-tabPanel> -->
+
+    <!-- -------------------------------------------- -->
+
+    <!-- assets -->
+    <p-tabPanel
+      header="{{
+        'VENDORS.MODALS.VENDOR_CARD_MODAL.ASSETS_TAB.TAB_TITLE' | translate
+      }}"
+      leftIcon="fas fa-boxes mx-1"
+    >
+      <app-assets [dataCard]="dataCard"></app-assets>
+    </p-tabPanel>
+
+    <!-- -------------------------------------------- -->
+
+    <!-- parts -->
+    <p-tabPanel
+      header="{{
+        'VENDORS.MODALS.VENDOR_CARD_MODAL.PARTS_TAB.TAB_TITLE' | translate
+      }}"
+      leftIcon="fab fa-unsplash mx-1"
+    >
+      <spare-parts-for-vendors [dataCard]="dataCard"></spare-parts-for-vendors>
+    </p-tabPanel>
+
+    <!-- -------------------------------------------- -->
+
+    <!-- logs -->
+    <p-tabPanel
+      header="{{
+        'VENDORS.MODALS.VENDOR_CARD_MODAL.LOG_TAB.TAB_TITLE' | translate
+      }}"
+      leftIcon="fa fa-clipboard-list mx-1"
+    >
+      <movement-history [data]="dataCard"></movement-history>
+    </p-tabPanel>
+
+    <!-- -------------------------------------------- -->
+
+    <!-- POs -->
+    <p-tabPanel
+      header="{{
+        'VENDORS.MODALS.VENDOR_CARD_MODAL.PO_TAB.TAB_TITLE' | translate
+      }}"
+      leftIcon="fa fa-money-check-alt mx-1"
+    >
+      <app-purchase-orders></app-purchase-orders>
+    </p-tabPanel>
+
+    <!-- -------------------------------------------- -->
+  </p-tabView>
+</div>
+
+<div class="modal-footer position-relative">
+  <!-- <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+    <span>
+      <span> <i class="fa fa-save"></i> </span>
+      <span> {{ "VENDORS.MODALS.VENDOR_CARD_MODAL.SAVE" | translate }} </span>
+    </span>
+  </button> -->
+
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span> {{ "VENDORS.MODALS.VENDOR_CARD_MODAL.CANCEL" | translate }} </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

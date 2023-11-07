@@ -1,0 +1,91 @@
+<div class="row mb-3">
+  <div class="col-12 col-md-4 mb-3 mb-md-0">
+    <input
+      type="text"
+      [formControl]="Search"
+      placeholder="{{
+        'VENDORS.MODALS.VENDOR_CARD_MODAL.ASSETS_TAB.SEARCH' | translate
+      }}"
+      class="form-control form-control-sm"
+    />
+  </div>
+
+  <div class="col-12 col-md-8 mb-3 mb-md-0" *ngIf="Codes$ | async as code">
+    <div class="d-flex justify-content-end">
+      <button
+        class="btn btn-primary"
+        [disabled]="disable"
+        (click)="opentree(code.AssetId)"
+      >
+        {{
+          "VENDORS.MODALS.VENDOR_CARD_MODAL.ASSETS_TAB.ASSOCCIATE_ASSET"
+            | translate
+        }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  class="d-flex justify-content-between align-items-center bg-light p-2 mb-3"
+  *ngFor="
+    let item of this.dataCard.VendorsAssets | filter : Search.value;
+    index as i
+  "
+>
+  <div class="asset-name">
+    <span>
+      <span>{{ i + 1 }}</span>
+      <i class="fa fa-box mx-2"></i>
+      <a href="javascript:;" (click)="openAsset(item?.ID)">
+        {{ item.AssetName }}
+      </a>
+    </span>
+
+    <!-- <span> <i class="fas fa-arrow-left mx-2"></i> </span>
+
+    <span>
+      <i class="fa fa-home"></i>
+      <span> طابق رقم 3 </span>
+    </span>
+
+    <span> <i class="fas fa-arrow-left mx-2"></i> </span>
+
+    <span>
+      <i class="fa fa-home"></i>
+      <span> غرفة 7 </span>
+    </span>
+
+    <span class="margin-start-4">
+      الاضافة/
+      <span>
+        <i class="far fa-hand-paper mx-1"></i>
+        <span> يدوي </span>
+      </span>
+
+      <span>
+        <i class="fab fa-stack-overflow mx-1"></i>
+        <span> من مهمة </span>
+      </span>
+    </span> -->
+  </div>
+
+  <div
+    class="actions"
+    (click)="assetIdDeleted = item.ID; confirmdeleteOrder.openModal()"
+  >
+    <i
+      class="fas fa-trash-alt action-icon delete-icon m-0"
+      pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+      tooltipPosition="top"
+    ></i>
+  </div>
+</div>
+<confirm-delete
+  #confirmdeleteOrder
+  massage="{{ 'CONFIRMDELETE.SELECTED_USERS' | translate }}"
+  (afterSave)="
+    $event ? deleteAssetWithVendor() : ''; confirmdeleteOrder.CloseModal()
+  "
+>
+</confirm-delete>

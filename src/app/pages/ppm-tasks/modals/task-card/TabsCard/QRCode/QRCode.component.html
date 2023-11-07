@@ -1,0 +1,37 @@
+<div class="text-center">
+  <!-- <div class="text-center">
+    <button class="btn btn-success btn-sm mx-2">
+      <span>
+        <i class="fa fa-download"></i>
+        <span>
+          {{ "ASSETS.ASSETCARDMODAL.QRTAB.DOWNLOADPHOTO" | translate }}
+        </span>
+      </span>
+    </button>
+    <button class="btn btn-secondary btn-sm mx-2">
+      <span>
+        <i class="fas fa-print fa-lg"></i>
+        <span>
+          {{ "ASSETS.ASSETCARDMODAL.QRTAB.PRINTPHOTO" | translate }}
+        </span>
+      </span>
+    </button>
+  </div> -->
+  <div class="row">
+    <div class="col-md-12">
+      <h4 class="text-center my-5">
+        {{ "ASSETS.ASSETCARDMODAL.QRTAB.DETAILS" | translate }}
+      </h4>
+
+      <qrcode
+        [qrdata]="QrCodeWorkOrder"
+        [width]="256"
+        [errorCorrectionLevel]="'M'"
+      ></qrcode>
+      <a href="javascript:;" (click)="newTab(QrCodeWorkOrder)">
+        {{ QrCodeWorkOrder }}
+      </a>
+    </div>
+
+  </div>
+</div>

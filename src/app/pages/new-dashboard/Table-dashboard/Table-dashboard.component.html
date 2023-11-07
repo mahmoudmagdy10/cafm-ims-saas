@@ -1,0 +1,36 @@
+<!-- <app-view-data-filter [componentType]="'PPM'"></app-view-data-filter> -->
+<ng-container *ngIf="DataTable$ | async as data; else loading">
+  <div class="scrollable-table">
+    <table
+      class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+    >
+      <thead>
+        <tr class="fw-bolder fs-6 text-gray-800">
+          <!-- <th>#</th> -->
+          <th *ngFor="let label of data?.Labels">{{ label.value }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data?.Data; index as i">
+          <!-- <td>
+            <span class="reorder-row-icon">
+              {{ i + 1 + RowCount * (selectedPage - 1) }}
+            </span>
+          </td> -->
+          <td *ngFor="let label of data?.Labels">
+            {{ item[label.key] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <app-pagination-component
+      [Setting]="data?.Setting"
+      [(selectedPage)]="selectedPage"
+      (selectedPageChange)="changePage()"
+      (selectedRowCount)="selectedRowCount($event)"
+    ></app-pagination-component>
+  </div>
+</ng-container>
+
+<ng-template #loading> loading... </ng-template>

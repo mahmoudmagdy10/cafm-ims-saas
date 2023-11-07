@@ -1,0 +1,133 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="far fa-plus-square margin-end-1"></i>
+    {{
+      "ASSETS.ASSETCARDMODAL.MOVEMENTHISTORYTAB.ADD_MOVEMENT_MODAL.MODAL_TITLE"
+        | translate
+    }}
+  </h5>
+
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+<form [formGroup]="form">
+  <!-- begin dialog body -->
+
+  <div class="modal-body" style="max-height: 70vh; overflow-y: auto">
+    <div class="row mb-5">
+      <!-- <div class="col-md-4">
+        <label class="form-label">التاريخ</label>
+        <p-calendar placeholder="1-1-2001" selectionMode="range" class="mx-1"></p-calendar>
+      </div> -->
+
+      <div class="col-12 col-md-4">
+        <label class="required mb-2 lableInputModle">
+          {{
+            "ASSETS.ASSETCARDMODAL.MOVEMENTHISTORYTAB.ADD_MOVEMENT_MODAL.HISTORY"
+              | translate
+          }}
+        </label>
+
+        <div class="form-group custom-datepicker">
+          <!-- <input
+            formControlName="LogDate"
+            class="form-control m-input"
+            [matDatepicker]="picker"
+            type="datetime"
+            placeholder="dd-mm-yy"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker> -->
+          <!-- <label for="birthdaytime">Birthday (date and time):</label> -->
+
+          <mat-form-field class="custom-datetime-picker">
+            <input matInput type="datetime-local" id="birthdaytime" name="birthdaytime" formControlName="LogDate" placeholder="Choose a date and time">
+          </mat-form-field>
+
+        </div>
+      </div>
+
+      <!-- <div class="col-md-4 d-flex" style="margin-top: 30px">
+        <label for="toggleDisplay" required>
+          {{
+            "ASSETS.ASSETCARDMODAL.MOVEMENTHISTORYTAB.ADD_MOVEMENT_MODAL.DISPLAYED"
+              | translate
+          }}
+        </label>
+        <p-inputSwitch
+          id="toggleDisplay"
+          class="mx-1"
+          formControlName="IsShown"
+        ></p-inputSwitch>
+        <label for="toggleDisplay">
+          {{
+            "ASSETS.ASSETCARDMODAL.MOVEMENTHISTORYTAB.ADD_MOVEMENT_MODAL.HIDDEN"
+              | translate
+          }}
+        </label>
+      </div> -->
+    </div>
+
+    <!-- <div class="row">
+      <div class="col-md-12 my-3">
+        <p class="mb-2">
+          {{
+            "ASSETS.ASSETCARDMODAL.MOVEMENTHISTORYTAB.ADD_MOVEMENT_MODAL.ATTATCH_FILE"
+              | translate
+          }}
+        </p>
+        <p-fileUpload
+          #fileUpload
+          (onSelect)="onUpload(fileUpload)"
+          name="myfile[]"
+          [showCancelButton]="false"
+          [showUploadButton]="false"
+          [multiple]="true"
+        ></p-fileUpload>
+      </div>
+    </div> -->
+    <div class="col-md-12 my-3">
+      <label class="mb-2 required">{{
+        "ASSETS.ASSETCARDMODAL.MOVEMENTHISTORYTAB.ADD_MOVEMENT_MODAL.ADDITIONAL_INFO"
+          | translate
+      }}</label>
+      <textarea
+        class="form-control"
+        rows="6"
+        formControlName="LogDetails"
+      ></textarea>
+    </div>
+  </div>
+  <!-- begin dialog body -->
+</form>
+
+<!-- start footer -->
+<div class="modal-footer position-relative">
+  <button type="button" class="btn btn-primary" (click)="onSave()">
+    <i class="fa fa-save"></i>
+    <span>{{
+      "ASSETS.ASSETCARDMODAL.MOVEMENTHISTORYTAB.ADD_MOVEMENT_MODAL.SAVE"
+        | translate
+    }}</span>
+  </button>
+  <button
+    type="button"
+    data-bs-dismiss="modal"
+    class="btn btn-sm btn-light"
+    (click)="Close()"
+  >
+    <i class="fa fa-times"></i>
+    <span>{{
+      "ASSETS.ASSETCARDMODAL.MOVEMENTHISTORYTAB.ADD_MOVEMENT_MODAL.CANCEL"
+        | translate
+    }}</span>
+  </button>
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>
+<!-- end footer -->

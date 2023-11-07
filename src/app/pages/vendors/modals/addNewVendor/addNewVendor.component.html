@@ -1,0 +1,151 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-plus mx-1"></i>
+    {{ "VENDORS.MODALS.ADD_NEW_VENDOR_MODAL.MODAL_TITLE" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div
+  class="modal-body"
+  *ngIf="Codes$ | async as code"
+  style="max-height: 80vh; overflow: scroll"
+>
+  <form [formGroup]="vendorForm">
+    <div class="row">
+      <div class="col-12 col-md-4 mb-3 mb-md-0">
+        <div class="locations-container" style="max-height: 40vh; overflow-y: auto">
+          <header class="locations-header">
+            <h5 class="mb-0 mx-2">
+              {{ "VENDORS.MODALS.ADD_NEW_VENDOR_MODAL.LOCATIONS" | translate }}
+            </h5>
+          </header>
+          <div
+            class="service-item d-flex align-items-center ng-star-inserted"
+            *ngFor="let item of code.Location"
+          >
+            <i
+              class="fas fa-level-down-alt fa-rotate-90 subscription-data-child-icon"
+            ></i>
+            <div class="location">
+              <div
+                class="form-check form-check-custom form-check-solid form-check-sm"
+              >
+                <input
+                  type="checkbox"
+                  (change)="selectLocation($event, item.Code)"
+                  class="form-check-input mx-1"
+                  id="flexRadioLg-{{ item.Code }}"
+                />
+              </div>
+              <label
+                class="form-check-label service-name"
+                for="flexRadioLg-{{ item.Code }}"
+              >
+                {{ item.Name }}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-8">
+        <div class="row">
+          <!-- الاسم -->
+          <div class="col-12 col-md-6 col-lg-4 mb-3">
+            <label class="mb-2 required">
+              {{ "VENDORS.MODALS.ADD_NEW_VENDOR_MODAL.NAME" | translate }}
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="VendorName"
+            />
+          </div>
+          <!-- الايميل -->
+          <div class="col-12 col-md-6 col-lg-4 mb-3">
+            <label class="mb-2 required">
+              {{ "VENDORS.MODALS.ADD_NEW_VENDOR_MODAL.EMAIL" | translate }}
+            </label>
+            <input type="email" class="form-control" formControlName="Email" />
+          </div>
+          <!-- رقم المشتغل المرخص -->
+          <div class="col-12 col-md-6 col-lg-4 mb-3">
+            <label class="mb-2">
+              {{ "VENDORS.MODALS.ADD_NEW_VENDOR_MODAL.ID" | translate }}
+            </label>
+            <input
+              type="number" [min]="0"
+              class="form-control"
+              formControlName="LicenseNumber"
+            />
+          </div>
+
+          <!-- التواصل -->
+          <div class="col-12 col-md-6 col-lg-4 mb-3">
+            <label class="mb-2">
+              {{ "VENDORS.MODALS.ADD_NEW_VENDOR_MODAL.CONTACT" | translate }}
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="ContactPerson"
+            />
+          </div>
+
+          <!-- الهاتف -->
+          <div class="col-12 col-md-6 col-lg-4 mb-3">
+            <label class="mb-2">
+              {{ "VENDORS.MODALS.ADD_NEW_VENDOR_MODAL.PHONE" | translate }}
+            </label>
+            <input type="text" class="form-control" formControlName="Phone" />
+          </div>
+
+          <!-- العنوان -->
+          <div class="col-12 col-md-6 col-lg-4 mb-3">
+            <label class="mb-2">
+              {{ "VENDORS.MODALS.ADD_NEW_VENDOR_MODAL.ADDRESS" | translate }}
+            </label>
+            <input type="text" class="form-control" formControlName="Address" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer position-relative">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-dismiss="modal"
+    (click)="onSave()"
+  >
+    <span>
+      <span> <i class="fa fa-save"></i> </span>
+      <span>
+        {{ "GENERAL.CREATE" | translate }}
+      </span>
+    </span>
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span>
+        {{ "VENDORS.MODALS.ADD_NEW_VENDOR_MODAL.CANCEL" | translate }}
+      </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

@@ -1,0 +1,115 @@
+<div class="d-flex justify-content-between mb-2">
+  <span></span>
+  <button class="general-btn add-btn" (click)="AddSparePart()">
+    <i class="fas fa-plus"></i>
+    {{ "ASSETS.ASSETCARDMODAL.SPAREPARTSTAB.TABTITLE" | translate }}
+  </button>
+</div>
+
+<div class="table-responsive">
+  <table
+    class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6 mb-6"
+  >
+    <thead>
+      <tr class="fw-bolder fs-6 text-gray-800">
+        <th>#</th>
+        <th>
+          {{ "ASSETS.ASSETCARDMODAL.SPAREPARTSTAB.PARTNAME" | translate }}
+        </th>
+        <th>
+          {{ "ASSETS.ASSETCARDMODAL.SPAREPARTSTAB.PARTNUMBER" | translate }}
+        </th>
+        <th>
+          {{
+            "ASSETS.ASSETCARDMODAL.SPAREPARTSTAB.QUANTITY_IN_STORE" | translate
+          }}
+        </th>
+        <!-- <th>
+          {{ "ASSETS.ASSETCARDMODAL.SPAREPARTSTAB.STATUS" | translate }}
+        </th> -->
+        <th>
+          {{ "ASSETS.ASSETCARDMODAL.SPAREPARTSTAB.PROCEDURES" | translate }}
+        </th>
+      </tr>
+    </thead>
+    <tbody *ngIf="this.data.AssetsParts">
+      <tr *ngFor="let item of this.data.AssetsParts; index as i">
+        <td>{{ i + 1 }}</td>
+        <!-- <td>{{ item.partId }}</td> -->
+        <!-- <td>
+          <i
+            class="fas fa-external-link-alt margin-end-1"
+            tooltipPosition="top"
+            pTooltip="{{ 'GENERAL.EXTERNAL_SERVICE' | translate }}"
+          ></i>
+        </td> -->
+
+        <td>
+          <a href="javascript:;" (click)="SparePartCard(item?.ID)">
+            <span> {{ item.PartName }}</span>
+            <!-- <span class="serial-number-style">{{  }}</span> -->
+          </a>
+        </td>
+        <td>{{ item.PartNumber }}</td>
+        <!-- <td>{{ item.Name }}</td> -->
+        <td>{{ item.InStockQuantity }}</td>
+        <!-- <td>{{ item.IsCompleted ? "completed" : "notCompleted" }}</td> -->
+        <!-- <td>
+          <input
+            type="text"
+            class="form-control form-control-sm w-70px"
+            [(ngModel)]="item.quantity"
+          />
+        </td> -->
+
+        <td>
+          <div>
+            <i
+              (click)="deleteSparePart(item.ID)"
+              class="fas fa-trash action-icon delete-icon"
+              tooltipPosition="top"
+              pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+            ></i>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- <hr>
+
+<p class="mb-2"> {{"ASSETS.ASSETCARDMODAL.SPAREPARTSTAB.DESCRIPTION" | translate}} </p>
+
+<div class="table-responsive">
+  <table class="table table-rounded table-row-bordered border custom-table-style fs-6">
+    <thead>
+      <tr class="fw-bolder fs-6 text-gray-800">
+        <th>#</th>
+        <th> {{"ASSETS.ASSETCARDMODAL.SPAREPARTSTAB.PARTNAME" | translate}} </th>
+        <th>{{"ASSETS.ASSETCARDMODAL.SPAREPARTSTAB.TOTAL_QUANTITY_IN_STORE" | translate}}</th> -->
+<!-- <th> {{"ASSETS.ASSETCARDMODAL.SPAREPARTSTAB.NUMBER" | translate}} </th> -->
+<!-- <th> {{"ASSETS.ASSETCARDMODAL.SPAREPARTSTAB.PRICE" | translate}} </th> -->
+<!-- <th> {{"ASSETS.ASSETCARDMODAL.SPAREPARTSTAB.AVG_PRICE" | translate}} </th>
+        <th> {{"ASSETS.ASSETCARDMODAL.SPAREPARTSTAB.TOTALPRICE" | translate}} </th>
+        <th> {{"ASSETS.ASSETCARDMODAL.SPAREPARTSTAB.USESDATE" | translate}} </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td> 1 </td>
+        <td>
+          <a href="javascript:;">
+            <span>مذربورد</span>
+            <span class="serial-number-style">#2532</span>
+            هذا الرابط يفتح بطاقة قطع الغيار
+          </a>
+        </td>
+        <td> 3 </td>
+        <td> 80 $ </td>
+        <td>240 $</td>
+        <td> 20-10-2222 </td>
+      </tr>
+    </tbody>
+  </table> -->
+<!-- </div> -->

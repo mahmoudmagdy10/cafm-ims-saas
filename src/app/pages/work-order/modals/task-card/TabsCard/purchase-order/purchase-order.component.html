@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-end mb-3">
+  <button class="btn btn-primary" (click)="AddPurchaseOrder()" *ngIf="!preview">
+    <span>
+      <span><i class="fa fa-plus"></i></span>
+      <span>{{ 'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.PURCHASE_ORDER_TAB.ADD_PURCHASE_ORDER' | translate
+        }}</span>
+    </span>
+  </button>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6">
+    <thead>
+      <tr class="fw-bolder fs-6 text-gray-800">
+        <th>#</th>
+        <th>{{ 'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.PURCHASE_ORDER_TAB.PURCHASE_ORDER_NAME' | translate }}
+        </th>
+        <th>{{ 'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.PURCHASE_ORDER_TAB.ORDER_DATE' | translate }}</th>
+        <th>{{ 'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.PURCHASE_ORDER_TAB.ORDER_STATUS' | translate }}</th>
+        <th>{{ 'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.PURCHASE_ORDER_TAB.PARTS_AVAILABILITY_DATE' | translate }}
+        </th>
+        <th>{{ 'GENERAL.PROCEDUERS' | translate }}</th>
+      </tr>
+    </thead>
+
+    <tbody *ngIf="dataEdit.PurchaseOrders">
+      <tr *ngFor="let item of dataEdit.PurchaseOrders; index as i">
+        <td> {{i}} </td>
+
+        <td>
+          <a href="javascript:;">
+            <span>{{item.POName}}</span>
+            <span class="serial-number-style">#{{item.PONumber}}</span>
+          </a>
+          <!-- الرابط يؤدي لبطاقة امر الشراء -->
+        </td>
+
+        <td> {{item.RequestDate}} </td>
+
+        <td> {{item?.POStatusName}}</td>
+
+        <td> {{item?.ExpectedDelivaryDate}} </td>
+
+        <td>
+          <div>
+            <!-- <i class="fas fa-edit action-icon edit-icon" tooltipPosition="top"
+              pTooltip="{{ 'GENERAL.EDIT' | translate }}"></i> -->
+
+            <i class="fas fa-trash action-icon delete-icon" tooltipPosition="top" (click)="deleteOrder(item.ID)"
+              pTooltip="{{ 'GENERAL.DELETE' | translate }}"></i>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

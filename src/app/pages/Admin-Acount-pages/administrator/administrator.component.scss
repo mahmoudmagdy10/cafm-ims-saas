@@ -1,0 +1,36 @@
+// start tafigy style
+.filter-items-container .filter-item{
+  position: relative;
+  padding: 5px 15px;
+  color: rgb(148, 148, 148);
+  background-color: rgb(243, 243, 243);
+  border: 1px solid rgb(212, 212, 212);
+  border-radius: 5px;
+  margin: 0 3px;
+  font-size: 1rem;
+  transition: all .4s ease;
+
+  .filter-field{font-weight: bold;}
+  i{
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    cursor: pointer;
+  }
+
+  &:hover{
+    background-color: #e8e8e8;
+  }
+}
+// end tagify style
+
+.mat-dialog-container{
+  margin: -15px !important;
+  display: flex !important;
+  flex-direction: row-reverse !important;
+}
+// ********************************
+// icons color in tah card body
+.card-title i {
+  color: #66a9ed;
+}

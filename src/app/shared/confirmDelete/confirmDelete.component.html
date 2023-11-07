@@ -1,0 +1,33 @@
+<p-dialog
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  header="{{ customheader || 'GENERAL.DELETE' | translate }} "
+  [(visible)]="displaymodalDelete"
+  [style]="{ width: '35vw' }"
+>
+  <div class="modal-contents">
+    <!-- begin dialog body -->
+    <div class="modal-body p-0 pb-5">
+      <p>{{ customMassage || "CONFIRMDELETE.DESCRIPTION" | translate }}</p>
+    </div>
+
+    <div class="dialog-footer">
+      <div class="footer-actions">
+        <button
+          (click)="onDelete(true)"
+          [class]="customColor || 'btn  btn-danger'"
+        >
+          <i [class]="customIcon || 'fas fa-trash-alt'"></i>
+
+          {{ customSure || "CONFIRMDELETE.DELETE" | translate }}
+        </button>
+
+        <button (click)="onDelete(false)" class="btn  btn-secondary mx-2">
+          <i class="fas fa-times"></i>
+          {{ "CONFIRMDELETE.CANCEL" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</p-dialog>

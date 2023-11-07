@@ -1,0 +1,14 @@
+<!-- <agm-map [latitude]="lat" [longitude]="lng"></agm-map> -->
+<ng-container *ngIf="!loading else loader">
+  <p-gmap
+    #gmap
+    [options]="options"
+    [style]="{ width: '100%', height: '320px' }"
+    [overlays]="overlays"
+    (onMapClick)="handleMapClick($event)"
+    (onOverlayDragEnd)="handleDragEnd($event)"
+    (onOverlayClick)="handleOverlayClick($event)"
+  ></p-gmap>
+</ng-container>
+<ng-template #loader><p-skeleton width="100%" height="150px"></p-skeleton></ng-template>
+

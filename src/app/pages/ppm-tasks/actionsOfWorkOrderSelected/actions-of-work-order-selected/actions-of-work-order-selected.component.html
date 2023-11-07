@@ -1,0 +1,120 @@
+<p-splitButton
+  *ngIf="!workOrderCompleted && (Codes$ | async)"
+  styleClass=" p-button-success p-button-sm mx-2 "
+  [label]="
+    'PREVENTIVE_TASKS_MANAGEMENT.ACTIONS_ON_SELECTED.BUTTON_NAME' | translate
+  "
+  [model]="items"
+></p-splitButton>
+<!-- <button
+  type="button"
+  class="btn btn-success btn-sm"
+  data-kt-menu-trigger="click"
+  data-kt-menu-placement="bottom-start"
+>
+  {{ "ASSETS.ACTIONSONSELECTEDMENU.BUTTONNAME" | translate }}
+  {{
+    "PREVENTIVE_TASKS_MANAGEMENT.ACTIONS_ON_SELECTED.BUTTON_NAME" | translate
+  }}
+</button> -->
+<!--end::Trigger-->
+<!--begin::Menu-->
+<div
+  class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-200px py-4"
+  data-kt-menu="true"
+>
+  <!--begin::Menu item-->
+  <!-- <div class="menu-item px-3">
+    <a href="javascript:;" class="menu-link px-3">
+      <i class="fa fa-print fa-lg"></i>
+      <span class="mx-2">{{
+        "PREVENTIVE_TASKS_MANAGEMENT.ACTIONS_ON_SELECTED.PRINT_SELECTED"
+          | translate
+      }}</span>
+    </a>
+  </div> -->
+  <!--end::Menu item-->
+  <ng-container *ngIf="false">
+    <!--begin::Menu item-->
+    <!-- <div class="menu-item px-3">
+      <a href="javascript:;" class="menu-link px-3">
+        <i class="fas fa-file-import fa-lg"></i>
+        <span class="mx-2">{{
+          "PREVENTIVE_TASKS_MANAGEMENT.ACTIONS_ON_SELECTED.EDIT_SELECTED"
+            | translate
+        }}</span>
+      </a>
+    </div> -->
+    <!--end::Menu item-->
+
+    <!--begin::Menu item-->
+    <!-- <div class="menu-item px-3">
+      <a href="javascript:;" class="menu-link px-3" (click)="changeStatus()">
+        <i class="fas fa-file-import fa-lg"></i>
+        <span class="mx-2">{{
+          "PREVENTIVE_TASKS_MANAGEMENT.ACTIONS_ON_SELECTED.CANCEL_SELECTED"
+            | translate
+        }}</span>
+      </a>
+    </div> -->
+    <!--end::Menu item-->
+
+    <!--begin::Menu item-->
+    <div class="menu-item px-3">
+      <a href="javascript:;" class="menu-link px-3" (click)="changeDueDate()">
+        <i class="fas fa-file-import fa-lg"></i>
+        <span class="mx-2">{{
+          "PREVENTIVE_TASKS_MANAGEMENT.ACTIONS_ON_SELECTED.EDIT_EXPIRY_TASK_DATE"
+            | translate
+        }}</span>
+      </a>
+    </div>
+    <!--end::Menu item-->
+
+    <!--begin::Menu item-->
+    <div class="menu-item px-3">
+      <a href="javascript:;" class="menu-link px-3" (click)="changeProirty()">
+        <i class="fas fa-file-import fa-lg"></i>
+        <span class="mx-2">{{
+          "PREVENTIVE_TASKS_MANAGEMENT.ACTIONS_ON_SELECTED.EDIT_PRAIORITY"
+            | translate
+        }}</span>
+      </a>
+    </div>
+    <!--end::Menu item-->
+
+    <!--begin::Menu item-->
+    <!-- <div class="menu-item px-3">
+      <a href="javascript:;" class="menu-link px-3">
+        <i class="fas fa-file-import fa-lg"></i>
+        <span class="mx-2">{{
+          "PREVENTIVE_TASKS_MANAGEMENT.ACTIONS_ON_SELECTED.IMPORT" | translate
+        }}</span>
+      </a>
+    </div> -->
+    <!--end::Menu item-->
+
+    <!--begin::Menu item-->
+    <div class="menu-item px-3" (click)="export.emit()">
+      <a href="javascript:;" class="menu-link px-3">
+        <i class="fas fa-upload fa-lg"></i>
+        <span class="mx-2">{{
+          "PREVENTIVE_TASKS_MANAGEMENT.ACTIONS_ON_SELECTED.EXPORT" | translate
+        }}</span>
+      </a>
+    </div>
+    <!--end::Menu item-->
+
+    <!--begin::Menu item-->
+    <div class="menu-item px-3">
+      <a href="javascript:;" class="menu-link px-3" (click)="deleteTask()">
+        <i class="fa fa-trash fa-lg"></i>
+        <span class="mx-2">{{
+          "PREVENTIVE_TASKS_MANAGEMENT.ACTIONS_ON_SELECTED.DELETE" | translate
+        }}</span>
+      </a>
+    </div>
+    <!--end::Menu item-->
+  </ng-container>
+</div>
+<!--end::Menu-->

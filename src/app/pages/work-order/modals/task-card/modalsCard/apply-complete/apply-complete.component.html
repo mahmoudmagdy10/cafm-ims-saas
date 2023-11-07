@@ -1,0 +1,125 @@
+<div class="card card-custom">
+  <!-- begin::Body -->
+
+  <div class="card-body" *ngIf="pageDirection == 'ltr'">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 border border-secondary rounded p-5">
+          <div class="text-center">
+            <h1 class="text-center my-5">A task has been completed</h1>
+
+            <div class="my-5">
+              <div class="position-reltive">
+                <i class="fa fa-check task-complete-icon"></i>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  version="1.1"
+                  width="100px"
+                  height="100px"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    stroke-linecap="round"
+                    class="task-complete"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <div class="info" style="font-size: 1.4rem">
+              <div class="form-group mb-3"></div>
+
+              <div class="form-group mb-3">
+                <label> Task Number:{{ InternalNumber }} #</label>
+                <!-- <p>has been created</p> -->
+              </div>
+
+              <!-- <div class="form-group mb-3">
+                <label> Asset Name: </label>
+                <span> abc </span>
+              </div> -->
+
+              <!-- <div class="form-group mb-3">
+                <label> Description: </label>
+                <p
+                  class="viewImageInEditor"
+                  [innerHTML]="RequestDescription"
+                ></p>
+              </div> -->
+              <div class="d-flex justify-content-center">
+                <div (click)="FilterAsCompletedTask()">
+                  <a href="javascript:;">View Task</a>
+                </div>
+                <!-- <div (click)="OpenCardForTask()">
+                  <a href="javascript:;">Open Card For Task</a>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body" *ngIf="pageDirection == 'rtl'">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 border border-secondary rounded p-5">
+          <div class="text-center">
+            <h1 class="text-center my-5">المهمة اكتملت</h1>
+
+            <div class="my-5">
+              <div class="position-reltive">
+                <i class="fa fa-check task-complete-icon"></i>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  version="1.1"
+                  width="100px"
+                  height="100px"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    stroke-linecap="round"
+                    class="task-complete"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <div class="info" style="font-size: 1.4rem">
+              <div class="form-group mb-3"></div>
+
+              <div class="form-group mb-3">
+                <span> {{ InternalNumber }} :رقم المهمة </span>
+                <!-- <p>تم الانشاء</p> -->
+              </div>
+
+              <!-- <div class="form-group mb-3">
+                <label> Asset Name: </label>
+                <span> abc </span>
+              </div> -->
+
+              <!-- <div class="form-group mb-3">
+                <label> :التفاصيل </label>
+                <p>{{ RequestDescription }}</p>
+              </div> -->
+              <div class="d-flex justify-content-between">
+                <div (click)="FilterAsCompletedTask()">
+                  <a href="javascript:;">View Task</a>
+                </div>
+                <!-- <div (click)="OpenCardForTask()">
+                  <a href="javascript:;">Open Card For Task</a>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end::Body -->
+</div>

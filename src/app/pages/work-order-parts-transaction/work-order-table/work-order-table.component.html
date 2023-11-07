@@ -1,0 +1,53 @@
+<table class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6">
+  <thead>
+    <tr class="fw-bolder fs-6 text-gray-800">
+      <th>#</th>
+      <th>{{ "Task_Name" | translate }}</th>
+      <th>{{ "Part_Name" | translate }}</th>
+      <th>{{ "QTY" | translate }}</th>
+      <th>{{ "CREATED_DATE" | translate }}</th>
+      <th>{{ "Created_By" | translate }}</th>
+      <th *ngIf="dataType === 1">
+        {{ "Store" | translate }}
+      </th>
+
+      <th>{{ "TRACH.ACTIONS.ACTIONS" | translate }}</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="!data.loading; else loading">
+    <tr *ngFor="let item of data?.data.Data; index as i">
+      <td>{{ i + 1 + 30 * (selectedPage - 1) }}</td>
+      <td>
+        <a href="javascript:;" (click)="openCard(item)" style="cursor: pointer">
+          {{ item?.TaskName }}</a>
+      </td>
+      <td>
+        <a href="javascript:;" (click)="SparePartCard(item?.PartId)">{{
+          item?.PartName
+          }}</a>
+      </td>
+      <td>
+        {{ item?.Qty }}
+      </td>
+      <td>{{ item?.DateCreated | date : "YYYY-MM-dd HH:mm" }}</td>
+      <td>{{ item?.CreatedBy }}</td>
+      <td *ngIf="dataType === 1">
+        {{item?.StoreName}}
+      </td>
+      <td>
+        <ng-container *ngIf="item?.isAccepted == 0">
+          <span class="badge badge-danger">Rejected</span>
+        </ng-container>
+        <ng-container *ngIf="item?.isAccepted == 1">
+          <span class="badge badge-success">Approved</span>
+        </ng-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #loading>
+  <div class="d-flex justify-content-center">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+</ng-template>

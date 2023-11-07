@@ -1,0 +1,58 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fa fa-plus margin-end-1"></i>
+    {{ "VENDORS.MODALS.ADD_SPARE_PART.MODAL_TITLE" | translate }}
+  </h5>
+
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+<!-- style="margin-top: 15px;" -->
+<!-- </div> -->
+<div class="card-body" *ngIf="Codes$ | async as code">
+  <form [formGroup]="VendorForm">
+    <div class="container">
+      <div class="row">
+
+        <!-- رقم/اسم القطعة -->
+        <div class="col-12 col-md-6 col-lg-5 mb-3">
+          <label class="mb-2">
+            {{ "VENDORS.MODALS.ADD_SPARE_PART.PART_NUMBER" | translate }}
+          </label>
+          <input type="text" [matAutocomplete]="SearchOfParts" [formControl]="PartName" class="form-control" />
+          <mat-autocomplete #SearchOfParts="matAutocomplete">
+            <mat-option *ngFor="let item of SearchOfParts$ | async" [value]="item.Name"
+              (onSelectionChange)="onSelectPart(item)">{{ item.Name }}</mat-option>
+          </mat-autocomplete>
+        </div>
+
+        <!-- رقم القطعة عند المورد -->
+        <div class="col-12 col-md-6 col-lg-5 mb-3">
+          <label class="mb-2"> {{ "VENDORS.MODALS.ADD_SPARE_PART.PART_NUMBER_AT_VENDOR" | translate }}</label>
+          <input type="text" formControlName="vendorPartNumber" class="form-control" />
+        </div>
+
+        <!-- السعر -->
+        <div class="col-12 col-md-6 col-lg-2 mb-3">
+          <label class="mb-2"> {{ "VENDORS.MODALS.ADD_SPARE_PART.PRICE" | translate }} </label>
+          <input type="text" formControlName="vendorPrice" class="form-control" />
+        </div>
+
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer position-relative">
+  <button pButton type="button" class="btn  btn-primary mx-2" (click)="save()">
+    <i class="fa fa-save"></i>
+    <span>{{ "ASSETS.ASSETCARDMODAL.CARDIMAGE.SAVE" | translate }}</span>
+  </button>
+  <button type="button" data-bs-dismiss="modal" class="btn  btn-light" (click)="Close()">
+    <i class="fa fa-times"></i>
+    <span>{{ "ASSETS.ASSETCARDMODAL.CARDIMAGE.CANCEL" | translate }}</span>
+  </button>
+</div>

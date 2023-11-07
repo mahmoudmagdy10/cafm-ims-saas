@@ -1,0 +1,19 @@
+.locations-list {
+  text-align: "center";
+  box-shadow: rgb(197, 197, 197) 0px 0px 7px 2px;
+  min-width: unset;
+  padding: 5px 7px;
+  position: absolute;
+  top: 10px !important;
+  left: 0px;
+  will-change: transform;
+  transform: translate(0px, 34px);
+
+  a {
+      padding: .5rem 1rem;
+    &:not(:last-child) {
+      border-bottom: 1px solid #e5e5e5;
+    }
+  }
+
+}

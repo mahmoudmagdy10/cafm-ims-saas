@@ -1,0 +1,18 @@
+.filter-items-container{
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+}
+.card-custom{
+  min-height: 200px;
+}
+.filter-item {
+  padding: 5px 15px;
+  color: rgb(148, 148, 148);
+  background-color: rgb(243, 243, 243);
+  border: 1px solid rgb(212, 212, 212);
+  border-radius: 5px;
+  margin: 0 3px;
+  font-size: 1rem;
+  transition: all .4s ease;
+}

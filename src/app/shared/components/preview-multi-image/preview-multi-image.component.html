@@ -1,0 +1,42 @@
+<p-galleria
+  [value]="images"
+  [(visible)]="displayCustom"
+  [(activeIndex)]="activeIndex"
+  [responsiveOptions]="responsiveOptions"
+  [containerStyle]="{ 'max-width': '850px' }"
+  [numVisible]="7"
+  [circular]="true"
+  [fullScreen]="true"
+  [showItemNavigators]="true"
+  [showThumbnails]="false"
+  [baseZIndex]="100000"
+>
+  <ng-template pTemplate="item" let-item>
+    <img [src]="item.previewImageSrc" style="width: 100%; display: block" />
+  </ng-template>
+  <ng-template pTemplate="thumbnail" let-item>
+    <div class="grid grid-nogutter justify-content-center">
+      <img [src]="item.thumbnailImageSrc" style="display: block" />
+    </div>
+  </ng-template>
+</p-galleria>
+<div
+  *ngIf="images"
+  class="d-flex align-items-center flex-wrap"
+  style="max-width: 400px"
+>
+  <div
+    *ngFor="let image of images; let index = index"
+    class="image-input image-input-outline image-input-empty m-2 overflow-hidden border"
+    data-kt-image-input="true"
+  >
+    <img
+      height="80px"
+      width="80px"
+      [src]="image.thumbnailImageSrc"
+      [alt]="image.alt"
+      style="cursor: pointer"
+      (click)="imageClick(index)"
+    />
+  </div>
+</div>

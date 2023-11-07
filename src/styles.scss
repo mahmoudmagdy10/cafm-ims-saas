@@ -1,0 +1,165 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+@import '../node_modules/bootstrap/scss/bootstrap';
+@import "bootstrap/scss/maps";
+
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$demo1-primary: mat.define-palette(mat.$indigo-palette);
+$demo1-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$demo1-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$demo1-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $demo1-primary,
+      accent: $demo1-accent,
+      warn: $demo1-warn,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($demo1-theme);
+
+/* You can add global styles to this file, and also import other style files */
+@import "./assets/sass/style";
+
+// Replace above style with this SCSS file to enable dark mode styles
+//@import "./assets/sass/style.dark";
+
+// html, body { height: 100%; }
+// body { margin: 0; }
+
+// html, body { height: 100%; }
+// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Importing Bootstrap SCSS file. */
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap/scss/maps";
+
+/* Importing Datepicker SCSS file. */
+@import "ngx-bootstrap/datepicker/bs-datepicker";
+/* Quill Text Editor for p-editor */
+@import "../node_modules/quill/dist/quill.core.css";
+@import "../node_modules/quill/dist/quill.snow.css";
+
+html,
+body {
+  height: 100%;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+body {
+  margin: 0;
+  font-family: "Almarai", sans-serif;
+  background-color: #f5f8fa !important;
+}
+.p-tooltipStyleClassBig .p-tooltip-text {
+  width: 300px !important;
+}
+.viewImageInEditor {
+  img {
+    width: 100px !important;
+  }
+}
+
+.ff .p-chip {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.fc-license-message {
+  display: none;
+}
+html {
+  scroll-behavior: smooth;
+}
+.editorImg-25 .ql-editor p img {
+  width: 20vw !important;
+}
+.editorImg-50 .ql-editor p img {
+  width: 40vw !important;
+}
+.editorImg-75 .ql-editor p img {
+  width: 60vw !important;
+}
+.editorImg-100 .ql-editor p img {
+  width: 100vw !important;
+}
+
+.p-tree .test {
+  background-color: #122164 !important;
+}
+.fc-popover-body {
+  height: 200px !important;
+  overflow-y: scroll !important;
+}
+.fc-more-popover {
+  z-index: 1 !important;
+}
+.fc-scroller-harness {
+  z-index: 0 !important;
+}
+/* Distinguish the start and end of the range */
+.p-calendar .ui-state-active {
+  background-color: #007bff; /* You can choose your preferred color */
+  color: white;
+}
+
+/* Style for the in-between days */
+.p-calendar span.ui-state-highlight {
+  background-color: rgba(
+    0,
+    123,
+    255,
+    0.2
+  ); /* Lighter shade of the above color */
+  border-color: transparent;
+}
+.p-tabview .p-tabview-nav {
+  display: flex !important;
+  justify-content: flex-start !important;
+}
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  background: #5797dd !important;
+  border-color: #6366f1 !important;
+  color: #ffffff !important;
+}
+.p-tabview-ink-bar {
+  display: none !important;
+}
+.p-skeleton {
+  background-color: #ccddee !important;
+}
+.sortable-ghost {
+  opacity: 0 !important;
+}
+// .sortable-chosen {
+//   background-color: #007bff !important;
+//   color: white !important;
+// }
+

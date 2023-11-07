@@ -1,0 +1,9 @@
+<full-calendar [options]="options"></full-calendar>
+<ng-container *ngIf="CalenderList$ | async as data"
+  ><app-pagination-component
+    [Setting]="data?.Setting"
+    [(selectedPage)]="selectedCalenderPageWork"
+    (selectedPageChange)="changeListPage()"
+    (selectedRowCount)="selectedRowCount($event)"
+  ></app-pagination-component
+></ng-container>

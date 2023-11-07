@@ -1,0 +1,19 @@
+<p-tree
+  #myTree
+  [value]="dataTree"
+  [filter]="true"
+  selectionMode="single"
+  [(selection)]="selectedFile"
+  (onNodeSelect)="nodeSelect($event)"
+  [contextMenu]="this.isContext?.active ? cm : ''"
+></p-tree>
+<p-contextMenu #cm [model]="contextMenuitems" appendTo="body"></p-contextMenu>
+
+<!-- class="p-tree-toggler-icon pi pi-fw pi-chevron-left" -->
+<!-- <p-contextMenu #cm [model]="items"></p-contextMenu> -->
+<!-- (onNodeUnselect)="nodeUnselect($event)" -->
+<!-- [contextMenu]="cm" -->
+<!-- [draggableNodes]="true"
+    [droppableNodes]="true"
+    draggableScope="self"
+    droppableScope="self" -->

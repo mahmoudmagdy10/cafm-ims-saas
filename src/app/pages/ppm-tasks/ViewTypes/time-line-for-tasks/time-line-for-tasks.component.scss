@@ -1,0 +1,42 @@
+::ng-deep .fc-header-toolbar{
+  margin-left:10px !important;
+  margin-right: 10px !important;
+}
+
+::ng-deep .fc-datagrid-header th
+{
+  font-weight: normal !important;
+}
+
+::ng-deep .fc-header-toolbar .btn
+{
+  background-color: #00c2d1 !important;
+  border-color: #009fac !important;
+}
+
+::ng-deep .fc-header-toolbar .btn.active
+{
+  background-color: #00deee !important;
+  border-color: #009fac !important;
+}
+::ng-deep .fc .fc-toolbar-title {
+  font-size: 1.45em !important;
+}
+::ng-deep .fc-timeline-header {
+  background-color: #f5f5f5 !important;
+}
+
+
+/* ::ng-deep td.fc-resource:last-child
+{
+}
+
+::ng-deep th.fc-datagrid-cell:first-child
+{
+  width: 70% !important;
+}
+::ng-deep th.fc-datagrid-cell:last-child
+{
+  width: 30% !important;
+} */
+

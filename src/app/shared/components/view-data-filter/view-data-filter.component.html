@@ -1,0 +1,12 @@
+<ng-container *ngIf="dataFilter$ | async as dataFilter">
+  <div class="filter-items-container" *ngIf="dataFilter?.forview && dataFilter?.forview?.length > 0">
+    <i *ngIf="isClear" class="fas fa-times action-icon delete-icon" (click)="clearFilter()"></i>
+    <div class="filter-item" (click)="openCardFilter()">
+      <i *ngIf="icon" [class]="icon+' icon'"></i>
+      <ng-container *ngFor="let item of dataFilter?.forview">
+        <span class="filter-label" *ngIf="item.label">{{ item.label | translate }}: </span>
+        <span class="filter-field">{{ item?.value }}</span>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

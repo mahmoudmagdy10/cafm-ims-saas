@@ -1,0 +1,66 @@
+<!-- <form [formGroup]="formSetting"> -->
+<!-- begin dialog body -->
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-lg-4 mb-3">
+      <label class="required mb-2 lableInputModle">
+        {{ "ASSETS.ASSETCARDMODAL.SETTINGSTAB.WORKLOCATION" | translate }}
+      </label>
+      <p-dropdown  appendTo="body" [options]="dataLocations" [style]="{ minWidth: '130px', display: 'flex' }" optionValue="LocationId"
+        optionLabel="LocationName" [(ngModel)]="this.data.LocationId" (change)="EditInAssets.emit()"
+        [filter]="true" filterBy="name">
+      </p-dropdown>
+    </div>
+
+    <div class="col-12 col-lg-4 mb-3">
+      <label class="required mb-2 lableInputModle">
+        {{ "ASSETS.ASSETCARDMODAL.SETTINGSTAB.WEEKLYWORKINGHOURS" | translate }}
+      </label>
+      <input type="text" class="form-control" [(ngModel)]="this.data.WeeklyOperationHours"
+        (blur)="isChange ? EditInAssets.emit() : ''; isChange = false" (change)="isChange = true" />
+    </div>
+
+    <!-- <div class="col-12 col-md-4 my-3">
+        <label class="required mb-2 lableInputModle">تاريخ إضافته للشركة</label>
+        <p-calendar placeholder="1-1-2001"></p-calendar>
+      </div> -->
+
+    <div class="col-12 col-md-4 mb-3">
+      <label class="required mb-2 lableInputModle">
+        {{ "ASSETS.ASSETCARDMODAL.SETTINGSTAB.ADDEDDATE" | translate }}
+      </label>
+
+      <div class="form-group custom-datepicker">
+        <input [(ngModel)]="this.data.InsertedDate" (change)="EditInAssets.emit()" class="form-control m-input"
+          [matDatepicker]="addDate" type="datetime" placeholder="dd-mm-yy" />
+        <mat-datepicker-toggle matSuffix [for]="addDate"></mat-datepicker-toggle>
+        <mat-datepicker #addDate></mat-datepicker>
+      </div>
+    </div>
+  </div>
+
+  <div class="row align-items-start">
+    <div class="col-md-4 my-3">
+      <p>
+        {{ "ASSETS.ASSETCARDMODAL.SETTINGSTAB.REQUESTTO" | translate }}
+        <a *ngIf="this.data as data" href="javascript:;" (click)="openDialog()">
+          {{ ArrayToString(this.itemsCheckedTeams) }}
+          {{ ArrayToString(this.itemsCheckedUsers) }}
+        </a>
+      </p>
+    </div>
+    <div class="col-md-4 my-3">
+      <div class="form-check form-check-custom form-check-solid">
+        <input class="form-check-input custom-checkbox-style" [(ngModel)]="this.data.IsSimilarityContainer"
+          (change)="EditInAssets.emit()" type="checkbox" value="" id="main-maintinance-container" />
+        <label class="form-check-label" for="main-maintinance-container">
+          {{ "ASSETS.ASSETCARDMODAL.SETTINGSTAB.MAINCONTAINER" | translate }}
+        </label>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- begin dialog body -->
+
+<!-- </form> -->

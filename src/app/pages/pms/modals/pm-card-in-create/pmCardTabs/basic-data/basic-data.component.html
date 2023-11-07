@@ -1,0 +1,202 @@
+<form [formGroup]="formEditTask">
+  <ng-container *ngIf="codes$ | async as code">
+    <div class="row">
+      <!-- الاسم -->
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+        <div class="form-group">
+          <label class="mb-2">
+            {{ "PM.MODAL.ADD_PM_TASK.NAME" | translate }}
+          </label>
+          <input
+            type="text"
+            formControlName="TaskName"
+            class="form-control"
+            id="TaskNameControl"
+          />
+        </div>
+      </div>
+
+      <!-- درجة الأهمية -->
+      <div class="col-12 col-sm-6 col-md-4 mb-3">
+        <label class="mb-2">
+          {{ "PM.MODAL.ADD_PM_TASK.PRIORITY_LEVEL" | translate }}
+        </label>
+        <p-dropdown
+          [style]="{ width: '100%', display: 'flex' }"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          formControlName="PriorityId"
+          optionLabel="Name"
+          optionValue="code"
+          [options]="code.PriorityId"
+          [disabled]="!code.PagePermissions.PMPriorityEdit"
+        >
+        </p-dropdown>
+      </div>
+
+      <!-- الوسم -->
+      <div class="col-12 col-md-4 mb-3">
+        <label class="mb-2">
+          {{ "PM.MODAL.ADD_PM_TASK.TAGS" | translate }}
+        </label>
+        <p-multiSelect
+          [style]="{ width: '100%', display: 'flex' }"
+          formControlName="TagsId"
+          optionLabel="Name"
+          [options]="code.TagsId"
+          [disabled]="!this.EditPermission"
+        ></p-multiSelect>
+      </div>
+
+      <div class="col-12 col-sm-5 col-md-4 mb-3">
+        <label class="mb-2">
+          {{ "SOP" | translate }}
+        </label>
+        <div class="d-flex justify-content-between">
+          <div class="min-width-180">
+            <p-dropdown
+              [style]="{ width: '100%', display: 'flex' }"
+              [placeholder]="'GENERAL.SELECT' | translate"
+              formControlName="SelectedSOP"
+              optionLabel="name"
+              optionValue="code"
+              [options]="code.SOP"
+              [disabled]="itemEdit.IsHasSOP || !EditPermission"
+              (onChange)="handleSelectedSop()"
+            >
+            </p-dropdown>
+          </div>
+          <i
+            (click)="viewSOP()"
+            class="fas fa-eye-slash action-icon showing-icon"
+            tooltipPosition="top"
+            [ngClass]="{
+              'disabled-icon':
+                itemEdit.IsHasSOP || !EditPermission || !selectedSopValue
+            }"
+            pTooltip="{{ 'view' | translate }}"
+          ></i>
+          <!-- <button (click)="viewSOP()" class="btn btn-primary" [disabled]="itemEdit.IsHasSOP || !EditPermission || !selectedSopValue">{{ 'view' | translate }}</button> -->
+        </div>
+      </div>
+
+      <!-- الوقت المتوقع -->
+      <div class="col-12 col-md-8 mb-6">
+        <label class="mb-2">
+          {{ "PM.MODAL.ADD_PM_TASK.EXPECTED_TIME" | translate }}
+        </label>
+
+        <div class="time d-flex">
+          <span style="font-size: 13px; margin-top: 5px">{{
+            "H" | translate
+          }}</span>
+
+          <div
+            class="form-group form-group margin-end-1"
+            style="flex-basis: 50%"
+          >
+            <select
+              class="form-control"
+              formControlName="EstimatedTimeH"
+              id="EstimatedTimeHControl"
+            >
+              <option *ngFor="let item of Hours" [value]="item">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+          <span style="font-size: 13px; margin-top: 5px">{{
+            "min" | translate
+          }}</span>
+
+          <div class="form-group form-group" style="flex-basis: 50%">
+            <select
+              class="form-control"
+              formControlName="EstimatedTimeM"
+              id="EstimatedTimeMControl"
+            >
+              <option *ngFor="let item of Muints" [value]="item">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <!-- الأصل -->
+      <div class="col-12 col-md-5">
+        <label class="mb-2">
+          {{ "PM.MODAL.ADD_PM_TASK.ASSET" | translate }}
+        </label>
+
+        <div class="form-group d-flex align-items-center">
+          <span
+            class="form-control form-control-solid h-40px"
+            (click)="EditPermission && openAsset()"
+          >
+            {{ AssetSelected }}
+          </span>
+          <i
+            *ngIf="EditPermission"
+            class="fa fa-plus action-icon add-icon"
+            tooltipPosition="top"
+            pTooltip="{{ 'GENERAL.SELECT' | translate }}"
+            (click)="chooseAsset(code.AssetId)"
+          ></i>
+        </div>
+      </div>
+
+      <!-- فريق العمل  -->
+      <div class="col-10 col-md-5">
+        <label class="mb-2">
+          {{ "PM.MODAL.ADD_PM_TASK.WORK_TEAM" | translate }}
+        </label>
+
+        <div class="form-group d-flex align-items-center">
+          <span class="form-control form-control-solid h-40px">
+            {{ ArrayToString(itemsCheckedTeams) }}
+            {{ ArrayToString(itemsCheckedUsers) }}
+          </span>
+          <i
+            *ngIf="code?.PagePermissions?.PMReassign"
+            class="fa fa-plus action-icon add-icon"
+            tooltipPosition="top"
+            (click)="EditPermission && chooseAssigment()"
+            pTooltip="{{ 'GENERAL.SELECT' | translate }}"
+          ></i>
+        </div>
+      </div>
+
+      <!-- stacked or not -->
+      <div class="col-2 d-flex align-items-center">
+        <div class="form-group">
+          <label class="invisible d-block">Is Stacked PM</label>
+          <label class="checkbox">
+            <input
+              type="checkbox"
+              class="form-check-input margin-end-1 custom-checkbox-style"
+              formControlName="IsStackedPM"
+              id="IsStackedPMControl"
+            />
+            <span></span>
+            {{ "PM.MODAL.ADD_PM_TASK.STACKED" | translate }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- الوصف -->
+    <div class="form-group">
+      <label class="mb-2">
+        {{ "PM.MODAL.ADD_PM_TASK.DESCRIPTION" | translate }}
+      </label>
+      <textarea
+        class="form-control"
+        rows="3"
+        formControlName="TaskDescription"
+        id="TaskDescriptionControl"
+      ></textarea>
+    </div>
+  </ng-container>
+</form>

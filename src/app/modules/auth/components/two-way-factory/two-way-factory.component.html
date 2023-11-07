@@ -1,0 +1,45 @@
+<div class="modal-header position-relative" style="direction: ltr !important">
+  <h5 class="modal-title">
+    <!-- <i class="fas fa-filter mx-1"></i> -->
+    Confirm Login
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body "style="direction: ltr !important">
+  <div class="d-flex justify-content-center">
+    <div class="col-12 col-lg-6 mb-3 mb-lg-0">
+      <label class="required mb-2 lableInputModle"> Enter Code </label>
+      <input type="text" class="form-control" [formControl]="Code" />
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer position-relative" style="direction: ltr !important">
+  <button
+  type="button"
+  id="kt_sign_in_submit"
+  class="btn btn-lg btn-primary text-white w-100 mb-5"
+  style="background: #5595d4 !important"
+  [disabled]="Code.invalid"
+  (click)="login()"
+>
+  <ng-container *ngIf="isLoading$ | async">
+    <span class="indicator-progress" [style.display]="'block'">
+      {{ "AUTH.GENERAL.WAITING" | translate }}
+      <span
+        class="spinner-border spinner-border-sm align-middle ms-2"
+      ></span>
+    </span>
+  </ng-container>
+  <ng-container *ngIf="!(isLoading$ | async)">
+    <span class="indicator-label"> Login </span>
+    <span> <i class="fas fa-sign-in-alt fs-4 flot-end-1"></i> </span>
+  </ng-container>
+</button>
+</div>

@@ -1,0 +1,81 @@
+<ng-container *ngIf="viewAssigment">
+  <!-- <span class="form-control form-control-solid" style="min-height: 39.8px">
+
+  </span> -->
+  <div class="mb-1">
+    <span> {{ "GENERAL.TO_APPROVE" | translate }} </span>
+    <a (click)="ChoseAssigmentSignature()" href="javascript:;">
+      {{ ArrayToString(this.AssigmentSignatureTeams) }}
+      {{ ArrayToString(this.AssigmentSignatureUsers) }}
+    </a>
+  </div>
+  <!-- <i (click)="ChoseAssigmentSignature()" class="fa fa-plus action-icon add-icon" tooltipPosition="top"></i> -->
+</ng-container>
+
+<div class="signitures-components">
+  <canvas
+    #canvas
+    [style.background-image]="'url(' + Avatar + valueFieldControl + ')'"
+    class="border border-gray-400"
+  ></canvas>
+
+  <div class="actions">
+    <button
+      type="button"
+      class="btn btn-primary"
+      [disabled]="readOnly"
+      tooltipPosition="top"
+      pTooltip="{{ 'GENERAL.APPROVE' | translate }}"
+    >
+      <i class="fa fa-check p-0"></i>
+      <!-- <span> approved </span> -->
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-sm btn-danger mx-2"
+      data-bs-dismiss="modal"
+      [disabled]="readOnly"
+      tooltipPosition="top"
+      pTooltip="{{ 'GENERAL.DISAPPROVE' | translate }}"
+    >
+      <i class="fa fa-times p-0"></i>
+      <!-- <span> un approved</span> -->
+    </button>
+  </div>
+</div>
+<ng-container *ngIf="viewAssigment">
+  <!-- <span class="form-control form-control-solid" style="min-height: 39.8px"></span> -->
+
+  <div class="mt-2">
+    <span> {{ "GENERAL.WHEN_APPROVED" | translate }} </span>
+    <a (click)="ChoseAssigmentApproved()" href="javascript:;">
+      <span style="margin-inline-end: 0.5rem"
+        >{{ ArrayToString(this.AssigmentApprovedTeams) }}</span
+      >
+      <span> {{ ArrayToString(this.AssigmentApprovedUsers) }}</span>
+    </a>
+  </div>
+  <!-- <i
+    (click)="ChoseAssigmentApproved()"
+    class="fa fa-plus action-icon add-icon"
+    tooltipPosition="top"
+  ></i> -->
+  <!-- <span class="form-control form-control-solid" style="min-height: 39.8px">
+
+  </span> -->
+  <div class="mt-2">
+    <span> {{ "GENERAL.WHEN_UNAPPROVED" | translate }} </span>
+    <a (click)="ChoseAssigmentUnApproved()" href="javascript:;">
+      <span style="margin-inline-end: 0.5rem"
+        >{{ ArrayToString(this.AssigmentUnApprovedTeams) }}</span
+      >
+      <span>{{ ArrayToString(this.AssigmentUnApprovedUsers) }}</span>
+    </a>
+  </div>
+  <!-- <i
+    (click)="ChoseAssigmentUnApproved()"
+    class="fa fa-plus action-icon add-icon"
+    tooltipPosition="top"
+  ></i> -->
+</ng-container>

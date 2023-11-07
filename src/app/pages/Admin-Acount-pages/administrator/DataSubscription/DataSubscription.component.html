@@ -1,0 +1,243 @@
+<form [formGroup]="DataSubscriptionForm">
+  <!-- begin dialog body -->
+  <div class="modal-body mt-5 mb-0 pb-0 container overflow-hidden">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="services-container">
+          <header class="services-header">
+            <input
+            class="form-check-input mx-1"
+            type="checkbox"
+            (change)="CheckAllService($event)"
+            value=""
+          />
+            <h5 class="mb-0 mx-2">
+              {{
+              "ADMINISTARTOR.ADDCOMPANY.SUBSCRIBEDATATAB.SERVICES.SERVICES"
+              | translate
+              }}
+            </h5>
+          </header>
+
+          <div class="service-item d-flex align-items-center"
+            *ngFor="let data of Codes?.ServicesId; let indexOfelement = index">
+            <i class="fas fa-level-down-alt fa-rotate-90 subscription-data-child-icon"></i>
+            <div class="service">
+              <div class="form-check form-check-custom form-check-solid form-check-sm">
+                <input class="form-check-input mx-1" type="checkbox" (change)="CheckService($event, data.Code)"
+                  [checked]="data.checked" value="" id="flexRadioLg{{ indexOfelement }}" />
+                <!-- <label class="form-check-label" for="flexRadioLg{{indexOfelement}}">
+                </label> -->
+              </div>
+              <label class="form-check-label service-name" for="flexRadioLg{{ indexOfelement }}">
+                {{ data.Name }}
+              </label>
+              <!-- <span class="service-name"> {{data.Name}} </span> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <!-- <form [formGroup]="DataSubscriptionForm"> -->
+        <div class="row">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <label class="mb-2">
+                {{
+                "ADMINISTARTOR.ADDCOMPANY.SUBSCRIBEDATATAB.STARTDATE"
+                | translate
+                }}
+              </label>
+
+              <div class="form-group custom-datepicker">
+                <input class="form-control" [matDatepicker]="pickerStartDate" type="datetime" placeholder="dd-mm-yy"
+                  formControlName="StartDate" [min]="minDate" />
+                <mat-datepicker-toggle matSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
+                <mat-datepicker #pickerStartDate></mat-datepicker>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="mb-2">
+                {{
+                "ADMINISTARTOR.ADDCOMPANY.SUBSCRIBEDATATAB.ENDDATE"
+                | translate
+                }}
+              </label>
+
+              <div class="form-group custom-datepicker">
+                <input class="form-control" [matDatepicker]="pickerEndDate" type="datetime" placeholder="dd-mm-yy"
+                  [min]="minDate" formControlName="EndDate" />
+                <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
+                <mat-datepicker #pickerEndDate></mat-datepicker>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-12 col-md-6">
+              <label class="required form-label">{{
+                "ADMINISTARTOR.ADDCOMPANY.SUBSCRIBEDATATAB.SUBSCRIBETYPE"
+                | translate
+                }}</label>
+              <div class="input-group">
+                <select class="form-select" formControlName="SubscriptionTypeId">
+                  <option *ngFor="let item of Codes?.SubscriptionTypesId" [value]="item.code">
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="errors" *ngIf="DataSubscriptionForm.get('SubscriptionTypeId')?.errors">
+                <span class="text-danger text-danger fs-8" *ngIf="
+                    DataSubscriptionForm.get('SubscriptionTypeId')?.errors
+                      ?.required &&
+                    (DataSubscriptionForm.get('SubscriptionTypeId')?.touched ||
+                      submitted)
+                  ">{{ "GENERAL.REQUIRED" | translate }}</span>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="required form-label">{{
+                "ADMINISTARTOR.ADDCOMPANY.SUBSCRIBEDATATAB.SUBSCRIBESTAATUS"
+                | translate
+                }}</label>
+              <div class="input-group">
+                <select class="form-select" formControlName="SubscriptionStatusId">
+                  <option *ngFor="let item of Codes?.SubscriptionStatusId" [value]="item.code">
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="errors" *ngIf="DataSubscriptionForm.get('SubscriptionStatusId')?.errors">
+                <span class="text-danger text-danger fs-8" *ngIf="
+                    DataSubscriptionForm.get('SubscriptionTypeId')?.errors
+                      ?.required &&
+                    (DataSubscriptionForm.get('SubscriptionStatusId')
+                      ?.touched ||
+                      submitted)
+                  ">{{ "GENERAL.REQUIRED" | translate }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-12 col-md-6">
+              <label class="required form-label">{{
+                "ADMINISTARTOR.ADDCOMPANY.SUBSCRIBEDATATAB.TOTALAMOUNT"
+                | translate
+                }}</label>
+              <div class="input-group">
+                <input type="number" [min]="0" class="form-control" formControlName="TotalCost" />
+              </div>
+              <div class="errors" *ngIf="DataSubscriptionForm.get('TotalCost')?.errors">
+                <span class="text-danger text-danger fs-8" *ngIf="
+                    DataSubscriptionForm.get('TotalCost')?.errors?.required &&
+                    (DataSubscriptionForm.get('TotalCost')?.touched ||
+                      submitted)
+                  ">{{ "GENERAL.REQUIRED" | translate }}</span>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="required form-label">{{
+                "ADMINISTARTOR.ADDCOMPANY.SUBSCRIBEDATATAB.CURRENCYTYPE"
+                | translate
+                }}</label>
+              <div class="input-group">
+                <select class="form-select" formControlName="CurrencyId">
+                  <option *ngFor="let item of Codes?.CurrencyId" [value]="item.Code">
+                    {{ item.Name }}
+                  </option>
+                </select>
+              </div>
+              <div class="errors" *ngIf="DataSubscriptionForm.get('CurrencyId')?.errors">
+                <span class="text-danger text-danger fs-8" *ngIf="
+                    DataSubscriptionForm.get('CurrencyId')?.errors?.required &&
+                    (DataSubscriptionForm.get('CurrencyId')?.touched ||
+                      submitted)
+                  ">{{ "GENERAL.REQUIRED" | translate }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-12 col-md-6">
+              <label class="required form-label">{{
+                "ADMINISTARTOR.ADDCOMPANY.SUBSCRIBEDATATAB.USERSNUMBER"
+                | translate
+                }}</label>
+              <div class="input-group">
+                <input type="number" [min]="0" formControlName="NumberOfLicenses" class="form-control" />
+              </div>
+              <div class="errors" *ngIf="DataSubscriptionForm.get('NumberOfLicenses')?.errors">
+                <span class="text-danger text-danger fs-8" *ngIf="
+                    DataSubscriptionForm.get('NumberOfLicenses')?.errors
+                      ?.required &&
+                    (DataSubscriptionForm.get('NumberOfLicenses')?.touched ||
+                      submitted)
+                  ">{{ "GENERAL.REQUIRED" | translate }}</span>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="required form-label">{{
+                "ADMINISTARTOR.ADDCOMPANY.SUBSCRIBEDATATAB.ASSETSNUMBER"
+                | translate
+                }}</label>
+              <div class="input-group">
+                <input type="number" [min]="0" formControlName="NumberOfAssets" class="form-control" />
+              </div>
+              <div class="errors" *ngIf="DataSubscriptionForm.get('NumberOfAssets')?.errors">
+                <span class="text-danger text-danger fs-8" *ngIf="
+                    DataSubscriptionForm.get('NumberOfAssets')?.errors
+                      ?.required &&
+                    (DataSubscriptionForm.get('NumberOfAssets')?.touched ||
+                      submitted)
+                  ">{{ "GENERAL.REQUIRED" | translate }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-12">
+              <label class="required form-label">{{
+                "ADMINISTARTOR.ADDCOMPANY.SUBSCRIBEDATATAB.LOCATIONNUMBERS"
+                | translate
+                }}</label>
+              <div class="input-group">
+                <input type="number" [min]="0" formControlName="NumberOfLocations" class="form-control" />
+              </div>
+              <div class="errors" *ngIf="DataSubscriptionForm.get('NumberOfLocations')?.errors">
+                <span class="text-danger text-danger fs-8" *ngIf="
+                    DataSubscriptionForm.get('NumberOfLocations')?.errors
+                      ?.required &&
+                    (DataSubscriptionForm.get('NumberOfLocations')?.touched ||
+                      submitted)
+                  ">{{ "GENERAL.REQUIRED" | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end dialog body -->
+    </div>
+
+    <!-- begin dialog footer -->
+    <div class="dialog-footer mx-0 mt-5 pb-0">
+      <div class="footer-actions mx-0">
+        <button class="btn btn-primary" (click)="AddDataSubscription()">
+          <i class="fas fa-save"></i>
+          {{ "ADMINISTARTOR.ADDCOMPANY.SUBSCRIBEDATATAB.SAVE" | translate }}
+        </button>
+
+        <button class="btn btn-sm btn-secondary mx-2" (click)="afterSaveSub.emit()">
+          <i class="fas fa-times"></i>
+          {{ "ADMINISTARTOR.ADDCOMPANY.SUBSCRIBEDATATAB.CANCEL" | translate }}
+        </button>
+      </div>
+    </div>
+    <!-- end dialog footer -->
+  </div>
+</form>

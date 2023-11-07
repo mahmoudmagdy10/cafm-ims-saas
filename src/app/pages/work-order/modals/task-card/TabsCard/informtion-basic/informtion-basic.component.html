@@ -1,0 +1,391 @@
+<ng-container *ngIf="this.changeStatusCard$ | async"> </ng-container>
+
+<div
+  class="tab-pane fade show active"
+  id="kt_tab_pane_1"
+  role="tabpanel"
+  aria-labelledby="kt_tab_pane_2"
+  *ngIf="Codes$ | async as code"
+>
+  <!-- نسبة الانجاز -->
+
+  <form [formGroup]="FormTask">
+    <div class="row">
+      <!-- اسم المهمة -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.TASK_NAME"
+              | translate
+          }}
+        </label>
+        <input type="text" class="form-control" formControlName="TaskName" />
+      </div>
+
+      <!-- رقم المهمة -->
+      <div class="col-12 col-md-2 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.TASK_NUMBER"
+              | translate
+          }}
+        </label>
+        <!-- <span class="form-control form-control-solid"> #19 </span> -->
+        <input
+          type="text"
+          class="form-control"
+          formControlName="InternalNumber"
+        />
+      </div>
+
+      <!-- نوع المهمة  -->
+      <div class="col-12 col-md-6 col-lg-3 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.TASK_TYPE"
+              | translate
+          }}
+        </label>
+        <p-dropdown
+          [style]="{ display: 'flex' }"
+          optionLabel="Name"
+          optionValue="Code"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          [options]="code.TaskTypeId"
+          formControlName="TaskTypeId"
+        >
+        </p-dropdown>
+      </div>
+
+      <!-- درجة الأهمية -->
+      <div class="col-12 col-md-3 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.PRIORITY_LEVEL"
+              | translate
+          }}
+        </label>
+        <p-dropdown
+          [style]="{ display: 'flex' }"
+          optionLabel="Name"
+          optionValue="code"
+          [options]="code.PriorityId"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          [formControl]="PriorityId"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- حالة المهمة -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.TASK_STATUS"
+              | translate
+          }}
+        </label>
+        <p-dropdown
+          *ngIf="
+            TaskStatusId?.value != 3 && TaskStatusId?.value != 4;
+            else TaskStatusName
+          "
+          [placeholder]="'GENERAL.NOT_SELECTED' | translate"
+          [style]="{ display: 'flex' }"
+          optionLabel="Name"
+          optionValue="code"
+          [formControl]="TaskStatusId"
+          [options]="code.TaskStatusId"
+        >
+        </p-dropdown>
+        <ng-template #TaskStatusName>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="TaskStatusName"
+        /></ng-template>
+      </div>
+
+      <!-- تاريخ بدء المهمة  -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.TASK_START_DATE"
+              | translate
+          }}
+        </label>
+        <p-calendar
+          dateFormat="dd/mm/yy"
+          [showIcon]="true"
+          placeholder="dd-mm-yy"
+          [showTime]="true"
+          formControlName="StartDate"
+          inputId="time"
+          (onShow)="CalenderOpen(true)"
+          (onClose)="CalenderOpen(false)"
+        ></p-calendar>
+        <!-- <div class="form-group custom-datepicker">
+          <input
+            class="form-control"
+            [matDatepicker]="pickerStartDate"
+            type="datetime"
+            placeholder="dd-mm-yy"
+            formControlName="StartDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerStartDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerStartDate></mat-datepicker>
+        </div> -->
+      </div>
+      <!-- تاريخ الإستحقاق -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.DUE_TO"
+              | translate
+          }}
+        </label>
+        <p-calendar
+          [showIcon]="true"
+          dateFormat="dd/mm/yy"
+          placeholder="dd-mm-yy"
+          [showTime]="true"
+          [formControl]="DueDate"
+          inputId="time"
+          (onShow)="CalenderOpen(true)"
+          (onClose)="CalenderOpen(false)"
+        ></p-calendar>
+      </div>
+
+      <!-- مدة الصيانة المتوقعة -->
+      <div class="col-12 col-md-3 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.MAINTENANCE_TIME_EXPECTED"
+              | translate
+          }}</label
+        >
+
+        <div class="time d-flex">
+          <span style="font-size: 13px; margin-top: 5px">
+            {{ "H" | translate }}</span
+          >
+
+          <div
+            class="form-group form-group margin-end-1"
+            style="flex-basis: 50%"
+          >
+            <select class="form-control" formControlName="EstimatedTimeH">
+              <option *ngFor="let item of Hours" [value]="item">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+          <span style="font-size: 13px; margin-top: 5px">
+            {{ "min" | translate }}</span
+          >
+
+          <div class="form-group form-group" style="flex-basis: 50%">
+            <select class="form-control" formControlName="EstimatedTimeM">
+              <option *ngFor="let item of Muints" [value]="item">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- الوسم -->
+      <div class="col-12 col-md-4 col-lg-3 mb-2">
+        <label class="mb-2">{{
+          "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.TAG"
+            | translate
+        }}</label>
+        <p-multiSelect
+          [style]="{ width: '100%', display: 'flex' }"
+          optionLabel="Name"
+          [options]="code.TagsId"
+          formControlName="TagsId"
+        ></p-multiSelect>
+      </div>
+      <div class="col-12 col-md-2 mb-3">
+        <label class="mb-2"> {{ "RequesterPhone" | translate }} </label>
+        <!-- <span class="form-control form-control-solid"> #19 </span> -->
+        <input
+          type="text"
+          class="form-control"
+          formControlName="RequesterPhone"
+        />
+      </div>
+     
+      <div
+        class="col-12 col-md-2 mb-3"
+        *ngIf="code.PagePermissions?.WorkOrdersShowCreatedBy"
+      >
+        <label class="mb-2">
+          {{ "PREVENTIVE_TASKS_MANAGEMENT.CREATED_BY" | translate }}
+        </label>
+        <!-- <span class="form-control form-control-solid"> #19 </span> -->
+        <input
+          type="text"
+          class="form-control"
+          formControlName="CreatedByName"
+        />
+      </div>
+      <div
+        class="col-12 col-md-2 mb-3"
+        *ngIf="code.PagePermissions?.WorkOrdersShowCreatedBy"
+      >
+        <label class="mb-2">
+          {{ "CREATED_from" | translate }}
+        </label>
+        <!-- <span class="form-control form-control-solid"> #19 </span> -->
+        <input
+          type="text"
+          class="form-control"
+          formControlName="FirstTaskType"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- الأصل -->
+      <div class="col-12 col-md-6">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.ASSET"
+              | translate
+          }}
+        </label>
+
+        <div class="form-group d-flex align-items-center">
+          <span
+            class="form-control form-control-solid"
+            style="min-height: 39.8px"
+            (click)="!disabledTaskDescription && openAsset(dataEdit.AssetId)"
+          >
+            {{ dataEdit.AssetName }}
+            <!-- {{ "." }} -->
+          </span>
+          <i
+            *ngIf="!disabledTaskDescription"
+            class="fa fa-plus action-icon add-icon"
+            (click)="opentree(code.AssetId)"
+            tooltipPosition="top"
+            pTooltip="{{
+              'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.ADD'
+                | translate
+            }}"
+          ></i>
+        </div>
+      </div>
+
+      <!-- فريق العمل  -->
+      <div class="col-12 col-md-6">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.WORK_TEAM"
+              | translate
+          }}
+        </label>
+
+        <div class="form-group d-flex align-items-center">
+          <span
+            class="form-control form-control-solid"
+            style="min-height: 39.8px"
+          >
+            {{
+              ArrayToString(dataEdit.TaskAssignmentTeamTxt) | cutLongString : 60
+            }}
+            {{
+              ArrayToString(dataEdit.TaskAssignmentUserTxt) | cutLongString : 60
+            }}
+            <!-- {{ "." }} -->
+          </span>
+          <i
+            *ngIf="code?.PagePermissions?.WorkOrdersReassign"
+            class="fa fa-plus action-icon add-icon"
+            tooltipPosition="top"
+            (click)="openDialog()"
+            pTooltip="{{
+              'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.ADD'
+                | translate
+            }}"
+          ></i>
+        </div>
+      </div>
+      <!-- <div class="col-12 col-md-2 my-12">
+        <input
+          (change)="saveClientAcceptance()"
+          class="form-check-input"
+          type="checkbox"
+          [formControl]="accept"
+        />
+
+        <span class="mx-2"> {{ "Approval" | translate }} </span>
+      </div> -->
+    </div>
+
+    <!-- وصف المهمة -->
+    <div class="col-md-12 my-3">
+      <div class="d-flex align-items-center justify-content-between mb-1">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.TASK_DISCRIPTION"
+              | translate
+          }}
+        </label>
+        <!-- <i
+          class="action-icon pi pi-images mx-2"
+          pTooltip="{{ 'Image Size' }}"
+          tooltipPosition="top"
+
+        ></i> -->
+        <!-- <p-splitButton
+        [label]="'Image_Size' |translate"
+        [model]="optionsForEditor"
+      ></p-splitButton> -->
+      </div>
+      <!--  -->
+
+      <textarea
+        class="form-control"
+        rows="6"
+        formControlName="TaskDescription"
+      ></textarea>
+      <!-- <div #OptionsEditor aria-haspopup="true" id="OptionsEditor">
+        <p-editor
+          [ngClass]="{
+            'editorImg-25': currantImageSize == 25,
+            'editorImg-50': currantImageSize == 50,
+            'editorImg-75': currantImageSize == 75,
+            'editorImg-100': currantImageSize == 100
+          }"
+          #pEditor
+          [formControl]="TaskDescription"
+          [readonly]="disabledTaskDescription"
+          [style]="{ height: '320px' }"
+        >
+          <ng-template pTemplate="header">
+            <span class="ql-formats">
+              <button type="button" class="ql-bold" aria-label="Bold"></button>
+              <button
+                type="button"
+                class="ql-italic"
+                aria-label="Italic"
+              ></button>
+              <button
+                type="button"
+                class="ql-underline"
+                aria-label="Underline"
+              ></button>
+            </span>
+          </ng-template>
+        </p-editor>
+      </div> -->
+    </div>
+  </form>
+</div>

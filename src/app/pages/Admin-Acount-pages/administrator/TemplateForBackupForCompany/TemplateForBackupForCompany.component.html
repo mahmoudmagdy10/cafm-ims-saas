@@ -1,0 +1,101 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-columns margin-end-1"></i>
+    Template For Back Up
+  </h5>
+  <!--  -->
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+
+<div class="modal-body" style="max-height: 80vh; overflow-y: auto">
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <div class="col-9">
+        <div class="form-group">
+          <p-dropdown
+            appendTo="body"
+            [options]="TemplatesForBackup$ | async"
+            [style]="{ minWidth: '100%', display: 'flex' }"
+            optionLabel="Template"
+            optionValue="Id"
+            [placeholder]="'GENERAL.SELECT' | translate"
+            [formControl]="TemplateValue"
+            [filter]="true"
+            filterBy="name"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="col-3" style="text-align: end">
+        <i
+          (click)="addTemplates()"
+          tooltipPosition="top"
+          pTooltip="Add Template"
+          class="fa fa-plus action-icon add-icon"
+        ></i>
+      </div>
+    </div>
+
+    <div class="fields mt-8">
+      <div
+        class="row align-items-center mb-3"
+        *ngFor="let item of TemplateForBackupForCompany$ | async; index as i"
+      >
+        <div class="col-8">
+          <div class="form-group">
+            <label
+              *ngIf="!item.showEdit"
+              class="form-control form-control-solid"
+            >
+              {{ item.Template }}</label
+            >
+            <input
+              *ngIf="item.showEdit"
+              type="text"
+              class="form-control"
+              [(ngModel)]="item.Template"
+              placeholder=""
+            />
+          </div>
+        </div>
+
+        <div class="col-4" style="text-align: end">
+          <i
+            *ngIf="!item.showEdit"
+            (click)="item.showEdit = true"
+            tooltipPosition="top"
+            class="far fa-edit action-icon edit-icon"
+          ></i>
+
+          <i
+            (click)="
+              IndexFieldDeleted = i;
+              IDFieldDeleted = item.Id;
+              confirmdeleteTemplate.openModal()
+            "
+            class="fas fa-trash-alt action-icon delete-icon"
+          ></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer position-relative">
+  <button class="btn btn-sm btn-secondary" (click)="Close()">
+    <i class="fas fa-times"></i>
+    cancel
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>
+<confirm-delete
+  #confirmdeleteTemplate
+  (afterSave)="$event ? onDelete() : ''; confirmdeleteTemplate.CloseModal()"
+>
+</confirm-delete>
