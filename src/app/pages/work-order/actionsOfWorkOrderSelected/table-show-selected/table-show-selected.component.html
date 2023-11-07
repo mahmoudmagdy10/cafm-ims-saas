@@ -1,0 +1,57 @@
+<table class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6">
+  <thead>
+    <tr class="fw-bolder fs-6 text-gray-800">
+      <th>#</th>
+      <th>
+
+        {{ "PREVENTIVE_TASKS_MANAGEMENT.TASK_NAME" | translate }}
+      </th>
+      <th>
+        {{ "PREVENTIVE_TASKS_MANAGEMENT.PRIORITY_LEVEL" | translate }}
+      </th>
+      <th>
+        {{ "PREVENTIVE_TASKS_MANAGEMENT.REQUEST_STATUS" | translate }}
+      </th>
+      <th>
+        {{ "PREVENTIVE_TASKS_MANAGEMENT.REQUEST_TYPE" | translate }}
+      </th>
+      <th>
+        {{ "PREVENTIVE_TASKS_MANAGEMENT.ASSET_NAME" | translate }}
+      </th>
+      <th>
+        {{ "PREVENTIVE_TASKS_MANAGEMENT.EXPIRY_DATE" | translate }}
+      </th>
+      <th>
+        {{ "PREVENTIVE_TASKS_MANAGEMENT.PROCEDURES" | translate }}
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let item of WorkOrderSelected; index as i">
+      <td>
+        {{ i +1 }}
+      </td>
+      <td>{{ item.TaskName }}</td>
+      <td>
+        <i class="fa fa-info-circle fa-lg" [pTooltip]="item.PriorityName"></i>
+      </td>
+      <td>
+        <i class="action-icon completed-request-status" pTooltip="{{ item.TaskStatusName }}" tooltipPosition="top">{{
+          item.TaskStatusName | chartFirst }}</i>
+      </td>
+      <td>{{ item.TaskTypeName }}</td>
+      <td>{{ item.AssetName }}</td>
+      <td>
+        {{ item.DueDate | date: "dd/MM/yyyy" }}
+      </td>
+      <td>
+        <div class="d-flex flex-nowrap">
+          <!-- <i tooltipposition="top" class="p-element fa fa-plus action-icon add-icon"></i> -->
+          <i (click)="unSelectItem(item.ID,i)" class="fas fa-trash-alt action-icon delete-icon"
+            pTooltip="{{ 'PREVENTIVE_TASKS_MANAGEMENT.DELETE' | translate }}" tooltipPosition="top"></i>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

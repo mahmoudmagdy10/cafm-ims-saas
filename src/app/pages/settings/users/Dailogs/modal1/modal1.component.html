@@ -1,0 +1,30 @@
+<div class="modal-contents">
+
+  <div class="modal-body p-0 pb-5">
+    <p class="ParModal_Page_user">
+      <!-- هل أنت متأكد أنك تريد تعطيل <span>{{dataUser?.UserName}}</span> سيؤدي هذا إلى عدم تمكن
+            المستخدم من تسجيل الدخول بعد الآن. -->
+      <!-- هل انت متاكد انك تريد تغيير حالة المستخدم؟ -->
+      {{"USERS.DISABLEUSERMODAL.INFO" | translate}}
+    </p>
+  </div>
+
+  <!-- begin dialog footer -->
+  <div class="dialog-footer">
+    <div class="footer-actions">
+
+      <button (click)="ChangeStatus(true)" class="btn  btn-danger">
+        <i class="fas fa-lock"></i>
+        {{"USERS.DISABLEUSERMODAL.DISABLE" | translate}}
+      </button>
+
+      <button (click)="ChangeStatus(false)" class="btn  btn-secondary mx-2">
+        <i class="fas fa-times"></i>
+        {{"USERS.DISABLEUSERMODAL.CANCEL" | translate}}
+      </button>
+
+    </div>
+  </div>
+  <!-- end dialog footer -->
+
+</div>

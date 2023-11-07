@@ -1,0 +1,175 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <!-- <i class="fa fa-plus mx-1"></i> -->
+    {{
+      "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.MODAL_TITLE" | translate
+    }}
+  </h5>
+  <!--begin::Close-->
+
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<ng-container *ngIf="this.taskEdit$ | async as dataEdit; else loading">
+  <div #Report class="modal-body" style="max-height: 80vh; overflow-y: auto">
+    <app-reson-with-status [dataEdit]="dataEdit"></app-reson-with-status>
+
+    <!-- <div class="container">
+  <div class="mt-3 fs-4 d-flex justify-content-between align-items-center">
+    <div style="width: 80%">
+      <span>{{
+        "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.COMPLETION_RATE"
+          | translate
+      }}</span>
+      <span class="text-success mx-2">{{
+        dataEdit.CompletionRatio + "%"
+      }}</span>
+
+      <p-progressBar [value]="dataEdit.CompletionRatio"></p-progressBar>
+    </div>
+    <div class="mt-4">
+      <ng-container *ngIf="codes$ | async as code">
+        <button
+          *ngIf="dataEdit.TaskStatusId != 3 && dataEdit.TaskStatusId != 4"
+          [disabled]="
+            dataEdit.CompletionRatio != 100 ||
+            !code?.PagePermissions?.WorkOrdersComplete
+          "
+          type="button"
+          class="btn btn-sm btn-success"
+          data-bs-dismiss="modal"
+          (click)="CompleteNewTask(dataEdit)"
+        >
+          <span>
+            <span> <i class="fa fa-check"></i> </span>
+            <span> {{ "GENERAL.COMPLETE" | translate }} </span>
+          </span>
+        </button></ng-container
+      >
+    </div>
+  </div>
+</div> -->
+    <app-vertical-template
+      [preview]="true"
+      [taskEdit$]="this.taskEdit$"
+      (timeConsuming)="timeConsuming($event)"
+    ></app-vertical-template>
+  </div>
+
+  <div class="modal-footer position-relative">
+    <button
+      *ngIf="dataEdit?.isTC != 1"
+      type="button"
+      class="btn btn-sm btn-success"
+      data-bs-dismiss="modal"
+      (click)="TC(dataEdit)"
+    >
+      <span>
+        <span> <i class="fa fa-check"></i> </span>
+        <span> {{ "TC" | translate }} </span>
+      </span>
+    </button>
+    <!-- <button type="button" class="btn btn-primary"
+    (click)="InstructionCompleted(dataEdit.ID)">
+    <span>
+      <span> <i class="fa fa-check"></i> </span>
+      <span> {{"GENERAL.COMPLETE" | translate}} </span>
+    </span>
+  </button> -->
+
+    <ng-container *ngIf="false">
+      <!-- <button
+        *ngIf="
+          dataEdit.TaskStatusId != 3 &&
+          dataEdit.TaskStatusId != 4 &&
+          code?.PagePermissions?.WorkOrdersComplete
+        "
+        type="button"
+        class="btn btn-sm btn-success"
+        data-bs-dismiss="modal"
+        (click)="CompleteNewTask(dataEdit)"
+      >
+        <span>
+          <span> <i class="fa fa-check"></i> </span>
+          <span> {{ "GENERAL.COMPLETE" | translate }} </span>
+        </span>
+      </button>
+      <button
+        (click)="reOpen(dataEdit.ID)"
+        *ngIf="this.TaskStatusId == 3 || this.TaskStatusId == 4"
+        type="button"
+        class="btn btn-sm btn-info"
+      >
+        <span>
+          <span> <i class="fa-solid fa-arrow-rotate-right"></i> </span>
+          <span> ReOpen </span>
+        </span>
+      </button>
+      <button
+        *ngIf="
+          this.TaskStatusId != 3 &&
+          this.TaskStatusId != 4 &&
+          code?.PagePermissions?.WorkOrdersCancel
+        "
+        type="button"
+        class="btn btn-sm btn-danger"
+        (click)="Reject(dataEdit)"
+      >
+        <span>
+          <span> <i class="fa fa-times"></i> </span>
+          <span> {{ "GENERAL.REJECT" | translate }} </span>
+        </span>
+      </button>
+      <button
+        *ngIf="dataEdit.TaskStatusId != 5"
+        type="button"
+        class="btn btn-sm btn-warning"
+        data-bs-dismiss="modal"
+        (click)="changeToPending(dataEdit.ID)"
+      >
+        <span> Pending </span>
+      </button> -->
+      <!-- <button
+        *ngIf="code?.PagePermissions?.WorkOrdersReassign"
+        type="button"
+        class="btn btn-sm btn-light"
+      >
+        <span>
+          <span> <i class="fa fa-times"></i> </span>
+          <span>
+            {{
+              "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.CANCEL" | translate
+            }}
+          </span>
+        </span>
+      </button>
+      <button
+        *ngIf="code?.PagePermissions?.WorkOrdersPrint"
+        printSectionId="report"
+        [useExistingCss]="true"
+        ngxPrint
+        type="button"
+        class="btn btn-sm btn-info"
+        data-bs-dismiss="modal"
+      >
+        <span> {{ "GENERAL.PRINT" | translate }} </span>
+      </button>
+      <i class="fas fa-cogs modal-bg-icon"></i> -->
+    </ng-container>
+    <div
+      [hidden]="true"
+      #report
+      id="report"
+      class="modal-body"
+      [style]="'max-height: 75vh; overflow-y: auto'"
+    >
+      <app-vertical-template
+        [taskEdit$]="this.taskEdit$"
+        (timeConsuming)="timeConsuming($event)"
+      ></app-vertical-template>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #loading>Loading...</ng-template>

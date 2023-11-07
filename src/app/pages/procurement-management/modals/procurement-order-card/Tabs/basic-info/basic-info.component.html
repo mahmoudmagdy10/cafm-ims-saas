@@ -1,0 +1,140 @@
+<ng-container *ngIf="Codes$ | async as codes">
+  <form [formGroup]="procurementOrderForm" *ngIf="orderEdit$ | async as data">
+    <div class="row">
+      <!-- رقم الأمر -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.ORDER_NUMBER" | translate
+          }}
+        </label>
+        <input type="text" class="form-control" formControlName="PONumber" />
+      </div>
+
+      <!-- اسم الأمر -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.ORDER_NAME" | translate
+          }}
+        </label>
+        <input type="text" class="form-control" formControlName="POName" />
+      </div>
+
+      <!-- الميزانية -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{ "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.BUDGET" | translate }}
+        </label>
+        <p-dropdown
+          appendTo="body"
+          [options]="budgets$ | async"
+          [style]="{ minWidth: '130px', display: 'flex' }"
+          optionLabel="BudgetName"
+          optionValue="ID"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          formControlName="BudgetId"
+          [filter]="true"
+          filterBy="name"
+        >
+        </p-dropdown>
+      </div>
+
+      <!-- المورد -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{ "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.VENDOR" | translate }}
+        </label>
+        <p-dropdown
+          appendTo="body"
+          [options]="codes.Vendors"
+          [style]="{ minWidth: '130px', display: 'flex' }"
+          optionLabel="name"
+          optionValue="code"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          formControlName="VendorId"
+          [filter]="true"
+          filterBy="name"
+        >
+        </p-dropdown>
+      </div>
+
+      <!-- تاريخ الشراء -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.PURCHASE_DATE" | translate
+          }}</label
+        >
+
+        <div class="form-group custom-datepicker">
+          <input
+            class="form-control"
+            [matDatepicker]="pickerPoDate"
+            type="datetime"
+            placeholder="dd-mm-yy"
+            formControlName="PODate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerPoDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerPoDate></mat-datepicker>
+        </div>
+      </div>
+
+      <!-- التاريخ المتوقع للاستلام -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.EXPECTED_RECEIVED_DATE"
+              | translate
+          }}</label
+        >
+
+        <div class="form-group custom-datepicker">
+          <input
+            class="form-control"
+            [matDatepicker]="pickerExpectedDelivaryDate"
+            type="datetime"
+            placeholder="dd-mm-yy"
+            formControlName="ExpectedDelivaryDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerExpectedDelivaryDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerExpectedDelivaryDate></mat-datepicker>
+        </div>
+      </div>
+
+      <!-- المسؤول عن الشراء -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.RESPONSIBLE" | translate
+          }}
+        </label>
+        <label
+          (click)="codes?.PagePermissions?.POEdit ? choosePOAssigment() : ''"
+          class="form-control form-control-solid"
+          style="height: 39px"
+        >
+          {{ ArrayToString(data.POAssignmentTeamTxt) }}
+          {{ ArrayToString(data.POAssignmentUserTxt) }}</label
+        >
+      </div>
+    </div>
+
+    <!-- ملاحظات -->
+    <label class="mb-2">
+      {{ "PURCHASE_ORDER.MODALS.ADD_PURCHASE_ORDER.DESCRIPTION" | translate }}
+    </label>
+    <textarea
+      class="form-control"
+      row="3"
+      col="12"
+      formControlName="Notes"
+    ></textarea>
+  </form>
+</ng-container>

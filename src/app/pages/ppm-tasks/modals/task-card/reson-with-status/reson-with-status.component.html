@@ -1,0 +1,48 @@
+<ng-container *ngIf="dataEdit.TaskStatusId == 3 || dataEdit.TaskStatusId == 4">
+  <div class="form-group">
+    <label
+      >{{
+        dataEdit.TaskStatusId == 3
+          ? ("Completion_Reason" | translate)
+          : ("Rejection_Reason" | translate)
+      }}
+    </label>
+    <textarea
+      [disabled]="true"
+      name=""
+      id=""
+      cols="30"
+      rows="4"
+      [ngModel]="dataEdit?.CompletionNote"
+      class="form-control"
+      [ngClass]="dataEdit.TaskStatusId == 3 ? 'text-success' : 'text-danger'"
+    ></textarea>
+  </div>
+</ng-container>
+<ng-container *ngIf="dataEdit.TaskStatusId == 5">
+  <div class="form-group">
+    <label
+      >Pending Reson Type (<span class="text-warning">{{
+        dataEdit?.DatetimePending | date : "dd/MM/yyyy : HH:mm"
+      }}</span
+      >)
+    </label>
+    <input
+      [disabled]="true"
+      [ngModel]="dataEdit?.ReasonTypePendingName"
+      class="form-control text-warning'"
+    />
+  </div>
+  <div class="form-group">
+    <label>Pending Reson </label>
+    <textarea
+      [disabled]="true"
+      name=""
+      id=""
+      cols="30"
+      rows="4"
+      [ngModel]="dataEdit?.PendingNote"
+      class="form-control text-warning"
+    ></textarea>
+  </div>
+</ng-container>

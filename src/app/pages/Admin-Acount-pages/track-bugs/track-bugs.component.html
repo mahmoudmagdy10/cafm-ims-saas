@@ -1,0 +1,127 @@
+<div class="card card-custom">
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <!-- <i class="fa fa-warehouse fa-lg"></i> -->
+
+      <h4 class="fw-bolder mb-0 mx-2">Bugs Track</h4>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <form [formGroup]="trackFilterForm">
+      <div class="row my-2">
+        <div class="col-4">
+          <label for="" class="required form-label"> Choose Company </label>
+          <!-- <input
+          type="text"
+          class="form-control"
+          formControlName="CompanyId"
+          placeholder="CompanyId"
+        /> -->
+          <p-dropdown
+            appendTo="body"
+            [options]="Campanies$ | async"
+            [style]="{ minWidth: '130px', display: 'flex' }"
+            optionLabel="CompanyName"
+            optionValue="CompanyId"
+            [placeholder]="'GENERAL.SELECT' | translate"
+            formControlName="CompanyId"
+            [filter]="true"
+            filterBy="CompanyName"
+          >
+          </p-dropdown>
+        </div>
+        <div class="col-2">
+          <label for="" class="form-label"> Choose Location </label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="LocationId"
+            placeholder="LocationId"
+          />
+        </div>
+        <div class="col-2">
+          <label for="" class="form-label"> Choose User </label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="UserId"
+            placeholder="UserId"
+          />
+        </div>
+        <div class="col-2">
+          <label for="" class="form-label"> Choose status </label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="StatusCode"
+            placeholder="StatusCode"
+          />
+        </div>
+        <div class="col-2">
+          <button
+            style="margin-top: 30px"
+            class="btn btn-primary"
+            (click)="selectedPage = 1; filter()"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <ng-container *ngIf="bugsTrack$ | async as data">
+      <div class="table-responsive">
+        <table
+          class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+        >
+          <thead>
+            <tr class="fw-bolder fs-6 text-gray-800">
+              <th>Company</th>
+              <th>User</th>
+              <th>Created Date</th>
+              <th>StatusCode</th>
+              <th>Method</th>
+              <th>Path</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="!data.loading; else loading">
+            <tr
+              *ngFor="let item of data?.data?.Data; index as i"
+              [class]="IdOpened == item.ID ? 'table-info' : ''"
+            >
+              <td>{{ item.CompanyName }}</td>
+              <td>{{ item.UserName }}</td>
+              <td>{{ item.CreateData | date : "YYYY/MM/dd HH:mm" }}</td>
+
+              <td
+                [class]="
+                  item?.StatusCode == '200' ? 'bg bg-success' : 'bg bg-danger'
+                "
+              >
+                {{ item.StatusCode }}
+              </td>
+              <td>{{ item.Method }}</td>
+              <td>{{ item.Path }}</td>
+              <td>
+                <i class="action-icon fas fa-code" (click)="ViewJson(item)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <app-pagination-component
+          *ngIf="!data.loading"
+          [Setting]="data?.data?.Setting"
+          [(selectedPage)]="selectedPage"
+          (selectedPageChange)="filter()"
+        ></app-pagination-component></div
+    ></ng-container>
+  </div>
+
+  <ng-template #loading>
+    <div class="d-flex justify-content-center">
+      <p-progressSpinner></p-progressSpinner>
+    </div>
+  </ng-template>
+</div>

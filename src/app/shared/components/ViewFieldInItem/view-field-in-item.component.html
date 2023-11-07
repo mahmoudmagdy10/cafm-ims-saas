@@ -1,0 +1,162 @@
+<div class="row mt-5 mb-3">
+  <div class="col-12 col-md-4 mb-3 mb-md-0" [hidden]="hiddenLabels">
+    <input
+      type="text"
+      placeholder="{{
+        'VENDORS.MODALS.VENDOR_CARD_MODAL.INFO_TAB.SEARCH' | translate
+      }}"
+      class="form-control form-control-sm"
+      [formControl]="fieldSearch"
+    />
+  </div>
+
+  <div class="col-12 col-md-8 mb-3 mb-md-0" *ngIf="!inPublic">
+    <div class="d-flex justify-content-end" *ngIf="havePermission">
+      <button
+        class="btn btn-primary"
+        [disabled]="disable"
+        (click)="addFeild()"
+      >
+        <span>
+          <span> <i class="fa fa-plus"></i> </span>
+          <span> {{ "SHARED.VENDORS.ADD_FIELD" | translate }} </span>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table
+    class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+  >
+    <thead>
+      <tr class="fw-bolder fs-6 text-gray-800" [hidden]="hiddenLabels">
+        <th *ngIf="!isMaintenanceRequestUrl">#</th>
+        <th>
+          {{
+            "VENDORS.MODALS.VENDOR_CARD_MODAL.INFO_TAB.TABLE.FIELD_NAME"
+              | translate
+          }}
+        </th>
+        <th *ngIf="!IsNotChangeValue">
+          {{
+            "VENDORS.MODALS.VENDOR_CARD_MODAL.INFO_TAB.TABLE.VALUE" | translate
+          }}
+        </th>
+        <th *ngIf="!inPublic">
+          {{
+            "VENDORS.MODALS.VENDOR_CARD_MODAL.INFO_TAB.TABLE.PROCEDUERS"
+              | translate
+          }}
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr
+        *ngFor="
+          let item of dataItem.Fields | filter : fieldSearch.value;
+          index as i
+        "
+      >
+        <td *ngIf="!item?.isDisabled && !isMaintenanceRequestUrl">
+          <span class="reorder-row-icon">{{ i + 1 }}</span>
+        </td>
+        <td class="min-width-column" *ngIf="!item?.isDisabled">
+          <icon-field
+            [TypeField]="item.FieldType"
+            class="margin-end-1"
+          ></icon-field
+          >{{ " " + item.FieldName }}
+        </td>
+        <td *ngIf="!IsNotChangeValue && !item?.isDisabled">
+          <!-- [readOnly]="!disable.CommonFieldsEdit" -->
+          <div class="row">
+            <div
+              [ngClass]="
+                item.FieldType != 6 || item.FieldType != 5 ? 'col-12' : 'col-2'
+              "
+            >
+              <field-dynamic
+                [loading]="item?.loading"
+                style="display: block; min-width: 90px"
+                [(valueField)]="!item.isDisabled && item.FieldValue"
+                [TypeField]="item.FieldType"
+                [FieldOptions]="item.FieldOptions"
+                [inPublic]="inPublic"
+                [clear$]="clear$"
+                [readOnly]="disable || !havePermission"
+                [isDisabled]="item?.isDisabled"
+                (SaveNewValue)="
+                  item.FieldType != 5 && item.FieldType != 6
+                    ? SaveNewValue(item.FieldId, $event)
+                    : SaveNewValueFile(item, $event, i)
+                "
+              ></field-dynamic>
+            </div>
+            <ng-container
+              *ngIf="(item.FieldType == 6 || item.FieldType == 5) && !inPublic"
+            >
+              <app-view-files-or-image
+                [Files]="item.Files"
+              ></app-view-files-or-image>
+            </ng-container>
+          </div>
+        </td>
+        <td *ngIf="!inPublic">
+          <div class="d-flex flex-nowrap" *ngIf="havePermission">
+            <!-- <i
+              *ngIf="item.FieldType != 5 && item.FieldType != 6 && !inPublic"
+              class="fas fa-file-invoice action-icon archive-icon"
+              (click)="archiveValues(item.FieldId, item.FieldType)"
+              tooltipPosition="top"
+              pTooltip="{{
+                'ASSETS.ASSETCARDMODAL.BASICDATATAB.ARCHIVEVALUES' | translate
+              }}"
+            ></i> -->
+            <i
+              *ngIf="!item.IsShown && !IsNotChangeValue && !inPublic"
+              (click)="ChangeFieldShown(i, item.IsShown, item.FieldId)"
+              class="fas fa-eye-slash action-icon showing-icon"
+              tooltipPosition="top"
+              pTooltip="{{
+                'ASSETS.ASSETCARDMODAL.BASICDATATAB.SHOWFIELD' | translate
+              }}"
+            ></i>
+            <i
+              *ngIf="item.IsShown && !IsNotChangeValue && !inPublic"
+              (click)="ChangeFieldShown(i, item.IsShown, item.FieldId)"
+              class="fas fa-eye action-icon showing-icon"
+              tooltipPosition="top"
+              pTooltip="{{
+                'ASSETS.ASSETCARDMODAL.BASICDATATAB.HIDEFIELD' | translate
+              }}"
+            ></i>
+            <!-- *ngIf="disable.CommonFieldsDelete" -->
+            <i
+              *ngIf="!inPublic"
+              tooltipPosition="top"
+              pTooltip="{{
+                'ASSETS.ASSETCARDMODAL.BASICDATATAB.DELETE' | translate
+              }}"
+              class="fas fa-trash-alt action-icon delete-icon"
+              (click)="
+                confirmdeleteFieldInAsset.openModal();
+                FieldIdDeleted = item.FieldId
+              "
+            ></i>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<confirm-delete
+  #confirmdeleteFieldInAsset
+  massage="{{ 'CONFIRMDELETE.FIELD' | translate }}"
+  (afterSave)="
+    confirmdeleteFieldInAsset?.CloseModal(); $event ? deleteFieldInAsset() : ''
+  "
+>
+</confirm-delete>

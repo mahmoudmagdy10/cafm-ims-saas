@@ -1,0 +1,25 @@
+/* Example CSS for select element */
+.mat-select {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-size: 13px;
+  width: 100%;
+  color: gray;
+  display: block;
+}
+
+.mat-select:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.mat-option {
+  padding: 6px 12px;
+}
+
+.mat-option:hover {
+  background-color: #f5f5f5;
+}

@@ -1,0 +1,225 @@
+<ng-container *ngIf="Codes$ | async as codes">
+  <div class="d-flex justify-content-end mb-3">
+    <!-- اضافة مخزون ابتدائي -->
+    <button
+      *ngIf="codes?.PagePermissions?.PartsInitalQuantityAdd"
+      class="btn btn-primary margin-end-2"
+      (click)="AddInitialStock()"
+    >
+      <span>
+        <span><i class="fa fa-plus"></i></span>
+        <span>{{
+          "STORES.MODALS.CARD.LOGS.ADD_INITIAL_STOCK" | translate
+        }}</span>
+      </span>
+    </button>
+
+    <!-- نقل من مخزن لمخزن -->
+    <button
+      *ngIf="codes?.PagePermissions?.PartsMoveBetweenStores"
+      class="btn btn-primary margin-end-2"
+      (click)="TransferBetweenWarehouses()"
+    >
+      <span>
+        <span><i class="fas fa-random"></i></span>
+        <span>{{
+          "STORES.MODALS.CARD.LOGS.TRANSFER_BETWEEN_WAREHOUSES" | translate
+        }}</span>
+      </span>
+    </button>
+
+    <!-- نقل لموقع عمل -->
+    <button
+      *ngIf="codes?.PagePermissions?.PartsMoveBetweenLocations"
+      class="btn btn-primary"
+      (click)="MoveWorkSite()"
+    >
+      <span>
+        <span>{{
+          "STORES.MODALS.CARD.LOGS.TRANSFER_TO_WORK_LOCATION" | translate
+        }}</span>
+        <span></span>
+      </span>
+    </button>
+  </div>
+
+  <!-- جدول المخزون -->
+  <div class="table-responsive">
+    <span class="d-inline-block fw-bolder border-bottom border-dark fs-5 mb-4">
+      {{ "STORES.TABLE2.TABLE_HEADER" | translate }}</span
+    >
+    <table
+      class="table table-rounded table-row-bordered border custom-table-style fs-6"
+    >
+      <thead>
+        <tr class="fw-bolder fs-6 text-gray-800">
+          <th>{{ "STORES.TABLE2.STORE" | translate }}</th>
+          <th>{{ "STORES.TABLE2.QUANTITY" | translate }}</th>
+          <th>{{ "STORES.TABLE2.PRICE" | translate }}</th>
+          <th>{{ "STORES.TABLE2.TOTAL_PRICE" | translate }}</th>
+          <th>{{ "STORES.TABLE2.LAST_LOG" | translate }}</th>
+        </tr>
+      </thead>
+
+      <tbody *ngIf="Transactions$ | async as data; else loading">
+        <ng-container *ngIf="data?.DataGroup?.length > 0; else noData">
+          <tr *ngFor="let item of data.DataGroup">
+            <td>{{ item.StoreName }}</td>
+            <td>{{ item.InStockQuantity }}</td>
+            <td>{{ item.AveragePrice | toFixed : 2 }}</td>
+            <td>
+              {{ item.AveragePrice * item.InStockQuantity | toFixed : 2 }}
+            </td>
+            <td>{{ item.ModifiedDate | date : "dd/MM/yyyy" }}</td>
+          </tr></ng-container
+        >
+      </tbody>
+    </table>
+  </div>
+
+  <hr />
+
+  <!-- جدول سجل الحركات -->
+  <div
+    class="table-responsive overflow-visible"
+    *ngIf="codes?.PagePermissions?.PartsTransactionShow"
+  >
+    <span class="d-inline-block fw-bolder border-bottom border-dark fs-5 mb-4">
+      {{ "STORES.TABLE.TABLE_HEADER" | translate }}
+    </span>
+    <form [formGroup]="movmentFilterForm">
+      <div class="row">
+        <!-- نوع الحركة -->
+        <div class="col-12 col-md-6 col-lg-3 mb-3">
+          <label class="mb-2">
+            {{ "STORES.MODALS.CARD.LOGS.LOG_TYPE" | translate }}
+          </label>
+          <p-dropdown
+            appendTo="body"
+            class="custom-dropdown"
+            [style]="{ minWidth: '130px', display: 'flex' }"
+            optionLabel="name"
+            optionValue="code"
+            formControlName="TransactionTypeId"
+            [placeholder]="'GENERAL.SELECT' | translate"
+            [options]="codes.TransactionTypes"
+            [showClear]="true"
+          >
+          </p-dropdown>
+        </div>
+
+        <!-- من تاريخ -->
+        <div class="col-12 col-md-6 col-lg-3 mb-3">
+          <label class="mb-2">
+            {{ "STORES.MODALS.CARD.LOGS.FROM_DATE" | translate }}
+          </label>
+
+          <div class="form-group custom-datepicker">
+            <input
+              class="form-control"
+              [matDatepicker]="fromDate"
+              type="datetime"
+              formControlName="FromDate"
+              placeholder="dd-mm-yy"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="fromDate"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #fromDate></mat-datepicker>
+          </div>
+        </div>
+
+        <!-- الى تاريخ -->
+        <div class="col-12 col-md-6 col-lg-3 mb-3">
+          <label class="mb-2">
+            {{ "STORES.MODALS.CARD.LOGS.TO_DATE" | translate }}
+          </label>
+
+          <div class="form-group custom-datepicker">
+            <input
+              class="form-control"
+              [matDatepicker]="toDate"
+              type="datetime"
+              formControlName="ToDate"
+              placeholder="dd-mm-yy"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="toDate"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #toDate></mat-datepicker>
+          </div>
+        </div>
+
+        <!-- المخزن -->
+        <div class="col-12 col-md-6 col-lg-3 mb-3">
+          <label class="mb-2">
+            {{ "STORES.MODALS.CARD.LOGS.WAREHOUSE" | translate }}
+          </label>
+          <p-dropdown
+            appendTo="body"
+            class="custom-dropdown"
+            [style]="{ minWidth: '130px', display: 'flex' }"
+            optionLabel="StoreName"
+            optionValue="ID"
+            [options]="Stores$ | async"
+            [placeholder]="'GENERAL.SELECT' | translate"
+            formControlName="StorId"
+            [showClear]="true"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+    </form>
+    <table
+      class="table table-rounded table-row-bordered border custom-table-style fs-6"
+    >
+      <thead>
+        <tr class="fw-bolder fs-6 text-gray-800">
+          <th>{{ "STORES.MODALS.CARD.LOGS.DATE" | translate }}</th>
+          <th>{{ "STORES.MODALS.CARD.LOGS.QUANTITY" | translate }}</th>
+          <th>{{ "STORES.MODALS.CARD.LOGS.PRICE" | translate }}</th>
+          <th>{{ "STORES.MODALS.CARD.LOGS.MOVEMENT_TYPE" | translate }}</th>
+          <th>{{ "STORES.MODALS.CARD.LOGS.WAREHOUSE" | translate }}</th>
+          <th>{{ "STORES.MODALS.CARD.LOGS.USER" | translate }}</th>
+          <!-- <th>{{ "GENERAL.PROCEDUERS" | translate }}</th> -->
+        </tr>
+      </thead>
+
+      <tbody *ngIf="Transactions$ | async as data; else loading">
+        <ng-container *ngIf="data?.Data?.length > 0; else noData">
+          <tr *ngFor="let item of data.Data | reverse">
+            <td>{{ item.TransactionDate | date : "dd/MM/yyyy" }}</td>
+            <td>{{ item.Quantity }}</td>
+            <td>{{ item.Price }}</td>
+            <td>{{ item.TransactionTypeName }}</td>
+            <td>{{ item.StoreName }}</td>
+            <td>{{ item.UserName }}</td>
+            <!-- <td>
+            <i
+              *ngIf="item.TransactionTypeId == 109"
+              (click)="
+                IDInitStore = item.ID; confirmdeleteInitStore.openModal()
+              "
+              class="fas fa-trash-alt action-icon delete-icon"
+              tooltipPosition="top"
+              pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+            ></i>
+          </td> -->
+          </tr></ng-container
+        >
+      </tbody>
+    </table>
+  </div></ng-container
+>
+<ng-template #loading>loading///</ng-template>
+<confirm-delete
+  #confirmdeleteInitStore
+  massage="{{ 'PM.CARD_HEADER' | translate }}"
+  (afterSave)="$event ? onDelete() : ''; confirmdeleteInitStore.CloseModal()"
+>
+</confirm-delete>
+<ng-template #noData>
+  <app-no-data></app-no-data>
+</ng-template>

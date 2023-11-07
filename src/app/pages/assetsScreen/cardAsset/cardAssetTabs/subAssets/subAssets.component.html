@@ -1,0 +1,24 @@
+<div class="row mb-3">
+  <div class="col d-flex justify-content-end">
+    <button
+      class="general-btn add-btn mx-1"
+      (click)="addChild()"
+      *ngIf="code?.PagePermissions?.AssetsEdit"
+    >
+      <i class="fas fa-plus"></i>
+      {{ "ASSETS.ASSETCARDMODAL.SUBASSETSTAB.TABTITLE" | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <ng-container>
+    <app-view-as-tree
+      #viewAsTree
+      [ParentID]="data.ID"
+      [LocationId]="data?.LocationId"
+    ></app-view-as-tree>
+    <!-- > -->
+    <!-- <single-select-tree [data]="data.Childen"></single-select-tree -->
+  </ng-container>
+</div>

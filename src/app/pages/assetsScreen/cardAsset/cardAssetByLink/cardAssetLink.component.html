@@ -1,0 +1,166 @@
+<div class="card card-custom">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <i class="position-relative"></i>
+      <h4 class="fw-bolder mb-0 mx-2">
+        <ng-container *ngIf="AssetsById">
+          <i class="fas fa-box margin-end-1"></i>
+          {{
+            (AssetsById?.isAsset ? "Asset " : "subLocation") +
+              "(" +
+              NameAssets +
+              ")"
+          }}
+        </ng-container>
+      </h4>
+    </div>
+  </div>
+  <div class="card-body">
+    <ng-container *ngIf="loading$ | async; else bodyCardAsset">
+      <p-progressSpinner [style]="{ width: '40px' }"></p-progressSpinner>
+    </ng-container>
+    <ng-template #bodyCardAsset>
+      <p-tabView *ngIf="AssetsById$ | async as dataAsset">
+        <p-tabPanel
+          header="{{
+            'ASSETS.ASSETCARDMODAL.BASICDATATAB.TABTITLE' | translate
+          }}"
+        >
+          <basic-information
+            [data]="dataAsset"
+            [code]="data.code"
+            (EditInAssets)="EditInAssets(dataAsset)"
+          >
+          </basic-information>
+        </p-tabPanel>
+        <ng-container *ngIf="dataAsset?.isAsset">
+          <p-tabPanel
+            *ngIf="data.code?.PagePermissions?.AssetsToVendors"
+            header="{{
+              'ASSETS.ASSETCARDMODAL.SUPPLIERSTAB.TABTITLE' | translate
+            }}"
+          >
+            <suppliers [data]="dataAsset"></suppliers>
+          </p-tabPanel>
+
+          <p-tabPanel
+            *ngIf="data.code?.PagePermissions?.AssetsToParts"
+            header="{{
+              'ASSETS.ASSETCARDMODAL.SPAREPARTSTAB.TABTITLE' | translate
+            }}"
+          >
+            <spare-parts [data]="dataAsset"></spare-parts>
+          </p-tabPanel>
+
+          <p-tabPanel
+            *ngIf="data.code?.PagePermissions?.AssetsToParts"
+            header="{{
+              'ASSETS.ASSETCARDMODAL.PROTECTIVETASKSTAB.TABTITLE' | translate
+            }}"
+          >
+            <protective-tasks [data]="dataAsset"> </protective-tasks>
+          </p-tabPanel>
+
+          <p-tabPanel
+            header="{{
+              'ASSETS.ASSETCARDMODAL.MOVEMENTHISTORYTAB.TABTITLE' | translate
+            }}"
+          >
+            <movement-history
+              [data]="dataAsset"
+              [AssetsLogEdit]="data.code?.PagePermissions?.AssetsLogEdit"
+            ></movement-history>
+          </p-tabPanel>
+
+          <p-tabPanel
+            header="{{
+              'ASSETS.ASSETCARDMODAL.REPORTSTAB.TABTITLE' | translate
+            }}"
+          >
+            <assets-reports
+              [Report]="dataAsset.Report[0]"
+              [dataAsset]="dataAsset"
+            ></assets-reports>
+          </p-tabPanel>
+
+          <p-tabPanel
+            header="{{
+              'ASSETS.ASSETCARDMODAL.SUBASSETSTAB.TABTITLE' | translate
+            }}"
+          >
+            <sub-assets [data]="dataAsset" [code]="data.code"></sub-assets>
+          </p-tabPanel>
+
+          <p-tabPanel
+            *ngIf="data.code?.PagePermissions?.AssetSettings"
+            header="{{
+              'ASSETS.ASSETCARDMODAL.SETTINGSTAB.TABTITLE' | translate
+            }}"
+          >
+            <setting-assets
+              [data]="dataAsset"
+              [code]="data.code"
+              (EditInAssets)="EditInAssets(dataAsset)"
+            >
+            </setting-assets>
+          </p-tabPanel>
+
+          <p-tabPanel
+            *ngIf="data.code?.PagePermissions?.AssetDepreciation"
+            header="{{
+              'ASSETS.ASSETCARDMODAL.DEPRECIATIONTAB.TABTITLE' | translate
+            }}"
+          >
+            <depreciation
+              [data]="dataAsset"
+              [code]="data.code"
+              (EditInAssets)="EditInAssets(dataAsset)"
+            ></depreciation>
+          </p-tabPanel>
+
+          <p-tabPanel
+            header="{{ 'ASSETS.ASSETCARDMODAL.QRTAB.TABTITLE' | translate }}"
+          >
+            <QRCode [data]="dataAsset"></QRCode>
+          </p-tabPanel>
+
+          <!-- <p-tabPanel
+  header="{{ 'ASSETS.ASSETCARDMODAL.API_TAB.TABTITLE' | translate }}"
+>
+  <app-api></app-api>
+</p-tabPanel> -->
+        </ng-container>
+        <ng-container *ngIf="!dataAsset?.isAsset">
+          <p-tabPanel
+            header="{{
+              'ASSETS.ASSETCARDMODAL.MOVEMENTHISTORYTAB.TABTITLE' | translate
+            }}"
+          >
+            <movement-history
+              [data]="dataAsset"
+              [AssetsLogEdit]="data.code?.PagePermissions?.AssetsLogEdit"
+            ></movement-history>
+          </p-tabPanel>
+          <p-tabPanel
+            header="{{
+              'ASSETS.ASSETCARDMODAL.SUBASSETSTAB.TABTITLE' | translate
+            }}"
+          >
+            <sub-assets [data]="dataAsset" [code]="data.code"></sub-assets>
+          </p-tabPanel>
+        </ng-container>
+      </p-tabView>
+    </ng-template>
+  </div>
+  <!-- </div> -->
+
+  <!-- begin dialog body -->
+
+  <!-- start footer -->
+  <!-- <div class="modal-footer position-relative"> -->
+  <!-- <button type="button" data-bs-dismiss="modal" class="btn  btn-light" (click)="Close()">إلغاء</button> -->
+  <!-- <i class="fas fa-cogs modal-bg-icon"></i> -->
+  <!-- </div> -->
+  <!-- end footer -->
+</div>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70" height="70" viewBox="0 0 70 70">
+  <defs>
+    <filter id="Rectangle_2271" x="0" y="0" width="70" height="70" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-color="#6f63d8" flood-opacity="0.09"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_88721" data-name="Group 88721" transform="translate(-746 -395)">
+    <g transform="matrix(1, 0, 0, 1, 746, 395)" filter="url(#Rectangle_2271)">
+      <rect id="Rectangle_2271-2" data-name="Rectangle 2271" width="40" height="40" rx="10" transform="translate(15 15)" fill="#ff1a1a"/>
+    </g>
+    <path id="Icon_material-delete-sweep" data-name="Icon material-delete-sweep" d="M21.744,23.3h5.767v2.884H21.744Zm0-11.535H31.836v2.884H21.744Zm0,5.767h8.651v2.884H21.744Zm-17.3,8.651a2.892,2.892,0,0,0,2.884,2.884h8.651a2.892,2.892,0,0,0,2.884-2.884V11.767H4.442ZM20.3,7.442H15.976L14.535,6H8.767L7.325,7.442H3v2.884H20.3Z" transform="translate(763.582 412.465)" fill="#fff"/>
+  </g>
+</svg>

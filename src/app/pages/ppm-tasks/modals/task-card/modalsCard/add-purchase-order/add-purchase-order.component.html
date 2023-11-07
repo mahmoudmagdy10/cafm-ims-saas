@@ -1,0 +1,150 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fa fa-plus mx-1"></i>
+    {{
+    "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_PURCHASE_ORDER.MODAL_TITLE"
+    | translate
+    }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body">
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn  btn-primary" (click)="AddSparePart()">
+      <span>
+        <span>
+          <i class="far fa-file position-relative" style="font-size: 1.5rem">
+            <i class="fa fa-cog position-absolute" style="top: 1px; left: 2px; font-size: 0.75rem"></i>
+          </i>
+        </span>
+        <span>{{
+          "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_PURCHASE_ORDER.REQUEST_SPARE_PART"
+          | translate
+          }}</span>
+      </span>
+    </button>
+
+    <button class="btn  btn-primary mx-2" (click)="AddFroginService()">
+      <span>
+        <span>
+          <i class="far fa-file-alt" style="font-size: 1.45rem"></i>
+        </span>
+        <span>{{
+          "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_PURCHASE_ORDER.REQUEST_FOREIGN_SERVICE"
+          | translate
+          }}</span>
+      </span>
+    </button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6">
+      <thead>
+        <tr class="fw-bolder fs-6 text-gray-800">
+          <th>#</th>
+          <th>
+            {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_PURCHASE_ORDER.TYPE"
+            | translate
+            }}
+          </th>
+          <th>
+            {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_PURCHASE_ORDER.NAME"
+            | translate
+            }}
+          </th>
+          <th>
+            {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_PURCHASE_ORDER.DESCRIPTION"
+            | translate
+            }}
+          </th>
+          <th>
+            {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_PURCHASE_ORDER.QUANTITY"
+            | translate
+            }}
+          </th>
+          <th>{{ "GENERAL.PROCEDUERS" | translate }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of partsOrService">
+          <td>{{ item.partId }}</td>
+          <td>
+            <i class="fas fa-external-link-alt margin-end-1" tooltipPosition="top"
+              pTooltip="{{ 'GENERAL.EXTERNAL_SERVICE' | translate }}"></i>
+          </td>
+
+          <td>
+            <a href="javascript:;">
+              <span>
+                {{
+                item.ItemType == 1 ? item.PartName : item.serviceName
+                }}</span>
+              <span class="serial-number-style">{{ item.PartNumber }}</span>
+            </a>
+          </td>
+
+          <td>{{ item.Name }}</td>
+
+          <td>
+            <input type="text" class="form-control form-control-sm w-70px" [(ngModel)]="item.quantity" />
+          </td>
+
+          <td>
+            <div>
+              <i class="fas fa-trash action-icon delete-icon" tooltipPosition="top"
+                pTooltip="{{ 'GENERAL.DELETE' | translate }}"></i>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <label class="form-label">{{
+      "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_PURCHASE_ORDER.REASON_FOR_APPLYING"
+      | translate
+      }}</label>
+    <textarea class="form-control" [(ngModel)]="Discription" name="Discription" id="Discription" cols="30"
+      rows="3"></textarea>
+  </div>
+</div>
+
+<div class="modal-footer position-relative">
+  <button type="button" class="btn  btn-primary" data-bs-dismiss="modal" (click)="onSave()">
+    <span>
+      <span> <i class="fa fa-save"></i> </span>
+      <span>
+        {{
+        "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TIME_CONSUMING_MODAL.SAVE"
+        | translate
+        }}
+      </span>
+    </span>
+  </button>
+
+  <button type="button" class="btn  btn-light" data-bs-dismiss="modal" (click)="Close()">
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span>
+        {{
+        "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TIME_CONSUMING_MODAL.CANCEL"
+        | translate
+        }}
+      </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

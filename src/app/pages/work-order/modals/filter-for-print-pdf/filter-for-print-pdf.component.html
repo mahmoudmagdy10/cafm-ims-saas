@@ -1,0 +1,159 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-filter mx-1"></i>
+    {{
+      "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.MODAL_TITLE" | translate
+    }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body">
+  <form [formGroup]="filterReport">
+    <div class="row">
+      <!-- [showClear]="true" -->
+
+      <!-- تاريخ الاستحقاق من -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <app-calender-feild
+          [label]="
+            'PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.DUE_TO_DATE_FROM'
+              | translate
+          "
+          formControlName="FromDueDate"
+          [placeholder]="'dd-mm-yy'"
+        ></app-calender-feild>
+        <!-- <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.DUE_TO_DATE_FROM"
+              | translate
+          }}
+        </label>
+
+        <div class="form-group custom-datepicker">
+          <input
+            class="form-control"
+            [matDatepicker]="pickerStartDate"
+            type="datetime"
+            placeholder="dd-mm-yy"
+            formControlName="FromDueDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerStartDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerStartDate></mat-datepicker>
+        </div> -->
+      </div>
+
+      <!-- تاريخ الاستحقاق الى -->
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <app-calender-feild
+          [label]="
+            'PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.DUE_TO_DATE_TO'
+              | translate
+          "
+          formControlName="ToDueDate"
+          [placeholder]="'dd-mm-yy'"
+        ></app-calender-feild>
+        <!-- <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.DUE_TO_DATE_TO"
+              | translate
+          }}
+        </label>
+
+        <div class="form-group custom-datepicker">
+          <input
+            class="form-control"
+            [matDatepicker]="pickerToDate"
+            type="datetime"
+            placeholder="dd-mm-yy"
+            formControlName="ToDueDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerToDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerToDate></mat-datepicker>
+        </div> -->
+      </div>
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2">
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.WORK_TEAM"
+              | translate
+          }}
+        </label>
+
+        <div class="form-group d-flex align-items-center">
+          <span
+            class="form-control form-control-solid"
+            style="min-height: 39.8px"
+          >
+            {{ ArrayToString(selectedUsers) | cutLongString : 60 }}
+          </span>
+          <!-- <i
+            *ngIf="
+              code?.PagePermissions?.WorkOrdersReassign &&
+              !disabledTaskDescription
+            " -->
+          <i
+            class="fa fa-plus action-icon add-icon"
+            tooltipPosition="top"
+            (click)="openDialog()"
+            pTooltip="{{
+              'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.BASIC_DATA_TAB.ADD'
+                | translate
+            }}"
+          ></i>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <label class="mb-2 required">
+          {{ "Report Title" | translate }}
+        </label>
+        <input type="text" class="form-control" formControlName="ReportTitle" />
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer position-relative">
+  <button
+    type="button"
+    (click)="onFilterReport()"
+    class="btn btn-primary"
+    data-bs-dismiss="modal"
+  >
+    <span>
+      <span> <i class="fas fa-print fa-lg"></i> </span>
+      <span>
+        {{ "GENERAL.PRINT" | translate }}
+      </span>
+    </span>
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span>
+        {{
+          "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.CANCEL" | translate
+        }}
+      </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

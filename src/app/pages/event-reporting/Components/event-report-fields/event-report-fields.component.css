@@ -1,0 +1,26 @@
+.date-input {
+  display: block;
+  padding: 10px;
+  border: 1px solid #E4E6EF;
+  border-radius: 4px;
+  background-color: #EFF2F5;
+  min-height: 40px;
+}
+
+.form-label{
+  margin-top: 20px;
+}
+.input-field{
+  display: block;
+  padding: 10px;
+  border: 1px solid #E4E6EF;
+  border-radius: 4px;
+  background-color: #EFF2F5;
+  width: 100%;
+}
+.label-status-card p{
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  color: white;
+}

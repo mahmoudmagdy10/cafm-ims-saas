@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-12 col-md-6">
+    <div
+      class="card border p-3 text-center d-flex flex-row justify-content-between align-items-center mb-3"
+      style="border-bottom: 3px solid #9963f8 !important"
+    >
+    <span>
+
+    </span>
+      <span>
+        <p class="fs-3 fw-bolder">{{ dataEdit.Parts_Cost }}</p>
+        <span class="fs-7">
+          {{ "Parts_Cost" | translate }}
+        </span>
+      </span>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div
+      class="card border p-3 text-center d-flex flex-row justify-content-between align-items-center mb-3"
+      style="border-bottom: 3px solid #ff6384 !important"
+    >
+      <span>
+
+      </span>
+      <span>
+        <p>
+          <span class="fs-3 fw-bolder mx-2">{{ dataEdit.Emp_Cost||0 }}</span>
+        </p>
+        <span class="fs-7">
+          {{ "Emp_Cost" | translate }}
+        </span>
+      </span>
+    </div>
+  </div>
+</div>

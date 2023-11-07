@@ -1,0 +1,161 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title" *ngIf="data.type == 'complete'">
+    <!-- <i class="fas fa-question-circle mx-1"></i> -->
+    {{
+      "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_COMLETION_MODAL.MODAL_TITLE"
+        | translate
+    }}
+  </h5>
+  <h5 class="modal-title" *ngIf="data.type == 'Reject'">
+    <i class="fas fa-question-circle mx-1"></i>
+    {{
+      "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_COMLETION_MODAL.MODAL_TITLE_REGECT"
+        | translate
+    }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body">
+  <form [formGroup]="formComplete">
+    <ng-container *ngIf="data.type == 'complete'">
+      <div class="row">
+        <!-- <div class="col-12 col-md-6 mb-3">
+          <span>
+            {{
+              "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_COMLETION_MODAL.TOTAL_MAINTENANCE_TIME"
+                | translate
+            }}
+          </span>
+        </div> -->
+
+        <!-- <div class="col-12 col-md-6">
+          <div class="d-flex">
+
+            <div class="mx-3">
+              <span>{{ "GENERAL.HOUR" | translate }}</span>
+              <input
+                type="text"
+                formControlName="hourDefault"
+                class="form-control form-control-sm w-50px"
+              />
+            </div>
+
+            <div>
+              <span>{{ "GENERAL.MIN" | translate }}</span>
+              <input
+                type="text"
+                formControlName="minDefault"
+                class="form-control form-control-sm w-50px"
+              />
+            </div>
+          </div>
+        </div> -->
+      </div>
+
+      <p>
+        {{
+          "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_COMLETION_MODAL.DOWNTIME_TIME"
+            | translate
+        }}
+      </p>
+
+      <!-- ساعة -->
+      <div class="row">
+        <div class="col-12 col-md-6 mb-3">
+          <label class="mb-2">
+            {{ "GENERAL.HOUR" | translate }}
+          </label>
+          <select class="form-control" formControlName="hour">
+            <option *ngFor="let item of Hours" [value]="item">
+              {{ item }}
+            </option>
+          </select>
+        </div>
+
+        <!-- دقيقة -->
+        <div class="col-12 col-md-6 mb-3">
+          <label class="mb-2">
+            {{ "GENERAL.MIN" | translate }}
+          </label>
+          <select class="form-control" formControlName="min">
+            <option *ngFor="let item of Muints" [value]="item">
+              {{ item }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </ng-container>
+    <div class="form-group">
+      <label
+        >{{
+          data.type == "complete"
+            ? ("Problems_Identifications" | translate)
+            : ("Rejection_Reason" | translate)
+        }}
+      </label>
+      <textarea
+        name=""
+        id=""
+        cols="30"
+        rows="5"
+        formControlName="IdentificationDescription"
+        class="form-control"
+      ></textarea>
+    </div>
+    <div class="form-group">
+      <label
+        >{{
+          data.type == "complete"
+            ? ("Completion_Reason" | translate)
+            : ("Rejection_Reason" | translate)
+        }}
+      </label>
+      <textarea
+        name=""
+        id=""
+        cols="30"
+        rows="5"
+        formControlName="note"
+        class="form-control"
+      ></textarea>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer position-relative">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-dismiss="modal"
+    (click)="data.type == 'complete' ? InstructionCompleted() : Reject()"
+  >
+    <span>
+      <span> <i class="fa fa-check"></i> </span>
+      <span>
+        {{ "GENERAL.CONFIRM" | translate }}
+      </span>
+    </span>
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span>
+        {{ "GENERAL.CANCEL" | translate }}
+      </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

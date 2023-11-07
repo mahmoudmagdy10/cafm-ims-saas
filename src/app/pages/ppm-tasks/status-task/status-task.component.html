@@ -1,0 +1,9 @@
+<i
+  class="action-icon completed-request-status"
+  pTooltip="{{ TaskStatusName }}"
+  tooltipPosition="top"
+  (click)="menu.toggle($event)"
+  >{{ TaskStatusName | chartFirst }}</i
+>
+<p-menu #menu [popup]="true" [model]="TaskStatus$ | async" appendTo="body">
+</p-menu>

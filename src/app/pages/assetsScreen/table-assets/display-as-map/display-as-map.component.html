@@ -1,0 +1,11 @@
+<ng-container *ngIf="AssetsForDisplayMap$ | async; else loading">
+  <p-gmap
+    [options]="options"
+    [style]="{ width: '100%', height: '500px' }"
+    (onOverlayClick)="handleOverlayClick($event)"
+    [overlays]="overlays"
+  ></p-gmap>
+</ng-container>
+<ng-template #loading>
+  <p-progressSpinner [style]="{ width: '100px' }"></p-progressSpinner>
+</ng-template>

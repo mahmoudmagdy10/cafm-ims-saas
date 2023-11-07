@@ -1,0 +1,66 @@
+.expanded-table-icon {
+  width: 30px !important;
+  height: 30px !important;
+  border-color: #e0e0e0 !important;
+}
+
+.btn.btn-light:hover:not(.btn-active) {
+  background-color: #c5e2ff !important;
+}
+
+.user-dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 5px 7px;
+  &:not(:last-child) {
+    border-bottom: 1px solid #e5e5e5;
+  }
+  i {
+    font-size: 17px;
+  }
+}
+.filter-items-container .filter-item {
+  position: relative;
+  padding: 5px 15px;
+  color: rgb(148, 148, 148);
+  background-color: rgb(243, 243, 243);
+  border: 1px solid rgb(212, 212, 212);
+  border-radius: 5px;
+  margin: 0 3px;
+  font-size: 1rem;
+  transition: all 0.4s ease;
+
+  .filter-field {
+    font-weight: bold;
+  }
+  i {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    cursor: pointer;
+    &:hover {
+      color: rgb(204, 48, 48);
+    }
+  }
+
+  &:hover {
+    background-color: #e8e8e8;
+  }
+}
+
+// ********************************
+// icons color in tah card body
+.card-title i {
+  color: #66a9ed;
+}
+
+    :host .pi-angle-double-left:hover,
+    .pi-angle-double-right:hover {
+      background-color: #009ef7;
+      color: #fff;
+    }
+    .disabled-icon {
+      opacity: 0.5; /* You can adjust the opacity to visually indicate it's disabled */
+      pointer-events: none; /* Prevents clicks on the icon */
+      /* You can add other styling as well, like changing the cursor to 'not-allowed' */
+    }

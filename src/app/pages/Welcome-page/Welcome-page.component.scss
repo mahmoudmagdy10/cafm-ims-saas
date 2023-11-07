@@ -1,0 +1,65 @@
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  background: linear-gradient(135deg, #f2f6fa 0%, #ffffff 100%);
+}
+
+.bg-gradient {
+  min-height: 40vh;
+  background: linear-gradient(120deg, #e6eef4, #f7f9fc);
+}
+
+.display-3 {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  letter-spacing: -0.03em;
+}
+
+.lead {
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin-bottom: 30px;
+  color: #7f8c8d;
+}
+
+.custom-card {
+  width: 850px; /* Increased width */
+  height: 350px; /* Increased and set height */
+  border-radius: 15px;
+  border-top: none;
+  border-right: 10px solid #3498db; /* Border on the right */
+  border-bottom: none;
+  border-left: none;
+  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+}
+
+.card-body.text-center {
+  padding: 60px;
+}
+
+.logo {
+  width: 90px; /* Adjust to your logo's best visual size */
+  margin-bottom: 30px;
+  transition: transform 0.3s;
+}
+
+.logo:hover {
+  transform: scale(1.08);
+}
+
+.btn-outline-custom.btn-lg {
+  border-radius: 25px;
+  border: 2px solid #3498db;
+  color: #3498db;
+  font-weight: 500;
+  padding: 12px 24px;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-custom.btn-lg:hover, .btn-outline-custom.btn-lg:focus {
+  background-color: #3498db;
+  color: #ffffff;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+}

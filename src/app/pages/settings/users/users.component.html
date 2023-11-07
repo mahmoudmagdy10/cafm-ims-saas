@@ -1,0 +1,972 @@
+<div class="card card-custom">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <i class="fas fa-users-cog fa-lg"></i>
+      <h4 class="fw-bolder mb-0 mx-2">{{ "USERS.CARDHEADER" | translate }}</h4>
+      <!-- <span>({{DataSetting}}/{{DataSetting}})</span> -->
+    </div>
+    <div class="card-header-actions">
+      <div class="card-header-actions d-none d-md-flex">
+        <div class="filter mx-1">
+          <button (click)="openFilter()" class="general-btn filter-btn">
+            <i class="fas fa-filter"></i>
+            {{ "USERS.FLTERMODAL.BUTTONNAME" | translate }}
+          </button>
+        </div>
+
+        <div class="add-user mx-1">
+          <button (click)="showDialogAddUser()" class="general-btn add-btn">
+            <i class="fas fa-user-plus"></i>
+            {{ "USERS.ADDUSERMODAL.BUTTONNAME" | translate }}
+          </button>
+          <button class="btn btn-success mx-1" (click)="export()">
+            <span>
+              <i class="fas fa-upload fa-lg"></i>
+
+              {{ "ASSETS.ACTIONSONSELECTEDMENU.EXPORTDATA" | translate }}
+            </span>
+          </button>
+        </div>
+
+        <div class="selected-user-actions">
+          <div ngbDropdown class="d-inline-block user-dropdown-menu">
+            <button
+              [disabled]="UserCheckedId.length == 0 ? true : false"
+              class="btn btn-success"
+              ngbDropdownToggle
+              data-kt-menu-trigger="click"
+              data-kt-menu-placement="bottom-end"
+              data-kt-menu-flip="top-end"
+              data-kt-menu="true"
+            >
+              <i
+                class="fas fa-cog"
+                style="color: #fff; font-size: 16px; padding-left: 7px"
+              ></i>
+              {{ "USERS.ACTIONSONSELECTEDMENU.BUTTONNAME" | translate }}
+            </button>
+
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropdownBasic1"
+              [style]="{
+                minWidth: '15rem',
+                padding: '5px 7px',
+                boxShadow: '0 0 7px 2px #c5c5c5'
+              }"
+            >
+              <!-- <a
+                href="javascript:;"
+                (click)="consoleLog()"
+                ngbDropdownItem
+                class="user-dropdown-item"
+              >
+                <i class="fas fa-bell" style="color: #b249cd"></i>
+                <span class="mx-3">
+                  {{
+                    "USERS.ACTIONSONSELECTEDMENU.ENABLENOTIFICATIONS"
+                      | translate
+                  }}
+                </span>
+              </a> -->
+
+              <a
+                href="javascript:;"
+                (click)="showModalSendEmail(); EmailUser = null"
+                ngbDropdownItem
+                class="user-dropdown-item"
+              >
+                <i class="fas fa-paper-plane" style="color: #63bcd8"></i>
+                <span class="mx-3">
+                  {{ "USERS.ACTIONSONSELECTEDMENU.SENDMESSAGE" | translate }}
+                </span>
+              </a>
+
+              <!-- <a
+                href="javascript:;"
+                (click)="confirmdeleteUsersChecked.openModal()"
+                ngbDropdownItem
+                class="user-dropdown-item"
+              >
+                <i class="fas fa-trash-alt" style="color: #d86363"></i>
+                <span class="mx-3">
+                  {{ "USERS.ACTIONSONSELECTEDMENU.DELETESELECTED" | translate }}
+                </span>
+              </a> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-menu d-block d-md-none">
+        <i
+          class="fa fa-bars fa-lg cursor-pointer"
+          data-kt-menu-trigger="click"
+          data-kt-menu-placement="bottom-start"
+        ></i>
+
+        <!--begin::Menu-->
+        <div
+          class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-200px py-4"
+          data-kt-menu="true"
+        >
+          <!--begin::Menu item-->
+          <div class="menu-item border-bottom border-top px-3">
+            <a
+              href="javascript:;"
+              class="menu-link px-3"
+              (click)="openFilter()"
+            >
+              <i class="fas fa-filter"></i>
+              <span class="mx-2">
+                {{ "USERS.FLTERMODAL.BUTTONNAME" | translate }}
+              </span>
+            </a>
+          </div>
+          <!--end::Menu item-->
+
+          <!--begin::Menu item-->
+          <div class="menu-item border-bottom px-3">
+            <a
+              href="javascript:;"
+              class="menu-link px-3"
+              (click)="showDialogAddUser()"
+            >
+              <i class="fas fa-plus"></i>
+              <span class="mx-2">
+                {{ "USERS.ADDUSERMODAL.BUTTONNAME" | translate }}
+              </span>
+            </a>
+          </div>
+          <!--end::Menu item-->
+
+          <!--begin::Menu item-->
+          <div class="menu-item border-bottom px-3">
+            <a href="javascript:;" class="menu-link px-3">
+              <i class="fas fa-bell" style="color: #b249cd"></i>
+              <span class="mx-3">
+                {{
+                  "USERS.ACTIONSONSELECTEDMENU.ENABLENOTIFICATIONS" | translate
+                }}
+              </span>
+            </a>
+          </div>
+          <!--end::Menu item-->
+
+          <!--begin::Menu item-->
+          <div class="menu-item border-bottom px-3">
+            <a
+              href="javascript:;"
+              class="menu-link px-3"
+              (click)="showModalSendEmail(); EmailUser = null"
+              ngbDropdownItem
+            >
+              <i class="fas fa-paper-plane" style="color: #63bcd8"></i>
+              <span class="mx-3">
+                {{ "USERS.ACTIONSONSELECTEDMENU.SENDMESSAGE" | translate }}
+              </span>
+            </a>
+          </div>
+          <!--end::Menu item-->
+
+          <!--begin::Menu item-->
+          <div class="menu-item border-bottom px-3">
+            <a
+              href="javascript:;"
+              class="menu-link px-3"
+              (click)="confirmdeleteUsersChecked.openModal()"
+              ngbDropdownItem
+            >
+              <i class="fas fa-trash-alt" style="color: #d86363"></i>
+              <span class="mx-3">
+                {{ "USERS.ACTIONSONSELECTEDMENU.DELETESELECTED" | translate }}
+              </span>
+            </a>
+          </div>
+          <!--end::Menu item-->
+        </div>
+        <!--end::Menu-->
+      </div>
+    </div>
+  </div>
+  <!-- end::Header -->
+
+  <!-- begin::Body -->
+  <div class="card-body">
+    <div class="users-info mb-3">
+      <div class="total users"></div>
+
+      <div
+        class="users users-inner d-flex justify-content-between align-items-center"
+      >
+        <div
+          class="filter-items-container d-flex"
+          *ngIf="showLabelsFilter && isFilter"
+        >
+          <i
+            class="fas fa-times action-icon delete-icon"
+            (click)="clearFilter()"
+          ></i>
+
+          <span class="filter-item">
+            <div (click)="openFilter()">
+              <label class="" *ngIf="FiltersSearch.Name != ''">
+                {{ "USERS.FLTERMODAL.COMPANYNAME" | translate }}:
+              </label>
+              <label
+                class="filter-field ms-3 me-1"
+                *ngIf="FiltersSearch.Name != ''"
+                >{{ FiltersSearch.Name }}</label
+              >
+              <label class="" *ngIf="FiltersSearch.RoleName != ''">
+                {{ "USERS.FLTERMODAL.USERGROUP" | translate }}:
+              </label>
+              <label
+                class="filter-field ms-3 me-1"
+                *ngIf="FiltersSearch.RoleName != ''"
+                >{{ FiltersSearch.RoleName }}</label
+              >
+              <label class="" *ngIf="FiltersSearch.LocationName != ''">
+                {{ "USERS.FLTERMODAL.LOCATION" | translate }}:
+              </label>
+              <label
+                class="filter-field ms-3 me-1"
+                *ngIf="FiltersSearch.LocationName != ''"
+                >{{ FiltersSearch.LocationName }}</label
+              >
+
+              <label class="" *ngIf="FiltersSearch.StatusName != ''">
+                {{ "USERS.FLTERMODAL.STATUS" | translate }}:
+              </label>
+              <label
+                class="filter-field ms-3 me-1"
+                *ngIf="FiltersSearch.StatusName != ''"
+                >{{ FiltersSearch.StatusName }}</label
+              >
+
+              <label class="" *ngIf="FiltersSearch.UserName != ''">
+                {{ "USERS.FLTERMODAL.USERNAME" | translate }}:
+              </label>
+              <label
+                class="filter-field ms-3 me-1"
+                *ngIf="FiltersSearch.UserName != ''"
+                >{{ FiltersSearch.UserName }}</label
+              >
+            </div>
+          </span>
+        </div>
+
+        <!-- this div just for styleing -->
+        <div></div>
+
+        <a href="javascript:;" (click)="collapsAll()">
+          <i
+            *ngIf="!CollapsAll"
+            class="fas fa-chevron-down mx-1"
+            style="color: unset"
+          ></i>
+          <i
+            *ngIf="CollapsAll"
+            class="fas fa-chevron-up mx-1"
+            style="color: unset"
+          ></i>
+          <span>{{
+            CollapsAll
+              ? ("USERS.COLLAPSE" | translate)
+              : ("USERS.EXPAND" | translate)
+          }}</span>
+        </a>
+      </div>
+    </div>
+
+    <div *ngIf="loadingDataUser; else TableUsers">
+      <div class="spinner-overlay">
+        <mat-spinner></mat-spinner>
+      </div>
+    </div>
+    <!-- <mat-paginator [pageSizeOptions]="[ 20, 10, 50]" showFirstLastButtons></mat-paginator> -->
+    <!--begin::Pagination-->
+    <div
+      *ngIf="listPagination.length > 1"
+      class="d-flex justify-content-center align-items-center flex-wrap"
+    >
+      <div class="d-flex flex-wrap py-2 mr-3">
+        <span *ngIf="floatsltr">
+          <i
+            [ngClass]="{ 'disabled-icon': selectedPage === 1 }"
+            class="pi pi-angle-double-left cursor-pointer"
+            style="
+              font-size: 1.5rem;
+              border: solid 1px;
+              border-radius: 5px;
+              padding: 5px;
+            "
+            (click)="selectPage('backAll')"
+          ></i>
+        </span>
+        <span *ngIf="floatsrtl">
+          <i
+            [ngClass]="{ 'disabled-icon': selectedPage === 1 }"
+            class="pi pi-angle-double-right cursor-pointer"
+            style="
+              font-size: 1.5rem;
+              border: solid 1px;
+              border-radius: 5px;
+              padding: 5px;
+            "
+            (click)="selectPage('backAll')"
+          ></i>
+        </span>
+        <!-- <i
+          class="pi pi-angle-double-left cursor-pointer"
+          style="
+            font-size: 1.5rem;
+            border: solid 1px;
+            border-radius: 5px;
+            padding: 5px;
+          "
+          (click)="selectPage('backAll')"
+        ></i> -->
+      </div>
+      <div class="d-flex flex-wrap py-2 mr-3">
+        <button
+          class="btn pagination-btn btn-primary mx-1 my-1"
+          (click)="selectPage('back')"
+          [disabled]="selectedPage == 1"
+        >
+          <i [class]="'css.fas_fa_chevron_left' | translate"></i>
+        </button>
+        <button
+          *ngFor="
+            let item of listPagination
+              | slice
+                : (selectedPage > 5 ? selectedPage - 3 : 0)
+                : selectedPage + 4
+          "
+          (click)="selectPage(item)"
+          [ngClass]="
+            selectedPage == item
+              ? 'btn pagination-btn  border-0 btn-primary btn-hover-primary active mx-1 my-1'
+              : 'btn pagination-btn  border-0 btn-light mx-1 my-1'
+          "
+        >
+          {{ item }}
+        </button>
+
+        <!-- <a  class="btn pagination-btn  border-0 btn-light mx-1 my-1">23</a>
+                <a  class="btn pagination-btn  border-0 btn-primary btn-hover-primary active mx-1 my-1">24</a> -->
+
+        <button
+          class="btn pagination-btn btn-primary mx-1 my-1"
+          (click)="selectPage('next')"
+          [disabled]="selectedPage == listPagination.length"
+        >
+          <i [class]="'css.fas_fa_chevron_right' | translate"></i>
+        </button>
+      </div>
+      <div class="d-flex flex-wrap py-2 mr-3">
+        <span *ngIf="floatsltr">
+          <i
+            [ngClass]="{
+              'disabled-icon': selectedPage == listPagination.length
+            }"
+            class="pi pi-angle-double-right cursor-pointer"
+            style="
+              font-size: 1.5rem;
+              border: solid 1px;
+              border-radius: 5px;
+              padding: 5px;
+            "
+            (click)="selectPage('nextAll')"
+          ></i>
+        </span>
+        <span *ngIf="floatsrtl">
+          <i
+            [ngClass]="{
+              'disabled-icon': selectedPage == listPagination.length
+            }"
+            class="pi pi-angle-double-left cursor-pointer"
+            style="
+              font-size: 1.5rem;
+              border: solid 1px;
+              border-radius: 5px;
+              padding: 5px;
+            "
+            (click)="selectPage('nextAll')"
+          ></i>
+        </span>
+        <!-- <i
+          class="pi pi-angle-double-right cursor-pointer"
+          style="
+            font-size: 1.5rem;
+            border: solid 1px;
+            border-radius: 5px;
+            padding: 5px;
+          "
+          (click)="selectPage('nextAll')"
+        ></i> -->
+      </div>
+    </div>
+
+    <!--end:: Pagination-->
+  </div>
+  <!-- end::Body -->
+</div>
+
+<!-- begin::Footer -->
+<!-- <div class="card-footer py-6">
+        <div class="row">
+          <div class="col-lg-3"></div>
+          <div class="col-lg-9">
+            <button
+              type="button"
+              (click)="submitPreview()"
+              class="btn btn-primary me-2"
+              [disabled]="configLoading || resetLoading"
+            >
+              <ng-container *ngIf="!configLoading">
+                <span class="indicator-label">Preview</span>
+              </ng-container>
+
+              <ng-container *ngIf="configLoading">
+                <span class="indicator-progress" [style.display]="'block'">
+                  Please wait...{{ " " }}
+                  <span
+                    class="spinner-border spinner-border-sm align-middle ms-2"
+                  ></span>
+                </span>
+              </ng-container>
+            </button>
+
+            <button
+              type="button"
+              id="kt_layout_builder_reset"
+              class="btn btn-active-light btn-color-muted"
+              (click)="resetPreview()"
+              [disabled]="configLoading || resetLoading"
+            >
+              <ng-container *ngIf="!resetLoading">
+                <span class="indicator-label">Reset</span>
+              </ng-container>
+
+              <ng-container *ngIf="resetLoading">
+                <span class="indicator-progress" [style.display]="'block'">
+                  Please wait...{{ " " }}
+                  <span
+                    class="spinner-border spinner-border-sm align-middle ms-2"
+                  ></span>
+                </span>
+              </ng-container>
+            </button>
+          </div>
+        </div>
+      </div> -->
+
+<!-- end::Footer -->
+
+<p-dialog
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [(visible)]="display"
+  [style]="{ width: '40vw' }"
+>
+  <ng-template pTemplate="header">
+    <span class="p-dialog-title">
+      <i class="fas fa-user-plus"></i>
+      {{ "USERS.ADDUSERMODAL.BUTTONNAME" | translate }}
+    </span>
+  </ng-template>
+
+  <modal-add-user
+    #AddUser
+    (cancel)="display = false"
+    (afterSave)="hidDialogAddUser()"
+    [codes]="codes"
+  ></modal-add-user>
+</p-dialog>
+
+<p-dialog
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [(visible)]="displaymodal1"
+  [style]="{ width: '35vw' }"
+>
+  <ng-template pTemplate="header">
+    <span class="p-dialog-title">
+      <i class="fas fa-lock"></i>
+      {{ "USERS.DISABLEUSERMODAL.MODALTITLE" | translate }}
+    </span>
+  </ng-template>
+
+  <modal1
+    #modal1
+    [dataUser]="dataUser"
+    (afterSave)="hidmodal1($event)"
+  ></modal1>
+</p-dialog>
+
+<p-dialog
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [(visible)]="displaymodal2"
+  [style]="{ width: '50vw' }"
+>
+  <ng-template pTemplate="header">
+    <span class="p-dialog-title">
+      <i class="fas fa-users"></i>
+      {{ "USERS.ADDGROUPMODAL.MODALTITLE" | translate }}
+    </span>
+  </ng-template>
+
+  <modal2
+    #locRolModal
+    [dataUser]="dataUser"
+    [codes]="this.codes"
+    (afterSave)="hidmodal2()"
+    (cancel)="displaymodal2 = false"
+  ></modal2>
+</p-dialog>
+
+<p-dialog
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [(visible)]="displaymodal3"
+  [style]="{ width: '40vw' }"
+>
+  <ng-template pTemplate="header">
+    <span class="p-dialog-title">
+      <i class="fas fa-bell"></i>
+      {{ "USERS.EMAILNOTIFICATIONSMODAL.MODALTITLE" | translate }}
+    </span>
+  </ng-template>
+
+  <modal3 #modal3 [dataUser]="dataUser" (afterSave)="hidmodal3()"></modal3>
+</p-dialog>
+
+<p-dialog
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [(visible)]="displaymodal4"
+  [style]="{ width: '35vw' }"
+>
+  <ng-template pTemplate="header">
+    <span class="p-dialog-title">
+      <i class="fas fa-key"></i>
+      {{ "USERS.ADDNEWPASSWORDMODAL.MODALTITLE" | translate }}
+    </span>
+  </ng-template>
+
+  <modal4 [userId]="userIdChangePass" (cancel)="displaymodal4 = false"></modal4>
+</p-dialog>
+
+<p-dialog
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [(visible)]="displaymodal5"
+  [style]="{ width: '60vw' }"
+>
+  <ng-template pTemplate="header">
+    <span class="p-dialog-title">
+      <i class="fas fa-user-edit"></i>
+      {{ "USERS.EDITUSERMODAL.MODALTITLE" | translate }}
+    </span>
+  </ng-template>
+
+  <modal5
+    [idUser]="userId"
+    (cancel)="displaymodal5 = false"
+    [codes]="codes"
+    (afterSave)="hidmodal5()"
+  ></modal5>
+</p-dialog>
+
+<p-dialog
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [(visible)]="displaymodalFilter"
+  [style]="{ minWidth: '45vw' }"
+>
+  <ng-template pTemplate="header">
+    <span class="p-dialog-title">
+      <i class="fas fa-filter"></i>
+      {{ "USERS.FLTERMODAL.MODALTITLE" | translate }}
+    </span>
+  </ng-template>
+
+  <user-Filter
+    #FilterUserComponent
+    (cancel)="displaymodalFilter = false"
+    [codes]="this.codes"
+    (afterSearch)="afterSearch($event)"
+    (handleClickFilter)="handleClickFilter($event)"
+  ></user-Filter>
+</p-dialog>
+
+<p-dialog
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [(visible)]="displaymodalSendEmailUser"
+  [style]="{ minWidth: '45vw' }"
+>
+  <ng-template pTemplate="header">
+    <span class="p-dialog-title">
+      <i class="fas fa-paper-plane"></i>
+      {{ "USERS.SENDMESSAGEMODAL.MODALTITLE" | translate }}
+      {{
+        EmailUser
+          ? ""
+          : ("USERS.SENDMESSAGEMODAL.FOR_SELECTED_USERS" | translate)
+      }}
+    </span>
+  </ng-template>
+
+  <SendEmailUser
+    [sendTo]="EmailUser"
+    [UserCheckedId]="UserCheckedId"
+    (cancel)="displaymodalSendEmailUser = false"
+  ></SendEmailUser>
+</p-dialog>
+
+<p-confirmDialog
+  header=" "
+  icon="pi pi-exclamation-triangle"
+  [style]="{ width: '50vw' }"
+></p-confirmDialog>
+
+<ng-template #TableUsers>
+  <div class="table-responsive">
+    <table
+      class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+    >
+      <thead class="fw-bolder">
+        <tr>
+          <th scope="col" class="px-0">#</th>
+          <th scope="col" style="width: 25%">
+            <div class="d-flex align-items-center">
+              <input
+                class="form-check-input"
+                (change)="checkAllorunCheck($event)"
+                type="checkbox"
+                [style]="{
+                  width: '18px',
+                  height: '18px',
+                  border: '1px solid #c5c5c5',
+                  borderRadius: '5px'
+                }"
+              />
+
+              <span class="mx-2"> {{ "USERS.NAME" | translate }} </span>
+            </div>
+          </th>
+          <th scope="col" class="d-none d-md-table-cell" style="width: 45%">
+            {{ "USERS.USERSGROUPS" | translate }}
+          </th>
+          <th scope="col" class="d-none d-md-table-cell" style="width: 20%">
+            {{ "USERS.LATEST_AUTHENTICATION" | translate }}
+          </th>
+          <th scope="col" class="d-none d-md-table-cell" style="width: 15%">
+            {{ "USERS.JOB_TITLE" | translate }}
+          </th>
+          <!-- <th scope="col">نوع الاشتراك
+        </th> -->
+          <th scope="col" style="width: 28%">
+            {{ "USERS.PROCEDURES" | translate }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let element of dataSource; index as i">
+          <tr>
+            <!-- <th> {{element.index}} </th> -->
+            <td>
+              <span class="reorder-row-icon">
+                {{
+                  i + 1 + (FiltersSearch.CurrentPage - 1) * DataSetting.RowCount
+                }}
+              </span>
+            </td>
+
+            <td>
+              <div class="location d-flex align-items-center">
+                <input
+                  (change)="CheckUser($event, element)"
+                  [checked]="element.checked"
+                  class="form-check-input custom-checkbox-style"
+                  type="checkbox"
+                />
+
+                <div class="location d-flex align-items-center">
+                  <div
+                    class="symbol symbol-50px border border-secondary symbol-circle mx-2"
+                    style="cursor: pointer"
+                    (click)="showmodal5(element.UserId)"
+                  >
+                    <div
+                      class="symbol-label"
+                      [style.background-image]="
+                        !element?.AvatarPath
+                          ? 'url(assets/media/avatars/avatar.svg)'
+                          : 'url(' + Avatar + element?.AvatarPath + ')'
+                      "
+                    ></div>
+                  </div>
+
+                  <a
+                    href="javascript:;"
+                    class="margin-end-1"
+                    (click)="showmodal5(element.UserId)"
+                  >
+                    {{ element.FirstName + " " + element.LastName }}
+                  </a>
+
+                  <i
+                    *ngIf="element.IsSuperUser"
+                    class="fas fa-user-shield margin-end-1"
+                    pTooltip="{{ 'USERS.ADMINACCOUNT' | translate }}"
+                    tooltipPosition="top"
+                  ></i>
+                </div>
+              </div>
+            </td>
+            <td class="d-none d-md-table-cell">
+              <div class="col-3">
+                <i
+                  class="fas fa-chevron-down nested-table-toggle-icon"
+                  (click)="collaps(element)"
+                  pTooltip="{{ 'USERS.TOGGLEUSERDETAILS' | translate }}"
+                  tooltipPosition="top"
+                ></i>
+              </div>
+
+              <div class="row roles-list" style="margin: 5px">
+                <div class="col-10">
+                  <div
+                    class="row align-items-end pb-2"
+                    *ngFor="let item of element.Roles"
+                    [hidden]="
+                      !this.formCheckRoles.get('item-' + element.UserId)?.value
+                    "
+                  >
+                    <div class="col-12 pb-2 pt-2">
+                      <p class="mb-0">{{ item.RoleName }}</p>
+                    </div>
+                    <div class="col-12 pb-2">
+                      <p class="mb-0">{{ item.LocationName }}</p>
+                    </div>
+                    <div class="col-12">
+                      <i
+                        *ngIf="
+                          codes?.PagePermissions?.UserGroupsDelete &&
+                          !item.IsSuperUser
+                        "
+                        class="fas fa-trash-alt action-icon delete-icon"
+                        (click)="
+                          deleteRoleLoc(
+                            element.UserId,
+                            item.LocationId,
+                            item.RoleId
+                          )
+                        "
+                        pTooltip="{{ 'USERS.DELETEUSERGROUP' | translate }}"
+                        tooltipPosition="top"
+                      ></i>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="col-9"
+                  [hidden]="
+                    this.formCheckRoles.get('item-' + element.UserId)?.value
+                  "
+                ></div>
+
+                <div
+                  class="col-8"
+                  [hidden]="
+                    !this.formCheckRoles.get('item-' + element.UserId)?.value
+                  "
+                ></div>
+                <div
+                  class="m-0 p-0 col-10 d-flex justify-content-end"
+                  [hidden]="
+                    !this.formCheckRoles.get('item-' + element.UserId)?.value
+                  "
+                >
+                  <!-- add-icon -->
+                  <!-- &&
+                      !element.IsSuperUser -->
+                  <button
+                    class="d-flex align-items-center justify-content-center btn  btn-success ng-star-inserted"
+                    style="width: 2rem !important; height: 2rem !important"
+                    *ngIf="codes?.PagePermissions?.UserGroupsEdit"
+                    (click)="showmodal2(element)"
+                    pTooltip="{{
+                      'USERS.ADDGROUPMODAL.BUTTONNAME' | translate
+                    }}"
+                    tooltipPosition="top"
+                  >
+                    <i class="fas fa-plus p-0 m-0"></i>
+                  </button>
+                </div>
+              </div>
+            </td>
+            <td class="d-none d-md-table-cell">
+              {{ element.LastLoginTime | date : "dd/MM/YYYY HH:mm" }}
+            </td>
+            <td class="d-none d-md-table-cell">
+              {{ element.JobTitle }}
+            </td>
+            <td>
+              <div class="actions">
+                <div class="check-actions">
+                  <div class="check-item d-flex flex-nowrap">
+                    <i
+                      (click)="openDashboard(element)"
+                      class="fas fa-home action-icon"
+                      style="color: #3b7ae8"
+                      tooltipPosition="top"
+                      pTooltip="{{ 'dashbord' | translate }}"
+                    ></i>
+                    <!--   [routerLink]="['/settings/users/userLog', element.UserId]" -->
+                    <i
+                      *ngIf="
+                        (codes?.PagePermissions?.UsersEdit &&
+                          !element.IsSuperUser) ||
+                        isSuperAdmin
+                      "
+                      class="fas fa-link action-icon"
+                      (click)="openUsersLogs(element)"
+                      pTooltip="{{ 'USERS.LOGS' | translate }}"
+                      tooltipPosition="top"
+                    ></i>
+                    <i
+                      *ngIf="
+                        (codes?.PagePermissions?.UsersEdit &&
+                          !element.IsSuperUser) ||
+                        isSuperAdmin
+                      "
+                      class="fas fa-user-edit action-icon edit-icon"
+                      (click)="showmodal5(element.UserId)"
+                      pTooltip="{{ 'USERS.EDITUSER' | translate }}"
+                      tooltipPosition="top"
+                    ></i>
+
+                    <i
+                      *ngIf="
+                        (element.UserStatusId == 2 &&
+                          codes?.PagePermissions?.UsersLock &&
+                          !element.IsSuperUser) ||
+                        (element.UserStatusId == 2 && isSuperAdmin)
+                      "
+                      class="fas fa-lock action-icon activate-icon"
+                      (click)="showmodal1(element)"
+                      pTooltip="{{ 'USERS.DISABLEUSER' | translate }}"
+                      tooltipPosition="top"
+                    ></i>
+                    <i
+                      *ngIf="
+                        (element.UserStatusId == 1 &&
+                          codes?.PagePermissions?.UsersLock &&
+                          !element.IsSuperUser) ||
+                        (element.UserStatusId == 1 && isSuperAdmin)
+                      "
+                      (click)="showmodal1(element, 1)"
+                      pTooltip="{{ 'USERS.ENABLEUSER' | translate }}"
+                      class="fas fa-lock-open action-icon user-activate"
+                    ></i>
+
+                    <i
+                      *ngIf="
+                        (element.IsEmailNotification &&
+                          codes?.PagePermissions?.UsersNotificationActivation &&
+                          !element.IsSuperUser) ||
+                        (element.IsEmailNotification && isSuperAdmin)
+                      "
+                      class="fas fa-bell action-icon notification-icon"
+                      (click)="showmodal3(element)"
+                      pTooltip="{{ 'USERS.DISABLENOTIFICATIONS' | translate }}"
+                      tooltipPosition="top"
+                    ></i>
+                    <i
+                      *ngIf="
+                        (!element.IsEmailNotification &&
+                          codes?.PagePermissions?.UsersNotificationActivation &&
+                          !element.IsSuperUser) ||
+                        (!element.IsEmailNotification && isSuperAdmin)
+                      "
+                      (click)="showmodal3(element, false)"
+                      class="fas fa-bell-slash action-icon notification-icon"
+                      pTooltip="{{ 'USERS.ENABLENOTIFICATIONS' | translate }}"
+                      tooltipPosition="top"
+                    ></i>
+
+                    <i
+                      *ngIf="codes?.PagePermissions?.UserSendingEmail"
+                      class="fas fa-paper-plane action-icon mail-icon"
+                      (click)="showModalSendEmail(); EmailUser = element.Email"
+                      pTooltip="{{ 'USERS.SENDMESSAGE' | translate }}"
+                      tooltipPosition="top"
+                    ></i>
+
+                    <i
+                      *ngIf="
+                        (codes?.PagePermissions?.UsersChangePassword &&
+                          !element.IsSuperUser) ||
+                        isSuperAdmin
+                      "
+                      class="fas fa-key action-icon lock-icon"
+                      (click)="showmodal4(element.UserId)"
+                      pTooltip="{{ 'USERS.ADDNEWPASSWORD' | translate }}"
+                      tooltipPosition="top"
+                    ></i>
+
+                    <i
+                      *ngIf="
+                        (codes?.PagePermissions?.UsersDelete &&
+                          !element.IsSuperUser) ||
+                        !isSuperAdmin
+                      "
+                      class="fas fa-trash-alt action-icon delete-icon"
+                      pTooltip="{{ 'USERS.DELETEUSER' | translate }}"
+                      (click)="
+                        confirmdeleteUser.openModal();
+                        UserIdDeleted = element.UserId
+                      "
+                      tooltipPosition="top"
+                    ></i>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <!-- ------------------------------------------------------- -->
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</ng-template>
+
+<confirm-delete
+  #confirmdeleteUser
+  massage="{{ 'CONFIRMDELETE.USER' | translate }}"
+  (afterSave)="$event ? deleteUsers() : ''; confirmdeleteUser.CloseModal()"
+>
+</confirm-delete>
+<confirm-delete
+  #confirmdeleteUsersChecked
+  massage="{{ 'CONFIRMDELETE.SELECTED_USERS' | translate }}"
+  (afterSave)="
+    $event ? deleteUsersChecked() : ''; confirmdeleteUsersChecked.CloseModal()
+  "
+>
+</confirm-delete>

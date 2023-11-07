@@ -1,0 +1,74 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-filter mx-1"></i>
+    {{
+      "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.MODAL_TITLE" | translate
+    }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body">
+  <form [formGroup]="FormFilter">
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-5 mb-3">
+        <label class="mb-2">
+          {{ "LOCATION_NAME" | translate }}
+        </label>
+        <input
+          type="text"
+          formControlName="LocationName"
+          class="form-control"
+        />
+        <!-- <mat-autocomplete #SearchOfParts="matAutocomplete">
+          <mat-option
+            *ngFor="let item of SearchOfParts$ | async"
+            [value]="item.Name"
+            >{{ item.Name }}</mat-option
+          >
+        </mat-autocomplete> -->
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer position-relative">
+  <button
+    type="button"
+    (click)="Filter()"
+    class="btn btn-primary"
+    data-bs-dismiss="modal"
+  >
+    <span>
+      <span> <i class="fa fa-search"></i> </span>
+      <span>
+        {{
+          "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.SEARCH" | translate
+        }}
+      </span>
+    </span>
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span>
+        {{
+          "PREVENTIVE_TASKS_MANAGEMENT.MODALS.FILTER_MODAL.CANCEL" | translate
+        }}
+      </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

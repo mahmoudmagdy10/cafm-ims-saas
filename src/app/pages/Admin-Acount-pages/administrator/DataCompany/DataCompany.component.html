@@ -1,0 +1,156 @@
+<form [formGroup]="DataCompanyForm">
+  <!-- begin dialog body -->
+  <div class="modal-body pt-0">
+    <div class="container">
+      <div class="row mt-5">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="form-label">
+              {{ "ADMINISTARTOR.ADDCOMPANY.COMPANYDATATAB.NAME" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              formControlName="CompanyName"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="form-label">
+              {{
+                "ADMINISTARTOR.ADDCOMPANY.COMPANYDATATAB.FIRSTNAME" | translate
+              }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              formControlName="FirstName"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="form-label">
+              {{
+                "ADMINISTARTOR.ADDCOMPANY.COMPANYDATATAB.LASTNAME" | translate
+              }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              formControlName="LastName"
+              class="form-control"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="form-label"
+              >{{
+                "ADMINISTARTOR.ADDCOMPANY.COMPANYDATATAB.COUNTRY" | translate
+              }}
+              <span class="text-danger">*</span></label
+            >
+            <!-- <input type="text" formControlName="CountryId" class="form-control" /> -->
+          </div>
+          <!-- <select class="form-select" formControlName="CountryId">
+            <option *ngFor="let item of Codes.CountryId" [value]="item.Code">{{item.Name}}</option>
+          </select> -->
+          <p-dropdown  appendTo="body"
+            [style]="{ minWidth: '130px', display: 'flex' }"
+            [placeholder]="'GENERAL.SELECT' | translate"
+            [options]="Codes.CountryId"
+            [filter]="true"
+            optionValue="Code"
+            optionLabel="Name"
+            formControlName="CountryId"
+          >
+          </p-dropdown>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="form-label">
+              {{ "ADMINISTARTOR.ADDCOMPANY.COMPANYDATATAB.CITY" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input type="text" formControlName="City" class="form-control" />
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="form-label">
+              {{ "ADMINISTARTOR.ADDCOMPANY.COMPANYDATATAB.EMAIL" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input type="text" formControlName="Email" class="form-control" />
+          </div>
+
+          <div class="errors" *ngIf="DataCompanyForm.get('Email')?.errors">
+            <span
+              class="text-danger"
+              *ngIf="
+                DataCompanyForm.get('Email')?.errors?.email &&
+                DataCompanyForm.get('Email')?.touched
+              "
+              >{{ "GENERAL.VALID_EMAIL" | translate }}</span
+            >
+          </div>
+          <!-- {{"ADMINISTARTOR.GENERAL.REQUIRED" | translate}} -->
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-md-4">
+          <label>{{
+            "ADMINISTARTOR.ADDCOMPANY.COMPANYDATATAB.PHONE" | translate
+          }}</label>
+          <div class="input-group">
+            <input
+              type="text"
+              formControlName="PhoneNumber"
+              class="form-control"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end dialog body -->
+
+  <!-- <button (click)="AddCompanyData()" >
+        <i *ngIf="!this.dataCamEdit" class="fas fa-plus ms-1"></i>
+        <i *ngIf="this.dataCamEdit" class="fas fa-edit ms-1"></i>
+        {{this.dataCamEdit?'تعديل':'اضافة'}}
+      </button> -->
+
+  <!-- start footer -->
+  <div class="dialog-footer m-0">
+    <div class="footer-actions">
+      <button class="btn btn-primary mx-2" (click)="AddCompanyData()">
+        <i *ngIf="!this.dataCamEdit" class="fas fa-plus"></i>
+        <i *ngIf="this.dataCamEdit" class="fas fa-edit"></i>
+        {{
+          this.dataCamEdit
+            ? ("ADMINISTARTOR.ADDCOMPANY.COMPANYDATATAB.EDIT" | translate)
+            : ("ADMINISTARTOR.ADDCOMPANY.COMPANYDATATAB.ADD" | translate)
+        }}
+      </button>
+
+      <button (click)="onCancel()" class="btn btn-sm btn-secondary mx-2">
+        <i class="fas fa-times"></i>
+        {{ "ADMINISTARTOR.ADDCOMPANY.COMPANYDATATAB.CANCEL" | translate }}
+      </button>
+    </div>
+  </div>
+  <!-- end footer -->
+</form>

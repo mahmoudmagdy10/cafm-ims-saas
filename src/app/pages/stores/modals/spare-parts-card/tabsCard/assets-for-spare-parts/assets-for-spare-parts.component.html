@@ -1,0 +1,56 @@
+<ng-container *ngIf="itemEdit$ | async as data">
+  <ng-container *ngIf="Codes$ | async as code">
+    <div class="d-flex justify-content-end mb-3">
+      <button
+        class="btn btn-primary"
+        (click)="opentree(code.AssetId, data)"
+        *ngIf="code?.PagePermissions?.PartsEdit"
+      >
+        <span>
+          <span><i class="fa fa-plus"></i></span>
+          <span>{{ "STORES.MODALS.CARD.ASSETS.ADD_ASSET" | translate }}</span>
+        </span>
+      </button>
+    </div>
+    <div class="table-responsive">
+      <table
+        class="table table-rounded table-row-bordered border custom-table-style fs-6"
+      >
+        <thead>
+          <tr class="fw-bolder fs-6 text-gray-800">
+            <th>{{ "Asset_Name" | translate }}</th>
+            <th>{{ "STORES.MODALS.CARD.ASSETS.LINK_DATE" | translate }}</th>
+            <!-- <th>
+              {{
+                "STORES.MODALS.CARD.ASSETS.QUANTITY_USED_FOR_MAINTENANCE"
+                  | translate
+              }}
+            </th>
+            <th>{{ "STORES.MODALS.CARD.ASSETS.STATUS" | translate }}</th> -->
+            <th>{{ "GENERAL.PROCEDUERS" | translate }}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of data.Assets">
+            <td>{{ item.AssetName }}</td>
+            <td>{{ item.AssociatedDate | date : "dd/MM/YYYY" }}</td>
+            <!-- <td>{{ item.TotalUsedQty }}</td>
+            <td>{{ item.IsManual ? "Manual" : "Auto" }}</td> -->
+            <td>
+              <i
+                *ngIf="code?.PagePermissions?.PartsEdit"
+                class="fas fa-trash-alt action-icon delete-icon"
+                tooltipPosition="top"
+                pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+                (click)="deleteLinkPartWithAsset(item.ID, data)"
+              ></i>
+
+              <!-- حط هان ايقونة للتلقائي -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+</ng-container>

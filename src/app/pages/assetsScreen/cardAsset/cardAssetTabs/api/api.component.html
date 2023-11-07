@@ -1,0 +1,30 @@
+<form>
+  <div class="container">
+    <div class="col-4 d-flex justify-content-end flex-row-reverse mb-3">
+      <label for="toggleEnable">
+        {{ "ASSETS.ASSETCARDMODAL.API_TAB.DISABLE" | translate }}
+      </label>
+      <p-inputSwitch id="toggleEnable" class="mx-1"></p-inputSwitch>
+      <label for="toggleEnable">
+        {{ "ASSETS.ASSETCARDMODAL.API_TAB.ENABLE" | translate }}
+      </label>
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="d-block">{{ "ASSETS.ASSETCARDMODAL.API_TAB.NOTES" | translate }}</label>
+      <textarea class="form-control" name="" id="" cols="30" rows="5"></textarea>
+    </div>
+
+    <button class="btn btn-primary">
+      <span>
+        <span>
+          <i class="fas fa-paper-plane"></i>
+        </span>
+        <span>
+          {{ "ASSETS.ASSETCARDMODAL.API_TAB.SEND" | translate }}
+        </span>
+      </span>
+    </button>
+
+  </div>
+</form>

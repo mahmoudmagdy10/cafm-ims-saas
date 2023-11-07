@@ -1,0 +1,122 @@
+<div class="card card-custom">
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <h4 class="fw-bolder mb-0 mx-2"><i class="fas fa-clipboard-list fa-lg"></i> {{ "EventReporting" | translate }}</h4>
+    </div>
+    <div>
+
+      <button class="link-report-btn btn btn-primary mx-3" [routerLink]="['/Report-management/event-clasification']">
+        <i class="fas fa-clipboard-list fa-lg text-white"></i> {{ "eventClasification.eventClasification" | translate }}
+      </button>
+      <button class="general-btn filter-btn" (click)="openFilter()">
+        <i class="fas fa-filter"></i>
+        {{ "USERS.FLTERMODAL.BUTTONNAME" | translate }}
+      </button>
+    </div>
+  </div>
+  <div class="filter mx-1">
+  <div class="users users-inner d-flex justify-content-between align-items-center margin-x" *ngIf="displayDataFilter">
+    <div class="filter-items-container d-flex">
+      <i class="fas fa-times action-icon delete-icon" (click)="clearFilter()"></i>
+      <span class="filter-item">
+        <div>
+          <label class="" *ngIf="dataFiltered?.RequesterName">
+            {{ "RequesterName" | translate }}:
+          </label>
+          <label class="filter-field ms-3 me-1">{{dataFiltered?.RequesterName}}</label>
+          <label class="" *ngIf="dataFiltered?.RequesterEmail">
+            {{ "USERS.FLTERMODAL.EMAIL" | translate }}:
+          </label>
+          <label class="filter-field ms-3 me-1">{{dataFiltered?.RequesterEmail}}</label>
+          <label class="" *ngIf="dataFiltered?.Priority">
+            {{ "ASSETS.ASSETCARDMODAL.PROTECTIVETASKSTAB.PRIORITY_LEVEL" | translate }}:
+          </label>
+          <label class="filter-field ms-3 me-1">{{dataFiltered?.Priority}}</label>
+
+          <label class="" *ngIf="dataFiltered?.dept">
+            {{ "eventClasification.Department" | translate }}:
+          </label>
+          <label class="filter-field ms-3 me-1">{{dataFiltered?.dept}}</label>
+        </div>
+      </span>
+    </div>
+  </div>
+ 
+</div>
+  <ng-container *ngIf="eventsReport$ | async as data">
+
+    <div class="card-body">
+      <ng-container>
+        <div class="table-responsive">
+          <table class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6">
+            <thead>
+              <tr class="fw-bolder fs-6 text-gray-800">
+                <th>{{ '#' | translate }}</th>
+                <th>#{{ 'DYNAMIC_FIELD.NUMBER' | translate }}</th>
+                <th>{{ 'DYNAMIC_FIELD.DATE' | translate }}</th>
+                <th>{{ "RequesterName" | translate }}</th>
+                <th>{{ "USERS.FLTERMODAL.EMAIL" | translate }}</th>
+                <th>{{ "eventClasification.Department" | translate }}</th>
+                <th>{{ "ASSETS.ASSETCARDMODAL.PROTECTIVETASKSTAB.PRIORITY_LEVEL" | translate }}</th>
+                <th>{{ "BILLS.TABLE.STATUS" | translate }}</th>
+                <th>{{ "USERS.PROCEDURES" | translate }}</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="!isloading; else loading">
+              <tr *ngFor="let eventReportsData of data.data; let i = index">
+                <td>
+                  <span class="reorder-row-icon">
+                    {{ i + 1 }}
+                  </span>
+                </td>
+                <td>{{eventReportsData?.ID}}</td>
+                <td>{{ eventReportsData.CreatedDate | date : "dd/MM/yyyy HH:mm" }}</td>
+                <td>
+                  <a class="link-dialog"
+                    (click)="showFields(eventReportsData?.ID)">{{eventReportsData?.RequesterName}}</a>
+                </td>
+                <td>{{eventReportsData?.RequesterEmail}}</td>
+                <td>
+                  <!-- <p-dropdown [options]="tagsDropdownOptions" [style]="{ minWidth: '130px', display: 'flex' }"
+                    [(ngModel)]="eventReportsData.TagId" optionValue="code" optionLabel="Name"
+                    (onChange)="onDropdownChangeCatogeryId($event, eventReportsData)" [disabled]="eventReportsData.isClosed" [filter]="true">
+                  </p-dropdown> -->
+                  {{eventReportsData.TagDescription}}
+                </td>
+                <td>
+                  <!-- <p-dropdown [options]="priorityOptions" [style]="{ minWidth: '130px', display: 'flex' }"
+                    [(ngModel)]="eventReportsData.PriorityId" optionValue="code" optionLabel="Name"
+                    (onChange)="onDropdownChangePriorityId($event, eventReportsData)" [filter]="true" [disabled]="eventReportsData.isClosed">
+                  </p-dropdown> -->
+                  {{eventReportsData.PriorityName}}
+                </td>
+                <td>
+                  <p *ngIf="eventReportsData.isClosed" class="text-danger">{{ "GENERAL.CLOSED" | translate }}</p>
+                  <p *ngIf="!eventReportsData.isClosed" class="text-success">{{ "GENERAL.OPENED" | translate }}</p>
+                </td>
+                <td>
+                  <button *ngIf="eventReportsData.isClosed" class="btn btn-custom btn-primary min-w-90"
+                    (click)="handleOpenReport(eventReportsData)" [disabled]="!eventReportsData.IsUserCanClose">{{ "Re_Open" | translate }}</button>
+                  <button *ngIf="!eventReportsData.isClosed" class="btn btn-custom btn-danger min-w-90"
+                    (click)="handleCloseReport(eventReportsData)" [disabled]="!eventReportsData.IsUserCanClose">{{ "GENERAL.CLOSE" | translate }}</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </div>
+    <ng-template #loading>
+      <div class="d-flex justify-content-center">
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+    </ng-template>
+  </ng-container>
+</div>
+<p-dialog
+  [(visible)]="displaymodalFilter"
+  [style]="{ minWidth: '45vw' }"
+  header="{{ 'BILLS.FILTER' | translate }}"
+>
+  <app-filter-reports (filterData)="getFilterData($event)" [isClearFilter]="isClearFilter"></app-filter-reports>
+</p-dialog>

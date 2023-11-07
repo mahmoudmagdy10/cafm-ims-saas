@@ -1,0 +1,26 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-question-circle mx-1"></i>
+    Requested Spare Parts Log
+  </h5>
+
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body">
+  <div class="row" *ngFor="let item of data?.WorkOrderPartTransList">
+    <div class="col-12 col-md-12">
+      <div class="task-info border rounded bg-white p-3 mb-3">
+        <span>
+          <span> {{ item.msg }}:</span>
+          <span> {{ item.total }} </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

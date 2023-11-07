@@ -1,0 +1,116 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fa fa-plus mx-1"></i>
+    {{ "SHARED.ADD_SPARE_PARTS_MODAL.MODALTITLE" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body" style="max-height: 80vh">
+  <div class="row">
+    <div class="col-12 col-sm-6 mb-3">
+      <label class="mb-2">
+        {{ "STORES.MODALS.ADD_INVENTORY_BOND.PART_NUMBER" | translate }}
+        {{ "GENERAL.OR" | translate }}
+        {{ "STORES.MODALS.ADD_INVENTORY_BOND.PART_NAME" | translate }}
+        {{ "GENERAL.OR" | translate }}
+        {{ "STORES.MODALS.ADD_INVENTORY_BOND.Barcode" | translate }}
+      </label>
+      <input
+        type="text"
+        [matAutocomplete]="SearchOfParts"
+        [formControl]="PartName"
+        class="form-control"
+      />
+      <mat-autocomplete #SearchOfParts="matAutocomplete">
+        <mat-option
+          *ngFor="let item of SearchOfParts$ | async"
+          [value]="item.Name"
+          (onSelectionChange)="onSelectPart(item)"
+          >{{ item.Name }}</mat-option
+        >
+      </mat-autocomplete>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table
+      class="table table-rounded table-row-bordered border custom-table-style fs-6"
+    >
+      <thead>
+        <tr class="fw-bolder fs-6 text-gray-800">
+          <th>
+            {{ "STORES.MODALS.ADD_INVENTORY_BOND.PART_NUMBER" | translate }}
+          </th>
+          <th>
+            {{ "STORES.MODALS.ADD_INVENTORY_BOND.PART_NAME" | translate }}
+          </th>
+          <th>
+            {{
+              "STORES.MODALS.ADD_INVENTORY_BOND.QUANTITY_IN_STORE" | translate
+            }}
+          </th>
+          <th *ngIf="!hideQuantity">
+            {{ "STORES.MODALS.ADD_INVENTORY_BOND.NEW_QUANTITY" | translate }}
+          </th>
+          <th>{{ "GENERAL.PROCEDUERS" | translate }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of spareParts">
+          <td>{{ item.PartNumber }}</td>
+          <td>{{ item.Name }}</td>
+          <td>{{ item.stockQty }}</td>
+          <!-- <td>{{ item.PartNumber }}</td> -->
+          <td *ngIf="!hideQuantity">
+            <input
+              type="number"
+              [(ngModel)]="item.quantity"
+              class="form-control form-control-sm w-85px"
+            />
+          </td>
+          <td>
+            <i
+              (click)="deletePart(item.partId)"
+              tooltipposition="top"
+              class="fas fa-trash-alt action-icon delete-icon"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="modal-footer position-relative">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-dismiss="modal"
+    (click)="save()"
+  >
+    <span>
+      <span> <i class="fa fa-save"></i> </span>
+      <span> {{ "GENERAL.SAVE" | translate }} </span>
+    </span>
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <span>
+      <span> <i class="fa fa-times" (click)="Close()"></i> </span>
+      <span> {{ "GENERAL.CANCEL" | translate }} </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

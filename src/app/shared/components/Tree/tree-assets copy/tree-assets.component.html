@@ -1,0 +1,72 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="far fa-plus-square margin-end-1"></i>
+    <!-- !data?.AssetsWithLazyLoading
+        ? data.assetInfo
+          ? ("ASSETS.TREEMODAL.CHANGE_PARENT_FROM" | translate) +
+            " " +
+            data.assetInfo.label +
+            " " +
+            ("ASSETS.TREEMODAL.CHANGE_PARENT_TO" | translate)
+          : ("Select_Assets" | translate)
+        : ("Select_Assets" | translate) -->
+    {{ "SELECT_SUB_LOCATION" | translate }}
+  </h5>
+  <!--Abd -->
+
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+
+<form>
+  <!-- begin dialog body -->
+
+  <div class="modal-body" style="max-height: 70vh; overflow-y: auto">
+    <!-- <div class="container" *ngIf="!data?.AssetsWithLazyLoading">
+      <single-select-tree
+        [data]="data.data"
+        [IdItemSelected]="data.assetInfo?.ID"
+        (AfterSaveSelect)="itemSelected = $event.node"
+        [isContext]="{
+          active: data?.isNotContext ? false : true,
+          fromWho: 'Assets'
+        }"
+      ></single-select-tree>
+    </div> -->
+    <!--  *ngIf="data?.AssetsWithLazyLoading" -->
+    <div class="container">
+      <app-view-as-tree
+        [showFilter]="true"
+        [FormDynamicField]="true"
+        checkbox
+        [selectionMode]="data?.multiSelect ? 'single' : 'checkbox'"
+        #TreeForDynamic
+      >
+      </app-view-as-tree>
+    </div>
+  </div>
+  <!-- begin dialog body -->
+</form>
+
+<!-- start footer -->
+<div class="modal-footer position-relative">
+  <button type="button" class="btn btn-primary" (click)="onSave()">
+    <i class="fa fa-save"></i>
+    <span>{{ "Select" | translate }}</span>
+  </button>
+
+  <button
+    type="button"
+    data-bs-dismiss="modal"
+    class="btn btn-sm btn-light"
+    (click)="Close()"
+  >
+    <i class="fa fa-times"></i>
+    <span>{{ "ASSETS.TREEMODAL.CANCEL" | translate }}</span>
+  </button>
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>
+<!-- end footer -->

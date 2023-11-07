@@ -1,0 +1,198 @@
+<div #reportWorkOrder id="reportWorkOrder" [dir]="dir" hidden>
+  <div [dir]="dir" *ngIf="DataTasksForReport$ | async as DataTasksForReport">
+    <div class="header"></div>
+    <div class="footer">
+      <hr />
+      <div class="d-flex justify-content-center">
+        <h6>{{ SettingReportByLocation?.FooterText }}</h6>
+      </div>
+    </div>
+    <div class="p-0 m-0 mt-6">
+      <div>
+        <!-- <h6>{{ SettingReportByLocation?.LocationTitle }}</h6> -->
+      </div>
+      <div class="d-flex justify-content-start align-items-center">
+        <img
+          alt="Pic"
+          [src]="
+            Avatar +
+            (SettingReportByLocation?.LogoFile
+              ? SettingReportByLocation?.LogoFile[0]?.FilePath
+              : '')
+          "
+          width="150px"
+          height="150px"
+          style="margin-top: 35px !important"
+        />
+
+        <h3 style="text-align: left center">
+          {{ "Tasks_accomplished_within_a_period_of_the_date_of" | translate }}
+
+          {{ FilterReport?.FromDueDate | date : "dd/MM/yyyy" }}
+
+          {{ "to" | translate }}
+
+          {{ FilterReport?.ToDueDate | date : "dd/MM/yyyy" }}
+        </h3>
+      </div>
+      <hr />
+      <div style="margin-bottom: 80%">
+        <div class="mx-5">
+          <div style="margin-top: 50px">
+            <!-- <h6>{{ "اسم المهمة:" + item.TaskName }}</h6>
+            <span class="d-block serial-number-style"
+              >#{{ item.InternalNumber }}</span
+            >
+            <span>
+              {{ item.DueDate | date : "dd/MM/yyyy  HH:mm" }}
+            </span>
+            <span class="mx-2">
+              اعضاء الفريق : (
+              {{ ArrayToString(item.TaskAssignmentTeamTxt) }}
+              {{ ArrayToString(item.TaskAssignmentUserTxt) }})
+            </span>
+            <span class="mx-3">
+              الاصل : (
+              {{ item.AssetName }}
+              )
+            </span>
+            <hr /> -->
+
+            <!-- <h6>{{ "Business" | translate }}</h6> -->
+            <div class="table-responsive pageBreak">
+              <table class="table table-bordered" style="margin-top: 30px">
+                <thead>
+                  <tr class="fw-bolder fs-6 text-gray-800">
+                    <th>#</th>
+                    <th class="text-center">{{ "Task_Name" | translate }}</th>
+                    <th class="text-center">{{ "SOP" | translate }}</th>
+                    <th class="text-center">{{ "Status" | translate }}</th>
+                  </tr>
+                </thead>
+                <!-- *ngFor="let item of DataTasksForReport" -->
+                <tbody>
+                  <tr *ngFor="let item of DataTasksForReport; index as i">
+                    <td>
+                      <span class="reorder-row-icon">
+                        {{ i + 1 }}
+                      </span>
+                    </td>
+                    <td>{{ item.TaskName }}</td>
+                    <td>
+                      <ul>
+                        <li
+                          *ngFor="let sop of item.Wrk_Sop"
+                          class="p-0 m-0 mt-3"
+                        >
+                          {{ sop.Name }}:
+                          {{ sop.Value == "true" ? "تم" : sop.Value }}
+                          <div class="container">
+                            <div class="row">
+                              <div
+                                class="col-4"
+                                *ngFor="let itemFile of sop.Files"
+                              >
+                                <img
+                                  *ngIf="itemFile.FileExtension | isImage"
+                                  [src]="Avatar + itemFile?.FilePath"
+                                  alt="..."
+                                  style="
+                                    width: 150px;
+                                    height: 150px;
+                                    margin: 10px;
+                                  "
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </td>
+
+                    <td>
+                      <span>{{ item?.TaskStatusName }}</span>
+                      <span *ngIf="item?.CompletionNote">{{ " / " }}</span>
+                      <span>{{ item?.CompletionNote }}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <hr />
+            <div class="parent-signature" *ngIf="usersSignatureSelected && usersSignatureSelected.length > 0">
+              <div class="child-signature" *ngFor="let sig of usersSignatureSelected">
+                <div class="user-position">{{sig?.LastName}}</div>
+                <div class="user-name">{{sig?.FirstName}}</div>
+                <div class="user-sig">{{ 'signature' | translate }}</div>
+              </div>
+            </div>
+            <hr />
+            <div [innerHTML]="Description" class="my-5"></div>
+
+            <!-- <h6>قطع الغيار</h6>
+            <div class="table-responsive">
+              <table
+                class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+              >
+                <thead>
+                  <tr class="fw-bolder fs-6 text-gray-800">
+                    <th>#</th>
+
+                    <th>{{ "اسم القطعة" | translate }}</th>
+                    <th>{{ "الكمية" | translate }}</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr
+                    *ngFor="let part of item.WorkOrdersParts; index as i"
+                    class="fw-bolder fs-6 text-gray-800"
+                  >
+                    <td>
+                      <span class="reorder-row-icon">
+                        {{ i + 1 }}
+                      </span>
+                    </td>
+                    <td>
+                      {{ part.PartName }}
+                    </td>
+                    <td>{{ part.Quantity }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div> -->
+            <!-- <ng-container *ngIf="item?.TechnicalData as TechnicalData">
+              <h6>صور وملاحظات الفني</h6>
+              <h6>{{ TechnicalData[0]?.StatusNotes }}</h6>
+              <div class="d-flex justify-content-center">
+                <ng-container *ngFor="let itemFile of TechnicalData[0]?.files">
+                  <img
+                    *ngIf="itemFile.FileExtension | isImage"
+                    [src]="Avatar + itemFile?.FilePath"
+                    alt="..."
+                    style="width: 150px; height: 150px"
+                /></ng-container>
+              </div>
+            </ng-container> -->
+            <hr class="my-5" />
+            <hr class="my-5" />
+          </div>
+        </div>
+      </div>
+      <!--  -->
+    </div>
+  </div>
+  <button
+    #printPdf
+    [hidden]="true"
+    printSectionId="reportWorkOrder"
+    [useExistingCss]="true"
+    ngxPrint
+    type="button"
+    class="btn btn-sm btn-info"
+    data-bs-dismiss="modal"
+  >
+    <span> {{ "GENERAL.PRINT" | translate }} </span>
+  </button>
+</div>
