@@ -1,0 +1,81 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fa fa-cog mx-1"></i>
+    {{ "EventCard" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body" style="max-height: 400px; overflow-y: auto">
+  <ng-container *ngIf="eventsReportById$ | async as data">
+    <label class="label-status-card">
+      <p *ngIf="data?.data?.[0]?.isClosed" style="background-color: rgba(255, 0, 0, 0.763);">{{ "GENERAL.CLOSED" | translate }}</p>
+      <p *ngIf="!data?.data?.[0]?.isClosed" style="background-color: rgba(0, 128, 0, 0.597);">{{ "GENERAL.OPENED" | translate }}</p>
+     </label>
+    <div class="row">
+      <div class="card-body" *ngIf="!isloading; else loading">
+        <app-close-card-header [dataClosed]="data"></app-close-card-header>
+        <ng-container>
+          <div class="table-responsive mt-5">
+            <table class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6">
+              <thead>
+                <tr class="fw-bolder fs-6 text-gray-800">
+                  <th>#{{ 'DYNAMIC_FIELD.NUMBER' | translate }}</th>
+                  <th>{{ "ASSETS.FIELDMANAGEMENTMODAL.FIELDNAME" | translate }}</th>
+                  <th>{{ "FieldValue" | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let eventReportsData of fieldData.Fields; index as i">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{eventReportsData?.FieldName}}</td>
+                  <td>
+                    <div>
+                      <select
+                        class="form-select form-select-solid"
+                        data-kt-select2="true"
+                        data-placeholder="Select option"
+                        data-allow-clear="true"
+                        *ngIf="eventReportsData.FieldType == '7'"
+                        disabled
+                      >
+                        <option *ngFor="let option of eventReportsData?.FieldOptions" value="option.Code" [selected]="eventReportsData.FieldValue == option.Code">{{eventReportsData.FieldValue == option.Code ? option.Name : '' }}</option>
+                      </select>
+                      <input class="input-field" *ngIf="eventReportsData.FieldType != '7'" [value]="eventReportsData.FieldValue" disabled />
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <ng-template #loading>
+      <div class="d-flex justify-content-center">
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+    </ng-template>
+  </ng-container>
+</div>
+
+
+<div class="modal-footer position-relative">
+
+  <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal" (click)="Close()">
+    <!-- {{ "MAINTENANCEREQUESTS.COPYSETTINGSMODAL.CANCEL" | translate }} -->
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span>
+        {{ "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.CANCEL" | translate }}
+      </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

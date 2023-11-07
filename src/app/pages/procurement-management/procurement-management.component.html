@@ -1,0 +1,174 @@
+<div class="card card-custom" *ngIf="Codes$ | async as codes">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch align-items-center d-flex">
+    <div class="card-title my-4 m-md-0">
+      <i class="fa fa-money-check-alt fa-lg margin-end-1"></i>
+      <h4 class="fw-bolder mb-0 mx-2">
+        {{ "PURCHASE_ORDER.CARD_HEADER" | translate }}
+      </h4>
+    </div>
+
+    <div class="card-header-actions d-none d-md-flex">
+      <button class="general-btn filter-btn" (click)="filter()">
+        <i class="fas fa-filter"></i>
+        {{ "PURCHASE_ORDER.FILTER" | translate }}
+      </button>
+
+      <button
+        *ngIf="codes?.PagePermissions?.POAdd"
+        class="general-btn add-btn"
+        (click)="AddProcurementOrder()"
+      >
+        <i class="fa fa-plus"></i>
+        {{ "PURCHASE_ORDER.ADD_PURCHASE_ORDER" | translate }}
+      </button>
+
+      <button
+        *ngIf="codes?.PagePermissions?.POBudgetsShow"
+        class="general-btn edit-btn"
+        (click)="BudgetManagement()"
+      >
+        <i class="fas fa-chart-pie"></i>
+        {{ "PURCHASE_ORDER.BUDGET_MANAGEMENT" | translate }}
+      </button>
+      <button class="general-btn btn btn-success mx-1 edited" (click)="export()">
+        <span>
+          <i class="fas fa-upload fa-lg"></i>
+
+          {{ "ASSETS.ACTIONSONSELECTEDMENU.EXPORTDATA" | translate }}
+        </span>
+      </button>
+    </div>
+  </div>
+  <!-- end::Header -->
+
+  <!-- begin::Body -->
+  <div class="card-body">
+    <div class="table-responsive">
+      <div class="d-flex justify-content-start mb-3">
+        <app-view-data-filter
+          [componentType]="'procurementManagement'"
+        ></app-view-data-filter>
+      </div>
+
+      <table
+        class="table table-rounded table-row-bordered border custom-table-style fs-6"
+      >
+        <thead>
+          <tr class="fw-bolder fs-6 text-gray-800">
+            <th>{{ "PURCHASE_ORDER.TABLE.ORDER_NAME" | translate }}</th>
+            <th>{{ "PURCHASE_ORDER.TABLE.TOTAL_AMOUNT" | translate }}</th>
+            <th>{{ "PURCHASE_ORDER.TABLE.VENDOR" | translate }}</th>
+            <th>{{ "PURCHASE_ORDER.TABLE.CREATED_DATE" | translate }}</th>
+            <th>{{ "PURCHASE_ORDER.TABLE.RECEIVED_DATE" | translate }}</th>
+            <th>{{ "PURCHASE_ORDER.TABLE.STATUS" | translate }}</th>
+            <th>{{ "PURCHASE_ORDER.TABLE.RESPONSIBLE" | translate }}</th>
+            <th *ngIf="codes?.PagePermissions?.PODelete">
+              {{ "GENERAL.PROCEDUERS" | translate }}
+            </th>
+          </tr>
+        </thead>
+
+        <tbody *ngIf="ProcurementOrders$ | async as data; else loading">
+          <tr *ngFor="let item of data">
+            <td>
+              <span
+                (click)="
+                  codes?.PagePermissions?.POCard
+                    ? procurementOrderCard(item.ID)
+                    : ''
+                "
+              >
+                <a class="item-name">{{ item.POName }}</a>
+                <span class="d-block serial-number-style">
+                  #{{ item.PONumber }}</span
+                >
+              </span>
+            </td>
+
+            <td>{{ item.TotalPrice }} {{ " " + cur }}</td>
+            <td>{{ item.VendorName }}</td>
+            <td>{{ item.PODate }}</td>
+            <td>{{ item.ExpectedDelivaryDate }}</td>
+            <td>
+              <span>
+                <!-- <span class="bullet bullet-dot bg-danger h-10px w-10px"></span>
+                {{ "GENERAL.CLOSED" | translate }} -->
+                {{ item.POStatusName }}
+              </span>
+            </td>
+            <td>
+              {{ ArrayToString(item.POAssignmentTeamTxt) }}
+              {{ ArrayToString(item.POAssignmentUserTxt) }}
+            </td>
+            <td *ngIf="codes?.PagePermissions?.PODelete">
+              <i
+                *ngIf="codes?.PagePermissions?.PODelete"
+                (click)="
+                  ProcurementOrderIDDeleted = item.ID;
+                  confirmdeleteOrder.openModal()
+                "
+                class="fa fa-trash action-icon delete-icon"
+                tooltipPosition="top"
+                pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+              ></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ******************************** -->
+  </div>
+</div>
+<ng-template #loading>loading...</ng-template>
+<confirm-delete
+  #confirmdeleteOrder
+  massage="{{ 'CONFIRMDELETE.SELECTED_USERS' | translate }}"
+  (afterSave)="$event ? onDelete() : ''; confirmdeleteOrder.CloseModal()"
+>
+</confirm-delete>
+<table
+  [hidden]="true"
+  #TABLE
+  class="table table-rounded table-row-bordered border custom-table-style fs-6"
+>
+  <thead>
+    <tr class="fw-bolder fs-6 text-gray-800">
+      <th>{{ "PURCHASE_ORDER.TABLE.ORDER_NAME" | translate }}</th>
+      <th>{{ "PURCHASE_ORDER.TABLE.TOTAL_AMOUNT" | translate }}</th>
+      <th>{{ "PURCHASE_ORDER.TABLE.VENDOR" | translate }}</th>
+      <th>{{ "PURCHASE_ORDER.TABLE.CREATED_DATE" | translate }}</th>
+      <th>{{ "PURCHASE_ORDER.TABLE.RECEIVED_DATE" | translate }}</th>
+      <th>{{ "PURCHASE_ORDER.TABLE.STATUS" | translate }}</th>
+      <th>{{ "PURCHASE_ORDER.TABLE.RESPONSIBLE" | translate }}</th>
+    </tr>
+  </thead>
+
+  <tbody *ngIf="PrecExcel$ | async as data; else loading">
+    <tr *ngFor="let item of data">
+      <td>
+        <span (click)="procurementOrderCard(item.ID)">
+          <a href="javascript:;">{{ item.POName }}</a>
+          <span class="d-block serial-number-style"> #{{ item.PONumber }}</span>
+        </span>
+      </td>
+
+      <td>{{ item.TotalPrice }}</td>
+      <td>{{ item.VendorName }}</td>
+      <td>{{ item.PODate }}</td>
+      <td>{{ item.ExpectedDelivaryDate }}</td>
+      <td>
+        <span>
+          <!-- <span class="bullet bullet-dot bg-danger h-10px w-10px"></span>
+        {{ "GENERAL.CLOSED" | translate }} -->
+          {{ item.POStatusName }}
+        </span>
+      </td>
+      <td>
+        {{ ArrayToString(item.POAssignmentTeamTxt) }}
+        {{ ArrayToString(item.POAssignmentUserTxt) }}
+      </td>
+    </tr>
+  </tbody>
+</table>

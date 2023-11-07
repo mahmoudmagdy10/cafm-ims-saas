@@ -1,0 +1,76 @@
+<ng-container *ngIf="dataCard">
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-primary" (click)="openspartPart(dataCard)" [disabled]="disable">
+      <span>
+        <span><i class="fa fa-plus"></i></span>
+        <span>{{
+          "VENDORS.MODALS.VENDOR_CARD_MODAL.PARTS_TAB.ADD_SPARE_PART"
+            | translate
+        }}</span>
+      </span>
+    </button>
+  </div>
+  <div class="table-responsive">
+    <table
+      class="table table-rounded table-row-bordered border custom-table-style fs-6"
+    >
+      <thead>
+        <tr class="fw-bolder fs-6 text-gray-800">
+          <!-- <th></th> -->
+          <th>
+            {{
+              "VENDORS.MODALS.VENDOR_CARD_MODAL.PARTS_TAB.PART_NAME" | translate
+            }}
+          </th>
+          <th>
+            {{
+              "VENDORS.MODALS.VENDOR_CARD_MODAL.PARTS_TAB.PART_NUMBER_AT_VENDOR"
+                | translate
+            }}
+          </th>
+          <th>
+            {{
+              "VENDORS.MODALS.VENDOR_CARD_MODAL.PARTS_TAB.PART_PRICE"
+                | translate
+            }}
+          </th>
+          <th>
+            {{
+              "VENDORS.MODALS.VENDOR_CARD_MODAL.PARTS_TAB.STATUS" | translate
+            }}
+          </th>
+          <th>{{ "GENERAL.PROCEDUERS" | translate }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of dataCard?.VendorsParts">
+          <!-- <td >
+          <div class="form-check form-check-solid">
+            <div class="mb-4">
+              <label class="radio d-block">
+                <input type="radio" class="margin-inline-end-1" value="daily" />
+              </label>
+            </div>
+          </div>
+        </td> -->
+          <td>{{ item.PartName }}</td>
+          <td>{{ item.PartNumber }}</td>
+          <!-- <td>{{item.VendorName}}</td> -->
+          <td>{{ item.AveragePrice }}</td>
+          <td>{{ item.IsManual ? "Manual" : "Auto" }}</td>
+          <td>
+            <i
+              class="fas fa-trash-alt action-icon delete-icon"
+              tooltipPosition="top"
+              pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+              (click)="deleteLinkPartWithVendor(item.ID, dataCard)"
+            ></i>
+
+            <!-- حط هان ايقونة للتلقائي -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>

@@ -1,0 +1,115 @@
+<div class="d-flex m-0 align-items-center">
+  <!-- https://www.svgrepo.com/svg/420196/lock-protect-security-15 -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+    <path
+      fill-rule="evenodd"
+      d="M25 4.19a6.996 6.996 0 0 0-5.76 3.03c-2.814.246-5.22 2.106-6.263 4.766-.283-.042-.564-.094-.85-.095a.5.5 0 0 0-.002 0c-2.876 0-5.238 2.121-5.752 4.923-.403-.102-.804-.219-1.22-.22a.5.5 0 0 0-.003 0C2.31 16.594 0 18.933 0 21.797c0 2.864 2.309 5.2 5.15 5.201.112 0 .194-.012.264-.018-.085 0-.046.018.123.018h20.926c.45 0 .864-.101 1.242-.238 2.54-.735 4.293-3.08 4.295-5.746a6.003 6.003 0 0 0-2.258-4.69A6.976 6.976 0 0 0 32 11.19c0-3.86-3.14-7-7-7zm0 1c3.32 0 6 2.68 6 6a5.983 5.983 0 0 1-2.35 4.76A5.971 5.971 0 0 1 25 17.19c-3.32 0-6-2.68-6-6s2.68-6 6-6zm-.082 1.779c-.124.03-.225.13-.324.23l-2.719 2.719c-.723.389.201 1.36.625.656l2.031-2.031v6.375c-.046.67.984.67.938 0V8.543l2.031 2.031c.424.704 1.348-.267.625-.656L25.437 7.23a.467.467 0 0 0-.062-.062c-.188-.188-.334-.229-.457-.2zm-6.299 1.355A6.952 6.952 0 0 0 18 11.19c0 3.86 3.14 7 7 7 1.459 0 2.815-.45 3.938-1.216A4.995 4.995 0 0 1 31 21.016c-.003 2.234-1.468 4.187-3.588 4.793a.5.5 0 0 0-.035.011c-.306.113-.606.18-.914.18H5.537c.086 0 .046-.016-.123-.016a.5.5 0 0 0-.035 0 2.48 2.48 0 0 1-.229.014c-2.294 0-4.15-1.871-4.15-4.201 0-2.33 1.854-4.202 4.148-4.203.48 0 .953.088 1.403.254a.5.5 0 0 0 .672-.424c.232-2.573 2.354-4.532 4.9-4.533.347 0 .694.04 1.033.115a.5.5 0 0 0 .582-.332 6.494 6.494 0 0 1 4.881-4.35z"
+      color="#000"
+      font-family="sans-serif"
+      font-weight="400"
+      overflow="visible"
+      style="
+        line-height: normal;
+        text-indent: 0;
+        text-align: start;
+        text-decoration-line: none;
+        text-decoration-style: solid;
+        text-decoration-color: #000;
+        text-transform: none;
+        block-progression: tb;
+        white-space: normal;
+        isolation: auto;
+        mix-blend-mode: normal;
+        solid-color: #000;
+        solid-opacity: 1;
+      "
+    />
+  </svg>
+  <h4 class="fw-bolder mb-0 mx-2">
+    {{ "Backup Files" }}
+  </h4>
+</div>
+<div class="mt-5">
+  <p-breadcrumb [model]="items$ | async"></p-breadcrumb>
+</div>
+
+<div class="row mt-5" [hidden]="step != 1">
+  <div class="col-3 my-3" *ngFor="let item of Location$ | async">
+    <app-card-file
+      icon="./assets/media/svg/files/folder-document.svg"
+      [title]="item.LocationName"
+      (click)="getFilesBackup(item)"
+    ></app-card-file>
+  </div>
+</div>
+<div class="row mt-5" *ngIf="step == 2">
+  <div class="col-3 my-3" *ngFor="let item of FilesForLocation">
+    <app-card-file
+      icon="./assets/media/svg/files/excel.svg"
+      [title]="item.FileName"
+      [description]="item.BackupDate"
+      (click)="downLoadFile(item.FilePath)"
+    ></app-card-file>
+  </div>
+</div>
+<!-- <div class="row g-6 g-xl-9 mb-6 mb-xl-9">
+      <div class="col-12 col-sm-12 col-xl">
+        <app-card-file
+          icon="./assets/media/svg/files/pdf.svg"
+          title="Project Reqs.."
+          description="3 days ago"
+        ></app-card-file>
+      </div>
+      <div class="col-12 col-sm-12 col-xl">
+        <app-card-file
+          icon="./assets/media/svg/files/doc.svg"
+          title="CRM App Docs.."
+          description="3 days ago"
+        ></app-card-file>
+      </div>
+      <div class="col-12 col-sm-12 col-xl">
+        <app-card-file
+          icon="./assets/media/svg/files/css.svg"
+          title="User CRUD Styles"
+          description="4 days ago"
+        ></app-card-file>
+      </div>
+      <div class="col-12 col-sm-12 col-xl">
+        <app-card-file
+          icon="./assets/media/svg/files/ai.svg"
+          title="Metronic Logo"
+          description="5 days ago"
+        ></app-card-file>
+      </div>
+      <div class="col-12 col-sm-12 col-xl">
+        <app-card-file
+          icon="./assets/media/svg/files/sql.svg"
+          title="Orders Backup"
+          description="1 week ago"
+        ></app-card-file>
+      </div>
+    </div>
+
+    <div class="row g-6 g-xl-9 mb-6 mb-xl-9">
+      <div class="col-12 col-sm-12 col-xl">
+        <app-card-file
+          icon="./assets/media/svg/files/xml.svg"
+          title="UTAIR CRM API Co.."
+          description="2 week ago"
+        ></app-card-file>
+      </div>
+      <div class="col-12 col-sm-12 col-xl">
+        <app-card-file
+          icon="./assets/media/svg/files/tif.svg"
+          title="Tower Hill App.."
+          description="3 week ago"
+        ></app-card-file>
+      </div>
+    </div> -->
+
+<!-- end::Body -->
+
+<!-- begin::Footer -->
+
+<!-- end::Footer -->
+<!-- </div> -->

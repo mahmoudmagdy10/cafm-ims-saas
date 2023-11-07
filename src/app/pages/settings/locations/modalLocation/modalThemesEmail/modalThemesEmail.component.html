@@ -1,0 +1,100 @@
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-12 col-md-4">
+            <div class="form-group">
+                <label class="mb-3">اسم القالب</label>
+                <select class="form-control select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                    <option selected="selected">Alabama</option>
+                    <option>Alaska</option>
+                    <option>California</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+
+        <div class="col-12 col-md-4">
+            <p class="TitelKeyWord"> الكلمات المفتاحية </p>
+            <div>
+                <div class="">
+                    <label class="">[[الكلمة المفتاحية]]</label>
+                    <label class=" px-1">:</label>
+                    <label class="">الكلمة المفتاحية</label>
+                </div>
+                <div class="">
+                    <label class="">[[الكلمة المفتاحية]]</label>
+                    <label class=" px-1">:</label>
+                    <label class="">الكلمة المفتاحية</label>
+                </div>
+                <div class="">
+                    <label class="">[[الكلمة المفتاحية]]</label>
+                    <label class=" px-1">:</label>
+                    <label class="">الكلمة المفتاحية</label>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <form>
+
+        <div class="form-group mb-3">
+            <label> المستقبل </label>
+            <div class="input-group">
+                <input type="text" class="form-control form-control-md" style="border-radius: 0;" />
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" (click)="showChooseUser()" style="border-radius: 0;">اختر</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group mb-3">
+            <label> العنوان </label>
+            <div class="input-group">
+                <input type="text" class="form-control form-control-md" />
+            </div>
+        </div>
+
+
+        <div class="mb-5">
+            <label class="my-1">الرسالة :</label>
+            <ckeditor [editor]="Editor" dir="rtl" data="<p style='direction:rtl!important'>Hello, world!</p>" [style]="{height: '400px', marginBottom: '.5rem'}">
+            </ckeditor>
+        </div>
+
+        <!-- start footer -->
+        <div class="dialog-footer">
+            <div class="footer-actions">
+
+                <button class="btn  btn-secondary mx-2 pe-2">
+                    <i class="fas fa-times ms-2"></i>
+                    إلغاء
+                </button>
+
+                <button class="btn  btn-primary mx-2 pe-2">
+                    <i class="fas fa-sav ms-2"></i>
+                    حفظ
+                </button>
+            </div>
+        </div>
+        <!-- end footer -->
+
+
+    </form>
+
+</div>
+
+
+
+
+
+<p-dialog [modal]="true" [draggable]="false" [resizable]="false" header="تحديد المستخدمين" [(visible)]="ModalChooseUsers" [style]="{width: '70vw'}">
+    <modalchooesusers></modalchooesusers>
+</p-dialog>

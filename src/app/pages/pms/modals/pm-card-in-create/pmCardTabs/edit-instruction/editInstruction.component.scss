@@ -1,0 +1,33 @@
+.instructions-tree > .instruction{
+  padding: .5rem;
+  border: 1px solid transparent;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.instructions-tree > .instruction:hover{
+  background-color: #f5f6fa;
+  border-radius: 5px;
+  border: 1px solid #e2e2e2;
+  padding: .5rem;
+}
+
+.instruction-container{flex-basis: 45%;}
+
+.instruction.child-instruction{
+  margin-inline-start: 2rem;
+}
+.instruction.child-instruction::before {
+  display: block;
+  position: absolute;
+  top: -10px;
+  left: -1.4rem;
+  content: " ";
+  width: 1.5rem;
+  height: calc(50% + 10px);
+  border-left: 1px solid #e4e6ef;
+  border-bottom: 1px solid #e4e6ef;
+  border-end-start-radius: 10px;
+}

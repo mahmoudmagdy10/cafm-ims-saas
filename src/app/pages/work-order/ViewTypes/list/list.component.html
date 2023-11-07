@@ -1,0 +1,276 @@
+<ng-container *ngIf="!(service.LoadingObz$ | async); else loading">
+  <div class="table-responsive" *ngIf="List$ | async as data">
+    <ng-container></ng-container>
+    <ng-container *ngIf="codes$ | async as code">
+      <table
+        class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+      >
+        <thead>
+          <tr class="fw-bolder fs-6 text-gray-800">
+            <th scope="col">#</th>
+            <th style="max-width: 12vw">
+              <input
+                type="checkbox"
+                class="form-check-input margin-end-1 custom-checkbox-style"
+                (click)="selectOrUnSelectAllWorkOrder($event)"
+              />
+              {{ "PREVENTIVE_TASKS_MANAGEMENT.TASK_NAME" | translate }}
+            </th>
+            <th scope="col">{{ "DYNAMIC_FIELD.NUMBER" | translate }}</th>
+            <!-- <th>اسم المستخدم</th> -->
+            <th>
+              {{ "PREVENTIVE_TASKS_MANAGEMENT.PRIORITY_LEVEL" | translate }}
+            </th>
+            <th *ngIf="!(isShedule$ | async)">
+              {{ "PREVENTIVE_TASKS_MANAGEMENT.REQUEST_STATUS" | translate }}
+            </th>
+            <th *ngIf="!(isShedule$ | async)">
+              {{ "PREVENTIVE_TASKS_MANAGEMENT.REQUEST_TYPE" | translate }}
+            </th>
+            <th>
+              {{ "PREVENTIVE_TASKS_MANAGEMENT.ASSET_NAME" | translate }}
+            </th>
+            <th
+              *ngIf="
+                code?.IsClientAcceptanceRequied?.[0]?.ClientAcceptanceRequied && !(isShedule$ | async)
+              "
+              style="width: 17%"
+            >
+              {{ "Client Aproval" | translate }}
+            </th>
+            <th *ngIf="workOrderCompleted">
+              {{ "COMPLETED_DATE" | translate }}
+            </th>
+            <th *ngIf="!(isShedule$ | async)">
+              {{ "CREATED_DATE" | translate }}
+            </th>
+            <th *ngIf="isShedule$ | async">
+              {{ "Schedule Date" | translate }}
+            </th>
+            <th *ngIf="isShedule$ | async">
+              {{ "PREVENTIVE_TASKS_MANAGEMENT.DUE_DATE" | translate }}
+            </th>
+            <th *ngIf="isShedule$ | async">
+              {{ "Schedule Type" | translate }}
+            </th>
+            <th *ngIf="!(isShedule$ | async)">
+              {{ "PREVENTIVE_TASKS_MANAGEMENT.EXPIRY_DATE" | translate }}
+            </th>
+
+            <th *ngIf="!(isShedule$ | async)">
+              {{ "TC_button" | translate }}
+            </th>
+            <th
+              *ngIf="
+                !(isShedule$ | async) &&
+                code.PagePermissions?.WorkOrdersShowCreatedBy
+              "
+            >
+              {{ "PREVENTIVE_TASKS_MANAGEMENT.CREATED_BY" | translate }}
+            </th>
+            <th *ngIf="!(isShedule$ | async)">
+              {{ "PREVENTIVE_TASKS_MANAGEMENT.PROCEDURES" | translate }}
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            [id]="'ele-' + item.InternalNumber"
+            *ngFor="let item of List; index as i"
+            [class]="item.CompletionRatio == 100 ? 'table-success' : ''"
+            [class]="CardOpened == item.ID ? 'table-info' : ''"
+          >
+            <td>
+              <span class="reorder-row-icon">
+                {{ i + 1 + RowCount * (selectedListPage - 1) }}
+              </span>
+            </td>
+
+            <td style="max-width: 12vw">
+              <input
+                type="checkbox"
+                class="form-check-input margin-end-1 custom-checkbox-style"
+                [(ngModel)]="item.checked"
+                (click)="selectWorkOrder($event, item)"
+              />
+              <a
+                (click)="
+                  code.PagePermissions?.WorkOrdersShowCard ? openCard(item) : ''
+                "
+                class="mb-3 h-100"
+                style="cursor: pointer"
+                [pTooltip]="item | tooltipForTask"
+              >
+                {{ item.TaskName | cutLongString : 15 }}
+              </a>
+            </td>
+
+            <td>#{{ item.InternalNumber }}</td>
+            <td [style]="{ color: item.PriorityColor }">
+              {{ item.PriorityName }}
+            </td>
+            <td *ngIf="!(isShedule$ | async)">
+              <ng-container *ngIf="!workOrderCompleted">
+                <app-status-task
+                [item]="item"
+                  [ID]="item.ID"
+                  [TaskStatusName]="item.TaskStatusName"
+                  [TaskStatusId]="item.TaskStatusId"
+                  [permission]="code?.PagePermissions?.WorkOrdersEdit"
+                ></app-status-task>
+              </ng-container>
+              <ng-container *ngIf="workOrderCompleted"
+                ><i
+                  class="action-icon completed-request-status"
+                  pTooltip="{{ item.TaskStatusName }}"
+                  tooltipPosition="top"
+                  [style.color]="
+                    (item.TaskStatusName | chartFirst) == 'R' ? '#fff' : ''
+                  "
+                  [style.background-color]="
+                    (item.TaskStatusName | chartFirst) == 'R' ? 'red' : ''
+                  "
+                  >{{ item.TaskStatusName | chartFirst }}</i
+                >
+              </ng-container>
+            </td>
+            <td *ngIf="!(isShedule$ | async)">{{ item.TaskTypeName }}</td>
+            <td>{{ item.AssetName }}</td>
+            <td
+              *ngIf="
+            code?.IsClientAcceptanceRequied?.[0]?.ClientAcceptanceRequied  && !(isShedule$ | async)
+              "
+            >
+              {{ item.ClientUserAcceptanceDoneByUserName || "" }}
+              <span class="date-time">
+                {{
+                  item.ClientUserAcceptanceDoneDate | date : "dd/MM/yyyy HH:mm"
+                }}
+              </span>
+            </td>
+            <td *ngIf="workOrderCompleted">
+              {{ item.CompletionDate | date : "dd/MM/yyyy HH:mm" }}
+            </td>
+            <td *ngIf="!(isShedule$ | async)">
+              {{ item.StartDate | date : "dd/MM/yyyy HH:mm" }}
+            </td>
+
+            <td *ngIf="isShedule$ | async">
+              {{ item.ScheduleDate + " " + (item?.TimeExecute || "") }}
+            </td>
+            <td *ngIf="isShedule$ | async">
+              {{ item.DueDate | date : "dd/MM/yyyy HH:mm" }}
+            </td>
+            <td *ngIf="isShedule$ | async">
+              {{ item.ScheduleType }}
+            </td>
+            <td *ngIf="!(isShedule$ | async)">
+              <span
+                [class]="
+                  fixWithDateToday(item) ? 'text-danger' : 'text-success'
+                "
+              >
+                {{ item.DueDate | date : "dd/MM/yyyy HH:mm" }}
+              </span>
+            </td>
+            <td *ngIf="!(isShedule$ | async)">
+              <p-avatar
+                [icon]="
+                  item.TaskStatusId == 5
+                    ? 'pi pi-flag-fill text-warning'
+                    : item.isTC
+                    ? 'pi pi-flag-fill text-success'
+                    : 'pi pi-flag-fill'
+                "
+                styleClass="mr-2 action-icon"
+                (click)="openHistoryWorkersForTask.emit(item)"
+              ></p-avatar>
+            </td>
+            <td
+              *ngIf="
+                !(isShedule$ | async) &&
+                code.PagePermissions?.WorkOrdersShowCreatedBy
+              "
+            >
+              {{ item.CreatedByName }}
+            </td>
+
+            <td *ngIf="!(isShedule$ | async)">
+              <div class="d-flex flex-nowrap">
+                <!-- <i tooltipposition="top" class="p-element fa fa-plus action-icon add-icon"></i> -->
+                <!-- <i
+              class="fas fa-envelope-open-text action-icon"
+              pTooltip="{{
+                'PREVENTIVE_TASKS_MANAGEMENT.REMINDER_MESSAGE' | translate
+              }}"
+              tooltipPosition="top"
+            ></i> -->
+                <!-- <i
+            (click)="resetInstructionFromTasks.emit(item.ID)"
+              class="fas fa-redo action-icon"
+              pTooltip="{{ 'PREVENTIVE_TASKS_MANAGEMENT.REPEAT' | translate }}"
+              tooltipPosition="top"
+            ></i> -->
+                <i
+                  *ngIf="code?.PagePermissions?.WorkOrdersShowCard"
+                  (click)="openLink.emit(item)"
+                  class="pi pi-external-link action-icon"
+                  pTooltip="{{ 'open_link' | translate }}"
+                  tooltipPosition="top"
+                ></i>
+                <i
+                  *ngIf="
+                    code?.PagePermissions?.WorkOrdersDelete &&
+                    !workOrderCompleted
+                  "
+                  class="fas fa-trash-alt action-icon delete-icon"
+                  pTooltip="{{
+                    'PREVENTIVE_TASKS_MANAGEMENT.DELETE' | translate
+                  }}"
+                  tooltipPosition="top"
+                  (click)="
+                    IDDeleted = item.ID; confirmdeleteWorkOrder.openModal()
+                  "
+                ></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+
+    <div
+      class="d-flex justify-content-center align-items-center m-3"
+      *ngIf="List?.length == 0"
+    >
+      <h3><i class="pi pi-inbox mx-1"></i>{{ "NO_DATA" | translate }}</h3>
+    </div>
+    <ng-container>
+      <app-pagination-component
+        [Setting]="data?.Setting"
+        [(selectedPage)]="selectedListPage"
+        (selectedPageChange)="changeListPage()"
+        (selectedRowCount)="selectedRowCount($event)"
+        [RowCount]="RowCount"
+      ></app-pagination-component
+    ></ng-container>
+  </div>
+</ng-container>
+<ng-template #loading>
+  <p-skeleton styleClass="mb-2"></p-skeleton>
+  <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+  <p-skeleton width="5rem" styleClass="mb-2"></p-skeleton>
+  <p-skeleton height="2rem" styleClass="mb-2"></p-skeleton>
+  <p-skeleton width="10rem" height="4rem"></p-skeleton>
+</ng-template>
+
+<confirm-delete
+  #confirmdeleteWorkOrder
+  massage="{{ 'CONFIRMDELETE.TASK' | translate }}"
+  (afterSave)="
+    $event ? onDeleteTask() : ''; confirmdeleteWorkOrder.CloseModal()
+  "
+>
+</confirm-delete>
+<ng-container *ngIf="DateAndTime$ | async"></ng-container>

@@ -1,0 +1,29 @@
+<label
+  class="mb-2"
+  *ngIf="isLabel"
+  [class]="required ? 'label-required' : ''"
+  >{{ label | translate }}</label
+>
+<!-- <div class="p-inputgroup"> -->
+<p-calendar
+  [view]="isMonth ? 'month' : 'date'"
+  [ngClass]="{'ng-invalid ng-dirty': (calenderFieldControl.errors?.['required'] && (calenderFieldControl.touched || submitted)), 'p-inputtext-sm': true}"
+  [timeOnly]="timeOnly"
+  [hourFormat]="'24'"
+  [readonlyInput]="false"
+  [showOnFocus]="showOnFocus"
+  [dateFormat]="isMonth ? 'mm/yy' : 'dd/mm/yy'"
+  appendTo="body"
+  [showIcon]="showIcon"
+  [showTime]="showTime"
+  [formControl]="calenderFieldControl"
+  [minDate]="MinDate"
+  [maxDate]="MaxDate"
+  [placeholder]="placeholder | translate"
+>
+</p-calendar>
+<!-- </div> -->
+<!-- <app-validation
+  [control]="calenderFieldControl"
+  [submitted]="submitted"
+></app-validation> -->

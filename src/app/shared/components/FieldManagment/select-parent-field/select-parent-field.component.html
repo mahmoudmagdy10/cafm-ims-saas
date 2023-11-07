@@ -1,0 +1,45 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-columns margin-end-1"></i>
+    {{ "ASSETS.FIELDMANAGEMENTMODAL.MODALTITLE" | translate }}
+  </h5>
+  <!--  -->
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+
+<div class="modal-body" style="max-height: 80vh; overflow-y: auto">
+  <div *ngIf="dataFields.length > 0">
+    <div class="col-12 col-md-12 mb-3 mb-md-4" *ngFor="let field of dataFields">
+      <ng-container *ngIf="field?.ID !== data?.field?.ID">
+      <label class="checkbox checkbox-lg checkbox-inline">
+        <input type="radio" [value]="field.OptionName" (change)="selectParent(field)" name="parentOption">
+        <span></span>
+      </label>
+      <label for="" class="required form-label">
+        {{field?.Name}}
+      </label>
+      <p-dropdown appendTo="body" [options]="field?.FieldsOptions" [style]="{ minWidth: '130px', display: 'flex' }"
+        optionLabel="OptionName" optionValue="OptionName" [placeholder]="'GENERAL.SELECT' | translate"
+        [filter]="true" filterBy="OptionName" [disabled]="selectedFieldId !== field?.ID" (onChange)="handleSelectOptionValue($event)" [(ngModel)]="selctedValueOption">
+      </p-dropdown>
+    </ng-container>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-footer position-relative">
+  <button class="btn btn-sm btn-secondary" (click)="Close()">
+    <i class="fas fa-times"></i>
+    {{ "ASSETS.EDITIMAGEMODAL.CANCEL" | translate }}
+  </button>
+  <button class="btn btn-primary" (click)="Save()" [disabled]="!selectedFieldId || !selctedValueOption">
+    {{ "ASSETS.EDITIMAGEMODAL.SAVE" | translate }}
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

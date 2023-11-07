@@ -1,0 +1,57 @@
+<div class="modal-contents">
+  <div class="modal-header position-relative">
+    <h5 class="modal-title">
+      <i class="fas fa-home fa-lg mx-1"></i>
+      {{ "Customiz_the_Dashboard" | translate }}
+    </h5>
+    <!--begin::Close-->
+    <div class="close">
+      <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+    </div>
+    <!--end::-->
+  </div>
+  <!-- begin dialog body -->
+  <div class="modal-body">
+    <form *ngIf="codes$ | async as codes">
+      <div class="row flex-container">
+        <div
+          class="field-checkbox flex-item mb-3"
+          *ngFor="let report of codes?.ReportsDashBorad"
+        >
+          <div class="checkbox-container">
+            <p-checkbox
+              [(ngModel)]="report.DashBoardReportIDs"
+              [binary]="true"
+              [inputId]="'binary_' + report.Code"
+              (ngModelChange)="updateSelectedReports(report.Code, $event)"
+              [ngModelOptions]="{ standalone: true }"
+            ></p-checkbox>
+            <label
+              style="margin: 0 5px 0 5px"
+              class="checkbox-label"
+              [for]="'binary_' + report.Code"
+              >{{ report.TitleEn }}</label
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- end dialog body -->
+  <!-- begin dialog footer -->
+  <div class="dialog-footer">
+    <div class="footer-actions">
+      <button class="btn  btn-primary" (click)="save()">
+        <i class="fa fa-save"></i>
+        {{ "GENERAL.CREATE" | translate }}
+      </button>
+
+      <button class="btn  btn-secondary mx-2" (click)="Close()">
+        <i class="fas fa-times"></i>
+        {{ "USERS.FLTERMODAL.CANCEL" | translate }}
+      </button>
+    </div>
+  </div>
+  <!-- end dialog footer -->
+</div>

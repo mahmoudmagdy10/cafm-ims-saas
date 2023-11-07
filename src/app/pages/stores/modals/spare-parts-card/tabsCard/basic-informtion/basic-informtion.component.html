@@ -1,0 +1,87 @@
+<ng-container *ngIf="itemEdit$ | async as itemEdit">
+<ng-container *ngIf="codes$ | async as code">
+  <form [formGroup]="cardSparePartForm">
+    <div class="d-flex">
+      <!-- الصورة -->
+      <div
+        (click)="code.PagePermissions.PartsEdit && AddCardImage()"
+        class="image-input image-input-outline image-input-empty me-5"
+        data-kt-image-input="true"
+      >
+        <div
+          class="image-input-wrapper"
+          style="width: 140px; height: 148px"
+          [style.cursor]="'pointer'"
+          [style.background-image]="
+            itemEdit?.ImagePath
+              ? 'url(' + Avatar + itemEdit?.ImagePath + ')'
+              : ' url(' + '' + ')'
+          "
+        ></div>
+        <label
+          data-kt-image-input-action="change"
+          data-bs-toggle="tooltip"
+          title=""
+          data-bs-original-title="Change avatar"
+        >
+          <i class="bi bi-pencil-fill fs-7"></i>
+        </label>
+      </div>
+
+      <div class="w-100">
+        <div class="row">
+          <!-- الاسم -->
+          <div class="col-12 col-md-6 mb-3">
+            <label class="mb-2">
+              {{ "STORES.MODALS.CARD.BASIC_DATA.NAME" | translate }}
+            </label>
+            <input
+              type="text"
+              formControlName="PartName"
+              class="form-control form-control-sm"
+              id="isDisabledPartName"
+            />
+          </div>
+
+          <!-- الرقم -->
+          <div class="col-12 col-md-6 mb-3">
+            <label class="mb-2">
+              {{
+                "STORES.MODALS.CARD.BASIC_DATA.INTERNAL_REFERENCE" | translate
+              }}
+            </label>
+            <input
+              type="text"
+              formControlName="PartNumber"
+              class="form-control form-control-sm"
+              id="isDisabledPartNumber"
+            />
+          </div>
+
+          <!-- التصنيف -->
+          <div class="col-12 mb-3">
+            <label class="mb-2">
+              {{ "STORES.MODALS.CARD.BASIC_DATA.CLASSIFY" | translate }}
+            </label>
+            <p-dropdown
+              [placeholder]="'GENERAL.SELECT' | translate"
+              [style]="{ display: 'block', width: '100%' }"
+              [filter]="true"
+              formControlName="CategoryId"
+              optionLabel="name"
+              optionValue="code"
+              [options]="code.Categories"
+              [disabled]="!PartsEditPermission"
+              id="isDisabledCategoryId"
+              class="p-dropdown-sm"
+            ></p-dropdown>
+          </div>
+        </div>
+      </div>
+      <!-- <app-view-field-in-item></app-view-field-in-item> -->
+    </div>
+  </form>
+
+  <app-view-field-in-item [dataItem]="itemEdit" [havePermission]="code.PagePermissions.PartsEdit"></app-view-field-in-item>
+</ng-container>
+</ng-container>

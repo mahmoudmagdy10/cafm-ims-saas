@@ -1,0 +1,51 @@
+<div class="d-flex align-items-center flex-wrap">
+  <ng-container
+    *ngFor="let itemFile of Files; let i = index"
+  >
+    <!-- <div
+        class="image-input-wrapper"
+        style="width: 117px; height: 117px; cursor: pointer"
+        [style.background-image]="
+          'url(http://cmms-api.accessline.ps/resources/Files/' +
+          itemFile?.FilePath +
+          ')'
+        "
+      ></div> -->
+    <ng-container
+      *ngIf="!(itemFile.FileExtension | isImage) && itemFile "
+    >
+      <a
+        class="d-block"
+        [href]="Avatar + itemFile?.FilePath"
+        target="_blank"
+      >
+        {{ itemFile.FileName + "." + itemFile.FileExtension }} <span style="padding-right: 5px;" *ngIf="Files.length != (i+1)">,</span></a
+      >
+    </ng-container>
+    <ng-container
+      *ngIf="(itemFile.FileExtension | isImage) && itemFile "
+    >
+      <div
+        class="image-input image-input-outline image-input-empty m-2 overflow-hidden border"
+        data-kt-image-input="true"
+      >
+        <p-image
+          [src]="Avatar + itemFile?.FilePath"
+          alt="Image"
+          height="80px"
+          width="80px"
+          [preview]="true"
+        ></p-image>
+        <label
+          data-kt-image-input-action="change"
+          data-bs-toggle="tooltip"
+          title=""
+          data-bs-original-title="Change avatar"
+          style="right: unset; left: -10px"
+        >
+        </label>
+      </div>
+    </ng-container>
+
+  </ng-container>
+</div>

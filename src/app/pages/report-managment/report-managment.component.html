@@ -1,0 +1,39 @@
+<div class="card card-custom">
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <h4 class="fw-bolder mb-0 mx-2">{{ "Report_Managment" | translate }}</h4>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <ng-container *ngIf="reports$ | async as data">
+      <div class="table-responsive">
+        <table
+          class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+        >
+          <thead>
+            <tr class="fw-bolder fs-6 text-gray-800">
+              <th>#</th>
+              <th>{{ "Report_Name" | translate }}</th>
+              <th>{{ "TRACH.ACTIONS.ACTIONS" | translate }}</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="!data.loading; else loading">
+            <tr *ngFor="let item of data?.data; index as i">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item?.ReportName }}</td>
+              <td>
+                <i class="action-icon fas fa-cog" (click)="Manage(item)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table></div
+    ></ng-container>
+  </div>
+
+  <ng-template #loading>
+    <div class="d-flex justify-content-center">
+      <p-progressSpinner></p-progressSpinner>
+    </div>
+  </ng-template>
+</div>

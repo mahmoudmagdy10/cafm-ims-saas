@@ -1,0 +1,199 @@
+.container {
+  text-align: center;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // background-color: #d9dcdf;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.filter-btn:hover {
+  background-color: #c2c5ca;
+}
+
+.filter-icon i,
+.option-icon {
+  margin-right: 5px;
+  color: #66a9ed;
+}
+
+.cards-body {
+  background-color: #f2f5f7; /* A lighter background for clarity */
+  padding: 20px;
+}
+
+.report-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px; /* Creates a gap between the report boxes */
+}
+
+.report-box {
+  flex: 0 1 48%; /* Here, flex-grow is 0, flex-shrink is 1, and flex-basis is 50% */
+  max-width: 49%; /* This ensures that the report-box doesn't grow beyond 50% width */
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12), 0 3px 8px rgba(0, 0, 0, 0.09);
+  border-radius: 8px;
+  // border: 2px solid rgba(135, 206, 235, 1); /* Prevents card layout shift due to border addition on hover */
+
+  /* Transition for the smooth effect */
+  // transition: transform 0.5s ease, box-shadow 0.5s ease, border 0.5s ease;
+}
+
+.report-box:hover {
+  transform: translateY(
+    -3px
+  ); /* Slight upward movement combined with a bit of scaling */
+  // box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12), 0 3px 8px rgba(0, 0, 0, 0.09);
+  // border: 2px solid #007bff; /* Blue border */
+  // transition: width 0.9s ease-out;
+}
+
+.report-title {
+  margin: 10px 0;
+  font-size: 1.8em;
+}
+
+.chart-line,
+.chart-pie,
+.chart-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.report-box:hover .chart-line,
+.report-box:hover .chart-pie,
+.report-box:hover .chart-bar {
+  opacity: 1;
+}
+
+p-dropdown {
+  transition: background-color 0.3s;
+}
+
+p-dropdown:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+/* Default color styling */
+.default-color {
+  background-color: #66a9ed; /* Light Blue */
+  border-color: rgba(
+    102,
+    169,
+    237,
+    0.7
+  ); /* Light Blue (slightly transparent) */
+}
+
+/* Hover effect */
+.default-color:hover {
+  background-color: #3d6ea7; /* Darker Blue */
+  border-color: rgba(0, 0, 0, 0.5); /* Darker border color */
+}
+.custom-card {
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.custom-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.custom-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-card .card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-card svg {
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+.custom-card-header {
+  background-color: #dcedff !important;
+}
+.full-width-chart {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 0 1 100% !important;
+}
+.labels-container {
+  display: flex;
+  align-items: center;
+}
+
+.label-item {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.circle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.report-title-box {
+  margin-bottom: 5px;
+  padding: 2px;
+  border-bottom: 1px solid rgb(150, 150, 150); /* Prevents card layout shift due to border addition on hover */
+}
+:host ::ng-deep .chart-container {
+  width: 320px;
+  height: 320px;
+  position: relative;
+}
+
+:host ::ng-deep canvas {
+  display: block;
+  width: 400px !important;
+  height: 400px !important;
+}
+
+.last-days-section .form-check-input {
+  opacity: 0;
+  position: absolute;
+}
+.last-days-section .form-check-label {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 150px; /* Adjust based on desired width */
+  text-align: center; /* Center the text horizontally */
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.last-days-section .form-check-input:checked + .form-check-label {
+  background: #5797dd; /* Change to desired color */
+  color: white; /* Text color */
+}
+.last-days-section .form-check-label:hover {
+  background: #f6f6f6; /* Light gray background on hover */
+}
+.last-days-section {
+  display: flex;
+  justify-content: center;
+}

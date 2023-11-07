@@ -1,0 +1,82 @@
+<div class="card card-custom">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <!-- https://www.svgrepo.com/svg/420196/lock-protect-security-15 -->
+      <div class="d-flex">
+        <i class="fas fa-bell" style="font-size: 1.5rem"></i>
+        <h4 class="fw-bolder mb-0 mx-2" (click)="play()">All Notification</h4>
+      </div>
+    </div>
+    <div class="card-header-actions"></div>
+  </div>
+  <!-- end::Header -->
+  <!-- begin::Body -->
+
+  <div class="card-body" *ngIf="UserAlertNotifications$ | async">
+    <div class="scroll-y mh-500px d-flex flex-column gap-5 my-5 px-8">
+      <ng-container *ngFor="let item of notifications">
+        <div
+          class="d-flex flex-stack py-4 px-2 hoverNoti bg-light rounded shadow-md border"
+          style="cursor: pointer"
+          (click)="moveNotify(item)"
+        >
+          <div class="d-flex align-items-center w-100">
+            <div class="symbol symbol-35px me-4">
+              <span
+                class="symbol-label"
+                [ngClass]="'bg-light-' + 'alert.state'"
+              >
+                <!-- <span
+                [inlineSVG]="'./assets/media/' + alert.icon"
+                class="svg-icon svg-icon-2"
+                [ngClass]="'svg-icon-' + alert.state"
+              ></span> -->
+                <i class="fas fa-bell"></i>
+              </span>
+            </div>
+
+            <div class="mb-0 me-2" style="width: 100%">
+              <a class="fs-3 text-gray-800 text-hover-primary fw-bolder">
+                {{ item.AlertMsg }}
+              </a>
+              <div
+                class="text-gray-600 fs-5 d-flex justify-content-between mt-2"
+              >
+                <span style="width: 20%">
+                  <b class="text-gray-800">Task Name :</b>
+                  <span>{{ item.taskname }}</span></span
+                >
+                <span style="width: 20%">
+                  <b class="text-gray-800"> Created By : </b>
+                  <span>{{ item.CreatedBy }}</span>
+                </span>
+                <!-- <span style="width: 20%">
+                  <b class="text-gray-800"> Description : </b>
+                  <span>{{ item.Description }}</span>
+                </span> -->
+                <span style="width: 20%">
+                  <b class="text-gray-800">Equipment :</b>
+                  <span>{{ item.Equipment }}</span>
+                </span>
+                <span style="width: 20%">
+                  <b class="text-gray-800">Created date: </b>
+                  <span>{{ item.Createddate }} </span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <span class="badge badge-success fs-7">{{ item.CreatedDate }} </span>
+        </div>
+      </ng-container>
+    </div>
+    <app-pagination-component
+      *ngIf="Setting"
+      [Setting]="Setting"
+      [(selectedPage)]="selectedPage"
+      (selectedPageChange)="changePage()"
+
+    ></app-pagination-component>
+  </div>
+</div>

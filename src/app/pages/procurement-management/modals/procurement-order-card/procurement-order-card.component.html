@@ -1,0 +1,206 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title" *ngIf="OrderEdit$ | async as data">
+    <!-- <i class="fas fa-filter mx-1"></i> -->
+    {{ data.POName }}
+    (#{{ data.PONumber }}) &nbsp;({{ data.POStatusName }})
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div
+  class="modal-body"
+  style="max-height: 80vh; overflow: scroll"
+  *ngIf="OrderEdit$ | async as data"
+>
+  <!-- صندوق المعلومات اللي فوق التاب -->
+  <div
+    *ngIf="data.ShowReject && !data.CanChange"
+    class="card-informations rounded"
+    style="background-color: #fafafb; padding: 1rem"
+  >
+    <div class="row task-info">
+      <div class="col-12 col-lg-6">
+        <div class="mb-2">
+          <div class="bg-white border border-secondary rounded px-3 py-2">
+            <span class="margin-end-2"
+              >{{
+                "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.PURCHASE_ORDER_SUBMITTED"
+                  | translate
+              }}
+              :</span
+            >
+            <span class="fw-bolder">{{ data.UserName }}</span>
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <div class="bg-white border border-secondary rounded px-3 py-2">
+            <span class="margin-end-2"
+              >{{
+                "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.FROM_MAINTENANCE_ORDER"
+                  | translate
+              }}
+              :</span
+            >
+            <span class="fw-bolder">#{{ data.PONumber }}</span>
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <div class="bg-white border border-secondary rounded px-3 py-2">
+            <span class="margin-end-2"
+              >{{
+                "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.TOTAL_AMOUNT"
+                  | translate
+              }}
+              :</span
+            >
+            <span class="fw-bolder">{{ data?.TotalAmount }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <div class="form-group">
+          <label class="mb-2">{{
+            "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.REASON_OF_REJECT"
+              | translate
+          }}</label>
+          <textarea
+            name="notesForReject"
+            [(ngModel)]="notesForReject"
+            class="form-control"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end" *ngIf="Codes$ | async as codes">
+      <!-- <button type="button" class="btn btn-primary margin-end-1">
+        <span>
+          <span> <i class="fa fa-check"></i> </span>
+          {{ "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ACCEPT" | translate }}
+        </span>
+      </button> -->
+
+      <button
+        *ngIf="codes?.PagePermissions?.POEdit"
+        [disabled]="!data.CanChange"
+        type="button"
+        class="btn btn-sm btn-danger"
+        (click)="orderReject()"
+      >
+        <span>
+          <span> <i class="fa fa-times"></i> </span>
+          {{
+            "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.REJECT_APPLICATION"
+              | translate
+          }}
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ------------------------------------------- -->
+
+  <div class="tab-content mt-5" id="myTabContent">
+    <p-tabView>
+      <!-- بداية البيانات الاساسية -->
+      <p-tabPanel
+        leftIcon="p-tabview-left-icon fa fa-database mx-1"
+        header="{{
+          'PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.BASIC_DATA_TAB.TAB_HEADER'
+            | translate
+        }}"
+      >
+        <app-basic-info></app-basic-info>
+      </p-tabPanel>
+      <!-- نهاية البيانات الاساسية -->
+
+      <!-- بداية العناصر -->
+      <p-tabPanel
+        leftIcon="p-tabview-left-icon fas fa-th-large mx-1"
+        header="{{
+          'PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.ELEMENTS_TAB.TAB_HEADER'
+            | translate
+        }}"
+      >
+        <app-items></app-items>
+      </p-tabPanel>
+      <!-- نهاية العناصر -->
+
+      <!-- بداية سجل الحركات -->
+      <!-- <p-tabPanel
+        leftIcon="p-tabview-left-icon fa fa-clipboard-list mx-1"
+        header="{{
+          'PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.LOG_TAB.TAB_HEADER'
+            | translate
+        }}"
+      >
+        <app-movment-history></app-movment-history>
+      </p-tabPanel> -->
+      <!-- نهاية سجل الحركات -->
+
+      <!-- بداية استلام البضاعة -->
+      <p-tabPanel
+        leftIcon="p-tabview-left-icon fas fa-file-import mx-1"
+        header="{{
+          'PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.PRODUCT_RECEIVING_TAB.TAB_HEADER'
+            | translate
+        }}"
+      >
+        <app-bills></app-bills>
+      </p-tabPanel>
+      <!-- نهاية استلام البضاعة -->
+    </p-tabView>
+  </div>
+</div>
+
+<div class="modal-footer position-relative" *ngIf="OrderEdit$ | async as data">
+  <ng-container *ngIf="Codes$ | async as codes">
+    <button
+      type="button"
+      class="btn btn-sm btn-light"
+      data-bs-dismiss="modal"
+      (click)="Close()"
+    >
+      <span>
+        <span><i class="fa fa-times"></i></span>
+        <span>{{ "GENERAL.CANCEL" | translate }}</span>
+      </span>
+    </button>
+    <button
+      *ngIf="data.HasNext && codes?.PagePermissions?.POChangeStep"
+      type="button"
+      class="btn btn-sm btn-danger"
+      data-bs-dismiss="modal"
+      (click)="changeStatus(data.ID, 0)"
+    >
+      <span>
+        <!-- <span> <i class="fas fa-angle-double-right"></i> </span> -->
+        {{
+          "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.BACK_TO_PREVIOUS" | translate
+        }}
+      </span>
+    </button>
+    <button
+      *ngIf="data.HasPre && codes?.PagePermissions?.POChangeStep"
+      type="button"
+      class="btn btn-primary"
+      data-bs-dismiss="modal"
+      (click)="changeStatus(data.ID, 1)"
+    >
+      <span>
+        <span> <i class="fas fa-angle-double-right"></i> </span>
+        {{ "PURCHASE_ORDER.MODALS.PURCHASEMENT_CARD.MOVE_TO_NEXT" | translate }}
+      </span>
+    </button>
+
+    <i class="fas fa-cogs modal-bg-icon"></i>
+  </ng-container>
+</div>

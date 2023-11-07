@@ -1,0 +1,35 @@
+.header {
+  position: fixed;
+  top: 0;
+}
+
+
+.pageBreak {
+  page-break-after: always;
+}
+
+
+.table-bordered{border:1px solid #dee2e6}
+.table thead th{border:2px solid #dee2e6; vertical-align:bottom}
+.table tbody td{border:2px solid #dee2e6; vertical-align:bottom}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.parent-signature {
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.child-signature {
+  width: calc(33.33% - 10px);
+  margin-bottom: 50px;
+}
+.user-position, .user-name{
+  text-align: center;
+}

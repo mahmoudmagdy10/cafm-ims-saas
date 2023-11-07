@@ -1,0 +1,108 @@
+<div class="d-flex justify-content-between mb-2">
+  <span></span>
+  <button class="general-btn filter-btn" (click)="Filter()">
+    <i class="fas fa-filter"></i>
+    {{ "ASSETS.FILTERSMODAL.BUTTONNAME" | translate }}
+  </button>
+</div>
+<div class="d-flex justify-content-start mb-3">
+  <app-view-data-filter
+    [componentType]="'ProblemIdentification'"
+  ></app-view-data-filter>
+</div>
+<div class="table-responsive">
+  <table
+    class="table table-rounded table-row-bordered border custom-table-style fs-6"
+  >
+    <thead>
+      <tr class="fw-bolder fs-6 text-gray-800">
+        <th>#</th>
+        <!-- <th>
+          {{ "ASSETS.ASSETCARDMODAL.SUPPLIERSTAB.SUPPLIRENAME" | translate }}
+        </th> -->
+        <th>
+          {{
+            "ASSETS.ASSETCARDMODAL.PROBLEMIDENTIFICATION.TASK_NAME" | translate
+          }}
+        </th>
+        <th>
+          {{
+            "ASSETS.ASSETCARDMODAL.PROBLEMIDENTIFICATION.TASK_NO" | translate
+          }}
+        </th>
+        <th>
+          {{
+            "ASSETS.ASSETCARDMODAL.PROBLEMIDENTIFICATION.IDENTIFICATION"
+              | translate
+          }}
+        </th>
+        <th>
+          {{
+            "ASSETS.ASSETCARDMODAL.PROBLEMIDENTIFICATION.CATEGORY" | translate
+          }}
+        </th>
+        <th>
+          {{
+            "ASSETS.ASSETCARDMODAL.PROBLEMIDENTIFICATION.TEAM_NAME" | translate
+          }}
+        </th>
+        <th>
+          {{
+            "ASSETS.ASSETCARDMODAL.PROBLEMIDENTIFICATION.MAINTENACE_TIME"
+              | translate
+          }}
+        </th>
+        <th>
+          {{ "ASSETS.ASSETCARDMODAL.PROBLEMIDENTIFICATION.DATE" | translate }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of dataList; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>
+          <a href="javascript:;" (click)="openCard(item)">
+            <span>{{ item.TaskName }} </span>
+          </a>
+        </td>
+        <td>{{ item?.Taskno }}</td>
+        <td>
+          <a href="javascript:;" (click)="IdentificationDescription(item)">
+            <span class="mb-3 h-100" style="cursor: pointer">
+              {{ item?.IdentificationDescription | cutLongString : 15 }}</span
+            >
+          </a>
+        </td>
+        <td>{{ item?.Category }}</td>
+        <td>{{ item?.Team }}</td>
+        <td>{{ item?.MaintenaceTime }}</td>
+        <td>{{ item?.CompletionDate | date : "dd/MM/yyyy" }}</td>
+        <!-- <td>
+          <i
+            (click)="confirmdeleteFieldInAsset.openModal(); itemSelected = item"
+            class="fas fa-trash-alt action-icon delete-icon"
+            tooltipPosition="top"
+            pTooltip="{{
+              'ASSETS.ASSETCARDMODAL.SUPPLIERSTAB.DELETE' | translate
+            }}"
+          ></i>
+        </td> -->
+      </tr>
+    </tbody>
+  </table>
+  <app-pagination-component
+    [Setting]="data?.Setting"
+    [(selectedPage)]="selectedPage"
+    (selectedPageChange)="changePage()"
+    (selectedRowCount)="selectedRowCount($event)"
+  ></app-pagination-component>
+</div>
+<!-- <confirm-delete
+  #confirmdeleteFieldInAsset
+  massage="{{ 'CONFIRMDELETE.FIELD' | translate }}"
+  (afterSave)="
+    confirmdeleteFieldInAsset?.CloseModal();
+    $event ? deleteAssetWithVendor(itemSelected) : ''
+  "
+>
+</confirm-delete> -->

@@ -1,0 +1,62 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <!-- <i class="fas fa-filter mx-1"></i> -->
+    {{ "PM.MODAL.START_TASK.MODAL_TITLE" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body" style="max-height: 80vh; overflow-y: auto">
+  <form>
+    <div class="">
+      <p class="fs-1 mb-3 text-center">
+        {{ "PM.MODAL.START_TASK.START_TASK" | translate }}
+      </p>
+      <div class="position-reltive text-center">
+        <i class="fa fa-check task-complete-icon"></i>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          width="100px"
+          height="100px"
+        >
+          <circle
+            cx="50"
+            cy="50"
+            r="40"
+            stroke-linecap="round"
+            class="task-complete"
+          />
+        </svg>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="info" style="font-size: 1.4rem">
+  <div class="form-group mb-3"></div>
+
+  <div class="form-group mb-3 d-flex justify-content-center">
+    <label> Task Number:{{ data?.Msg }} #</label>
+    <p>has been created</p>
+  </div>
+</div>
+<div class="modal-footer position-relative">
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <span>
+      <span> <i class="fa fa-times" (click)="Close()"></i> </span>
+      <span> {{ "GENERAL.CANCEL" | translate }} </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

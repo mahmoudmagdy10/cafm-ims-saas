@@ -1,0 +1,76 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-plus mx-1"></i>
+    {{
+    "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.ADD_INSTRUCTION_MODAL.MODAL_TITLE"
+    | translate
+    }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+
+<div class="modal-body" *ngIf="Codes$ | async as code" style="max-height: 75vh; overflow-y: auto">
+  <div class="row">
+    <!-- instruction options -->
+    <div class="form-group mb-3">
+      <label class="required form-label">
+        {{
+        "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.ADD_INSTRUCTION_MODAL.NAME"
+        | translate
+        }}
+      </label>
+      <input type="text" [formControl]="nameField" class="form-control" />
+    </div>
+
+    <ng-container *ngIf="!data.isOption">
+      <!-- field types -->
+      <div class="field-types">
+        <div [ngClass]="
+            this.fieldTypeSelected == item.code
+              ? 'mx-1 field-type active'
+              : 'mx-1 field-type'
+          " *ngFor="let item of code.FieldTypes" (click)="checkFieldType(item.code)">
+          <span class="field-name">
+            <icon-field [TypeField]="item.code" class="margin-end-1"></icon-field>
+            {{ item.name }}
+          </span>
+          <i *ngIf="this.fieldTypeSelected == item.code" class="fas fa-check active"></i>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<div class="modal-footer position-relative">
+  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="onSave()">
+    <span>
+      <span> <i class="fa fa-save"></i> </span>
+      <span>
+        {{
+        "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.ADD_INSTRUCTION_MODAL.SAVE"
+        | translate
+        }}
+      </span>
+    </span>
+  </button>
+
+  <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal" (click)="Close()">
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span>
+        {{
+        "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.ADD_INSTRUCTION_MODAL.CANCEL"
+        | translate
+        }}
+      </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

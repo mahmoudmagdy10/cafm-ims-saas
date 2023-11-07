@@ -1,0 +1,213 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-filter mx-1"></i>
+    {{ "PM.MODAL.FILTER.MODAL_TITLE" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body" style="max-height: 80vh" *ngIf="codes$ | async as code">
+  <form [formGroup]="formFilter">
+    <div class="row">
+      <!-- الاسم -->
+      <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="form-group">
+          <label class="mb-2">
+            {{ "PM.MODAL.ADD_PM_TASK.NAME" | translate }}
+          </label>
+          <input type="text" formControlName="TaskName" class="form-control" />
+        </div>
+      </div>
+
+      <!-- درجة الأهمية -->
+      <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <label class="mb-2">
+          {{ "PM.MODAL.ADD_PM_TASK.PRIORITY_LEVEL" | translate }}
+        </label>
+        <p-dropdown
+          appendTo="body"
+          [style]="{ width: '100%', display: 'flex' }"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          formControlName="PriorityId"
+          optionLabel="Name"
+          optionValue="code"
+          [options]="code.PriorityId"
+          [showClear]="true"
+        >
+        </p-dropdown>
+      </div>
+
+      <!-- الوسم -->
+      <div class="col-12 col-md-3 mb-3">
+        <label class="mb-2">
+          {{ "PM.MODAL.ADD_PM_TASK.TAGS" | translate }}
+        </label>
+        <p-dropdown
+          appendTo="body"
+          [style]="{ width: '100%', display: 'flex' }"
+          formControlName="TagsId"
+          optionLabel="Name"
+          optionValue="code"
+          [showClear]="true"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          [options]="code.TagsId"
+        ></p-dropdown>
+      </div>
+      <!-- نوع الجدولة -->
+      <div class="col-10 col-md-3">
+        <label class="mb-2">{{
+          "PM.MODAL.FILTER.Schedule_Type" | translate
+        }}</label>
+        <div class="d-flex align-items-center">
+          <select class="form-select" formControlName="ScheduleTypeId">
+            <option *ngFor="let item of ScheduleType" [ngValue]="item.code">
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <!-- الوقت المتوقع -->
+      <!-- <div class="col-12 col-md-3 mb-3">
+        <label class="mb-2"> {{ "PM.MODAL.FILTER.EXPECTED_TIME" | translate }} </label>
+
+        <div class="time d-flex">
+          <span style="font-size: 15px; margin-top: 5px">H:</span>
+
+          <div class="form-group form-group margin-end-1" style="flex-basis: 50%">
+            <select class="form-control">
+              <option>
+                1
+              </option>
+            </select>
+          </div>
+          <span style="font-size: 15px; margin-top: 5px">min:</span>
+
+          <div class="form-group form-group" style="flex-basis: 50%">
+            <select class="form-control" formControlName="EstimatedTimeM">
+              <option>
+                1
+              </option>
+            </select>
+          </div>
+        </div>
+      </div> -->
+    </div>
+
+    <div class="row mb-3">
+      <!-- الأصل -->
+      <div class="col-12 col-md-4">
+        <label class="mb-2"> {{ "Select_Assets" | translate }}</label>
+
+        <div class="form-group d-flex align-items-center">
+          <span class="form-control form-control-solid h-40px">
+            {{ AssetSelected }}
+          </span>
+          <i
+            (click)="chooseAsset(code.AssetId)"
+            class="fa fa-plus action-icon add-icon"
+            tooltipPosition="top"
+            pTooltip="{{ 'GENERAL.SELECT' | translate }}"
+          ></i>
+        </div>
+      </div>
+
+      <!-- فريق العمل  -->
+      <!-- <div class="col-10 col-md-5">
+        <label class="mb-2"> {{ "PM.MODAL.FILTER.WORK_TEAM" | translate }} </label>
+
+        <div class="form-group d-flex align-items-center">
+          <span class="form-control form-control-solid h-40px">
+            value
+          </span>
+          <i class="fa fa-plus action-icon add-icon" tooltipPosition="top"
+            pTooltip="{{ 'GENERAL.SELECT' | translate }}"></i>
+        </div>
+      </div> -->
+
+      <!-- فؤيق العمل -->
+      <div class="col-10 col-md-4">
+        <label class="mb-2">
+          {{ "PM.MODAL.FILTER.WORK_TEAM" | translate }}
+        </label>
+        <p-dropdown
+          appendTo="body"
+          [style]="{ width: '100%', display: 'flex' }"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          formControlName="AssignmentTeamId"
+          optionLabel="Name"
+          optionValue="Code"
+          [showClear]="true"
+          [options]="code.LocationTeams"
+        >
+        </p-dropdown>
+      </div>
+
+      <!-- المستخدم -->
+      <div class="col-10 col-md-4">
+        <label class="mb-2"> {{ "PM.MODAL.FILTER.USER" | translate }} </label>
+        <p-dropdown
+          appendTo="body"
+          [style]="{ width: '100%', display: 'flex' }"
+          [placeholder]="'GENERAL.SELECT' | translate"
+          formControlName="AssignmentUserId"
+          optionLabel="Name"
+          optionValue="Code"
+          [showClear]="true"
+          [options]="code.LocationUsers"
+        >
+        </p-dropdown>
+      </div>
+
+      <!-- stacked or not -->
+      <!-- <div class="col-2 d-flex align-items-center">
+        <div class="form-group">
+          <label class="invisible d-block">test</label>
+          <label class="checkbox">
+            <input type="checkbox" class="form-check-input margin-end-1 custom-checkbox-style" />
+            <span></span>
+            {{ "PM.MODAL.FILTER.STACKED" | translate }}
+          </label>
+        </div>
+      </div> -->
+    </div>
+
+    <!-- الوصف -->
+    <!-- <div class="form-group">
+      <label class="mb-2"> {{ "PM.MODAL.FILTER.DESCRIPTION" | translate }} </label>
+      <textarea class="form-control" rows="3" formControlName="TaskDescription"></textarea>
+    </div> -->
+  </form>
+</div>
+
+<div class="modal-footer position-relative">
+  <button
+    type="button"
+    class="btn  btn-primary"
+    data-bs-dismiss="modal"
+    (click)="onFilter()"
+  >
+    <span>
+      <span> <i class="fa fa-search"></i> </span>
+      <span> {{ "GENERAL.SEARCH" | translate }} </span>
+    </span>
+  </button>
+
+  <button
+    type="button"
+    class="btn  btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <span>
+      <span> <i class="fa fa-times" (click)="Close()"></i> </span>
+      <span> {{ "GENERAL.CANCEL" | translate }} </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

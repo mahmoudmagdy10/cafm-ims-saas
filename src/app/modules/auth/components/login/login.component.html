@@ -1,0 +1,314 @@
+<!--begin::Form-->
+<div class="d-flex justify-content-center" style="direction: ltr !important">
+  <div class="position-relative login-form">
+    <form
+      (keyup.enter)="login()"
+      class="form w-100 shadow bg-white rounded"
+      [formGroup]="loginForm"
+      novalidate="novalidate"
+      id="kt_login_signin_form"
+      style="padding: 60px"
+    >
+      <!--begin::Heading-->
+      <div class="text-center mb-5">
+        <h1 class="form-header">CAFM IMS</h1>
+        <!-- <div class="text-gray-400 fw-bold fs-4">
+          {{"AUTH.GENERAL.HAVE_ACCOUNT" | translate}}
+          <a routerLink="/auth/registration" id="kt_login_signup" class="link-primary fw-bolder">{{
+            "AUTH.GENERAL.SIGNUP_BUTTON" | translate }}</a>
+        </div> -->
+      </div>
+      <!--end::Heading-->
+
+      <!-- begin::Alert info-->
+      <ng-container *ngIf="!hasError">
+        <!-- <div class="mb-5 bg-light-info p-8 rounded"> -->
+        <!-- <div class="text-info">
+            استخدم حساب <strong>{{ defaultAuth.email }}</strong> وكلمة المرور
+            <strong>{{ defaultAuth.password }}</strong> للدخول.
+          </div> -->
+        <!-- </div> -->
+      </ng-container>
+      <!-- end::Alert info-->
+
+      <!-- begin::Alert error-->
+      <ng-container *ngIf="hasError">
+        <div class="mb-lg-15 alert alert-danger">
+          <div class="alert-text font-weight-bold">
+            {{ "AUTH.VALIDATION.INVALID_LOGIN" | translate }}
+          </div>
+        </div>
+      </ng-container>
+      <!-- end::Alert error-->
+
+      <!-- اسم المستخدم -->
+      <!--begin::Form group-->
+      <div class="fv-row mb-5">
+        <!-- <label class="form-label fs-6 fw-bolder text-dark">{{ "AUTH.INPUT.EMAIL" | translate }}</label> -->
+        <div class="d-flex align-items-center px-8 login-username-container">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="27.984"
+            height="22.209"
+            viewBox="0 0 27.984 22.209"
+            style="margin-left: 2rem; margin-right: 1rem;"
+          >
+            <path
+              id="Forma_1"
+              data-name="Forma 1"
+              d="M243.661,270.366H220.6a2.517,2.517,0,0,0-2.459,2.563v17.084a2.517,2.517,0,0,0,2.459,2.563h23.065a2.516,2.516,0,0,0,2.459-2.562V272.929A2.517,2.517,0,0,0,243.661,270.366Zm-.34,1.708-11.141,11.607-11.237-11.607Zm-23.545,17.584V273.275l7.9,8.157Zm1.16,1.208,7.9-8.233,2.769,2.86a.8.8,0,0,0,1.157,0l2.7-2.813,7.859,8.188Zm23.545-1.208-7.859-8.188,7.859-8.188Z"
+              transform="translate(-218.137 -270.366)"
+              fill="#939598"
+            />
+          </svg>
+
+          <input
+            #email
+            class="form-control form-control-lg border-0"
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Input your user ID or Email"
+            formControlName="email"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                loginForm.controls['email'].touched &&
+                loginForm.controls['email'].invalid,
+              'is-valid': loginForm.controls['email'].valid
+            }"
+          />
+        </div>
+        <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Email is required',
+            control: loginForm.controls['email']
+          }"></ng-container> -->
+        <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'email',
+            message: 'Email is invalid',
+            control: loginForm.controls['email']
+          }"></ng-container> -->
+        <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'minLength',
+            message: 'Email should have at least 3 symbols',
+            control: loginForm.controls['email']
+          }"></ng-container> -->
+        <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'maxLength',
+            message: 'Email should have maximum 360 symbols',
+            control: loginForm.controls['email']
+          }"></ng-container> -->
+      </div>
+      <!--end::Form group-->
+
+      <!-- كلمة المرور -->
+      <!--begin::Form group-->
+      <div class="fv-row mb-5">
+        <div class="d-flex align-items-center login-username-container">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="27.984"
+            height="27.966"
+            viewBox="0 0 27.984 27.966"
+            style="margin-left: 2rem; margin-right: 1rem;"
+          >
+            <path
+              id="Forma_1"
+              data-name="Forma 1"
+              d="M219.23,392.9a1.093,1.093,0,0,1-1.093-1.093V387a1.093,1.093,0,0,1,.32-.772l9.421-9.418c-.262-.479-.507-.974-.732-1.48a4.37,4.37,0,0,1,.913-4.847l4.292-4.271a4.4,4.4,0,0,1,4.662-.987,15.586,15.586,0,0,1,5.367,3.369A15.948,15.948,0,0,1,245.819,374a4.353,4.353,0,0,1-.983,4.68L240.492,383a4.382,4.382,0,0,1-4.787.938,16.333,16.333,0,0,1-2.272-1.158,1.093,1.093,0,0,1,1.143-1.863,14.234,14.234,0,0,0,1.967,1,2.2,2.2,0,0,0,2.406-.469l4.345-4.322a2.17,2.17,0,0,0,.49-2.333,13.749,13.749,0,0,0-2.946-4.655,13.4,13.4,0,0,0-4.605-2.876,2.2,2.2,0,0,0-2.339.5l-4.292,4.271a2.175,2.175,0,0,0-.458,2.41,17.786,17.786,0,0,0,1.035,1.983,1.092,1.092,0,0,1-.162,1.339l-9.694,9.689v3.263h2.624v-1.967a1.093,1.093,0,0,1,1.093-1.093h1.967v-1.966A1.093,1.093,0,0,1,227.1,384.6h3.061a1.093,1.093,0,1,1,0,2.185h-1.968v1.967a1.092,1.092,0,0,1-1.093,1.093h-1.967v1.967a1.093,1.093,0,0,1-1.094,1.093Zm17.05-20.313a1.75,1.75,0,1,1,1.751,1.75A1.751,1.751,0,0,1,236.28,372.59Z"
+              transform="translate(-218.137 -364.937)"
+              fill="#939598"
+            />
+          </svg>
+
+          <input
+            class="form-control form-control-lg border-0"
+            type="password"
+            name="password"
+            placeholder="Input your password"
+            autocomplete="off"
+            formControlName="password"
+            [ngClass]="{
+              'is-invalid':
+                loginForm.controls['email'].touched &&
+                loginForm.controls['password'].invalid,
+              'is-valid': loginForm.controls['password'].valid
+            }"
+          />
+        </div>
+
+        <!-- <div class="d-flex justify-content-between mt-n5">
+          <div class="d-flex flex-stack mb-2">
+            <label class="form-label fw-bolder text-dark fs-6 mb-0">{{ "AUTH.INPUT.PASSWORD" | translate }}</label>
+            <a routerLink="/auth/forgot-password" class="link-primary fs-6 fw-bolder" id="kt_login_forgot"
+              [style.margin-left]="'5px'">
+              {{ "AUTH.GENERAL.FORGOT_BUTTON" | translate }}
+            </a>
+          </div>
+        </div> -->
+        <!-- <input class="form-control form-control-lg form-control-solid" type="password" name="password"
+          autocomplete="off" formControlName="password" [ngClass]="{
+            'is-invalid':
+              loginForm.controls['email'].touched &&
+              loginForm.controls['password'].invalid,
+            'is-valid': loginForm.controls['password'].valid
+          }" /> -->
+        <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Password is required',
+            control: loginForm.controls['password']
+          }"></ng-container> -->
+        <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'minlength',
+            message: 'Password should have at least 3 symbols',
+            control: loginForm.controls['password']
+          }"></ng-container> -->
+        <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'maxLength',
+            message: 'Password should have maximum 100 symbols',
+            control: loginForm.controls['password']
+          }"></ng-container> -->
+      </div>
+      <!--end::Form group-->
+
+      <!-- <div
+        class="d-flex justify-content-between align-items-center"
+        style="margin-bottom: 50px; margin-top: 50px"
+      >
+        <div
+          class="form-check form-check-custom form-check-solid form-check-sm"
+        >
+          <input
+            class="form-check-input remember-me custom-checkbox-style"
+            type="checkbox"
+            id="AssetCategoryId"
+          />
+          <label class="form-check-label" for="AssetCategoryId">
+            Remember Me
+          </label>
+        </div>
+
+        <div class="">
+          <a
+            routerLink="/auth/forgot-password"
+            class="link-primary forgot-pass"
+            id="kt_login_forgot"
+            [style.margin-left]="'5px'"
+          >
+            Forgot Password?
+          </a>
+        </div>
+      </div> -->
+      <!-- <p-captcha
+        siteKey="6LckRcQkAAAAAARR9HuYLUD4gM6F9vdCUIVn9Bt7"
+        initCallback="onloadCallback"
+        (onResponse)="showResponse($event)"
+      ></p-captcha> -->
+      <!-- secretKey="6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe" -->
+      <!--  -->
+
+
+
+      <p-captcha
+        *ngIf="!DEBUG"
+        siteKey="6LckRcQkAAAAAARR9HuYLUD4gM6F9vdCUIVn9Bt7"
+        initCallback="onloadCallback"
+        (onResponse)="showResponse($event)"
+      ></p-captcha>
+
+      
+      <hr />
+      <!--begin::Action-->
+      <div class="text-center">
+        <button
+          type="button"
+          id="kt_sign_in_submit"
+          class="btn btn-lg btn-primary text-white w-100 mb-5"
+          style="background: #5595d4 !important"
+          [disabled]="loginForm.invalid || (disableLogin && !DEBUG)"
+          (click)="login()"
+          >
+          <ng-container *ngIf="isLoading$ | async">
+            <span class="indicator-progress" [style.display]="'block'">
+              {{ "AUTH.GENERAL.WAITING" | translate }}
+              <span
+                class="spinner-border spinner-border-sm align-middle ms-2"
+              ></span>
+            </span>
+          </ng-container>
+          <ng-container *ngIf="!(isLoading$ | async)">
+            <span class="indicator-label"> Login </span>
+            <span> <i class="fas fa-sign-in-alt fs-4 flot-end-1"></i> </span>
+          </ng-container>
+        </button>
+
+        <!-- begin::Separator  -->
+        <!-- <div class="text-center text-muted text-uppercase fw-bolder mb-5">أو</div> -->
+        <!-- end::Separator  -->
+
+        <!-- <a
+          class="
+            btn btn-flex
+            flex-center
+            btn-light btn-lg
+            w-100
+            mb-5
+            cursor-pointer
+          "
+        >
+          <img
+            class="h-20px me-3"
+            src="./assets/media/svg/brand-logos/google-icon.svg"
+          />
+
+          Continue with Google
+        </a> -->
+      </div>
+      <!--end::Action-->
+    </form>
+  </div>
+  <div class="position-relative login-img-overlay">
+    <img src="./assets/media/login.png" alt="" class="custom-login-img" />
+    <div class="login-text">
+      <h1 class="text-white mb-12">
+        WELCOME! <br />
+        <span style="font-weight: normal">TO CAFM IMS SYSTEM</span>
+      </h1>
+
+      <p class="text-white">
+        <q>
+          THE BEST AND EASIEST CAFM - FULL DIGITAL AND TECHNOLOGICAL
+          TRANSFORMATION OF YOUR FACILITY MAINTENANCE AND YET A SIMPLE SOLUTION
+          THAT IS OUT OF THE BOX, EASY TO USE, AND SUPER EASY TO CUSTOMIZE, WITH
+          HIGH FLEXIBILITY, SAVING BOTH TIME AND EFFORT.
+        </q>
+      </p>
+    </div>
+
+    <img
+      src="./assets/media/logo_white.png"
+      alt=""
+      style="width: 30%"
+      class="login-logo mx-4"
+    />
+  </div>
+</div>
+<!--end::Form-->
+
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <span role="alert">
+        {{ message }}
+      </span>
+    </div>
+  </ng-container>
+</ng-template>

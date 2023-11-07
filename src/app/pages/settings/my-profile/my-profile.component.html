@@ -1,0 +1,374 @@
+<!-- <image-cropper></image-cropper -->
+
+<form [formGroup]="formProfile">
+  <!-- {{"MENU.NEW" | translate}} -->
+  <div class="card card-custom">
+    <!-- begin::Header -->
+    <div class="card-header card-header-stretch overflow-auto">
+      <div class="card-title m-0">
+        <h4 class="fw-bolder m-0">
+          {{ "MY_PROFILE.CARDHEADER" | translate }}
+        </h4>
+      </div>
+      <!-- <div class="card-title text-left">
+
+                  <button pButton type="button" (click)="onEditProfile()" label="حفظ" ></button>
+
+                </div> -->
+    </div>
+    <!-- end::Header -->
+    <!-- begin::Body -->
+    <div class="card-body" *ngIf="DataProfile$ | async as data">
+      <div class="row">
+        <div class="col-md-4 my2 d-flex">
+          <label class="style-Lable-MyProfile required mx-2">{{
+            "MY_PROFILE.AVATAR" | translate
+          }}</label>
+          <div
+            data-kt-image-input="true"
+            class="image-input image-input-outline"
+            (click)="showEditImage()"
+            style="background-image: url('./assets/media/avatars/avatar.svg')"
+          >
+            <div
+              class="image-input-wrapper w-125px h-125px"
+              [style.background-image]="
+                'url('+Avatar+
+                data?.AvatarPath +
+                ')'
+              "
+            ></div>
+          </div>
+        </div>
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-3 my-2">
+              <label class="style-Lable-MyProfile required">{{
+                "MY_PROFILE.USER_ACCOUNT" | translate
+              }}</label>
+              <div class="input-group">
+                <input
+                  type="text"
+                  (change)="ActionChange()"
+                  (blur)="onEditProfile()"
+                  formControlName="UserName"
+                  class="form-control form-control-lg mb-3 mb-lg-0"
+                />
+              </div>
+            </div>
+            <div class="col-md-3 my-2">
+              <label class="style-Lable-MyProfile required">{{
+                "MY_PROFILE.FIRST_NAME" | translate
+              }}</label>
+              <div class="input-group">
+                <input
+                  type="text"
+                  (change)="ActionChange()"
+                  (blur)="onEditProfile()"
+                  formControlName="FirstName"
+                  class="form-control form-control-lg mb-3 mb-lg-0"
+                />
+              </div>
+            </div>
+            <div class="col-md-3 my-2">
+              <label class="style-Lable-MyProfile required">{{
+                "MY_PROFILE.LAST_NAME" | translate
+              }}</label>
+              <div class="input-group">
+                <input
+                  type="text"
+                  (change)="ActionChange()"
+                  (blur)="onEditProfile()"
+                  formControlName="LastName"
+                  class="form-control form-control-lg mb-3 mb-lg-0"
+                />
+              </div>
+            </div>
+            <div class="col-md-3 my-2">
+              <label class="style-Lable-MyProfile required">{{
+                "MY_PROFILE.EMAIL" | translate
+              }}</label>
+              <div class="input-group">
+                <input
+                  type="text"
+                  (change)="ActionChange()"
+                  (blur)="onEditProfile()"
+                  formControlName="Email"
+                  class="form-control form-control-lg mb-3 mb-lg-0"
+                />
+              </div>
+            </div>
+            <div class="col-md-3 my-2">
+              <label class="style-Lable-MyProfile ">
+                {{ "MY_PROFILE.PHONE" | translate }}</label
+              >
+              <div class="input-group">
+                <input
+                  type="text"
+                  (change)="ActionChange()"
+                  (blur)="onEditProfile()"
+                  formControlName="PhoneNumber"
+                  class="form-control form-control-lg mb-3 mb-lg-0"
+                />
+              </div>
+            </div>
+            <div class="col-md-3 my-2">
+              <label class="style-Lable-MyProfile required">
+                {{ "MY_PROFILE._2W_AUTH" | translate }}</label
+              >
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  (change)="this.actionChange = true; onEditProfile()"
+                  formControlName="TwoFactorEnabled"
+                >
+                  <option [value]="true">
+                    {{ "MY_PROFILE.ENABLED" | translate }}
+                  </option>
+                  <option [value]="false">
+                    {{ "MY_PROFILE.NOT_ENABLED" | translate }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3 my-2">
+              <label class="style-Lable-MyProfile required">
+                {{ "MY_PROFILE.EMAIL_NOTIFICATIONS" | translate }}</label
+              >
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  (change)="this.actionChange = true; onEditProfile()"
+                  formControlName="IsEmailNotification"
+                >
+                  <option [value]="true">
+                    {{ "MY_PROFILE.ENABLED" | translate }}
+                  </option>
+                  <option [value]="false">
+                    {{ "MY_PROFILE.NOT_ENABLED" | translate }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3 my-2">
+              <label class="style-Lable-MyProfile required">
+                {{ "MY_PROFILE.LANGUAGE" | translate }}</label
+              >
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select"
+                  (change)="this.actionChange = true; onEditProfile()"
+                  formControlName="LanguageCode"
+                >
+                  <option value="ar">عربي</option>
+                  <option value="en">En</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-8 my-2">
+            <label class="style-Lable-MyProfile ">
+              {{ "MY_PROFILE.SIGNATURE" | translate }}</label
+            >
+            <div class="signitures-components">
+              <canvas
+                #signature
+                [style.background-image]="
+                  'url('+Avatar+
+                  imgCanvas +
+                  ')'
+                "
+                class="border border-gray-400"
+              ></canvas>
+
+              <div class="actions">
+                <!-- <a pTooltip='{{"MY_PROFILE.SAVE" | translate}}' (click)="saveCanvas()" tooltipPosition="top"
+                  class="btn btn-icon btn-success"><i class="fas fa-check"></i></a> -->
+
+                <!-- <a pTooltip='{{"MY_PROFILE.CLEAR" | translate}}' tooltipPosition="top" (click)="clearCanvas()"
+                  class="btn btn-icon btn-light"><i class="fas fa-eraser"></i></a> -->
+
+                <button
+                  type="button"
+                  class="btn  btn-primary"
+                  (click)="saveCanvas()"
+                >
+                  <i class="fa fa-save"></i>
+                  <span> {{ "MY_PROFILE.SAVE" | translate }} </span>
+                </button>
+
+                <button
+                  type="button"
+                  class="btn  btn-light mx-2"
+                  data-bs-dismiss="modal"
+                  (click)="clearCanvas()"
+                >
+                  <i class="fa fa-times"></i>
+                  <span> {{ "MY_PROFILE.CLEAR" | translate }} </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end::Body -->
+
+    <!-- begin::Footer -->
+    <!-- <div class="card-footer py-6">
+                <div class="row">
+                  <div class="col-lg-3"></div>
+                  <div class="col-lg-9">
+                    <button
+                      type="button"
+                      (click)="submitPreview()"
+                      class="btn btn-primary me-2"
+                      [disabled]="configLoading || resetLoading"
+                    >
+                      <ng-container *ngIf="!configLoading">
+                        <span class="indicator-label">Preview</span>
+                      </ng-container>
+
+                      <ng-container *ngIf="configLoading">
+                        <span class="indicator-progress" [style.display]="'block'">
+                          Please wait...{{ " " }}
+                          <span
+                            class="spinner-border spinner-border-sm align-middle ms-2"
+                          ></span>
+                        </span>
+                      </ng-container>
+                    </button>
+
+                    <button
+                      type="button"
+                      id="kt_layout_builder_reset"
+                      class="btn btn-active-light btn-color-muted"
+                      (click)="resetPreview()"
+                      [disabled]="configLoading || resetLoading"
+                    >
+                      <ng-container *ngIf="!resetLoading">
+                        <span class="indicator-label">Reset</span>
+                      </ng-container>
+
+                      <ng-container *ngIf="resetLoading">
+                        <span class="indicator-progress" [style.display]="'block'">
+                          Please wait...{{ " " }}
+                          <span
+                            class="spinner-border spinner-border-sm align-middle ms-2"
+                          ></span>
+                        </span>
+                      </ng-container>
+                    </button>
+                  </div>
+                </div>
+              </div> -->
+
+    <!-- end::Footer -->
+  </div>
+</form>
+<p-dialog
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  header="{{ 'MY_PROFILE.MODALS.EDIT_AVATAR.MODAL_TITLE' | translate }}"
+  [(visible)]="display"
+  [style]="{ width: '40vw' }"
+>
+  <div class="container "  style="overflow-y: scroll !important; max-height: 40vh">
+    <div class="card">
+      <!-- <div class="card-header"> -->
+      <!-- style="margin-top: 15px;" -->
+      <!-- </div> -->
+      <div class="card-body">
+        <input type="file" (change)="fileChangeEvent($event)" />
+        <div class="row">
+          <div class="text-center col-md-8">
+            <!-- <h5>Format Picture</h5> -->
+            <image-cropper
+              [imageChangedEvent]="imageChangedEvent"
+              [maintainAspectRatio]="true"
+              [aspectRatio]="4 / 4"
+              [resizeToWidth]="150"
+              format="png"
+              (imageCropped)="imageCropped($event)"
+              (imageLoaded)="imageLoaded()"
+              (cropperReady)="cropperReady()"
+              (loadImageFailed)="loadImageFailed()"
+            ></image-cropper>
+          </div>
+          <!-- <div class="text-center col-md-4">
+                        <h5>Preview</h5>
+                        <img [src]="croppedImage" />
+                    </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <ng-template pTemplate="footer"> -->
+
+  <div class="dialog-footer">
+    <div class="footer-actions">
+      <button type="button" class="btn  btn-primary" (click)="saveImg()">
+        <i class="fa fa-save"></i>
+        <span> {{ "MY_PROFILE.MODALS.EDIT_AVATAR.SAVE" | translate }} </span>
+      </button>
+      <!-- <button pButton type="button" (click)="saveImg()" label='{{"MY_PROFILE.MODALS.EDIT_AVATAR.SAVE" | translate}}'></button> -->
+    </div>
+  </div>
+  <!-- </ng-template> -->
+</p-dialog>
+
+<script>
+  FilePond.registerPlugin(
+    FilePondPluginFileValidateType,
+    FilePondPluginImageExifOrientation,
+    FilePondPluginImagePreview,
+    FilePondPluginImageCrop,
+    FilePondPluginImageResize,
+    FilePondPluginImageTransform,
+    FilePondPluginImageEdit
+  );
+
+  const editor = {
+    // Called by FilePond to edit the image
+    // - should open your image editor
+    // - receives file object and image edit instructions
+    open: (file, instructions) => {
+      // open editor here
+
+    },
+
+    // Callback set by FilePond
+    // - should be called by the editor when user confirms editing
+    // - should receive output object, resulting edit information
+    onconfirm: (output) => {},
+
+    // Callback set by FilePond
+    // - should be called by the editor when user cancels editing
+    oncancel: () => {},
+
+    // Callback set by FilePond
+    // - should be called by the editor when user closes the editor
+    onclose: () => {},
+  };
+
+  FilePond.create(document.querySelector(".filepond"), {
+    labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
+    imagePreviewHeight: 170,
+    imageCropAspectRatio: "1:1",
+    imageResizeTargetWidth: 200,
+    imageResizeTargetHeight: 200,
+    styleLoadIndicatorPosition: "center bottom",
+    styleProgressIndicatorPosition: "right bottom",
+    allowImageEdit: true,
+    styleImageEditButtonEditItemPosition: "	bottom center",
+    imageEditAllowEdit: true,
+    imageEditIconEdit:
+      '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 17h1.586l7-7L15.5 8.414l-7 7V17zm-1.707-2.707l8-8a1 1 0 0 1 1.414 0l3 3a1 1 0 0 1 0 1.414l-8 8A1 1 0 0 1 10.5 19h-3a1 1 0 0 1-1-1v-3a1 1 0 0 1 .293-.707z" fill="currentColor" fill-rule="nonzero"></path></svg>',
+    // Use Doka.js as image editor
+    imageEditEditor: editor.open(),
+  });
+</script>

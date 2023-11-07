@@ -1,0 +1,79 @@
+<ng-container [ngSwitch]="TypeField">
+  <!-- نص -->
+  <ng-container *ngSwitchCase="1">
+    <i
+      class="far fa-keyboard"
+      pTooltip="{{ 'DYNAMIC_FIELD.STRING' | translate }}"
+      tooltipPosition="top"
+    ></i>
+  </ng-container>
+
+  <!-- رقم -->
+  <ng-container *ngSwitchCase="2">
+    <i
+      class="fas fa-list-ol"
+      pTooltip="{{ 'DYNAMIC_FIELD.NUMBER' | translate }}"
+      tooltipPosition="top"
+    ></i>
+  </ng-container>
+
+  <!-- تاريخ -->
+  <ng-container *ngSwitchCase="3">
+    <i
+      class="far fa-calendar-alt"
+      pTooltip="{{ 'DYNAMIC_FIELD.DATE' | translate }}"
+      tooltipPosition="top"
+    ></i>
+  </ng-container>
+
+  <!-- عملة -->
+  <ng-container *ngSwitchCase="4">
+    <i
+      class="fas fa-coins"
+      pTooltip="{{ 'DYNAMIC_FIELD.CURRENCY' | translate }}"
+      tooltipPosition="top"
+    ></i>
+  </ng-container>
+
+  <!-- ملف -->
+  <ng-container *ngSwitchCase="5">
+    <!-- <i class="fas fa-check active"></i> -->
+    <i
+      class="far fa-file-alt"
+      pTooltip="{{ 'DYNAMIC_FIELD.FILE' | translate }}"
+      tooltipPosition="top"
+    ></i>
+  </ng-container>
+
+  <!-- صورة -->
+  <ng-container
+    *ngSwitchCase="6"
+    pTooltip="{{ 'DYNAMIC_FIELD.IMAGE' | translate }}"
+    tooltipPosition="top"
+  >
+    <i class="fas fa-camera"></i>
+  </ng-container>
+
+  <!-- قائمة منسدلة -->
+  <ng-container
+    *ngSwitchCase="7"
+    pTooltip="{{ 'DYNAMIC_FIELD.LIST' | translate }}"
+    tooltipPosition="top"
+  >
+    <i class="fas fa-list-ol"></i>
+  </ng-container>
+
+  <!--  check -->
+  <ng-container *ngSwitchCase="8">
+    <i class="fas fa-check"></i>
+  </ng-container>
+
+  <!-- ملاحظات -->
+  <ng-container
+    *ngSwitchCase="11"
+    pTooltip="{{ 'DYNAMIC_FIELD.NOTE' | translate }}"
+    tooltipPosition="top"
+  >
+    <i class="far fa-clipboard"></i>
+  </ng-container>
+</ng-container>
