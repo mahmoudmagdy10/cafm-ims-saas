@@ -1,0 +1,32 @@
+.task-complete-icon {
+  opacity: 0;
+  color: #50cd89;
+  position: absolute;
+  font-size: 2rem;
+  top: 33%;
+  left: 50%;
+  transform: translate(-50%,44%) !important;
+  animation: taskCompleteIconAnimate 2s ease forwards;
+}
+
+@keyframes taskCompleteIconAnimate {
+  100% {
+    opacity: 1;
+  }
+}
+
+.task-complete {
+  fill: none;
+  stroke-width: 5px;
+  stroke-dashoffset: 472;
+  stroke-dasharray: 472;
+  stroke: #50cd89;
+
+  animation: taskCompleteAnimate 2s ease forwards;
+}
+
+@keyframes taskCompleteAnimate {
+  100% {
+    stroke-dashoffset: 30;
+  }
+}

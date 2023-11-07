@@ -1,0 +1,64 @@
+.link-dialog{
+  cursor: pointer;
+  color: rgba(0, 0, 255, 0.662);
+}
+.min-w-90{
+  width: 90px;
+}
+.filter{
+  padding: 20px 30px;
+  .filter-btn{
+    float: right;
+  }
+  .users-inner{
+    float: left;
+  }
+}
+
+.filter-items-container .filter-item {
+  position: relative;
+  padding: 5px 15px;
+  color: rgb(148, 148, 148);
+  background-color: rgb(243, 243, 243);
+  border: 1px solid rgb(212, 212, 212);
+  border-radius: 5px;
+  margin: 0 3px;
+  font-size: 1rem;
+  transition: all 0.4s ease;
+
+  .filter-field {
+    font-weight: bold;
+  }
+  i {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    cursor: pointer;
+    &:hover {
+      color: rgb(204, 48, 48);
+    }
+  }
+
+  &:hover {
+    background-color: #e8e8e8;
+  }
+}
+
+// ********************************
+// icons color in tah card body
+.card-title i {
+  color: #66a9ed;
+}
+
+:host .pi-angle-double-left:hover,
+.pi-angle-double-right:hover {
+  background-color: #009ef7;
+  color: #fff;
+}
+
+.table-responsive{
+  min-height: 350px;
+}
+.link-report-btn{
+  padding: 6px 10px !important;
+}

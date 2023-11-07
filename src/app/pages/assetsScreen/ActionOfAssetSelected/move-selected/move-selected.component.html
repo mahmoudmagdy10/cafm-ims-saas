@@ -1,0 +1,78 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-random mx-1"></i>
+    {{ "ASSETS.TRANSFERESELECTEDMODAL.MODALTITLE" | translate }}
+  </h5>
+  <!-- (click)="Close()" -->
+  <!--begin::Close-->
+  <div class="close" >
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+
+<div class="modal-body" style="max-height: 400px; overflow-y: auto">
+  <div class="row mb-5">
+    <div class="col-12 col-md-6">
+      <label class="mb-2">
+        {{ "ASSETS.TRANSFERESELECTEDMODAL.TRANSFERTO" | translate }}
+      </label>
+      <p-dropdown  appendTo="body"
+        [options]="dataLocations"
+        [style]="{ minWidth: '130px', display: 'flex' }"
+        optionValue="LocationId"
+        optionLabel="LocationName"
+        [formControl]="LocationID"
+        [placeholder]="'GENERAL.SELECT' | translate"
+
+        [filter]="true"
+        filterBy="name"
+      >
+      </p-dropdown>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table
+      class="table table-rounded table-row-bordered border custom-table-style fs-6"
+    >
+      <thead>
+        <tr class="fw-bolder fs-6 text-gray-800">
+          <th>#</th>
+          <th>{{ "ASSETS.TRANSFERESELECTEDMODAL.ASSETNAME" | translate }}</th>
+          <th>{{ "ASSETS.TRANSFERESELECTEDMODAL.ASSETTYPE" | translate }}</th>
+          <th>{{ "ASSETS.TRANSFERESELECTEDMODAL.PROCEDURES" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of dataSelected; index as i">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.AssetName }}</td>
+          <td>{{ item.CategoryName }}</td>
+          <td>
+            <i
+              class="fas fa-trash-alt action-icon delete-icon"
+              ptooltip="حذف"
+              tooltipposition="top"
+              (click)="UnSelectedItem(item, i)"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal-footer position-relative">
+  <button class="btn btn-primary" (click)="TransferSelected()">
+    <i class="fas fa-random"></i>
+    {{ "ASSETS.TRANSFERESELECTEDMODAL.TRANSFERALL" | translate }}
+  </button>
+
+  <button class="btn btn-sm btn-secondary" (click)="Close()">
+    <i class="fas fa-times"></i>
+    {{ "ASSETS.TRANSFERESELECTEDMODAL.CANCEL" | translate }}
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

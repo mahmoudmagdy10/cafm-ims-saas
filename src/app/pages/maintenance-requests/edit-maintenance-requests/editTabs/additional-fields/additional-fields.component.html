@@ -1,0 +1,35 @@
+<ng-container  *ngIf="Codes$ | async as code">
+<!-- <div class="row justify-content-end mb-4">
+  <div> -->
+    <!-- <button
+    *ngIf="code?.PagePermissions?.WorkRequestGatesEdit"
+      class="btn btn-primary d-block me-auto h-100"
+      (click)="addFeild()"
+    >
+      <i class="fas fa-plus"></i>
+      {{
+        "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.ADDITIONALFIELDS.ADDFIELD"
+          | translate
+      }}
+    </button> -->
+  <!-- </div>
+</div> -->
+
+<div>
+  <ng-container *ngIf="loadingField$ | async; else bodyFieldTable">
+    <p-progressSpinner [style]="{ width: '40px' }"></p-progressSpinner>
+  </ng-container>
+  <ng-template #bodyFieldTable>
+    <app-view-field-in-item [dataItem]="data" [IsNotChangeValue]="true" [havePermission]="code?.PagePermissions?.WorkRequestGatesCommonFieldsEdit"></app-view-field-in-item>
+
+  </ng-template>
+</div>
+<confirm-delete
+  #confirmdeleteFieldInAsset
+  massage="{{ 'CONFIRMDELETE.FIELD' | translate }}"
+  (afterSave)="
+    confirmdeleteFieldInAsset.CloseModal(); $event ? deleteFieldInAsset() : ''
+  "
+>
+</confirm-delete>
+</ng-container>

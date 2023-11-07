@@ -1,0 +1,68 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fa fa-cog mx-1"></i>
+    {{ "Report_Managment" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body" style="max-height: 400px; overflow-y: auto">
+  <div class="row">
+    <div
+      [class]="item.FilterType == 7 ? 'col-12' : 'col-6'"
+      *ngFor="let item of FiltersParameters; index as i"
+    >
+      <div class="form-group mb-3">
+        <label class="mb-2">{{ item.FilterName + " " }} </label>
+        <field-dynamic
+          [isList]="item?.isList"
+          [ListSourceName]="item?.ListSourceName"
+          [TypeField]="item.FilterType"
+          (SaveNewValue)="item.value = $event"
+          [min]="
+            item?.FilterType == 3 && FiltersParameters[i - 1]?.FilterType == 3
+              ? FiltersParameters[i - 1]?.value
+              : ''
+          "
+        ></field-dynamic>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer position-relative">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-dismiss="modal"
+    (click)="filter()"
+  >
+    <!-- {{ "MAINTENANCEREQUESTS.COPYSETTINGSMODAL.SAVE" | translate }} -->
+    <span>
+      <span> <i class="fa fa-print"></i> </span>
+      <span> {{ "Print" | translate }} </span>
+    </span>
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <!-- {{ "MAINTENANCEREQUESTS.COPYSETTINGSMODAL.CANCEL" | translate }} -->
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span>
+        {{ "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_MODAL.CANCEL" | translate }}
+      </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

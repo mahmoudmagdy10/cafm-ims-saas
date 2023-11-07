@@ -1,0 +1,138 @@
+<div class="card card-custom">
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <i class="fas fa-users-cog fa-lg"></i>
+      <h4 class="fw-bolder mb-0 mx-2">{{ "userLog.userLogs" | translate }}</h4>
+      <p-badge
+        [value]="UserNameLogs?.FirstName + UserNameLogs?.LastName"
+        severity="info"
+        size="large"
+      ></p-badge>
+      <!-- <span>{{ UserNameLogs?.FirstName }} {{ UserNameLogs?.LastName }}</span> -->
+    </div>
+    <div class="card-header-actions">
+      <div class="card-header-actions d-none d-md-flex">
+        <div class="filter mx-1">
+          <button (click)="openFilter()" class="general-btn filter-btn">
+            <i class="fas fa-filter"></i>
+            {{ "USERS.FLTERMODAL.BUTTONNAME" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="filter-items-container d-flex mb-3" *ngIf="showLabelsFilter">
+    <i class="fas fa-times action-icon delete-icon" (click)="clearFilter()"></i>
+
+    <span class="filter-item">
+      <div (click)="openFilter()">
+        <label class="lableInputModle" *ngIf="filterData?.Name">
+          {{ "userLog.ItemName" | translate }}:
+        </label>
+        <label
+          class="filter-field ms-3 me-1 lableInputModle"
+          *ngIf="filterData?.Name"
+          >{{ filterData?.Name }}</label
+        >
+      </div>
+    </span>
+  </div>
+  <div *ngIf="isLoading; else TableUserLogs">
+    <div class="spinner-overlay">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+  <ng-template #TableUserLogs>
+    <div class="table-responsive">
+      <table
+        class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+      >
+        <thead class="fw-bolder">
+          <tr>
+            <th scope="col" class="px-0">#</th>
+            <th scope="col" class="px-0" style="width: 15%">
+              {{ "userLog.userName" | translate }}
+            </th>
+            <th scope="col" style="width: 10%">
+              <span class="mx-2"> {{ "userLog.Department" | translate }} </span>
+            </th>
+            <th scope="col" class="d-none d-md-table-cell" style="width: 20%">
+              {{ "userLog.LogDetails" | translate }}
+            </th>
+            <th scope="col" style="width: 17%">
+              <span class="mx-2"> {{ "userLog.ItemName" | translate }} </span>
+            </th>
+            <th scope="col" style="width: 17%">
+              <span class="mx-2"> {{ "Location Name" | translate }} </span>
+            </th>
+            <th scope="col" class="d-none d-md-table-cell">
+              {{ "userLog.Date" | translate }}
+            </th>
+            <!-- <th scope="col">نوع الاشتراك
+            </th> -->
+            <!-- <th scope="col">
+              {{ "userLog.IsManual" | translate }}
+            </th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let log of userLogsData; index as i">
+            <td>
+              <span class="reorder-row-icon">
+                {{
+                  i +
+                    1 +
+                    (selectedPage - 1) * allDataRequest.Setting[0].RowCount
+                }}
+              </span>
+            </td>
+            <td>
+              {{ log.UserName }}
+            </td>
+            <td>
+              {{ log.ComponentTypeDesc }}
+            </td>
+            <td>
+              {{ log.LogDetails }}
+            </td>
+            <td>
+              {{ log.itemName }}
+            </td>
+            <td>
+              {{ log.LocationName }}
+            </td>
+            <td>
+              {{ log.LogDate | date : "dd/MM/yyyy HH:mm" }}
+            </td>
+            <!-- <td align="center">
+              <i *ngIf="log.IsManual" class="fa fa-check margin-end-1 text-success"></i>
+              <i *ngIf="!log.IsManual" class="fa fa-times text-danger" aria-hidden="true"></i>
+            </td> -->
+          </tr>
+          <!-- ------------------------------------------------------- -->
+        </tbody>
+      </table>
+      <app-pagination-component
+        [Setting]="allDataRequest?.Setting"
+        [(selectedPage)]="selectedPage"
+        (selectedPageChange)="changeListPage()"
+        (selectedRowCount)="selectedRowCount($event)"
+      ></app-pagination-component>
+    </div>
+  </ng-template>
+  <p-dialog
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    header="{{ 'BILLS.MODALS.FILTER.MODAL_TITLE' | translate }}"
+    [(visible)]="showFilter"
+    [style]="{ width: '35vw' }"
+  >
+    <app-filter-logs
+      [userId]="userId"
+      (handleClickFilter)="getDataLogsFilter($event)"
+      (cancel)="closeFilter()"
+      [showLabelsFilter]="showLabelsFilter"
+    ></app-filter-logs>
+  </p-dialog>
+</div>

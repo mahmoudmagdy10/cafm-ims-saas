@@ -1,0 +1,148 @@
+
+
+<div style="width: 900px;">
+  <div class="row " >
+    <div class="col-md-3">
+      <table class="table">
+        <thead style="border: none !important;">
+          <tr style="background-color:#f6f6f6;">
+            <th scope="col" style="color:#262626;font-size: 14px;font-family: almarai;font-weight: 600;">الخدمات</th>
+            <th scope="col" style="color:#262626;font-size: 14px;font-family: almarai;font-weight: 600;">الإجراء</th>
+
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <th style="color:#262626;font-size: 14px;font-family: almarai;font-weight: 600;">خدمة 1</th>
+            <td style="color:#262626;font-size: 14px;font-family: almarai;font-weight: 600;">
+              <mat-checkbox class="example-margin"></mat-checkbox>
+            </td>
+
+
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-6">
+      <form>
+        <div class="container m-3">
+
+          <div class="row mt-5">
+            <div class="col-md-6">
+              <label
+                style="font-family:almarai!important;font-weight:600;color:#262626;padding-bottom:10px;">تاريخ
+                البدء</label>
+              <div class="input-group">
+                <input  class="form-control m-input" placeholder="dd-mm-yy" dateFormat="dd-mm-yy" type="datetime" bsDatepicker>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label
+                style="font-family:almarai!important;font-weight:600;color:#262626;padding-bottom:10px;">تاريخ
+                الإنتهاء</label>
+              <div class="input-group">
+                <input  class="form-control m-input" placeholder="dd-mm-yy" dateFormat="dd-mm-yy" type="datetime" bsDatepicker>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-5">
+            <div class="col-md-6">
+              <label class="required"
+                style="font-family:almarai!important;font-weight:600;color:#262626;padding-bottom:10px;">نوع الاشتراك</label>
+              <div class="input-group">
+                <select class="browser-default form-control custom-select h w-100" formControlName="SubscriptionTypeId">
+                  <option>الدولة</option>
+                  <option>الدولة</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <label
+                style="font-family:almarai!important;font-weight:600;color:#262626;padding-bottom:10px;">إجمالي
+                المبلغ</label>
+              <div class="input-group">
+                <input type="number" [min]="0" class="form-control" />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <label
+                style="font-family:almarai!important;font-weight:600;color:#262626;padding-bottom:10px;">نوع
+                العملة</label>
+              <div class="input-group">
+                <select class="browser-default form-control custom-select h w-100">
+                  <option>دولار</option>
+                  <option>شيكل</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row mt-5">
+
+            <div class="col-md-4">
+              <label
+                style="font-family:almarai!important;font-weight:600;color:#262626;padding-bottom:10px;">عدد
+                المستخدمين</label>
+              <div class="input-group">
+                <input type="number" [min]="0" class="form-control" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label
+                style="font-family:almarai!important;font-weight:600;color:#262626;padding-bottom:10px;">عدد
+                الأصول</label>
+              <div class="input-group">
+                <input type="number" [min]="0" class="form-control" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label
+                style="font-family:almarai!important;font-weight:600;color:#262626;padding-bottom:10px;">عدد
+                المواقع</label>
+              <div class="input-group">
+                <input type="number" [min]="0" class="form-control" />
+              </div>
+            </div>
+
+          </div>
+          <div class="row mt-5" style="text-align:left;">
+            <div class="col-md-6" style="margin-right:auto;">
+              <button
+                style="margin-left:5px;font-family:Almarai!important;font-weight:600;color:#fff;background-color:#0080ff;font-size: 16px;padding:7px 15px!important;border:none;border-radius:3px;">
+                حفظ
+                <i class="fas fa-save" style="color:#fff;font-size:16px;padding-right:10px;"></i>
+              </button>
+              <button
+                style="margin-left:5px;font-family:Almarai!important;font-weight:600;color:#fff;background-color:#262626;font-size: 16px;padding:7px 15px!important;border:none;border-radius: 3px;">
+                إلغاء
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card card-dashed flex-center min-w-175px my-3 p-6" style="border-color:#0080ff;">
+        <p class="fs-4 fw-bold  pb-1 px-2" style="color:#0080ff;font-weight:600!important;font-family:Almarai!important;">اسم الشركة</p>
+        <p style="border-radius: 5px;padding: 5px 10px;color:#fff;font-size: 14px;font-family: almarai;font-weight: 600;background-color:#00cc00;">
+          مفعلة
+        </p>
+        <p class="fs-4 fw-bold  pb-1 px-2" style="font-size:14px;color:#262626;font-weight:600!important;font-family:Almarai!important;">
+          <span >موعد آخر اشتراك :</span>
+          <br>
+          <span style="text-align: center;padding-top: 5px;">12/25/2020</span>
+        </p>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+

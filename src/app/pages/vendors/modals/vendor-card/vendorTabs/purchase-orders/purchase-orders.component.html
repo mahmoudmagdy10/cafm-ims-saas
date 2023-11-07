@@ -1,0 +1,52 @@
+<div class="row mb-3">
+  <div class="col-12 col-md-4 mb-3 mb-md-0">
+    <input
+      type="text"
+      placeholder="{{
+        'VENDORS.MODALS.VENDOR_CARD_MODAL.PO_TAB.SEARCH' | translate
+      }}"
+      class="form-control form-control-sm"
+    />
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table
+    class="table table-rounded table-row-bordered border custom-table-style fs-6"
+  >
+    <thead>
+      <tr class="fw-bolder fs-6 text-gray-800">
+        <th>
+          {{
+            "VENDORS.MODALS.VENDOR_CARD_MODAL.PO_TAB.TABLE.PURCHASE_ORDER_NUMBER"
+              | translate
+          }}
+        </th>
+        <th>
+          {{
+            "VENDORS.MODALS.VENDOR_CARD_MODAL.PO_TAB.TABLE.PURCHASE_ORDER_NAME"
+              | translate
+          }}
+        </th>
+        <th>
+          {{ "VENDORS.MODALS.VENDOR_CARD_MODAL.PO_TAB.TABLE.DATE" | translate }}
+        </th>
+        <th>
+          {{
+            "VENDORS.MODALS.VENDOR_CARD_MODAL.PO_TAB.TABLE.ORDER_TYPE"
+              | translate
+          }}
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of dataCard?.PurchaseOrders">
+        <td>{{ item.PONumber }}</td>
+        <td>{{ item.POName }}</td>
+        <td>{{ item.RequestDate | date : "dd/MM/yyyy" }}</td>
+        <td>{{ item.POStatus }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

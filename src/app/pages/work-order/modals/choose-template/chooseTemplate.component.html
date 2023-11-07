@@ -1,0 +1,47 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="far fa-square mx-1"></i>
+    {{ "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.CHOOSE_TEMPLATE_MODAL.MODAL_TITLE" |
+    translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body">
+
+  <!-- templates list -->
+  <label class="mb-1 required">
+    {{ "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.CHOOSE_TEMPLATE_MODAL.TEMPLATES_LIST" |
+    translate }}
+  </label>
+  <p-dropdown  appendTo="body" [style]="{ minWidth: '130px', display: 'flex' }" optionLabel="" optionValue=""
+    [placeholder]='"PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.CHOOSE_TEMPLATE_MODAL.SELECT" | translate'
+    formControlName="">
+  </p-dropdown>
+
+</div>
+
+<div class="modal-footer position-relative">
+  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+    <span>
+      <span> <i class="fa fa-save"></i> </span>
+      <span> {{ "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.CHOOSE_TEMPLATE_MODAL.SAVE" |
+        translate }} </span>
+    </span>
+  </button>
+
+  <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal" (click)="Close()">
+    <span>
+      <span> <i class="fa fa-times"></i> </span>
+      <span> {{ "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.INSTRUCTIONS_TAB.MODALS.CHOOSE_TEMPLATE_MODAL.CANCEL" |
+        translate }} </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

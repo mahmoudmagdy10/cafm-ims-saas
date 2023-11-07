@@ -1,0 +1,32 @@
+<ng-container *ngIf="itemEdit$ | async as item">
+  <div class="modal-body" style="max-height: 80vh; overflow-y: auto">
+    <p-tabView>
+      <!-- تاب البيانات الاساسية -->
+      <p-tabPanel header="{{ 'PM.MODAL.PM_CARD.BASIC_DATA' | translate }}">
+        <app-basic-data [itemEdit]="item"></app-basic-data>
+      </p-tabPanel>
+
+      <!-- تاب تعديل التعليمات -->
+      <p-tabPanel
+        header="{{ 'PM.MODAL.PM_CARD.EDIT_INSTRUCTIONS' | translate }}"
+      >
+        <edit-instructionPMS></edit-instructionPMS>
+      </p-tabPanel>
+
+      <!-- تاب الجدولة -->
+      <p-tabPanel header="{{ 'PM.MODAL.PM_CARD.SCHEDULING' | translate }}">
+        <app-scheduling [itemEdit]="item"></app-scheduling>
+      </p-tabPanel>
+
+      <!-- تاب المواعيد القادمة -->
+      <p-tabPanel header="{{ 'PM.MODAL.PM_CARD.UPCOMING_TIMES' | translate }}">
+        <app-up-coming-time [itemEdit]="item"></app-up-coming-time>
+      </p-tabPanel>
+
+      <!-- تاب QR -->
+      <p-tabPanel header="QR">
+        <app-qr-code [itemEdit]="item"></app-qr-code>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</ng-container>

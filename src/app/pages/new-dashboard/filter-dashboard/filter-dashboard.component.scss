@@ -1,0 +1,42 @@
+
+.row.equal-height > .col-4,
+.row.equal-height > .col-8 {
+    display: flex;
+    flex-direction: column;
+}
+.row.equal-height {
+  display: flex;
+}
+
+.col-4.last-days-section,
+.col-8.date-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* To equally space out children */
+}
+
+.last-days-section .form-check-input {
+  opacity: 0;
+  position: absolute;
+}
+.last-days-section .form-check-label {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 150px; /* Adjust based on desired width */
+  text-align: center; /* Center the text horizontally */
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.last-days-section .form-check-input:checked + .form-check-label {
+  background: #5797dd; /* Change to desired color */
+  color: white;       /* Text color */
+}
+.last-days-section .form-check-label:hover {
+  background: #f6f6f6; /* Light gray background on hover */
+}
+.last-days-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

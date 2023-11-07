@@ -1,0 +1,142 @@
+<!-- <app-view-data-filter [componentType]="'PPM'"></app-view-data-filter> -->
+<ng-container *ngIf="pmsData$ | async as data; else loading">
+  <div class="table-responsive" *ngIf="CodeObz$ | async as codes">
+    <table
+      class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+    >
+      <thead>
+        <tr class="fw-bolder fs-6 text-gray-800">
+          <th>#</th>
+          <th>{{ "PM.TABLE.PM_NAME" | translate }}</th>
+          <th>{{ "PM.TABLE.ASSET" | translate }}</th>
+          <th>{{ "CREATED_DATE" | translate }}</th>
+          <th>
+            {{ "PREVENTIVE_TASKS_MANAGEMENT.PRIORITY_LEVEL" | translate }}
+          </th>
+
+          <th class="text-center">{{ "PM.TABLE.SCHEDULES" | translate }}</th>
+          <th>{{ "PM.TABLE.ASSIGNED_TO" | translate }}</th>
+          <th>{{ "GENERAL.PROCEDUERS" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data?.Data; index as i">
+          <td>
+            <span class="reorder-row-icon">
+              {{ i + 1 + RowCountPM * (selectedPage - 1) }}
+            </span>
+          </td>
+          <td>
+            <a
+              href="javascript:;"
+              (click)="
+                codes.PagePermissions?.PMEdit ||
+                codes.PagePermissions?.PMShowCard
+                  ? openCard.emit(item.ID)
+                  : ''
+              "
+            >
+              {{ item.TaskName }}
+            </a>
+          </td>
+          <td>{{ item.AssetName }}</td>
+          <td>
+            {{ item.CreatedDate | date : "dd/MM/yyyy HH:mm" }}
+          </td>
+
+          <td [style]="{ color: item.PriorityColor }">
+            {{ item.PriorityName }}
+            <!-- <i
+            class="fa fa-info-circle fa-lg"
+            [style]="{ color: item?.PriorityColor }"
+            [pTooltip]="item.PriorityName"
+          ></i> -->
+          </td>
+
+          <td class="text-center">
+            <!-- <i
+            [class]="item.PMSchedules?'far fa-calendar-alt fa-lg text-success cursor-pointer':'far fa-calendar-alt fa-lg text-danger cursor-pointer'"
+
+            (click)="schedules(item)"
+          ></i>
+          {{ item.PMSchedules?.length }} -->
+            <p-avatar
+              icon="pi pi-calendar"
+              pBadge
+              [value]="item.PMSchedules?.length || 0"
+              [severity]="item.PMSchedules ? 'success' : 'danger'"
+              styleClass="mr-2"
+            ></p-avatar>
+          </td>
+          <td>
+            {{ ArrayToString(item.TaskAssignmentTeamTxt) }}
+            {{ ArrayToString(item.TaskAssignmentUserTxt) }}
+          </td>
+          <td>
+            <div class="d-flex flex-nowrap">
+              <i
+                *ngIf="codes.PagePermissions?.PMStartWorkOrder"
+                class="fa fa-wrench action-icon position-relative primary-icon"
+                tooltipPosition="top"
+                pTooltip="{{ 'PM.TABLE.START_TASK' | translate }}"
+                (click)="CreateTask(item.ID, item.TaskAssignmentId)"
+              >
+                <i
+                  class="fa fa-plus"
+                  style="
+                    position: absolute;
+                    z-index: 1;
+                    bottom: 15px;
+                    left: 3px;
+                  "
+                ></i>
+              </i>
+
+              <!-- <i
+              tooltipPosition="top"
+              class="p-element fas fa-arrow-up action-icon"
+              pTooltip="{{ 'PM.TABLE.START_TASK' | translate }}"
+              (click)="CreateTask(item.ID,item.TaskAssignmentId)"
+            ></i> -->
+              <i
+                class="far fa-list-alt action-icon success-icon"
+                *ngIf="codes.PagePermissions?.PMPrint"
+                (click)="PMReportPrint(item)"
+                tooltipPosition="top"
+                pTooltip="{{ 'PM.TABLE.PPM_Report' | translate }}"
+              ></i>
+              <i
+                *ngIf="codes.PagePermissions?.PMUpcomingTimesEdit"
+                class="far fa-caret-square-down action-icon success-icon"
+                (click)="openCardTabUpComing.emit(item.ID)"
+                tooltipPosition="top"
+                pTooltip="{{ 'PM.TABLE.UPCOMMING_SCHEDULE' | translate }}"
+              ></i>
+
+              <i
+                *ngIf="codes.PagePermissions?.PMDelete"
+                tooltipPosition="top"
+                (click)="IDDeleted = item.ID; confirmdeletePMS.openModal()"
+                pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+                class="p-element fas fa-trash-alt action-icon delete-icon"
+              ></i>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <app-pagination-component
+      [Setting]="data?.Setting"
+      [(selectedPage)]="selectedPage"
+      (selectedPageChange)="changePage()"
+      (selectedRowCount)="selectedRowCount($event)"
+    ></app-pagination-component></div
+></ng-container>
+
+<confirm-delete
+  #confirmdeletePMS
+  massage="{{ 'PM.CARD_HEADER' | translate }}"
+  (afterSave)="$event ? deletePMS() : ''; confirmdeletePMS.CloseModal()"
+>
+</confirm-delete>
+<ng-template #loading> loading... </ng-template>

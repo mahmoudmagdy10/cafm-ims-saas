@@ -1,0 +1,82 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">{{"ASSETS.ASSETCARDMODAL.BASICDATATAB.ARCHIVE_VALUES_MODAL.MODALTITLE" | translate}}</h5>
+
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+
+<form>
+  <!-- begin dialog body -->
+  <ng-container *ngIf="Loading; else body">
+    <p-progressSpinner></p-progressSpinner>
+  </ng-container>
+  <ng-template #body>
+    <div class="modal-body">
+      <p-tabView *ngIf="this.FieldsHistroy$ | async as list">
+        <p-tabPanel header='{{"ASSETS.ASSETCARDMODAL.BASICDATATAB.ARCHIVE_VALUES_MODAL.TAB_TITLE" | translate}}'>
+          <div class="row">
+            <div class="col-12">
+              <div class="position-relative">
+                <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+                <span class="svg-icon svg-icon-3 svg-icon-gray-500 position-absolute top-50 translate-middle ms-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1"
+                      transform="rotate(45 17.0365 15.1223)" fill="black"></rect>
+                    <path
+                      d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                      fill="black"></path>
+                  </svg>
+                </span>
+                <!--end::Svg Icon-->
+                <input type="text" class="form-control form-control-solid ps-10" name="search" value="" placeholder='{{"ASSETS.ASSETCARDMODAL.BASICDATATAB.ARCHIVE_VALUES_MODAL.SEARCH" | translate}}' style="padding-inline-start: 30px" [formControl]="searchField" />
+              </div>
+            </div>
+          </div>
+
+          <table class="table table-rounded table-row-bordered border custom-table-style fs-6 mt-3">
+            <thead>
+              <tr class="fw-bolder fs-6 text-gray-800">
+                <th>#</th>
+                <th>{{"ASSETS.ASSETCARDMODAL.BASICDATATAB.ARCHIVE_VALUES_MODAL.TABLE.FIELD_NAME" | translate}}</th>
+                <th>{{"ASSETS.ASSETCARDMODAL.BASICDATATAB.ARCHIVE_VALUES_MODAL.TABLE.VALUE" | translate}}</th>
+                <th>{{"ASSETS.ASSETCARDMODAL.BASICDATATAB.ARCHIVE_VALUES_MODAL.TABLE.DATE_CREATED" | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="
+                  let item of list | filter: searchField.value;
+                  index as i
+                ">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.FieldName }}</td>
+                <td>{{ item.FieldValue }}</td>
+                <td>{{ item.ModifiedDate | date: "dd/MM/YYYY/HH:mm" }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </p-tabPanel>
+        <p-tabPanel header="رسم بياني" *ngIf="
+            (this.Params.FieldType == 2 || this.Params.FieldType == 4) &&
+            list.length > 0
+          ">
+          <p-chart type="line" [data]="basicData" [options]="basicOptions"></p-chart>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </ng-template>
+
+  <!-- begin dialog body -->
+</form>
+
+<!-- start footer -->
+<div class="modal-footer position-relative">
+  <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-light" (click)="Close()">
+    <i class="fa fa-times"></i>
+    <span>{{"ASSETS.ASSETCARDMODAL.BASICDATATAB.ARCHIVE_VALUES_MODAL.CANCEL" | translate}}</span>
+  </button>
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>
+<!-- end footer -->

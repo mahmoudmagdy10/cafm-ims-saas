@@ -1,0 +1,61 @@
+
+<div [style.direction]="pageDirection">
+
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fa fa-clipboard-list mx-1"></i>
+    {{
+      pageDirection == "rtl"
+        ? "عرض طلبات الصيانة"
+        : "Display Maintenance Requests"
+    }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="onClose()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body" style="max-height: 400px; overflow-y: auto">
+  <h4 class="text-center">
+    {{
+      pageDirection == "rtl"
+        ? " سيتم إرسال رابط بالطلبات المقدمة من طرفك إلى بريدك الإلكتروني "
+        : "A link to the applications submitted by you will be sent to your email"
+    }}
+  </h4>
+
+  <div class="form-group">
+    <label class="mb-1">
+      {{ pageDirection == "rtl" ? "بريدك الإلكتروني" : "Your Email" }}
+    </label>
+    <input type="email" class="form-control" [formControl]="formControl" />
+  </div>
+  <ng-container *ngIf="formControl?.errors">
+    <div class="errors">
+      <small
+        class="text-danger"
+        *ngIf="formControl?.errors?.['email'] && (formControl?.touched )"
+      >
+        {{
+          pageDirection == "rtl"
+            ? "البريد الالكتروني غير صحيح"
+            : "Invalid email"
+        }}
+      </small>
+    </div>
+  </ng-container>
+</div>
+
+<!-- begin dialog footer -->
+<div class="modal-footer position-relative">
+  <button class="btn btn-primary btn-sm" (click)="save()">
+    <span>
+      <i class="fas fa-paper-plane"></i>
+      <span> {{ pageDirection == "rtl" ? " إرسال" : " Send " }}</span>
+    </span>
+  </button>
+</div>
+</div>

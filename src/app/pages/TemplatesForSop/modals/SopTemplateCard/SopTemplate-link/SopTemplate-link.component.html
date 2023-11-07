@@ -1,0 +1,30 @@
+<ng-container *ngIf="itemEdit$ | async as item">
+  <div class="modal-body" style="max-height: 80vh; overflow-y: auto">
+    <p-tabView>
+      <!-- تاب البيانات الاساسية -->
+      <p-tabPanel header="{{ 'PM.MODAL.PM_CARD.BASIC_DATA' | translate }}">
+        <app-basic-data-SopTemplate
+          [itemEdit]="item"
+        ></app-basic-data-SopTemplate>
+      </p-tabPanel>
+
+      <!-- تاب تعديل التعليمات -->
+      <p-tabPanel
+        header="{{ 'PM.MODAL.PM_CARD.EDIT_INSTRUCTIONS' | translate }}"
+      >
+        <edit-instruction-SopTemplate></edit-instruction-SopTemplate>
+      </p-tabPanel>
+      <p-tabPanel
+        leftIcon="p-tabview-left-icon fa fa-clipboard-list mx-1"
+        header="{{
+          'PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.SPAREPARTS_USED_IN_MAINTENANCE_TAB.TAB_TITLE'
+            | translate
+        }}"
+      >
+        <spare-part-in-Template-SOP
+          [dataEdit]="item"
+        ></spare-part-in-Template-SOP>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</ng-container>

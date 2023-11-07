@@ -1,0 +1,123 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-users"></i>
+    {{ Data.name | translate }}
+  </h5>
+
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+
+<!-- begin dialog body -->
+<div
+  class="modal-body"
+  *ngIf="DataUsersAndTeams$ | async as items; else loading "
+  style="max-height: 80vh; overflow-y: auto"
+>
+  <div class="row mb-5">
+    <!--
+    <div class="col-lg-6" *ngIf="items.Teams as list">
+      <input
+        type="text"
+        [formControl]="SearchLocationTeams"
+         placeholder="{{ 'USERS.FLTERMODAL.SEARCH' | translate }}"
+        class="form-control form-control-sm ng-pristine ng-valid ng-touched mb-2"
+      />
+
+      <div class="teams-list">
+        <div class="title">
+          <i class="fas fa-user-tag fa-lg"></i>
+          <h5 class="mx-2 mb-0">
+            {{ "WORKTEAMS.TEAMSLIST" | translate }}
+          </h5>
+        </div>
+
+        <div class="team-items">
+          <div
+            class="teams-container"
+          >
+             <div
+              [ngClass]="item.Checked ? 'team active' : 'team'"
+              *ngFor="
+                let item of list;
+                index as i
+              "
+              (click)="
+                selectLocationTeams(item, i)
+              "
+            >
+              <div class="team-name">
+                <p class="mb-0 px-2">{{ item.Name }}</p>
+              </div>
+              <i class="fas fa-check checked_active"></i>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  -->
+
+    <!-- ******************************************* -->
+    <!-- ******************************************* -->
+    <!-- ******************************************* -->
+    <!-- ******************************************* -->
+    <!-- ******************************************* -->
+
+    <div class="col-lg-12" *ngIf="items.Users as list">
+      <input
+        type="text"
+        [formControl]="SearchLocationUsers"
+         placeholder="{{ 'USERS.FLTERMODAL.SEARCH' | translate }}"
+        class="form-control form-control-sm ng-pristine ng-valid ng-touched mb-2"
+      />
+
+      <div class="teams-list">
+        <div class="title">
+          <i class="fas fa-user-tag fa-lg"></i>
+          <h5 class="mx-2 mb-0">
+            {{ "WORKTEAMS.MEMBERSDETAILS" | translate }}
+          </h5>
+        </div>
+
+        <div class="team-items">
+          <div class="teams-container">
+            <div
+              [ngClass]="item.Checked ? 'team active' : 'team'"
+              *ngFor="
+                let item of list;
+                index as i
+              "
+              (click)="
+                selectLocationUsers(item, i)
+              "
+            >
+              <div class="team-name">
+                <p class="mb-0 px-2">{{ item.Name }}</p>
+              </div>
+              <i class="fas fa-check checked_active"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- begin dialog body -->
+
+<div class="modal-footer">
+  <button type="button" class="btn  btn-primary" (click)="onSave()">
+    {{ "WORKTEAMS.SAVE" | translate }}
+  </button>
+  <button
+    type="button"
+    class="btn  btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    {{ "WORKTEAMS.CANCEL" | translate }}
+  </button>
+</div>
+<ng-template #loading>loading....</ng-template>

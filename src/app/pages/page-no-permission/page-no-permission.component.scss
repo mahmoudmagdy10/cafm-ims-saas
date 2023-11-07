@@ -1,0 +1,26 @@
+h1.display-3 {
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+.lead {
+  font-size: 1.25rem;
+  margin-bottom: 25px;
+}
+
+.btn-outline-danger.btn-lg {
+  border-color: #dc3545;
+  color: #dc3545;
+  font-weight: bold;
+  padding: 12px 24px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-outline-danger.btn-lg:hover {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+.card {
+  max-width: 800px;
+}

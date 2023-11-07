@@ -1,0 +1,368 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="far fa-calendar-alt mx-1"></i>
+    {{ "PM.MODAL.SCHEDULES.MODAL_TITLE" | translate }}
+  </h5>
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::-->
+</div>
+
+<!-- begin dialog body -->
+<div class="modal-body" style="max-height: 80vh">
+  <form [formGroup]="schedulesForm">
+    <p-tabView [(activeIndex)]="ShedulerType">
+      <p-tabPanel header="{{ 'DAILY' | translate }}" [disabled]="disabled">
+        <div class="form-group">
+          <!-- <div class="d-flex align-items-center">
+            <span class="mx-3">
+              {{ "TIME" | translate }}
+            </span>
+            <input
+              type="time"
+              formControlName="TimeExecute"
+              class="form-control form-control-sm w-150px"
+            />
+          </div> -->
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="{{ 'WEEKLY' | translate }}" [disabled]="disabled">
+        <div class="form-group">
+          <div class="d-flex align-items-center">
+            <span class="mx-3"> {{ "PM.WEEK" | translate }} </span>
+            <!-- <input
+              type="time"
+              formControlName="scheduleTime"
+              class="form-control form-control-sm w-150px"
+            /> -->
+          </div>
+          <div class="mx-4 mb-4">
+            <div class="days">
+              <!-- Saturday -->
+              <div
+                class="form-check form-check-custom form-check-solid form-check-sm"
+                *ngFor="let item of daysOfWeek"
+              >
+                <input
+                  type="checkbox"
+                  class="form-check-input custom-checkbox-style mb-2"
+                  [checked]="item.checked"
+                  (change)="checkWeekDaysValue($event, item.id)"
+                />
+                <label class="form-check-label" for="Saturday">
+                  {{ item.name | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="{{ 'MONTHLY' | translate }}" [disabled]="disabled">
+        <div class="form-group">
+          <div class="d-flex align-items-center">
+            <span class="mx-3 required">
+              {{ "PM.MONTH" | translate }}
+              -
+              {{ "PM.MODAL.SCHEDULES.ON_THE" | translate }}
+            </span>
+            <p-dropdown
+              [placeholder]="'GENERAL.SELECT' | translate"
+              [style]="{ width: '100%', display: 'flex' }"
+              [options]="daysOfMonth"
+              formControlName="MonthDay"
+              optionValue="id"
+              optionLabel="name"
+              [filter]="false"
+            ></p-dropdown>
+            <span class="mx-3 required">
+              {{ "PM.DAY" | translate }}
+              -
+              {{ "PM.MODAL.SCHEDULES.ON_THE" | translate }}
+            </span>
+            <p-multiSelect
+              [style]="{ width: '100%', display: 'flex' }"
+              formControlName="WeekDays"
+              optionValue="id"
+              [optionLabel]="'name' | translate"
+              [options]="daysOfWeek"
+              [filter]="false"
+            ></p-multiSelect>
+
+            <!-- <div class="mx-4">
+              <input
+                type="time"
+                formControlName="scheduleTime"
+                class="form-control form-control-sm w-150px"
+              />
+            </div> -->
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="{{ 'QUARTERLY' | translate }}" [disabled]="disabled">
+        <div class="form-group">
+          <div class="d-flex align-items-center">
+            <span class="mx-3">
+              {{ "PM.YEAR" | translate }}
+              -
+              {{ "PM.MODAL.SCHEDULES.ON_THE" | translate }}
+            </span>
+            <p-dropdown
+              [placeholder]="'GENERAL.SELECT' | translate"
+              [style]="{ width: '100%', display: 'flex' }"
+              [options]="monthOfYear"
+              optionLabel="name"
+              optionValue="id"
+              [filter]="false"
+              formControlName="MonthNo"
+            ></p-dropdown>
+            <span class="mx-3">
+              {{ "PM.MONTH" | translate }}
+              -
+              {{ "PM.MODAL.SCHEDULES.ON_THE" | translate }}
+            </span>
+            <p-dropdown
+              [placeholder]="'GENERAL.SELECT' | translate"
+              [style]="{ width: '100%', display: 'flex' }"
+              [options]="daysOfMonth"
+              formControlName="MonthDay"
+              optionValue="id"
+              optionLabel="name"
+              [filter]="false"
+            ></p-dropdown>
+
+            <!-- <div class="mx-4">
+              <input
+                type="time"
+                formControlName="scheduleTime"
+                class="form-control form-control-sm w-150px"
+              />
+            </div> -->
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel
+        header="{{ 'HALF_YEARLY' | translate }}"
+        [disabled]="disabled"
+      >
+        <div class="form-group">
+          <div class="d-flex align-items-center">
+            <span class="mx-3">
+              {{ "PM.YEAR" | translate }}
+              -
+              {{ "PM.MODAL.SCHEDULES.ON_THE" | translate }}
+            </span>
+            <p-dropdown
+              [placeholder]="'GENERAL.SELECT' | translate"
+              [style]="{ width: '100%', display: 'flex' }"
+              [options]="monthOfYear"
+              optionLabel="name"
+              optionValue="id"
+              [filter]="false"
+              formControlName="MonthNo"
+            ></p-dropdown>
+            <span class="mx-3">
+              {{ "PM.MONTH" | translate }}
+              -
+              {{ "PM.MODAL.SCHEDULES.ON_THE" | translate }}
+            </span>
+            <p-dropdown
+              [placeholder]="'GENERAL.SELECT' | translate"
+              [style]="{ width: '100%', display: 'flex' }"
+              [options]="daysOfMonth"
+              formControlName="MonthDay"
+              optionValue="id"
+              optionLabel="name"
+              [filter]="false"
+            ></p-dropdown>
+
+            <!-- <div class="mx-4">
+              <input
+                type="time"
+                formControlName="scheduleTime"
+                class="form-control form-control-sm w-150px"
+              />
+            </div> -->
+          </div>
+        </div></p-tabPanel
+      >
+      <p-tabPanel header="{{ 'YEARLY' | translate }}" [disabled]="disabled">
+        <div class="form-group">
+          <div class="d-flex align-items-center">
+            <span class="mx-3">
+              {{ "PM.YEAR" | translate }}
+              -
+              {{ "PM.MODAL.SCHEDULES.ON_THE" | translate }}
+            </span>
+            <p-dropdown
+              [placeholder]="'GENERAL.SELECT' | translate"
+              [style]="{ width: '100%', display: 'flex' }"
+              [options]="monthOfYear"
+              optionLabel="name"
+              optionValue="id"
+              [filter]="false"
+              formControlName="MonthNo"
+            ></p-dropdown>
+            <span class="mx-3">
+              {{ "PM.MONTH" | translate }}
+              -
+              {{ "PM.MODAL.SCHEDULES.ON_THE" | translate }}
+            </span>
+            <p-dropdown
+              [placeholder]="'GENERAL.SELECT' | translate"
+              [style]="{ width: '100%', display: 'flex' }"
+              [options]="daysOfMonth"
+              formControlName="MonthDay"
+              optionValue="id"
+              optionLabel="name"
+              [filter]="false"
+            ></p-dropdown>
+
+            <!-- <div class="mx-4">
+              <input
+                type="time"
+                formControlName="scheduleTime"
+                class="form-control form-control-sm w-150px"
+              />
+            </div> -->
+          </div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+    <div class="form-group">
+      <div class="row mt-4">
+        <div class="col-12 col-md-3">
+          <label class="mb-2 required">
+            {{ "PM.MODAL.SCHEDULES.START_ON" | translate }}
+          </label>
+
+          <div class="form-group custom-datepicker">
+            <input
+              class="form-control"
+              [matDatepicker]="dateFrom"
+              type="datetime"
+              placeholder="dd-mm-yy"
+              formControlName="StartDate"
+              [min]="minDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="dateFrom"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #dateFrom></mat-datepicker>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-3">
+          <label class="mb-2 required">
+            {{ "PM.MODAL.SCHEDULES.UNTIL" | translate }}
+          </label>
+
+          <div class="form-group custom-datepicker">
+            <input
+              class="form-control"
+              [matDatepicker]="dateTo"
+              type="datetime"
+              placeholder="dd-mm-yy"
+              formControlName="EndDate"
+              [min]="minDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="dateTo"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #dateTo></mat-datepicker>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-3">
+          <label class="mb-2 required">
+            {{ "PM.MODAL.SCHEDULES.NUMBER_OF_DAYS" | translate }}
+          </label>
+          <div class="d-flex align-items-center">
+            <select class="form-select" formControlName="DueDateDay">
+              <option *ngFor="let item of dataDays" [value]="item">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+          <!-- <input
+            type="number"
+            class="form-control"
+            formControlName="DueDateDay"
+            placeholder="" -->
+        </div>
+        <div class="col-12 col-md-2">
+          <label class="mb-2 required">
+            {{ "PM.MODAL.SCHEDULES.TIME" | translate }}
+          </label>
+          <div class="d-flex align-items-center">
+            <input
+              type="time"
+              formControlName="ScheduleTime"
+              class="form-control form-control w-150px"
+            />
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="margin-end-3 mt-3 d-flex flex-wrap">
+            <div class="form-group margin-end-2 mb-2">
+              <label class="checkbox">
+                <input
+                  type="checkbox"
+                  class="form-check-input margin-end-1 custom-checkbox-style"
+                  formControlName="IsSkip"
+                />
+                {{ "SKIP_EVERY" | translate }}
+              </label>
+            </div>
+            <div
+              class="form-group margin-end-2 mb-2"
+              *ngIf="schedulesForm.controls['IsSkip'].value"
+            >
+              <input
+                type="number"
+                [min]="0"
+                formControlName="OccuranceNoToSkip"
+                class="form-control form-control-sm w-150px"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div
+  class="modal-footer position-relative"
+  *ngIf="!schedulesForm.get('ID')?.value"
+>
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-dismiss="modal"
+    (click)="createOrEditSchedules()"
+  >
+    <span>
+      <span> <i class="fa fa-save"></i> </span>
+      <span> {{ "GENERAL.SAVE" | translate }} </span>
+    </span>
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-sm btn-light"
+    data-bs-dismiss="modal"
+    (click)="Close()"
+  >
+    <span>
+      <span> <i class="fa fa-times" (click)="Close()"></i> </span>
+      <span> {{ "GENERAL.CANCEL" | translate }} </span>
+    </span>
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>

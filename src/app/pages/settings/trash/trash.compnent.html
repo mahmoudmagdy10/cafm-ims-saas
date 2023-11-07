@@ -1,0 +1,100 @@
+<ng-container *ngIf="Codes$ |async as code">
+<div class="card card-custom">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <i class="fas fa-trash-alt fa-lg"></i>
+      <h4 class="fw-bolder mb-0 mx-2">{{'TRACH.TRACH'|translate}}</h4>
+    </div>
+    <div class="card-header-actions"></div>
+  </div>
+  <!-- end::Header -->
+  <!-- begin::Body -->
+  <div class="card-body">
+    <div class="d-flex align-items-end justify-content-between mb-3">
+      <p-dropdown
+        appendTo="body"
+        optionLabel="Name"
+        optionValue="Code"
+        [formControl]="Category"
+        optionDisabled="inactive"
+        [options]="code.Category"
+        [placeholder]="'GENERAL.SELECT' | translate"
+        [style]="{width: '250px'}"
+      >
+      </p-dropdown>
+
+      <div class="statistics" *ngIf="DataRecycleBin as list">
+        <div class="count">
+          <span class="mx-3 text-gray-600"> {{'TRACH.AMOUNT'|translate}}</span>
+          <span
+            class="fw-bolder text-gray-800 fw-bolder text-gray-800 px-4 py-2 border rounded bg-light"
+            >{{list.length}}</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table
+        class="table table-rounded table-row-bordered border custom-table-style"
+      >
+        <thead class="fw-bolder">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">{{'TRACH.NAME'|translate}}</th>
+            <th scope="col">{{'TRACH.DATEDELETED'|translate}}</th>
+            <th scope="col" *ngIf="code?.PagePermissions?.RecycleBinRestore || code?.PagePermissions?.RecycleBinRestoreDelete">{{'TRACH.ACTIONS.ACTIONS'|translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <div *ngIf="loadingValue$()|async else DataRecycleBinTemOutlet">
+            <mat-spinner style="margin-top: 100px"></mat-spinner>
+          </div>
+          <ng-template #DataRecycleBinTemOutlet>
+            <div
+              *ngTemplateOutlet="DataRecycleBinTem;context:{DataRecycleBin:DataRecycleBin}"
+            ></div>
+          </ng-template>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- end::Body -->
+</div>
+<ng-template #DataRecycleBinTem let-DataRecycleBinTem="DataRecycleBin">
+  <tr
+    style="vertical-align: middle"
+    *ngFor="let item of DataRecycleBinTem index as i"
+  >
+    <td>{{i+1}}</td>
+    <td>{{item.Name}}</td>
+    <td>{{item.DeletedDate}}</td>
+    <td *ngIf="code?.PagePermissions?.RecycleBinRestore || code?.PagePermissions?.RecycleBinRestoreDelete">
+      <div class="actions d-flex flex-nowrap">
+        <button class="btn  btn-success me-1"
+          *ngIf="code?.PagePermissions?.RecycleBinRestore"
+          (click)="onReturn(item.ID)">
+          <i class="fas fa-undo me-0 ms-2"></i>
+          {{'TRACH.ACTIONS.RETURN' |translate}}
+        </button>
+        
+        <button
+          *ngIf="code?.PagePermissions?.RecycleBinRestoreDelete"
+          class="btn  btn-danger me-1"
+          (click)="idDelete=item.ID;confirmdelete.openModal()"
+        >
+          <i class="fas fa-trash-alt me-0 ms-2"></i>
+          {{'TRACH.ACTIONS.DELETEFINALY' |translate}}
+        </button>
+      </div>
+    </td>
+  </tr>
+</ng-template>
+<confirm-delete
+  #confirmdelete
+  massage="{{'CONFIRMDELETE.USER'|translate}}"
+  (afterSave)="$event?onDeleteFinaly():'';confirmdelete.CloseModal()"
+>
+</confirm-delete>
+</ng-container>

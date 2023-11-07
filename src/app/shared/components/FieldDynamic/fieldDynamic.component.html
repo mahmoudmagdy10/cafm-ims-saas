@@ -1,0 +1,275 @@
+<ng-container [ngSwitch]="TypeField">
+  <!-- نص -->
+  <ng-container *ngSwitchCase="1">
+    <ng-container *ngIf="!inSOP; else sopText">
+      <textarea
+        class="form-control form-control-sm"
+        style="height: 10%"
+        rows="1"
+        (blur)="saveValueFeild()"
+        [formControl]="valueFieldControl"
+      ></textarea>
+      <!-- <input
+        type="text"
+        class="form-control form-control-sm"
+        [formControl]="valueFieldControl"
+        (blur)="saveValueFeild()"
+      /> -->
+    </ng-container>
+    <ng-template #sopText>
+      <textarea
+        style="width: 100%"
+        cols="30"
+        rows="4"
+        [formControl]="valueFieldControl"
+        class="form-control"
+        (blur)="saveValueFeild()"
+      ></textarea>
+    </ng-template>
+  </ng-container>
+  <!-- رقم -->
+  <ng-container *ngSwitchCase="2">
+    <input
+      type="number"
+      [min]="0"
+      class="form-control"
+      [formControl]="valueFieldControl"
+      (blur)="saveValueFeild()"
+    />
+  </ng-container>
+  <!-- ألتاريخ -->
+  <ng-container *ngSwitchCase="3">
+    <div class="form-group custom-datepicker">
+      <input
+        class="form-control"
+        [matDatepicker]="picker"
+        type="datetime"
+        placeholder="dd-mm-yy"
+        [formControl]="valueFieldControl"
+        [min]="min"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker (closed)="saveValueFeild()" #picker></mat-datepicker>
+    </div>
+  </ng-container>
+  <!-- عملة -->
+  <ng-container *ngSwitchCase="4">
+    <input
+      type="number"
+      [min]="0"
+      class="form-control form-control-sm"
+      [formControl]="valueFieldControl"
+      (blur)="saveValueFeild()"
+    />
+  </ng-container>
+  <!-- ملف -->
+  <ng-container *ngSwitchCase="5">
+    <ng-container *ngIf="!inPublic; else FileInPublic">
+      <ng-container *ngIf="!loading; else load">
+        <p-fileUpload
+          #fileUpload
+          (onSelect)="onUpload(fileUpload)"
+          name="myfile[]"
+          mode="basic"
+          [auto]="true"
+          [multiple]="true"
+          [disabled]="readOnly"
+          accept="!application/zip,!application/x-rar-compressed,
+        application/pdf,application/msword,
+        application/vnd.ms-excel,  application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+        application/vnd.ms-powerpoint,
+        application/vnd.openxmlformats-officedocument.presentationml.presentation,
+        text/plain,"
+          [maxFileSize]="11.5 * 1024 * 1024"
+          invalidFileSizeMessage="حجم الملف يجب أن يكون أقل من 11.5 ميجابايت"
+        >
+        </p-fileUpload>
+      </ng-container>
+    </ng-container>
+    <ng-template #FileInPublic>
+      <p-fileUpload
+        #fileUpload
+        name="demo[]"
+        (onSelect)="onUpload(fileUpload)"
+        [multiple]="true"
+        [showUploadButton]="false"
+        accept="!application/zip,!application/x-rar-compressed
+        ,application/pdf,
+        application/msword,application/vnd.ms-excel,  application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+        application/vnd.ms-powerpoint,
+        application/vnd.openxmlformats-officedocument.presentationml.presentation,
+        text/plain,"
+        [maxFileSize]="11.5 * 1024 * 1024"
+        invalidFileSizeMessage="حجم الملف يجب أن يكون أقل من 11.5 ميجابايت"
+      >
+        <!-- accept="!application/zip,!application/x-rar-compressed,application/pdf" -->
+        <ng-template pTemplate="content">
+          <ul *ngIf="uploadedFiles.length">
+            <li *ngFor="let file of uploadedFiles">
+              {{ file.name }}
+              <!-- - {{ file.size }} bytes -->
+            </li>
+          </ul>
+        </ng-template>
+      </p-fileUpload>
+    </ng-template>
+  </ng-container>
+  <!-- صورة -->
+  <ng-container *ngSwitchCase="6">
+    <!-- <input type="file" class="form-control" [formControl]='valueFieldControl' (blur)="saveValueFeild()" /> -->
+    <ng-container *ngIf="!inPublic; else ImageInPublic">
+      <ng-container *ngIf="!loading; else load">
+        <p-fileUpload
+          #fileUpload
+          (onSelect)="onUpload(fileUpload)"
+          name="myfile[]"
+          [multiple]="true"
+          mode="basic"
+          [auto]="true"
+          accept="image/*"
+          [disabled]="readOnly"
+        >
+        </p-fileUpload
+      ></ng-container>
+    </ng-container>
+    <ng-template #ImageInPublic>
+      <p-fileUpload
+        #fileUpload
+        name="demo[]"
+        accept="image/*"
+        (onSelect)="onUpload(fileUpload)"
+        [multiple]="true"
+        mode="basic"
+        [showUploadButton]="false"
+        [showCancelButton]="false"
+      >
+        <!-- <ng-template pTemplate="content">
+
+        </ng-template> -->
+      </p-fileUpload>
+
+      <ol *ngIf="uploadedFiles.length" class="list-unstyled mt-2">
+        <li *ngFor="let file of uploadedFiles; index as i">
+          <div class="location d-flex align-items-center mt-1">
+            <div
+              class="symbol symbol-35px symbol-circle mx-2"
+              style="cursor: pointer"
+            >
+              <div
+                class="symbol-label"
+                [style.background-image]="
+                  'url(' +
+                  file.objectURL.changingThisBreaksApplicationSecurity +
+                  ')'
+                "
+              ></div>
+            </div>
+            <!-- <p-image
+              [src]="file.objectURL.changingThisBreaksApplicationSecurity + ')' "
+              alt="Image"
+              height="80px"
+              width="80px"
+              [preview]="true"
+            ></p-image> -->
+            <span> {{ file.name }} </span>
+            <i
+              mattooltip="حذف"
+              tooltipposition="top"
+              class="fas fa-trash-alt action-icon delete-icon"
+              (click)="onDelete(i)"
+            ></i>
+          </div>
+
+          <!-- - {{ file.size }} bytes -->
+        </li>
+      </ol>
+    </ng-template>
+  </ng-container>
+  <!-- قائمة منسدلة -->
+  <ng-container *ngSwitchCase="7">
+    <ng-container *ngIf="!ListSourceName; else ListSource"
+      ><select
+        class="form-select form-select-sm"
+        aria-label="subordinateTo"
+        [formControl]="valueFieldControl"
+        (change)="saveValueFeild($event)"
+        [ngStyle]="{ 'text-align': lang === 'ar' ? 'right' : 'left' }"
+      >
+        <!-- <option></option> -->
+        <option
+          *ngFor="let item of FieldOptions"
+          [ngValue]="inSOP ? item.ID : item.Code"
+        >
+          {{ item.Name }}
+        </option>
+      </select></ng-container
+    >
+    <ng-template #ListSource>
+      <ng-container [ngSwitch]="ListSourceName">
+        <ng-container *ngSwitchCase="'Assets'">
+          <app-assets-field
+            [AssetsMultiSelect]="isList"
+            (changeValue)="valueFieldControl.setValue($event); saveValueFeild()"
+          ></app-assets-field>
+        </ng-container>
+      </ng-container>
+    </ng-template>
+  </ng-container>
+
+  <!-- مربع اختيار -->
+  <ng-container *ngSwitchCase="8">
+    <input
+      type="checkbox"
+      class="form-check-input margin-end-1 custom-checkbox-style"
+      [formControl]="valueFieldControl"
+      (change)="saveValueFeild()"
+    />
+  </ng-container>
+
+  <ng-container *ngSwitchCase="12">
+    <div class="signitures-components">
+      <canvas
+        #canvas
+        [style.background-image]="
+          'url(' + Avatar + valueFieldControl.value?.signiture + ')'
+        "
+        class="border border-gray-400"
+      ></canvas>
+      <button
+        class="btn btn-primary"
+        style="margin-top: 1.5rem"
+        tooltipPosition="top"
+        pTooltip="{{ 'GENERAL.APPROVE' | translate }}"
+      >
+        <i class="fa fa-check p-0"></i>
+      </button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="13">
+    <app-field-request-approve
+      [valueFieldControl]="valueFieldControl"
+      [readOnly]="readOnly"
+      [viewAssigment]="viewAssigment"
+      (saveValueFeild)="saveValueFeild()"
+    ></app-field-request-approve>
+  </ng-container>
+  <ng-container *ngSwitchCase="14">
+    <i (click)="convertTask()" class="fa fa-sync action-icon"></i>
+  </ng-container>
+  <!-- اختيار -->
+  <!-- <ng-container *ngSwitchCase="8">
+    <select
+      class="form-select"
+      aria-label="subordinateTo"
+      [formControl]="valueFieldControl"
+      (blur)="saveValueFeild()"
+    >
+      <option></option>
+      <option value="1">option One</option>
+      <option value="2">option Two</option>
+      <option value="3">option Three</option>
+    </select>
+  </ng-container> -->
+</ng-container>
+<ng-template #load> Uploading... </ng-template>

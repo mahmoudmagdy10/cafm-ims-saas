@@ -1,0 +1,175 @@
+<div class="card card-custom">
+  <div class="card-header card-header-stretch align-items-center">
+    <div class="card-title m-0">
+      <h4 class="fw-bolder mb-0 mx-2">
+        {{ "WorkOrder_Parts_Transaction" | translate }}
+      </h4>
+    </div>
+    <div class="card-header-actions d-flex align-items-center">
+      <button class="general-btn filter-btn mx-1" (click)="filter()">
+        <span>
+          <span><i class="fas fa-filter"></i></span>
+          <span>{{ "PREVENTIVE_TASKS_MANAGEMENT.FILTER" | translate }}</span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div class="card-body" *ngIf="Codes$ | async as Codes">
+    <p-tabMenu
+      [model]="filterStatuses"
+      [activeItem]="filterStatuses[0]"
+    ></p-tabMenu>
+    <ng-container *ngIf="WorkOrderPartsTransaction$ | async as data">
+      <div class="table-responsive">
+        <table
+          class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+        >
+          <thead>
+            <tr class="fw-bolder fs-6 text-gray-800">
+              <th>#</th>
+              <th>{{ "Task_Name" | translate }}</th>
+              <th>{{ "Part_Name" | translate }}</th>
+              <th>{{ "QTY" | translate }}</th>
+              <th>{{ "CREATED_DATE" | translate }}</th>
+              <th>{{ "Created_By" | translate }}</th>
+              <th *ngIf="data.data?.Data?.[0]?.isAccepted != false">
+                {{ "Store" | translate }}
+              </th>
+
+              <th>{{ "TRACH.ACTIONS.ACTIONS" | translate }}</th>
+            </tr>
+          </thead>
+          <ng-container *ngIf="!selectedTab">
+            <tbody *ngIf="!data.loading; else loading">
+              <tr *ngFor="let item of data?.data.Data; index as i">
+                <td>{{ i + 1 + 30 * (selectedPage - 1) }}</td>
+                <td>
+                  <a
+                    href="javascript:;"
+                    (click)="
+                      Codes?.PagePermissions?.showWOCardOnly
+                        ? openCard(item)
+                        : ''
+                    "
+                    style="cursor: pointer"
+                  >
+                    {{ item?.TaskName }}</a
+                  >
+                </td>
+                <td>
+                  <a
+                    href="javascript:;"
+                    (click)="SparePartCard(item?.PartId)"
+                    >{{ item?.PartName }}</a
+                  >
+                </td>
+                <td>
+                  {{ item?.Qty }}
+                </td>
+                <td>{{ item?.DateCreated | date : "YYYY-MM-dd HH:mm" }}</td>
+                <td>{{ item?.CreatedBy }}</td>
+                <td *ngIf="!item?.isAccepted">
+                  <p-dropdown
+                    [disabled]="item?.isAccepted == 1"
+                    *ngIf="item.Stores?.length > 0"
+                    [options]="item.Stores"
+                    [style]="{ minWidth: '130px', display: 'flex' }"
+                    [(ngModel)]="item.StoreId"
+                    optionValue="StoreId"
+                    optionLabel="StoreName"
+                    (onChange)="handleSelectedStore(item.StoreId)"
+                  >
+                    <ng-template let-option pTemplate="option">
+                      <div>
+                        {{ option?.StoreName }} - ({{
+                          option?.InStockQuantity
+                        }})
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                  <p *ngIf="!item?.Stores?.length" class="text-danger">
+                    {{ "Out_of_Stock" | translate }}
+                  </p>
+                </td>
+                <td *ngIf="item?.isAccepted === false">{{ item.StoreName }}</td>
+                <td *ngIf="item?.isAccepted">{{ item.StoreName }}</td>
+                <td *ngIf="Codes?.PagePermissions?.AcceptRefuseWOTemplates">
+                  <ng-container *ngIf="item?.isAccepted == null">
+                    <i
+                      class="action-icon fas fa-times mx-1 text-danger"
+                      (click)="Rejected(item)"
+                    ></i>
+                    <i
+                      *ngIf="item?.Stores?.length"
+                      class="action-icon fas fa-check text-success"
+                      (click)="Approvel(item)"
+
+                    ></i>
+                  </ng-container>
+                  <ng-container *ngIf="item?.isAccepted == 0">
+                    <span class="badge badge-danger">Rejected</span>
+                  </ng-container>
+                  <ng-container *ngIf="item?.isAccepted == 1">
+                    <span class="badge badge-success">Approved</span>
+                  </ng-container>
+                </td>
+              </tr>
+            </tbody>
+          </ng-container>
+          <ng-container *ngIf="selectedTab">
+            <tbody *ngIf="!data.loading; else loading">
+              <tr *ngFor="let item of data?.data.Data; index as i">
+                <td>{{ i + 1 + 30 * (selectedPage - 1) }}</td>
+                <td>
+                  <a
+                    href="javascript:;"
+                    (click)="openCard(item)"
+                    style="cursor: pointer"
+                  >
+                    {{ item?.TaskName }}</a
+                  >
+                </td>
+                <td>
+                  <a
+                    href="javascript:;"
+                    (click)="SparePartCard(item?.PartId)"
+                    >{{ item?.PartName }}</a
+                  >
+                </td>
+                <td>
+                  {{ item?.Qty }}
+                </td>
+                <td>{{ item?.DateCreated | date : "YYYY-MM-dd HH:mm" }}</td>
+                <td>{{ item?.CreatedBy }}</td>
+                <td *ngIf="data.data?.Data?.[0]?.isAccepted != false">
+                  {{ item.StoreName }}
+                </td>
+                <td>
+                  <ng-container *ngIf="item?.isAccepted == 0">
+                    <span class="badge badge-danger">Rejected</span>
+                  </ng-container>
+                  <ng-container *ngIf="item?.isAccepted == 1">
+                    <span class="badge badge-success">Approved</span>
+                  </ng-container>
+                </td>
+              </tr>
+            </tbody>
+          </ng-container>
+        </table>
+        <app-pagination-component
+          [Setting]="data?.data?.Setting"
+          [(selectedPage)]="selectedPage"
+          (selectedPageChange)="changePage()"
+          (selectedRowCount)="selectedRowCount($event)"
+        ></app-pagination-component>
+      </div>
+    </ng-container>
+  </div>
+
+  <ng-template #loading>
+    <div class="d-flex justify-content-center">
+      <p-progressSpinner></p-progressSpinner>
+    </div>
+  </ng-template>
+</div>

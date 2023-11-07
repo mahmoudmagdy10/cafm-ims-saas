@@ -1,0 +1,179 @@
+<div class="modal-header position-relative">
+  <h5 class="modal-title">
+    <i class="fas fa-columns margin-end-1"></i>
+    {{ "ASSETS.FIELDMANAGEMENTMODAL.MODALTITLE" | translate }}
+  </h5>
+  <!--  -->
+  <!--begin::Close-->
+  <div class="close">
+    <i class="fas fa-times close-modal-icon" (click)="Close()"></i>
+  </div>
+  <!--end::Close-->
+</div>
+
+<div
+  class="modal-body"
+  style="max-height: 80vh; overflow-y: auto"
+  *ngIf="CodeObz$ | async as codes"
+>
+  <div class="row justify-content-between mb-4">
+    <div class="col-12 col-sm-6 col-lg-4 mb-3 mb-sm-0">
+      <input
+        type="text"
+        [formControl]="searchedKeyword"
+        placeholder="{{ 'USERS.FLTERMODAL.SEARCH' | translate }}"
+        class="form-control form-control-sm ng-pristine ng-valid ng-touched"
+      />
+    </div>
+
+    <div class="col-12 col-sm-6">
+      <div class="d-flex justify-content-md-end">
+        <button
+          class="btn  btn-primary"
+          style="margin-inline-end: 5px"
+          (click)="CategoriesManagment()"
+        >
+          {{ "ASSETS.FIELDMANAGEMENTMODAL.CATEGORIESMANAGE" | translate }}
+        </button>
+        <button
+          class="btn  btn-primary"
+          (click)="openAddFields()"
+          *ngIf="
+            codes?.PagePermissions &&
+            codes?.PagePermissions[
+              (ComponentType == 'Store'
+                ? 'Parts'
+                : ComponentType == 'IncidentReports'
+                ? 'IReport'
+                : ComponentType) + 'CommonFieldsEdit'
+            ]
+          "
+        >
+          <i class="fas fa-plus"></i>
+          {{ "ASSETS.FIELDMANAGEMENTMODAL.ADD" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table
+      class="table table-rounded table-row-bordered border custom-table-style fs-6"
+    >
+      <thead>
+        <tr class="fw-bolder fs-6 text-gray-800">
+          <th>#</th>
+          <th>{{ "ASSETS.FIELDMANAGEMENTMODAL.FIELDNAME" | translate }}</th>
+          <th>{{ "ASSETS.FIELDMANAGEMENTMODAL.FIELDTYPE" | translate }}</th>
+          <th>{{ "ASSETS.FIELDMANAGEMENTMODAL.FIELDCATEGORY" | translate }}</th>
+          <th>{{ "ASSETS.FIELDMANAGEMENTMODAL.PROCEDURE" | translate }}</th>
+          <th *ngIf="ComponentType === 'WorkRequestGates'">
+            {{ "Parent" | translate }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let item of service.DataFeild$
+              | async
+              | filter : searchedKeyword.value;
+            index as i
+          "
+        >
+          <td>
+            <span class="reorder-row-icon">
+              {{ i + 1 }}
+            </span>
+          </td>
+          <td>
+            <icon-field
+              [TypeField]="item.FieldTypeId"
+              class="margin-end-1"
+            ></icon-field
+            >{{ " " + item.Name }}
+          </td>
+          <td>{{ item.FieldTypeName }}</td>
+          <td>{{ item.ComponentCategoryName }}</td>
+          <td>
+            <div class="d-flex flex-nowrap">
+              <i
+                pTooltip="{{ 'GENERAL.EDIT' | translate }}"
+                tooltipPosition="top"
+                (click)="onEdit(item.ID)"
+                class="mat-tooltip-trigger far fa-edit action-icon edit-icon"
+                *ngIf="
+                  codes?.PagePermissions &&
+                  codes?.PagePermissions[
+                    (ComponentType == 'Store'
+                      ? 'Parts'
+                      : ComponentType == 'Asset'
+                      ? 'AssetsCommonFieldsEdit'
+                      : ComponentType) + 'CommonFieldsEdit'
+                  ]
+                "
+              ></i>
+              <!--   *ngIf="codes?.PagePermissions&&
+                  codes?.PagePermissions[(ComponentType=='Store'?'Parts':ComponentType) + 'CommonFieldsDelete']
+                " -->
+              <i
+                *ngIf="
+                  codes?.PagePermissions &&
+                  codes?.PagePermissions[
+                    ComponentType == 'WorkRequestGates'
+                      ? 'WorkRequestGatesCommonFieldsEdit'
+                      : (ComponentType == 'Store' ? 'Parts' : ComponentType) +
+                        'CommonFieldsDelete'
+                  ]
+                "
+                (click)="
+                  IDFieldDeleted = item.ID; confirmdeleteUser.openModal()
+                "
+                pTooltip="{{ 'GENERAL.DELETE' | translate }}"
+                tooltipPosition="top"
+                class="fas fa-trash-alt action-icon delete-icon"
+              ></i>
+            </div>
+          </td>
+          <td
+            *ngIf="
+              ComponentType === 'WorkRequestGates' && item.FieldTypeId === '7'
+            "
+          >
+            <button
+              (click)="addParentToChild(item)"
+              class="btn  btn-primary"
+            >
+              {{ "ASSETS.ADDASSETMODAL.ADDPARENT" | translate }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- مودال اضافة حقل  -->
+  <!-- <p-dialog [modal]="true" [draggable]="false" [resizable]="false" [(visible)]="displayaddFields"
+  [style]="{width: '65vw'}">
+  <ng-template pTemplate="header">
+    إضافة حقل
+  </ng-template>
+  <ng-content select="addFields"></ng-content>
+</p-dialog> -->
+</div>
+
+<div class="modal-footer position-relative">
+  <button class="btn  btn-secondary" (click)="Close()">
+    <i class="fas fa-times"></i>
+    {{ "ASSETS.FIELDMANAGEMENTMODAL.CANCEL" | translate }}
+  </button>
+
+  <i class="fas fa-cogs modal-bg-icon"></i>
+</div>
+
+<confirm-delete
+  #confirmdeleteUser
+  massage="{{ 'CONFIRMDELETE.FIELD' | translate }}"
+  (afterSave)="$event ? onDelete() : ''; confirmdeleteUser.CloseModal()"
+>
+</confirm-delete>

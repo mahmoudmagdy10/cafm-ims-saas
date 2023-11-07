@@ -1,0 +1,84 @@
+<ng-container *ngIf="Codes$ | async as codes">
+<div class="table-responsive">
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn  btn-primary" (click)="AddSparePart()" [disabled]="!codes.PagePermissions.PMEdit">
+      <span>
+        <span><i class="fa fa-plus"></i></span>
+        <span>{{
+          "PREVENTIVE_TASKS_MANAGEMENT.MODALS.ADD_PURCHASE_ORDER.REQUEST_SPARE_PART"
+            | translate
+        }}</span>
+      </span>
+    </button>
+  </div>
+
+  <table
+    class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
+  >
+    <thead>
+      <tr class="fw-bolder fs-6 text-gray-800">
+        <th>#</th>
+        <th>
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.SPAREPARTS_USED_IN_MAINTENANCE_TAB.PART_NAME"
+              | translate
+          }}
+        </th>
+        <th>
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.SPAREPARTS_USED_IN_MAINTENANCE_TAB.STORE_QUANTITY"
+              | translate
+          }}
+        </th>
+        <th>
+          {{
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.SPAREPARTS_USED_IN_MAINTENANCE_TAB.QUANTITY"
+              | translate
+          }}
+        </th>
+        <th>{{ "GENERAL.PROCEDUERS" | translate }}</th>
+      </tr>
+    </thead>
+
+    <tbody *ngIf="this.dataEdit.Parts">
+      <tr *ngFor="let item of this.dataEdit.Parts; index as i">
+        <td >{{ i + 1 }}</td>
+        <!-- <td>{{ item.partId }}</td> -->
+        <!-- <td>
+          <i
+            class="fas fa-external-link-alt margin-end-1"
+            tooltipPosition="top"
+            pTooltip="{{ 'GENERAL.EXTERNAL_SERVICE' | translate }}"
+          ></i>
+        </td> -->
+
+        <td>
+          <a href="javascript:;" (click)="codes.PagePermissions.PMEdit && SparePartCard(item?.PartId)">
+            <span > {{ item.PartName }}</span>
+            <p class="serial-number-style">#{{ item.PartNumber }}</p>
+          </a>
+        </td>
+
+        <!-- <td>{{ item.Name }}</td> -->
+        <td>{{ item.InStockQuantity }}</td>
+        <td>{{ item.Quantity }}</td>
+
+        <!-- <td>
+          <input
+            type="text"
+            class="form-control form-control-sm w-70px"
+            [(ngModel)]="item.quantity"
+          />
+        </td> -->
+
+        <td>
+          <div>
+            <i (click)="codes.PagePermissions.PMEdit && deleteSparePart(item.PartId)" class="fas fa-trash action-icon delete-icon" tooltipPosition="top"
+              pTooltip="{{ 'GENERAL.DELETE' | translate }}"></i>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</ng-container>
