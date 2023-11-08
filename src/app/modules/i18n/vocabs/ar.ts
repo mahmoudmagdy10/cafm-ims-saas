@@ -35,7 +35,7 @@ export const locale = {
       DELETE_SELECTED: 'حذف المحددين',
       SHOW: 'إظهار',
       HIDE: 'إخفاء',
-      COMPLETE: 'اكتمال',
+      COMPLETE: 'اغلاق المهمة',
       COMPLETED: 'مكتمل',
       NOT_COMPLETED: 'غير مكتمل',
       CONFIRM: 'تأكيد',
@@ -66,6 +66,7 @@ export const locale = {
       EXTERNAL_SERVICE: 'خدمة خارجية',
       VALID_EMAIL: 'الرجاء إدخال البربيد بشكل صحيح',
       NO_DATA: 'لا يوجد بيانات',
+      
       DISPLAY_AS: {
         DISPLAY_AS: 'عرض',
         DISPLAY_AS_USER: 'حسب المستخدمين',
@@ -174,7 +175,7 @@ export const locale = {
       CUSTOMCONTROLPANEL: 'لوحة التحكم المخصصة',
       MAINTENANCETASKS: 'إدارة مهام الصيانة',
       WORK_ORDER: 'أوامر الصيانة',
-      COMPLETED_WORK_ORDER: 'أوامر الصيانة المكتملة',
+      COMPLETED_WORK_ORDER: 'أوامر الصيانة المغلقة',
       SPAREPARTS: 'قطع الغيار',
       SUPPLIERS: 'الموردين',
       FINANCE: 'المالية',
@@ -1306,6 +1307,7 @@ export const locale = {
       TASK_REJECTed: ' المهام المرفوضة',
       GENERAL_TASKS: 'المهام غير محدد نوعها',
       ADD_NEW_TASK: 'إضافة مهمة جديدة',
+      add_work_order: 'اضافة امر صيانة ',
       TEMPLATES_MANAGEMENT: 'إدارة القوالب',
       FILTER: 'فلتر',
       NO_ISTRUCTIONS: 'لا يوجد تعليمات',

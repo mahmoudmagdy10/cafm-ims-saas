@@ -1385,6 +1385,7 @@ export const locale = {
       GENERAL_TASKS: ' General Tasks',
 
       ADD_NEW_TASK: 'Add New Task',
+      add_work_order: 'Add work order',
       TEMPLATES_MANAGEMENT: 'Templates Management',
       FILTER: 'Filter',
       NO_ISTRUCTIONS: 'No Instructions Found',
