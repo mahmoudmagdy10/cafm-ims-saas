@@ -46,9 +46,10 @@ testem.log
 Thumbs.db
 
 # Ignore nginx.conf
-nginx.conf
+#nginx.conf
 
 # Ignore Babel configuration and transpiled output
 /.babelrc
 /babel.config.js
-/dist/    # (or wherever Babel transpiles your code)
+/dist/    
+# (or wherever Babel transpiles your code)
