@@ -1,5 +1,5 @@
 # Use a specific node version for the build stage
-FROM node:18.17.0 as build
+FROM node:16.10.0 as build
 
 # Set the working directory
 WORKDIR /usr/local/app
