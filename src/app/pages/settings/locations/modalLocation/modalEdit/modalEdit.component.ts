@@ -439,7 +439,7 @@ export class modalEditComponent implements OnInit {
   deleteService(service:any){
     const payload = {
       locationId: service.LocationId,
-      serviceId: service.ServiceId, 
+      // serviceId: service.ServiceId, 
       id: service.Id 
     };
     this.service.deleteLocationExtraService(payload).pipe(
