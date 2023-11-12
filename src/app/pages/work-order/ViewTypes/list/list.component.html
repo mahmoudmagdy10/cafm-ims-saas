@@ -2,18 +2,13 @@
   <div class="table-responsive" *ngIf="List$ | async as data">
     <ng-container></ng-container>
     <ng-container *ngIf="codes$ | async as code">
-      <table
-        class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
-      >
+      <table class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6">
         <thead>
           <tr class="fw-bolder fs-6 text-gray-800">
             <th scope="col">#</th>
             <th style="max-width: 12vw">
-              <input
-                type="checkbox"
-                class="form-check-input margin-end-1 custom-checkbox-style"
-                (click)="selectOrUnSelectAllWorkOrder($event)"
-              />
+              <input type="checkbox" class="form-check-input margin-end-1 custom-checkbox-style"
+                (click)="selectOrUnSelectAllWorkOrder($event)" />
               {{ "PREVENTIVE_TASKS_MANAGEMENT.TASK_NAME" | translate }}
             </th>
             <th scope="col">{{ "DYNAMIC_FIELD.NUMBER" | translate }}</th>
@@ -30,12 +25,9 @@
             <th>
               {{ "PREVENTIVE_TASKS_MANAGEMENT.ASSET_NAME" | translate }}
             </th>
-            <th
-              *ngIf="
+            <th *ngIf="
                 code?.IsClientAcceptanceRequied?.[0]?.ClientAcceptanceRequied && !(isShedule$ | async)
-              "
-              style="width: 17%"
-            >
+              " style="width: 17%">
               {{ "Client Aproval" | translate }}
             </th>
             <th *ngIf="workOrderCompleted">
@@ -60,12 +52,10 @@
             <th *ngIf="!(isShedule$ | async)">
               {{ "TC_button" | translate }}
             </th>
-            <th
-              *ngIf="
+            <th *ngIf="
                 !(isShedule$ | async) &&
                 code.PagePermissions?.WorkOrdersShowCreatedBy
-              "
-            >
+              ">
               {{ "PREVENTIVE_TASKS_MANAGEMENT.CREATED_BY" | translate }}
             </th>
             <th *ngIf="!(isShedule$ | async)">
@@ -75,12 +65,9 @@
         </thead>
 
         <tbody>
-          <tr
-            [id]="'ele-' + item.InternalNumber"
-            *ngFor="let item of List; index as i"
+          <tr [id]="'ele-' + item.InternalNumber" *ngFor="let item of List; index as i"
             [class]="item.CompletionRatio == 100 ? 'table-success' : ''"
-            [class]="CardOpened == item.ID ? 'table-info' : ''"
-          >
+            [class]="CardOpened == item.ID ? 'table-info' : ''">
             <td>
               <span class="reorder-row-icon">
                 {{ i + 1 + RowCount * (selectedListPage - 1) }}
@@ -88,20 +75,11 @@
             </td>
 
             <td style="max-width: 12vw">
-              <input
-                type="checkbox"
-                class="form-check-input margin-end-1 custom-checkbox-style"
-                [(ngModel)]="item.checked"
-                (click)="selectWorkOrder($event, item)"
-              />
-              <a
-                (click)="
+              <input type="checkbox" class="form-check-input margin-end-1 custom-checkbox-style"
+                [(ngModel)]="item.checked" (click)="selectWorkOrder($event, item)" />
+              <a (click)="
                   code.PagePermissions?.WorkOrdersShowCard ? openCard(item) : ''
-                "
-                class="mb-3 h-100"
-                style="cursor: pointer"
-                [pTooltip]="item | tooltipForTask"
-              >
+                " class="mb-3 h-100" style="cursor: pointer" [pTooltip]="item | tooltipForTask">
                 {{ item.TaskName | cutLongString : 15 }}
               </a>
             </td>
@@ -112,42 +90,28 @@
             </td>
             <td *ngIf="!(isShedule$ | async)">
               <ng-container *ngIf="!workOrderCompleted">
-                <app-status-task
-                [item]="item"
-                  [ID]="item.ID"
-                  [TaskStatusName]="item.TaskStatusName"
+                <app-status-task [item]="item" [ID]="item.ID" [TaskStatusName]="item.TaskStatusName"
                   [TaskStatusId]="item.TaskStatusId"
-                  [permission]="code?.PagePermissions?.WorkOrdersEdit"
-                ></app-status-task>
+                  [permission]="code?.PagePermissions?.WorkOrdersEdit"></app-status-task>
               </ng-container>
-              <ng-container *ngIf="workOrderCompleted"
-                ><i
-                  class="action-icon completed-request-status"
-                  pTooltip="{{ item.TaskStatusName }}"
-                  tooltipPosition="top"
-                  [style.color]="
+              <ng-container *ngIf="workOrderCompleted"><i class="action-icon completed-request-status"
+                  pTooltip="{{ item.TaskStatusName }}" tooltipPosition="top" [style.color]="
                     (item.TaskStatusName | chartFirst) == 'R' ? '#fff' : ''
-                  "
-                  [style.background-color]="
+                  " [style.background-color]="
                     (item.TaskStatusName | chartFirst) == 'R' ? 'red' : ''
-                  "
-                  >{{ item.TaskStatusName | chartFirst }}</i
-                >
+                  ">{{ item.TaskStatusName | chartFirst }}</i>
               </ng-container>
             </td>
             <td *ngIf="!(isShedule$ | async)">{{ item.TaskTypeName }}</td>
             <td>{{ item.AssetName }}</td>
-            <td
-              *ngIf="
-            code?.IsClientAcceptanceRequied?.[0]?.ClientAcceptanceRequied  && !(isShedule$ | async)
-              "
-            >
+            <td *ngIf="code?.IsClientAcceptanceRequied?.[0]?.ClientAcceptanceRequied  && !(isShedule$ | async)
+                          ">
               {{ item.ClientUserAcceptanceDoneByUserName || "" }}
-              <span class="date-time">
+              <!-- <span class="date-time" *ngIf="item.ClientUserAcceptanceDoneDate">
                 {{
-                  item.ClientUserAcceptanceDoneDate | date : "dd/MM/yyyy HH:mm"
+                item.ClientUserAcceptanceDoneDate 
                 }}
-              </span>
+              </span> -->
             </td>
             <td *ngIf="workOrderCompleted">
               {{ item.CompletionDate | date : "dd/MM/yyyy HH:mm" }}
@@ -166,33 +130,25 @@
               {{ item.ScheduleType }}
             </td>
             <td *ngIf="!(isShedule$ | async)">
-              <span
-                [class]="
+              <span [class]="
                   fixWithDateToday(item) ? 'text-danger' : 'text-success'
-                "
-              >
+                ">
                 {{ item.DueDate | date : "dd/MM/yyyy HH:mm" }}
               </span>
             </td>
             <td *ngIf="!(isShedule$ | async)">
-              <p-avatar
-                [icon]="
+              <p-avatar [icon]="
                   item.TaskStatusId == 5
                     ? 'pi pi-flag-fill text-warning'
                     : item.isTC
                     ? 'pi pi-flag-fill text-success'
                     : 'pi pi-flag-fill'
-                "
-                styleClass="mr-2 action-icon"
-                (click)="openHistoryWorkersForTask.emit(item)"
-              ></p-avatar>
+                " styleClass="mr-2 action-icon" (click)="openHistoryWorkersForTask.emit(item)"></p-avatar>
             </td>
-            <td
-              *ngIf="
+            <td *ngIf="
                 !(isShedule$ | async) &&
                 code.PagePermissions?.WorkOrdersShowCreatedBy
-              "
-            >
+              ">
               {{ item.CreatedByName }}
             </td>
 
@@ -212,27 +168,17 @@
               pTooltip="{{ 'PREVENTIVE_TASKS_MANAGEMENT.REPEAT' | translate }}"
               tooltipPosition="top"
             ></i> -->
-                <i
-                  *ngIf="code?.PagePermissions?.WorkOrdersShowCard"
-                  (click)="openLink.emit(item)"
-                  class="pi pi-external-link action-icon"
-                  pTooltip="{{ 'open_link' | translate }}"
-                  tooltipPosition="top"
-                ></i>
-                <i
-                  *ngIf="
+                <i *ngIf="code?.PagePermissions?.WorkOrdersShowCard" (click)="openLink.emit(item)"
+                  class="pi pi-external-link action-icon" pTooltip="{{ 'open_link' | translate }}"
+                  tooltipPosition="top"></i>
+                <i *ngIf="
                     code?.PagePermissions?.WorkOrdersDelete &&
                     !workOrderCompleted
-                  "
-                  class="fas fa-trash-alt action-icon delete-icon"
-                  pTooltip="{{
+                  " class="fas fa-trash-alt action-icon delete-icon" pTooltip="{{
                     'PREVENTIVE_TASKS_MANAGEMENT.DELETE' | translate
-                  }}"
-                  tooltipPosition="top"
-                  (click)="
+                  }}" tooltipPosition="top" (click)="
                     IDDeleted = item.ID; confirmdeleteWorkOrder.openModal()
-                  "
-                ></i>
+                  "></i>
               </div>
             </td>
           </tr>
@@ -240,21 +186,13 @@
       </table>
     </ng-container>
 
-    <div
-      class="d-flex justify-content-center align-items-center m-3"
-      *ngIf="List?.length == 0"
-    >
+    <div class="d-flex justify-content-center align-items-center m-3" *ngIf="List?.length == 0">
       <h3><i class="pi pi-inbox mx-1"></i>{{ "NO_DATA" | translate }}</h3>
     </div>
     <ng-container>
-      <app-pagination-component
-        [Setting]="data?.Setting"
-        [(selectedPage)]="selectedListPage"
-        (selectedPageChange)="changeListPage()"
-        (selectedRowCount)="selectedRowCount($event)"
-        [RowCount]="RowCount"
-      ></app-pagination-component
-    ></ng-container>
+      <app-pagination-component [Setting]="data?.Setting" [(selectedPage)]="selectedListPage"
+        (selectedPageChange)="changeListPage()" (selectedRowCount)="selectedRowCount($event)"
+        [RowCount]="RowCount"></app-pagination-component></ng-container>
   </div>
 </ng-container>
 <ng-template #loading>
@@ -265,12 +203,8 @@
   <p-skeleton width="10rem" height="4rem"></p-skeleton>
 </ng-template>
 
-<confirm-delete
-  #confirmdeleteWorkOrder
-  massage="{{ 'CONFIRMDELETE.TASK' | translate }}"
-  (afterSave)="
+<confirm-delete #confirmdeleteWorkOrder massage="{{ 'CONFIRMDELETE.TASK' | translate }}" (afterSave)="
     $event ? onDeleteTask() : ''; confirmdeleteWorkOrder.CloseModal()
-  "
->
+  ">
 </confirm-delete>
 <ng-container *ngIf="DateAndTime$ | async"></ng-container>
