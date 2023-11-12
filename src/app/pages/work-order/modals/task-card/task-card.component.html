@@ -66,7 +66,7 @@
     ">
 
     <ng-container *ngIf="orderItem?.TaskStatusId === 1">
-      <div class="form-group">
+      <div class="form-group" *ngIf="orderItem.ClientUserDisApproveName">
         <label
           >Disapprove Reson By (<span class="text-warning">{{
             orderItem?.DatetimePending | date : "dd/MM/yyyy : HH:mm"
@@ -79,7 +79,7 @@
           class="form-control text-danger'"
         />
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf="orderItem.ClientUserDisApproveReason">
         <label>Disapprove Reson </label>
         <textarea
           [disabled]="true"
