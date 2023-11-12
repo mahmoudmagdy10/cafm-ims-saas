@@ -1185,7 +1185,7 @@ export const locale = {
           convertWorkOrderDirectly: 'Convert to work order directly',
         },
         ADDITIONALFIELDS: {
-          TABTITLE: 'Additional Fields',
+          TABTITLE: 'Other Fields',
           ADDFIELD: 'Add Field',
           FIELDNAME: 'Field Name',
           SHOWFIELDS: 'Showing Fields',
@@ -1790,6 +1790,7 @@ export const locale = {
 
           SAVE: 'Save',
           CANCEL: 'Cancel',
+          note: "All newly added vendors will be assigned to the current location."
         },
         FIELDS_MANAGEMENT_MODAL: {
           MODAL_TITLE: 'Fields Management',
