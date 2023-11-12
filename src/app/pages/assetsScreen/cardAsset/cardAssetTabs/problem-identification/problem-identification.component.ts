@@ -43,10 +43,10 @@ export class ProblemIdentificationComponent implements OnInit {
     this._assetsScreenService.ProblemIdentification$.subscribe((val: any) => {
       this.dataList = val?.Data;
     });
-    // this.DataList$ = this._assetsScreenService.ProblemIdentification$.pipe(
+    // this._assetsScreenService.ProblemIdentification$.pipe(
     //   tap((val: any) => {
     //   })
-    // );
+    // ).subscribe();
   }
   changePage() {
     this._assetsScreenService.getProblemIdentification(this.data?.ID);

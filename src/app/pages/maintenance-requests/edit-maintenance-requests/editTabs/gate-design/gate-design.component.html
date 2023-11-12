@@ -1,26 +1,15 @@
 <div class="row" *ngIf="Codes$ | async as code">
   <div class="col-12 col-md-3">
-    <div
-      (click)="AddImage()"
-      class="image-input image-input-outline image-input-empty"
-      data-kt-image-input="true"
-    >
-      <div
-        class="image-input-wrapper"
-        style="width: 140px; height: 148px"
-        [style.cursor]="'pointer'"
-        [style.background-image]="
+    <div (click)="AddImage()" class="image-input image-input-outline image-input-empty" data-kt-image-input="true">
+      <div class="image-input-wrapper"
+        style="width: 140px; height: 148px; background-size: contain;background-position: center;"
+        [style.cursor]="'pointer'" [style.background-image]="
           data.Logo
             ? 'url(' + Avatar + data.Logo + ')'
-            : 'url(assets/media/avatars/avatar.svg)'
-        "
-      ></div>
-      <label
-        data-kt-image-input-action="change"
-        data-bs-toggle="tooltip"
-        title=""
-        data-bs-original-title="Change avatar"
-      >
+            : 'url(assets/icons/add-image.svg)'">
+      </div>
+      <label data-kt-image-input-action="change" data-bs-toggle="tooltip" title=""
+        data-bs-original-title="Change avatar">
         <i class="bi bi-pencil-fill fs-7"></i>
       </label>
     </div>
@@ -32,18 +21,13 @@
         <div class="col-12 col-lg-6 mb-3">
           <label class="mb-2">
             {{
-              "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.PORTADDRESS"
-                | translate
+            "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.PORTADDRESS"
+            | translate
             }}
           </label>
-          <input
-            [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
-            [(ngModel)]="data.GateTitle"
-            (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false"
-            (change)="isChange = true"
-            type="text"
-            class="form-control"
-          />
+          <input [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit" [(ngModel)]="data.GateTitle"
+            (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false" (change)="isChange = true" type="text"
+            class="form-control" />
         </div>
 
         <div class="col-12 col-lg-6 mb-3">
@@ -51,22 +35,14 @@
             <div class="form-group">
               <label class="mb-2">
                 {{
-                  "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.PORTLANGUAGE"
-                    | translate
+                "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.PORTLANGUAGE"
+                | translate
                 }}
               </label>
-              <p-dropdown
-                appendTo="body"
-                [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
-                [style]="{ minWidth: '130px', display: 'flex' }"
-                optionLabel="Name"
-                optionValue="code"
-                [filter]="true"
-                filterBy="Name"
-                [options]="code?.LanguageCode"
-                [(ngModel)]="this.data.LanguageCode"
-                (onChange)="EditWorkRequest.emit()"
-              >
+              <p-dropdown appendTo="body" [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
+                [style]="{ minWidth: '130px', display: 'flex' }" optionLabel="Name" optionValue="code" [filter]="true"
+                filterBy="Name" [options]="code?.LanguageCode" [(ngModel)]="this.data.LanguageCode"
+                (onChange)="EditWorkRequest.emit()">
               </p-dropdown>
             </div>
           </div>
@@ -77,36 +53,23 @@
         <div class="col-12 col-lg-6 mb-3">
           <label class="mb-2 lableInputModle">
             {{
-              "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.MAINTINANCETEQUESTTITLE"
-                | translate
+            "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.MAINTINANCETEQUESTTITLE"
+            | translate
             }}
           </label>
-          <p-dropdown
-            appendTo="body"
-            [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
-            [style]="{ minWidth: '130px', display: 'flex' }"
-            optionLabel="Name"
-            optionValue="Code"
-            [filter]="true"
-            filterBy="Name"
-            [options]="code.OptionId"
-            [(ngModel)]="this.data.WRTitleOptionId"
-            (onChange)="EditWorkRequest.emit()"
-          >
+          <p-dropdown appendTo="body" [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
+            [style]="{ minWidth: '130px', display: 'flex' }" optionLabel="Name" optionValue="Code" [filter]="true"
+            filterBy="Name" [options]="code.OptionId" [(ngModel)]="this.data.WRTitleOptionId"
+            (onChange)="EditWorkRequest.emit()">
           </p-dropdown>
         </div>
 
         <div class="col-12 col-lg-6 mb-3">
           <div class="form-group">
             <label class="mb-2 invisible"> test </label>
-            <input
-              [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
-              [(ngModel)]="data.WRTitleText"
-              (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false"
-              (change)="isChange = true"
-              type="text"
-              class="form-control"
-            />
+            <input [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit" [(ngModel)]="data.WRTitleText"
+              (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false" (change)="isChange = true" type="text"
+              class="form-control" />
           </div>
         </div>
       </div>
@@ -115,36 +78,23 @@
         <div class="col-12 col-lg-6 mb-3">
           <label class="mb-2">
             {{
-              "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.MAINTINANCETEQUESDESCRIPTION"
-                | translate
+            "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.MAINTINANCETEQUESDESCRIPTION"
+            | translate
             }}
           </label>
-          <p-dropdown
-            appendTo="body"
-            [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
-            [style]="{ minWidth: '130px', display: 'flex' }"
-            optionLabel="Name"
-            optionValue="Code"
-            [filter]="true"
-            filterBy="Name"
-            [options]="code.OptionId"
-            [(ngModel)]="this.data.WRDescriptionOptionId"
-            (onChange)="EditWorkRequest.emit()"
-          >
+          <p-dropdown appendTo="body" [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
+            [style]="{ minWidth: '130px', display: 'flex' }" optionLabel="Name" optionValue="Code" [filter]="true"
+            filterBy="Name" [options]="code.OptionId" [(ngModel)]="this.data.WRDescriptionOptionId"
+            (onChange)="EditWorkRequest.emit()">
           </p-dropdown>
         </div>
 
         <div class="col-12 col-lg-6 mb-3">
           <div class="form-group">
             <label class="mb-2 invisible"> test </label>
-            <input
-              [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
-              [(ngModel)]="data.WRDescriptionText"
-              (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false"
-              (change)="isChange = true"
-              type="text"
-              class="form-control"
-            />
+            <input [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit" [(ngModel)]="data.WRDescriptionText"
+              (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false" (change)="isChange = true" type="text"
+              class="form-control" />
           </div>
         </div>
       </div>
@@ -277,22 +227,14 @@
           <div class="form-group">
             <label class="mb-2">
               {{
-                "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.APPLICANTNAME"
-                  | translate
+              "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.APPLICANTNAME"
+              | translate
               }}
             </label>
-            <p-dropdown
-              appendTo="body"
-              [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
-              [style]="{ minWidth: '130px', display: 'flex' }"
-              optionLabel="Name"
-              optionValue="Code"
-              [filter]="true"
-              filterBy="Name"
-              [options]="code.OptionId"
-              [(ngModel)]="this.data.RequesterNameOptionId"
-              (onChange)="EditWorkRequest.emit()"
-            >
+            <p-dropdown appendTo="body" [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
+              [style]="{ minWidth: '130px', display: 'flex' }" optionLabel="Name" optionValue="Code" [filter]="true"
+              filterBy="Name" [options]="code.OptionId" [(ngModel)]="this.data.RequesterNameOptionId"
+              (onChange)="EditWorkRequest.emit()">
             </p-dropdown>
           </div>
         </div>
@@ -300,14 +242,9 @@
         <div class="col-12 col-lg-6 mb-3">
           <div class="form-group">
             <label class="mb-2 invisible"> test </label>
-            <input
-              [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
-              [(ngModel)]="data.RequesterNameText"
-              (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false"
-              (change)="isChange = true"
-              type="text"
-              class="form-control"
-            />
+            <input [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit" [(ngModel)]="data.RequesterNameText"
+              (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false" (change)="isChange = true" type="text"
+              class="form-control" />
           </div>
         </div>
       </div>
@@ -317,22 +254,14 @@
           <div class="form-group">
             <label class="mb-2">
               {{
-                "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.APPLICANTMOBILE"
-                  | translate
+              "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.APPLICANTMOBILE"
+              | translate
               }}
             </label>
-            <p-dropdown
-              appendTo="body"
-              [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
-              [style]="{ minWidth: '130px', display: 'flex' }"
-              optionLabel="Name"
-              optionValue="Code"
-              [filter]="true"
-              filterBy="Name"
-              [options]="code.OptionId"
-              [(ngModel)]="this.data.RequesterPhoneOptionId"
-              (onChange)="EditWorkRequest.emit()"
-            >
+            <p-dropdown appendTo="body" [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
+              [style]="{ minWidth: '130px', display: 'flex' }" optionLabel="Name" optionValue="Code" [filter]="true"
+              filterBy="Name" [options]="code.OptionId" [(ngModel)]="this.data.RequesterPhoneOptionId"
+              (onChange)="EditWorkRequest.emit()">
             </p-dropdown>
           </div>
         </div>
@@ -340,14 +269,9 @@
         <div class="col-12 col-lg-6 mb-3">
           <div class="form-group">
             <label class="mb-2 invisible"> test </label>
-            <input
-              [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
-              [(ngModel)]="data.RequesterPhoneText"
-              (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false"
-              (change)="isChange = true"
-              type="text"
-              class="form-control"
-            />
+            <input [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit" [(ngModel)]="data.RequesterPhoneText"
+              (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false" (change)="isChange = true" type="text"
+              class="form-control" />
           </div>
         </div>
       </div>
@@ -357,22 +281,14 @@
           <div class="form-group">
             <label class="mb-2">
               {{
-                "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.APPLICANTEMAIL"
-                  | translate
+              "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.APPLICANTEMAIL"
+              | translate
               }}
             </label>
-            <p-dropdown
-              appendTo="body"
-              [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
-              [style]="{ minWidth: '130px', display: 'flex' }"
-              optionLabel="Name"
-              optionValue="Code"
-              [filter]="true"
-              filterBy="Name"
-              [options]="code.OptionId"
-              [(ngModel)]="this.data.RequesterEmailOptionId"
-              (onChange)="EditWorkRequest.emit()"
-            >
+            <p-dropdown appendTo="body" [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
+              [style]="{ minWidth: '130px', display: 'flex' }" optionLabel="Name" optionValue="Code" [filter]="true"
+              filterBy="Name" [options]="code.OptionId" [(ngModel)]="this.data.RequesterEmailOptionId"
+              (onChange)="EditWorkRequest.emit()">
             </p-dropdown>
           </div>
         </div>
@@ -380,14 +296,9 @@
         <div class="col-12 col-lg-6 mb-3">
           <div class="form-group">
             <label class="mb-2 invisible"> test </label>
-            <input
-              [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
-              [(ngModel)]="data.RequesterEmailText"
-              (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false"
-              (change)="isChange = true"
-              type="text"
-              class="form-control"
-            />
+            <input [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit" [(ngModel)]="data.RequesterEmailText"
+              (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false" (change)="isChange = true" type="text"
+              class="form-control" />
           </div>
         </div>
       </div>
@@ -438,22 +349,14 @@
           <div class="form-group">
             <label class="mb-2">
               {{
-                "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.REQUESTTAG"
-                  | translate
+              "MAINTENANCEREQUESTS.EDITMAINTINANCREQUESTMODAL.PORTDESIGNTAB.REQUESTTAG"
+              | translate
               }}
             </label>
-            <p-dropdown
-              appendTo="body"
-              [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
-              [style]="{ minWidth: '130px', display: 'flex' }"
-              optionLabel="Name"
-              optionValue="Code"
-              [filter]="true"
-              filterBy="Name"
-              [options]="code.OptionId"
-              [(ngModel)]="this.data.TagsOptionId"
-              (onChange)="EditWorkRequest.emit()"
-            >
+            <p-dropdown appendTo="body" [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
+              [style]="{ minWidth: '130px', display: 'flex' }" optionLabel="Name" optionValue="Code" [filter]="true"
+              filterBy="Name" [options]="code.OptionId" [(ngModel)]="this.data.TagsOptionId"
+              (onChange)="EditWorkRequest.emit()">
             </p-dropdown>
           </div>
         </div>
@@ -461,14 +364,9 @@
         <div class="col-12 col-lg-6 mb-3">
           <div class="form-group">
             <label class="mb-2 invisible"> test </label>
-            <input
-              [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit"
-              [(ngModel)]="data.TagsText"
-              (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false"
-              (change)="isChange = true"
-              type="text"
-              class="form-control"
-            />
+            <input [disabled]="!code?.PagePermissions?.WorkRequestGatesEdit" [(ngModel)]="data.TagsText"
+              (blur)="isChange ? EditWorkRequest.emit() : ''; isChange = false" (change)="isChange = true" type="text"
+              class="form-control" />
           </div>
         </div>
       </div>

@@ -3,10 +3,10 @@
     <ng-container *ngIf="AssetsById">
       <i class="fas fa-box margin-end-1"></i>
       {{
-        (AssetsById?.isAsset ? "Asset " : "Sub-Location") +
-          "(" +
-          NameAssets +
-          ")"
+      (AssetsById?.isAsset ? "Asset " : "Sub-Location") +
+      "(" +
+      NameAssets +
+      ")"
       }}
     </ng-container>
   </h5>
@@ -18,48 +18,27 @@
   <!--end::Close-->
 </div>
 
-<div
-  #Report
-  class="modal-body"
-  style="height: 80vh; overflow-y: scroll"
-  *ngIf="Codes$ | async as code; else loading"
->
+<div #Report class="modal-body" style="height: 80vh; overflow-y: scroll" *ngIf="Codes$ | async as code; else loading">
   <p-tabView *ngIf="AssetsById$ | async as dataAsset; else loading">
-    <p-tabPanel
-      header="{{ 'ASSETS.ASSETCARDMODAL.BASICDATATAB.TABTITLE' | translate }}"
-    >
-      <basic-information
-        [data]="dataAsset"
-        [code]="code"
-        (EditInAssets)="EditInAssets(dataAsset)"
-      >
+    <p-tabPanel header="{{ 'ASSETS.ASSETCARDMODAL.BASICDATATAB.TABTITLE' | translate }}">
+      <basic-information [data]="dataAsset" [code]="code" (EditInAssets)="EditInAssets(dataAsset)">
       </basic-information>
     </p-tabPanel>
     <ng-container *ngIf="dataAsset?.isAsset">
-      <p-tabPanel
-        *ngIf="code?.PagePermissions?.AssetsToVendors"
-        header="{{ 'ASSETS.ASSETCARDMODAL.SUPPLIERSTAB.TABTITLE' | translate }}"
-      >
+      <p-tabPanel *ngIf="code?.PagePermissions?.AssetsToVendors"
+        header="{{ 'ASSETS.ASSETCARDMODAL.SUPPLIERSTAB.TABTITLE' | translate }}">
         <suppliers [data]="dataAsset"></suppliers>
       </p-tabPanel>
-      <p-tabPanel
-        *ngIf="code?.PagePermissions?.AssetsToParts"
-        header="{{
+      <p-tabPanel *ngIf="code?.PagePermissions?.AssetsToParts" header="{{
           'ASSETS.ASSETCARDMODAL.PROTECTIVETASKSTAB.TABTITLE' | translate
-        }}"
-      >
+        }}">
         <protective-tasks [data]="dataAsset"></protective-tasks>
       </p-tabPanel>
 
-      <p-tabPanel
-        header="{{
+      <p-tabPanel header="{{
           'ASSETS.ASSETCARDMODAL.MOVEMENTHISTORYTAB.TABTITLE' | translate
-        }}"
-      >
-        <movement-history
-          [AssetsLogEdit]="code?.PagePermissions?.AssetsLogEdit"
-          [data]="dataAsset"
-        ></movement-history>
+        }}">
+        <movement-history [AssetsLogEdit]="code?.PagePermissions?.AssetsLogEdit" [data]="dataAsset"></movement-history>
       </p-tabPanel>
 
       <!-- <p-tabPanel
@@ -72,67 +51,40 @@
         ></assets-reports>
       </p-tabPanel> -->
 
-      <p-tabPanel
-        header="{{ 'ASSETS.ASSETCARDMODAL.SUBASSETSTAB.TABTITLE' | translate }}"
-      >
+      <p-tabPanel header="{{ 'ASSETS.ASSETCARDMODAL.SUBASSETSTAB.TABTITLE' | translate }}">
         <sub-assets [data]="dataAsset" [code]="code"></sub-assets>
       </p-tabPanel>
 
-      <p-tabPanel
-        *ngIf="code?.PagePermissions?.AssetSettings"
-        header="{{ 'ASSETS.ASSETCARDMODAL.SETTINGSTAB.TABTITLE' | translate }}"
-      >
-        <setting-assets
-          [data]="dataAsset"
-          [code]="code"
-          (EditInAssets)="EditInAssets(dataAsset)"
-        >
+      <p-tabPanel *ngIf="code?.PagePermissions?.AssetSettings"
+        header="{{ 'ASSETS.ASSETCARDMODAL.SETTINGSTAB.TABTITLE' | translate }}">
+        <setting-assets [data]="dataAsset" [code]="code" (EditInAssets)="EditInAssets(dataAsset)">
         </setting-assets>
       </p-tabPanel>
 
-      <p-tabPanel
-        *ngIf="code?.PagePermissions?.AssetDepreciation"
-        header="{{
+      <p-tabPanel *ngIf="code?.PagePermissions?.AssetDepreciation" header="{{
           'ASSETS.ASSETCARDMODAL.DEPRECIATIONTAB.TABTITLE' | translate
-        }}"
-      >
-        <depreciation
-          [data]="dataAsset"
-          [code]="code"
-          (EditInAssets)="EditInAssets(dataAsset)"
-        ></depreciation>
+        }}">
+        <depreciation [data]="dataAsset" [code]="code" (EditInAssets)="EditInAssets(dataAsset)"></depreciation>
       </p-tabPanel>
       <!--تعريف المشكلة -->
-      <p-tabPanel
-        header="{{
+      <p-tabPanel header="{{
           'ASSETS.ASSETCARDMODAL.PROBLEMIDENTIFICATION.PROBLEMIDENTIFICATION'
             | translate
-        }}"
-      >
-        <app-problem-identification
-          [data]="dataAsset"
-        ></app-problem-identification>
+        }}">
+        <app-problem-identification [data]="dataAsset"></app-problem-identification>
       </p-tabPanel>
       <!--  -->
-      <p-tabPanel
-        header="{{ 'ASSETS.ASSETCARDMODAL.QRTAB.TABTITLE' | translate }}"
-      >
-        <QRCode [data]="dataAsset"></QRCode> </p-tabPanel
-    ></ng-container>
+      <p-tabPanel header="{{ 'ASSETS.ASSETCARDMODAL.QRTAB.TABTITLE' | translate }}">
+        <QRCode [data]="dataAsset"></QRCode>
+      </p-tabPanel></ng-container>
     <ng-container *ngIf="!dataAsset?.isAsset">
-      <p-tabPanel
-        header="{{
+      <p-tabPanel header="{{
           'ASSETS.ASSETCARDMODAL.MOVEMENTHISTORYTAB.TABTITLE' | translate
-        }}"
-      >
-        <movement-history
-          [data]="dataAsset"
-          [AssetsLogEdit]="data.code?.PagePermissions?.AssetsLogEdit"
-        ></movement-history>
+        }}">
+        <movement-history [data]="dataAsset"
+          [AssetsLogEdit]="data.code?.PagePermissions?.AssetsLogEdit"></movement-history>
       </p-tabPanel>
-      <p-tabPanel
-        header="{{ 'ASSETS.ASSETCARDMODAL.SUBASSETSTAB.TABTITLE' | translate }}"
-      >
+      <p-tabPanel header="{{ 'ASSETS.ASSETCARDMODAL.SUBASSETSTAB.TABTITLE' | translate }}">
         <sub-assets [data]="dataAsset" [code]="data.code"></sub-assets>
       </p-tabPanel>
     </ng-container>

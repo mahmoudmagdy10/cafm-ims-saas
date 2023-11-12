@@ -63,9 +63,9 @@
     [style]="
       'max-height: 75vh; ' +
       ((isCalenderOpen$ | async) ? 'overflow:unset' : 'overflow-y: auto')
-    "
-  >
-    <ng-container *ngIf="orderItem.TaskStatusId === 1">
+    ">
+
+    <ng-container *ngIf="orderItem?.TaskStatusId === 1">
       <div class="form-group">
         <label
           >Disapprove Reson By (<span class="text-warning">{{
