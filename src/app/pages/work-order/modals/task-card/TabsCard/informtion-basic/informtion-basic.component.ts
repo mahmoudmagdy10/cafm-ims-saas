@@ -202,15 +202,15 @@ export class InformtionBasicComponent
     this.Codes$.subscribe((value) => {
       if (value) {
         const perWorkOrder = value.PagePermissions;
-        if (!perWorkOrder.WorkOrdersEdit) {
+        if (!perWorkOrder?.WorkOrdersEdit) {
           this.FormTask.disable();
           this.TaskStatusId.disable();
           this.disabledTaskDescription = true;
         }
-        if (!perWorkOrder.WorkOrdersPriorityEdit) {
+        if (!perWorkOrder?.WorkOrdersPriorityEdit) {
           this.PriorityId.disable();
         }
-        if (!perWorkOrder.WorkOrdersDueEdit) {
+        if (!perWorkOrder?.WorkOrdersDueEdit) {
           this.DueDate.disable();
         }
       }

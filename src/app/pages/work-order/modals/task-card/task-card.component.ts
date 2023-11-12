@@ -46,7 +46,7 @@ export class TaskCardComponent implements OnInit {
     private _logsByComponentTypeService: LogsByComponentTypeService,
     @Inject(MAT_DIALOG_DATA) public dataCard: any,
     public dialog: MatDialog
-  ) {}
+  ) { }
   @ViewChild('maintenanceTime') maintenanceTime: MaintenanceTimeComponent;
   WorkOrderOpened: any;
   isCalenderOpen$: Observable<any>;
@@ -65,6 +65,7 @@ export class TaskCardComponent implements OnInit {
     return this.accept.value;
   }
   ngOnInit(): void {
+    console.log('this.dataCard :>> ', this.dataCard);
     if (this.dataCard) {
       this.orderItem = this.dataCard.orderItem;
     }
@@ -80,6 +81,7 @@ export class TaskCardComponent implements OnInit {
     this.getTaskDetails();
     this.workOrderCompleted = this.service.workOrderCompleted;
   }
+  
   getTaskDetails() {
     this.taskEdit$ = this.service
       .getTaskByID({ ...this.dataCard.filter })
@@ -132,15 +134,21 @@ export class TaskCardComponent implements OnInit {
   onBeforeUnload() {
     return false;
   }
+
+
   onClose() {
     this.timeConsuming();
     this.service.getAllTask({
       isPM: false,
     });
   }
+
+
   get TaskStatusId() {
     return this.WorkOrderOpened.TaskStatusId;
   }
+
+
   timeConsuming(Open?: boolean) {
     if (
       this.WorkOrderOpened?.TaskStatusId == 3 ||
@@ -207,6 +215,7 @@ export class TaskCardComponent implements OnInit {
         this.dialogRef.close();
       }
     });
+
     // this.service
     //   .InstructionCompleted({ ID: this?.dataCard?.filter?.Id })
     //   .subscribe(
@@ -224,6 +233,7 @@ export class TaskCardComponent implements OnInit {
     //     }
     //   );
   }
+
   applyComplete() {
     const dialogRef = this.dialog
       .open(ApplyCompleteComponent, {
@@ -231,6 +241,7 @@ export class TaskCardComponent implements OnInit {
       })
       .addPanelClass('cmms-custom-modal');
   }
+
   Reject(data: any) {
     const dialogRef = this.dialog
       .open(CompleteNewTask, {
@@ -245,6 +256,7 @@ export class TaskCardComponent implements OnInit {
       }
     });
   }
+
   TC(data: any) {
     // قم بفحص قيمة this.isForceSOP
     if (this.isForceSOP === 1) {
@@ -323,6 +335,7 @@ export class TaskCardComponent implements OnInit {
         }
       });
   }
+
   reOpen(ID: any) {
     this.service.ReOpen({ ids: ID }).subscribe(
       (res: any) => {
@@ -331,9 +344,10 @@ export class TaskCardComponent implements OnInit {
         } else {
         }
       },
-      (err) => {}
+      (err) => { }
     );
   }
+
   changeToPending(ID: any) {
     const dialogRef = this.dialog
       .open(ChangeToPendingComponent, {
@@ -348,6 +362,7 @@ export class TaskCardComponent implements OnInit {
       }
     });
   }
+
   nextTask() {
     let data = this.service.DataTasks$.value?.Data;
     let index = data.findIndex(
@@ -362,6 +377,7 @@ export class TaskCardComponent implements OnInit {
       this.toastr.error('this is last task');
     }
   }
+
   PreviousTask() {
     let data = this.service.DataTasks$.value?.Data;
     let index = data.findIndex(
@@ -376,6 +392,7 @@ export class TaskCardComponent implements OnInit {
       this.toastr.error('this is first task');
     }
   }
+
   getTaskByNo() {
     let data = this.service.DataTasks$.value?.Data;
     let itemSelected = data.find(
@@ -388,6 +405,7 @@ export class TaskCardComponent implements OnInit {
       this.toastr.error('not Found');
     }
   }
+
   openPPM() {
     const url: string = window.location.href;
     const hostAssets: string =
@@ -400,6 +418,7 @@ export class TaskCardComponent implements OnInit {
       `PMs/link/${this.DataEdit?.OrginalPMId}`;
     window.open(hostAssets, '_blank');
   }
+
   printWorkOrder() {
     this.loadingPrint = true;
     this.service

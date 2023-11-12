@@ -60,7 +60,12 @@ export class MaintenanceRequestComponent implements OnInit {
   Avatar = environment.Avatar;
   data: any;
   notRipot: boolean = false;
+  useCaptcha = true;
+
   ngOnInit(): void {
+    const companyDontUseCaptcha = ['111'];
+    const companyId = localStorage.getItem('companyId');
+    this.useCaptcha = companyId !== null && !companyDontUseCaptcha.includes(companyId);
     this._viewItemInFieldService.ComponentType = 'WorkRequestGates';
     const idLocation = this._activatedRoute.snapshot.paramMap.get('id');
     this.assetId = this._activatedRoute.snapshot.paramMap.get('AssetID');

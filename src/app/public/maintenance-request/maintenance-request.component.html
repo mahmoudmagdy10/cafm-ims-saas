@@ -6,17 +6,11 @@
       <div class="container" *ngIf="Codes$ | async as code">
         <i class="fa fa-cogs page-background"></i>
         <div class="row justify-content-center">
-          <div
-            class="col-12 col-md-6 border border-secondary rounded p-5 card card-custom"
-          >
+          <div class="col-12 col-md-6 border border-secondary rounded p-5 card card-custom">
             <div class="text-center">
-              <div
-                class="image-input image-input-empty image-input-outline"
-                id="kt_image_5"
-                [style.background-image]="
+              <div class="image-input image-input-empty image-input-outline" id="kt_image_5" [style.background-image]="
                   data.Logo ? 'url(' + Avatar + data.Logo + ')' : ''
-                "
-              >
+                ">
                 <div class="image-input-wrapper"></div>
               </div>
             </div>
@@ -25,48 +19,30 @@
 
             <form [formGroup]="form">
               <div class="form-gro up mb-3" *ngIf="data.WRTitleOptionId != 58">
-                <label
-                  [class]="
+                <label [class]="
                     data.WRTitleOptionId == 60 ? 'mb-2 required' : 'mb-2'
-                  "
-                >
+                  ">
                   {{ data.WRTitleText }}
                 </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="RequestTitle"
-                />
+                <input type="text" class="form-control" formControlName="RequestTitle" />
               </div>
 
-              <div
-                class="form-group mb-3"
-                *ngIf="data.WRDescriptionOptionId != 58"
-              >
-                <label
-                  [class]="
+              <div class="form-group mb-3" *ngIf="data.WRDescriptionOptionId != 58">
+                <label [class]="
                     data.WRDescriptionOptionId == 60 ? 'mb-2 required' : 'mb-2'
-                  "
-                >
+                  ">
                   {{ data.WRDescriptionText }}
                 </label>
-                <textarea
-                  class="form-control"
-                  formControlName="RequestDescription"
-                  id="exampleTextarea"
-                  rows="5"
-                ></textarea>
+                <textarea class="form-control" formControlName="RequestDescription" id="exampleTextarea"
+                  rows="5"></textarea>
               </div>
 
               <div class="form-group mb-3" *ngIf="AssetSelected">
                 <label [class]="'mb-2'">{{
                   pageDirection == "ltr" ? "Asset" : "الاصل"
-                }}</label>
+                  }}</label>
                 <div class="form-group d-flex align-items-center">
-                  <span
-                    class="form-control form-control-solid"
-                    style="min-height: 39.8px"
-                  >
+                  <span class="form-control form-control-solid" style="min-height: 39.8px">
                     {{ AssetSelected }}
                   </span>
                   <!-- <i
@@ -103,58 +79,31 @@
                 </p-dropdown>
               </div> -->
 
-              <div
-                class="form-group mb-3"
-                *ngIf="data.RequesterNameOptionId != 58"
-              >
-                <label
-                  [class]="
+              <div class="form-group mb-3" *ngIf="data.RequesterNameOptionId != 58">
+                <label [class]="
                     data.RequesterNameOptionId == 60 ? 'mb-2 required' : 'mb-2'
-                  "
-                >
+                  ">
                   {{ data.RequesterNameText }}
                 </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="RequesterName"
-                />
+                <input type="text" class="form-control" formControlName="RequesterName" />
               </div>
 
-              <div
-                class="form-group mb-3"
-                *ngIf="data.RequesterPhoneOptionId != 58"
-              >
-                <label
-                  [class]="
+              <div class="form-group mb-3" *ngIf="data.RequesterPhoneOptionId != 58">
+                <label [class]="
                     data.RequesterPhoneOptionId == 60 ? 'mb-2 required' : 'mb-2'
-                  "
-                >
+                  ">
                   {{ data.RequesterPhoneText }}
                 </label>
-                <input
-                  type="number"
-                  class="form-control"
-                  formControlName="RequesterPhone"
-                />
+                <input type="number" class="form-control" formControlName="RequesterPhone" />
               </div>
 
-              <div
-                class="form-group mb-3"
-                *ngIf="data.RequesterEmailOptionId != 58"
-              >
-                <label
-                  [class]="
+              <div class="form-group mb-3" *ngIf="data.RequesterEmailOptionId != 58">
+                <label [class]="
                     data.RequesterEmailOptionId == 60 ? 'mb-2 required' : 'mb-2'
-                  "
-                >
+                  ">
                   {{ data.RequesterEmailText }}
                 </label>
-                <input
-                  type="email"
-                  class="form-control"
-                  formControlName="RequesterEmail"
-                />
+                <input type="email" class="form-control" formControlName="RequesterEmail" />
               </div>
               <!-- <div class="form-group mb-3" *ngIf="data.DueDateOptionId != 58">
                 <label [class]="
@@ -171,12 +120,8 @@
 
             <ng-container *ngIf="data.Fields">
               <!-- <h4>{{ "MAINTENANCEREQUEST.ADDITIONALFIELDS" | translate }}</h4> -->
-              <app-view-field-in-item
-                #AdditionalFieldsInPuplic
-                [dataItem]="data"
-                [inPublic]="true"
-                [hiddenLabels]="true"
-              ></app-view-field-in-item>
+              <app-view-field-in-item #AdditionalFieldsInPuplic [dataItem]="data" [inPublic]="true"
+                [hiddenLabels]="true"></app-view-field-in-item>
             </ng-container>
 
             <!-- <div
@@ -197,36 +142,21 @@
             </div> -->
             <!-- secretKey="6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe" -->
             <!--  -->
-            <div class="d-flex justify-content-center">
-              <p-captcha
-                *ngIf="!DEBUG"
-                siteKey="6LckRcQkAAAAAARR9HuYLUD4gM6F9vdCUIVn9Bt7"
-                initCallback="onloadCallback"
-                (onResponse)="showResponse($event)"
-              ></p-captcha>
+            <div class="d-flex justify-content-center" *ngIf="useCaptcha">
+              <p-captcha *ngIf="!DEBUG" siteKey="6LckRcQkAAAAAARR9HuYLUD4gM6F9vdCUIVn9Bt7" initCallback="onloadCallback"
+                (onResponse)="showResponse($event)"></p-captcha>
             </div>
             <div class="d-flex justify-content-end mt-5">
-              <button
-                class="btn btn-primary btn-sm mx-3"
-                (click)="Apply()"
-                [disabled]="loadingButton || (!notRipot && !DEBUG)"
-              >
+              <button class="btn btn-primary btn-sm mx-3" (click)="Apply()"
+                [disabled]="loadingButton || (!notRipot && !DEBUG)">
                 <span>
-                  <div
-                    *ngIf="loadingButton"
-                    class="spinner-border"
-                    style="padding: 3px; width: 7%; height: 7%"
-                    role="status"
-                  >
+                  <div *ngIf="loadingButton" class="spinner-border" style="padding: 3px; width: 7%; height: 7%"
+                    role="status">
                     <span class="sr-only">Loading...</span>
                   </div>
-                  <i
-                    *ngIf="!loadingButton"
-                    class="fa fa-clipboard-check mx-1"
-                  ></i>
+                  <i *ngIf="!loadingButton" class="fa fa-clipboard-check mx-1"></i>
                   <span>
-                    {{ pageDirection == "rtl" ? "تقديم طلب" : "Apply" }}</span
-                  >
+                    {{ pageDirection == "rtl" ? "تقديم طلب" : "Apply" }}</span>
                 </span>
               </button>
 
