@@ -47,10 +47,12 @@ export class AddNewVendorComponent implements OnInit {
   selectLocation(event: any, codeLocation: any) {
     if (event.target.value) {
       this.LocationSelected.push(codeLocation);
+      console.log('this.LocationSelected :>> ', this.LocationSelected);
     } else {
       this.LocationSelected.forEach((value, index) => {
         if (value == codeLocation) {
           this.LocationSelected.splice(index, 1);
+          console.log('this.LocationSelected :>> ', this.LocationSelected);
         }
       });
     }
@@ -60,9 +62,10 @@ export class AddNewVendorComponent implements OnInit {
     if (this.vendorForm.valid) {
       const body = {
         ...this.vendorForm.value,
-        LocationIds: this.LocationSelected.join(','),
+        LocationIds: localStorage.getItem('defaultLocation'),
         CompanyId: localStorage.getItem('companyId'),
       };
+      console.log('body :>> ', body);
       this.service.AddVendor(body).subscribe(
         (res: any) => {
           if (res.rv > 0) {

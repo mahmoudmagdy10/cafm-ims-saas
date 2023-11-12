@@ -1713,9 +1713,9 @@ export const locale = {
           EMAIL: 'البريد الالكتروني',
           PHONE: 'الهاتف',
           ADDRESS: 'العنوان',
-
           SAVE: 'حفظ',
           CANCEL: 'إلغاء',
+          note: "سيتم اضافة الموارد الجديدة الي الموقع الحالي "
         },
         FIELDS_MANAGEMENT_MODAL: {
           MODAL_TITLE: 'إدارة الحقول',
