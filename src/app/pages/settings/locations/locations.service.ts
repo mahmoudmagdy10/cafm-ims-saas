@@ -5,6 +5,7 @@ import { HttpService } from './../../../modules/auth/services/http.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ViewDataFilterService } from 'src/app/shared/components/view-data-filter/view-data-filter.service';
+import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class LocationService {
   exportDataExcel: any;
@@ -26,7 +27,8 @@ export class LocationService {
     private http: HttpService,
     private HttpClient: HttpClient,
     private viewDataFilterService: ViewDataFilterService,
-    private _translateService: TranslateService
+    private _translateService: TranslateService,
+    private router: Router,
   ) {}
 
   GetLocationAndSubLocation(Filtrt?: any) {
@@ -176,9 +178,17 @@ export class LocationService {
   saveLocationForSettingReport(body: any) {
     return this.http.saveFormDate(`/Location/S3LocationReportSetting`, body);
   }
+
+  IsSoftService() {
+    const currentRoute = this.router.url;
+    const segmentsToCheck = ['CreateSoftServices', 'SoftServiceTasks', 'CompletedSST'];
+    return segmentsToCheck.some(segment => currentRoute.includes(segment));
+  }
+
   getLocationForSettingReport(LocationId: any) {
     return this.http.getData(`/Location/LocationReportSetting`, {
       LocationId: LocationId,
+      isSoftService: this.IsSoftService()
     });
   }
   DateAndTime = new BehaviorSubject<any>(undefined);

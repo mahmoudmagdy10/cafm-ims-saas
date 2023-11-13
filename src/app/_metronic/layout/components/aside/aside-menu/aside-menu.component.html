@@ -300,7 +300,7 @@
     </span></a
   >
 </div>
-<div class="menu-item" *ngIf="isShow('PMs')">
+<div class="menu-item" *ngIf="isShow('PMs') && showSoftService">
   <a class="menu-link without-sub"
      routerLink="PMs/CreateSoftServices" 
      routerLinkActive="active">
@@ -313,7 +313,7 @@
   </a>
 </div>
 
-<div class="menu-item" *ngIf="isShow('PPMCompleted')">
+<div class="menu-item" *ngIf="isShow('PPMCompleted') && showSoftService">
   <a class="menu-link without-sub"
      routerLinkActive="active"
      routerLink="PPMTasks/SoftServiceTasks">
@@ -323,7 +323,7 @@
   </a>
 </div>
 
-<div class="menu-item" *ngIf="isShow('PPMCompleted')">
+<div class="menu-item" *ngIf="isShow('PPMCompleted') && showSoftService">
   <a class="menu-link without-sub"
      routerLinkActive="active"
      routerLink="PPMTasks/CompletedSST">
@@ -333,7 +333,8 @@
     <span class="menu-title" translate="SIDEBAR.COMPLETED_SOFT_SERVICES_TASKS"></span>
   </a>
 </div>
-<div class="menu-item" *ngIf="isShow('WOPTransaction')">
+
+<div class="menu-item" *ngIf="isShow('WOPTransaction') && showSoftService">
   <a
     class="menu-link without-sub"
     routerLinkActive="active"

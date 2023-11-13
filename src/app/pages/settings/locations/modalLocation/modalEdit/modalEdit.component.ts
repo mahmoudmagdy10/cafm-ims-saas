@@ -71,6 +71,7 @@ export class modalEditComponent implements OnInit {
   DailyWorkingHours: any[] = [];
   extraServicesOptions: any[] = [];
   softServiceConfig: any;
+  serviceData: any;
 
   get ClientAcceptanceValue() {
     return this.ClientAcceptanceRequied.value;
@@ -357,6 +358,7 @@ export class modalEditComponent implements OnInit {
     this.service.addLocationExtraService(payload).pipe(
       tap((serviceData:any) => {
         const { ServiceId } = serviceData.data[0];
+        // this.serviceData 
         this.extraServicesOptions = this.extraServicesOptions.filter(s=> s.code !== ServiceId)
         this.loadExtraServiceData(serviceData, code);
       }),
@@ -370,34 +372,10 @@ export class modalEditComponent implements OnInit {
   }
   
 
-  savehasOwnTagsOnly() {
-    this.service
-      .savehasOwnTagsOnly({
-        ...this.ClientAcceptanceValue,
-        HasOwnTagsOnly: this.savehasOwnTagsOnlyValue,
-        HasOwnPriorityOnly: this.HasOwnPriorityOnlyValue,
-        HasOwnReasonOnly: this.HasOwnReasonOnlyValue,
-        LocationId: this.Data.LocationId,
-      })
-      .subscribe();
-  }
-  openFile(link: any) {
-    window.open(link, '_blank');
-  }
-
-  showFullScreenImg(imgLocation: string): void {
-    if(!imgLocation){
-      return;
-    }
-    this.dialog.open(ModalImgLocationComponent, {
-      width: '50vw',
-      data: { imgLocation }
-    });
-  }
-
   loadExtraServiceData(serviceData: any, code:number) {
     const { LocationId } = this.Data;
     const { ServiceId, Id } = serviceData.data[0];
+    this.serviceData = serviceData;
     const payload = {
       locationId: LocationId,
       serviceId: ServiceId,
@@ -439,16 +417,47 @@ export class modalEditComponent implements OnInit {
   deleteService(service:any){
     const payload = {
       locationId: service.LocationId,
-      // serviceId: service.ServiceId, /*just for new to test*/
       id: service.Id 
     };
     this.service.deleteLocationExtraService(payload).pipe(
-      tap(()=>  this.refreshServiceList())
+      tap(()=>  {
+        this.extraServices = this.extraServices.filter(f=> f.ServiceId !==service.ServiceId)
+        const addToOptions = this.Data.Codes.ExtraServices.filter((s:any) => s.code === service.ServiceId)
+        this.extraServicesOptions = [...this.extraServicesOptions, ...addToOptions ];
+        this.formEdit.get('addedServiceCode')?.enable();
+        this.loading= false;})
     ).subscribe();
   }
   
   refreshServiceList(){
     const { LocationId } = this.Data;
     this.getLocationExtraServices({locationId:LocationId})
+  }
+
+  
+  savehasOwnTagsOnly() {
+    this.service
+      .savehasOwnTagsOnly({
+        ...this.ClientAcceptanceValue,
+        HasOwnTagsOnly: this.savehasOwnTagsOnlyValue,
+        HasOwnPriorityOnly: this.HasOwnPriorityOnlyValue,
+        HasOwnReasonOnly: this.HasOwnReasonOnlyValue,
+        LocationId: this.Data.LocationId,
+      })
+      .subscribe();
+  }
+
+  openFile(link: any) {
+    window.open(link, '_blank');
+  }
+
+  showFullScreenImg(imgLocation: string): void {
+    if(!imgLocation){
+      return;
+    }
+    this.dialog.open(ModalImgLocationComponent, {
+      width: '50vw',
+      data: { imgLocation }
+    });
   }
 }

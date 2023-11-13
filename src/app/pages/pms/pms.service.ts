@@ -39,6 +39,7 @@ export class PmsService {
     const params = {
       LocationId: localStorage.getItem('defaultLocation'),
       ScreenName: 'PreventiveMaintenance',
+      isSoftService : this.IsSoftService()
     };
     this.http
       .getData('/Code', params)
@@ -275,6 +276,7 @@ export class PmsService {
         RowCount: this.RowCountAccordingUser,
         CurrentPage: this.selectedPageDaliy,
         ...this.viewDataFilterService.datafilterModel?.PPM?.dataFilter?.params,
+        isSoftService: this.IsSoftService()
       })
       .subscribe((value) => {
         this.AllSchedulesTimeSub.next(value);
@@ -293,6 +295,7 @@ export class PmsService {
         ...this.viewDataFilterService.datafilterModel?.PPM?.dataFilter?.params,
         CurrentPage: this.selectedCalenderPage,
         RowCount: this.RowCountCalender,
+        isSoftService: this.IsSoftService()
       })
       .subscribe((value) => {
         this.AllSchedulesTimeCalenderSub.next(value);

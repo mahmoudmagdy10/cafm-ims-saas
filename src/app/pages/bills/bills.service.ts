@@ -3,6 +3,7 @@ import { map } from 'rxjs/operators';
 import { HttpService } from './../../modules/auth/services/http.service';
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,8 @@ export class BillsService {
   private codeSub = new BehaviorSubject<any>(false);
   constructor(
     private http: HttpService,
-    private viewDataFilterService: ViewDataFilterService
+    private viewDataFilterService: ViewDataFilterService,
+    private router: Router
   ) {}
   // get Bill
   // mohamad=new BehaviorSubject
@@ -94,10 +96,16 @@ export class BillsService {
   // get Codes$() {
   //   return this.codeSub.asObservable();
   // }
+  IsSoftService() {
+    const currentRoute = this.router.url;
+    const segmentsToCheck = ['CreateSoftServices', 'SoftServiceTasks', 'CompletedSST'];
+    return segmentsToCheck.some(segment => currentRoute.includes(segment));
+  }
   getCodeBill() {
     const params = {
       LocationId: localStorage.getItem('defaultLocation'),
       ScreenName: 'Procurement',
+      // isSoftService: this.IsSoftService()
     };
     this.codeSub.next(false);
     return this.http

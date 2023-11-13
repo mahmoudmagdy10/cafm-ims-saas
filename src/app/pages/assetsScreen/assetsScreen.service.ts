@@ -5,12 +5,14 @@ import { HttpService } from './../../modules/auth/services/http.service';
 import { Injectable } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 import { ViewDataFilterService } from 'src/app/shared/components/view-data-filter/view-data-filter.service';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class assetsScreenService {
   constructor(
     private http: HttpService,
-    private viewDataFilterService: ViewDataFilterService
+    private viewDataFilterService: ViewDataFilterService,
+    private router: Router,
   ) {}
   dataFeilds$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   refresh$: BehaviorSubject<any> = new BehaviorSubject<any>('');
@@ -31,6 +33,7 @@ export class assetsScreenService {
     const params = {
       LocationId: localStorage.getItem('defaultLocation'),
       ScreenName: 'Assests',
+      isSoftService: this.IsSoftService()
     };
     this.http
       .getData('/Code', params)
@@ -70,6 +73,12 @@ export class assetsScreenService {
   }
   get codes$() {
     return this.codesSub.asObservable();
+  }
+
+  IsSoftService() {
+    const currentRoute = this.router.url;
+    const segmentsToCheck = ['CreateSoftServices', 'SoftServiceTasks', 'CompletedSST'];
+    return segmentsToCheck.some(segment => currentRoute.includes(segment));
   }
   // CommonFeild
   addCommonFeild(body: any) {
