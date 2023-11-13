@@ -4,11 +4,12 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { HttpService } from '../../modules/auth/services/http.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, Observable, forkJoin, of } from 'rxjs';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
 export class workOrderService {
-  constructor(private http: HttpService) {}
+  constructor(private http: HttpService,private router: Router,) {}
   CardOpened: any;
   workOrderCompleted: boolean;
   WorkOrderOpened: any;
@@ -525,9 +526,17 @@ export class workOrderService {
         this.DataTasksForReportSub.next(value);
       });
   }
+
+  IsSoftService() {
+    const currentRoute = this.router.url;
+    const segmentsToCheck = ['CreateSoftServices', 'SoftServiceTasks', 'CompletedSST'];
+    return segmentsToCheck.some(segment => currentRoute.includes(segment));
+  }
+
   getSettingReportByLocation() {
     return this.http.getData('/Location/LocationReportSetting', {
       LocationId: localStorage.getItem('defaultLocation'),
+      isSoftService: this.IsSoftService()
     });
   }
   DateAndTime = new BehaviorSubject<any>(undefined);

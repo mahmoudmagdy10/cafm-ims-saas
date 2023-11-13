@@ -60,6 +60,7 @@ export class ppmTasksService {
     const params = {
       LocationId: localStorage.getItem('defaultLocation'),
       ScreenName: this.workOrderCompleted ? 'PPMCompleted' : 'PPMNotCompleted',
+      isSoftService: this.IsSoftService()
     };
     this.http
       .getData('/Code', params)
@@ -153,6 +154,7 @@ export class ppmTasksService {
                 ...params,
                 CurrentPage: this.selectedUserPage,
                 RowCount: this.RowCountUser,
+                isSoftService : this.IsSoftService()
               }
             )
             .subscribe((value) => {
@@ -208,6 +210,7 @@ export class ppmTasksService {
               ? this.paramsFilter.ToDate
               : this.ToDueDateForCalender,
             RowCount: this.RowCountCalender,
+            isSoftService : this.IsSoftService()
           })
           .pipe(
             map((value) => {
@@ -564,6 +567,7 @@ export class ppmTasksService {
   getSettingReportByLocation() {
     return this.http.getData('/Location/LocationReportSetting', {
       LocationId: localStorage.getItem('defaultLocation'),
+      isSoftService: this.IsSoftService()
     });
   }
   DateAndTime = new BehaviorSubject<any>(undefined);

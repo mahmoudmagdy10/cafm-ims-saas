@@ -15,6 +15,7 @@ export class AsideMenuComponent implements OnInit {
   userMenu: any = undefined;
   showUserGroup: boolean = false;
   isSuperUser: any;
+  showSoftService = false;
   constructor(
     private auth: AuthService,
     private router: Router,
@@ -29,6 +30,10 @@ export class AsideMenuComponent implements OnInit {
 
   companyId: any;
   ngOnInit(): void {
+    if (localStorage.getItem('defaultLocation') === '679'){
+      this.showSoftService = true ;
+    }
+    console.log('this.showSoftService :>> ', this.showSoftService);
     setTimeout(() => {
       this.isAdminOnLoation();
       if (this.isAdminOnLoation()) {
