@@ -149,10 +149,6 @@ export class ListComponent implements OnInit, OnDestroy {
     return this.service.CardOpened;
   }
   openCard(item: any) {
-    console.log('when clciedk the item');
-    
-    console.log(item);
-
     this.service.CardOpened = item.ID;
     this.openCardTask.emit(item);
   }
@@ -161,7 +157,6 @@ export class ListComponent implements OnInit, OnDestroy {
     this.refreshData.emit();
   }
   selectedRowCount(RowCount: any) {
-    console.log('row:', RowCount);
     this.RowCount = RowCount;
     this.service.RowCount = RowCount;
     this.refreshData.emit();

@@ -53,9 +53,7 @@ export class BasicDataComponent implements OnInit {
   ngOnInit(): void {
     this.codes$ = this.service.CodeObz$.pipe(
       tap((res) => {
-        console.log('codes', res);
         this.sopOptions = res.SOP;
-        console.log('sopOptions: ', this.sopOptions);
         if (res?.PagePermissions?.PMEdit) {
           this.formEditTask.enable({ emitEvent: false });
         } else {
@@ -76,7 +74,6 @@ export class BasicDataComponent implements OnInit {
     }
     this.ReturnDataToForm();
     this.Edit();
-    console.log('12345', this.itemEdit);
   }
   Edit() {
     const Save$ = this.formEditTask.valueChanges.pipe(
@@ -178,7 +175,6 @@ export class BasicDataComponent implements OnInit {
   }
 
   viewSOP(){
-    console.log('sop view', this.formEditTask?.controls['SelectedSOP']?.value);
     const sopId = this.formEditTask?.controls['SelectedSOP']?.value;
     this.service.getCodePms();
     const dialogRef = this.dialog
