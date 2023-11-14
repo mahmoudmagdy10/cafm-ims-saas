@@ -47,12 +47,10 @@ export class AddNewVendorComponent implements OnInit {
   selectLocation(event: any, codeLocation: any) {
     if (event.target.value) {
       this.LocationSelected.push(codeLocation);
-      console.log('this.LocationSelected :>> ', this.LocationSelected);
     } else {
       this.LocationSelected.forEach((value, index) => {
         if (value == codeLocation) {
           this.LocationSelected.splice(index, 1);
-          console.log('this.LocationSelected :>> ', this.LocationSelected);
         }
       });
     }
@@ -65,7 +63,6 @@ export class AddNewVendorComponent implements OnInit {
         LocationIds: localStorage.getItem('defaultLocation'),
         CompanyId: localStorage.getItem('companyId'),
       };
-      console.log('body :>> ', body);
       this.service.AddVendor(body).subscribe(
         (res: any) => {
           if (res.rv > 0) {

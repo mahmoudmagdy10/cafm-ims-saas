@@ -33,7 +33,6 @@ export class AsideMenuComponent implements OnInit {
     if (localStorage.getItem('defaultLocation') === '679'){
       this.showSoftService = true ;
     }
-    console.log('this.showSoftService :>> ', this.showSoftService);
     setTimeout(() => {
       this.isAdminOnLoation();
       if (this.isAdminOnLoation()) {

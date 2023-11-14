@@ -142,12 +142,10 @@ export class LocationService {
       })
       .subscribe((val) => {
         this.locationsAndSubLocation$.subscribe((val: any) => {
-          console.log('locationsAndSubLocation', val);
           this.exportDataExcel = val?.Data;
         });
         let dataForExcel: any[] = [];
         this.exportDataExcel?.forEach((item: any, index: any) => {
-          console.log('forEach', item);
           dataForExcel.push({
             ['#']: index,
             [this._translateService.instant('LOCATIONS_MANAGEMENT.SITE_NAME')]:
@@ -162,10 +160,8 @@ export class LocationService {
               'LOCATIONS_MANAGEMENT.ASSETS_NUMBER'
             )]: item.AssestsCount,
           });
-          console.log('push', dataForExcel);
         });
         this.http.downloadExcel(dataForExcel, 'locations');
-        console.log('downloadExcel', dataForExcel);
       });
   }
 
@@ -250,7 +246,6 @@ export class LocationService {
   }
 
   deleteLocationExtraService(body: any) {
-    console.log('body :>> ', body);
     return this.http.deleteDate('/Location/ExtraService', body);
   }
 }
