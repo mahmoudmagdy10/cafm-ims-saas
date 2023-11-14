@@ -183,6 +183,7 @@ export class ppmTasksService {
               : this.ToDueDateForCalender,
             isPPm: true,
             RowCount: this.RowCountCalender,
+            isSoftService: this.IsSoftService()
           })
           .pipe(
             map((value) => {

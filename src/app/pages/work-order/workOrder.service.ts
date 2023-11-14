@@ -160,6 +160,7 @@ export class workOrderService {
         FromDueDate: this.FromDueDateForCalender,
         ToDueDate: this.ToDueDateForCalender,
         RowCount: this.RowCountCalender,
+        isSoftService: this.IsSoftService()
       })
       .pipe(
         map((value) => {

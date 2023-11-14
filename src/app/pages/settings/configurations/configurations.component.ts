@@ -167,7 +167,6 @@ export class ConfigurationsComponent implements OnInit, OnDestroy {
     
     this.DataConfig$ = this.service.Configuration$.pipe(
       tap((dataForm) => {
-        console.log('dataForm :>> ', dataForm);
         if (dataForm) {
           this.ConfigurationsForm.patchValue({
             ...dataForm,

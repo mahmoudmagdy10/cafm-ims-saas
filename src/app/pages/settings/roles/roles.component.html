@@ -9,11 +9,7 @@
     </div>
     <div class="card-header-actions">
       <div class="add-role">
-        <button
-          class="btn btn-primary"
-          (click)="onAddRole()"
-          style="background-color: #66a9ed; padding: 7px 10px"
-        >
+        <button class="btn btn-primary" (click)="onAddRole()" style="background-color: #66a9ed; padding: 7px 10px">
           <i class="fas fa-plus"></i>
           {{ "USERS_GROUPS.ADD_USERS_GROUP" | translate }}
         </button>
@@ -57,10 +53,7 @@
 
   <ng-template #mainForm>
     <div #rolesContainer class="roles-items-container">
-      <div
-        *ngFor="let item of dataRoles; index as i"
-        [ngClass]="item.checked ? 'roles-item active' : 'roles-item'"
-      >
+      <div *ngFor="let item of dataRoles; index as i" [ngClass]="item.checked ? 'roles-item active' : 'roles-item'">
         <!-- <div [style]="{height: '100%' , width: item.RoleStatus?'85%':'72%'}"
           (click)="GetDataById(item.RoleId,item.RoleName);item.checked=true;readOnlyCheak(item.RoleStatus)">
           <div class="item-title" style="margin-top: 2px;">
@@ -68,59 +61,38 @@
           </div>
         </div> -->
 
-        <div
-          class="role-name"
-          (click)="
+        <div class="role-name" (click)="
             indexRolesEditName = i;
             GetDataById(item.RoleId, item.RoleName);
             item.checked = true;
             readOnlyCheak(item.RoleStatus)
-          "
-        >
+          ">
           <p class="mb-0 px-2">
             {{ item?.RoleName }}
             <span *ngIf="item.RoleStatus" style="color: red" class="mx-1">
-              ({{ "can_not_be_changed" | translate }})</span
-            >
+              ({{ "can_not_be_changed" | translate }})</span>
           </p>
         </div>
 
         <div class="item-actions text-start">
           <a class="d-inline-block" (click)="CopyRole(item)">
-            <i
-              class="fas fa-clone action-icon copy-icon"
-              tooltipPosition="top"
-              pTooltip="{{ 'USERS_GROUPS.COPY' | translate }}"
-            ></i>
+            <i class="fas fa-clone action-icon copy-icon" tooltipPosition="top"
+              pTooltip="{{ 'USERS_GROUPS.COPY' | translate }}"></i>
           </a>
           <!-- [hidden]="item?.RoleStatus -->
-          <a
-            class="d-inline-block"
-            *ngIf="!item?.RoleStatus"
-            (click)="
+          <a class="d-inline-block" *ngIf="!item?.RoleStatus" (click)="
               deleteRolesId = item.RoleId;
               deleteRolesIdIndex = i;
               confirmdeleteRole.openModal()
-            "
-          >
-            <i
-              class="fas fa-trash-alt action-icon delete-icon"
-              tooltipPosition="top"
-              pTooltip="{{ 'USERS_GROUPS.DELETE' | translate }}"
-            ></i>
+            ">
+            <i class="fas fa-trash-alt action-icon delete-icon" tooltipPosition="top"
+              pTooltip="{{ 'USERS_GROUPS.DELETE' | translate }}"></i>
           </a>
-          <a
-            class="d-inline-block"
-            *ngIf="item?.RoleStatus"
-            (click)="openDashboard(item)"
-          >
-            <i
-              class="fas fa-users-cog fa-lg action-icon"
-              style="color: #66a9ed"
-              tooltipPosition="top"
-              pTooltip="{{ 'dashbord' | translate }}"
-            ></i>
-          </a>
+          <!-- just hide it for now as Maled asked  -->
+          <!-- <a class="d-inline-block" *ngIf="item?.RoleStatus" (click)="openDashboard(item)">
+            <i class="fas fa-users-cog fa-lg action-icon" style="color: #66a9ed" tooltipPosition="top"
+              pTooltip="{{ 'dashbord' | translate }}"></i>
+          </a> -->
         </div>
       </div>
     </div>
@@ -132,83 +104,54 @@
         <h5 class="mx-2 mb-0" style="width: 30%">
           {{ "USERS_GROUPS.MEMBERS_DETAILS" | translate }}
         </h5>
-        <input
-          type="text"
-          placeholder="{{ 'USERS.FLTERMODAL.SEARCH' | translate }}"
-          class="form-control form-control-sm ng-pristine ng-valid ng-touched mb-2"
-          [(ngModel)]="searchPer"
-        />
+        <input type="text" placeholder="{{ 'USERS.FLTERMODAL.SEARCH' | translate }}"
+          class="form-control form-control-sm ng-pristine ng-valid ng-touched mb-2" [(ngModel)]="searchPer" />
       </div>
 
       <div class="role-info">
-        <fieldset
-          style="
+        <fieldset style="
             border: 1px solid #e2e2e2;
             border-radius: 5px;
             box-shadow: 0 0 20px -5px #e7e4e4;
-          "
-        >
-          <legend
-            style="
+          ">
+          <legend style="
               float: unset;
               width: unset;
               padding: 0 5px;
               margin: 5px 10px;
               font-size: 1rem;
-            "
-          >
+            ">
             {{ "USERS_GROUPS.EDIT_GROUP" | translate }}
           </legend>
-          <input
-            *ngIf="dataRoles[indexRolesEditName]"
-            type="text"
-            class="form-control form-control-solid"
-            [(ngModel)]="dataRoles[indexRolesEditName].RoleName"
-            (blur)="
+          <input *ngIf="dataRoles[indexRolesEditName]" type="text" class="form-control form-control-solid"
+            [(ngModel)]="dataRoles[indexRolesEditName].RoleName" (blur)="
               IsEditName ? autoEditPer(IsEditName) : ''; IsEditName = false
-            "
-            (change)="IsEditName = true"
-            [disabled]="isDisabledInputName"
-            style="background-color: transparent; border: none"
-          />
+            " (change)="IsEditName = true" [disabled]="isDisabledInputName"
+            style="background-color: transparent; border: none" />
         </fieldset>
 
         <div class="roles-component">
           <div class="roles-group">
-            <table
-              class="table table-rounded table-striped settings-table gy-3 gs-5"
-              *ngFor="let item of dataMenuPer | filter : searchPer"
-              style="margin-top: 1rem"
-            >
+            <table class="table table-rounded table-striped settings-table gy-3 gs-5"
+              *ngFor="let item of dataMenuPer | filter : searchPer" style="margin-top: 1rem">
               <thead>
-                <tr
-                  class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200"
-                >
+                <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
                   <!-- <th><i class="fas fa-info-circle"></i></th> -->
                   <th style="border-color: #b9b4c2; vertical-align: top">
                     <div class="form-check form-check-custom form-check-solid">
-                      <input
-                        [disabled]="isDisabledInputName"
-                        class="form-check-input custom-checkbox-style"
-                        type="checkbox"
-                        [checked]="item?.Permissions | isCheckedAll"
-                        (click)="cheakAllPerCat($event, item)"
-                      />
+                      <input [disabled]="isDisabledInputName" class="form-check-input custom-checkbox-style"
+                        type="checkbox" [checked]="item?.Permissions | isCheckedAll"
+                        (click)="cheakAllPerCat($event, item)" />
                     </div>
                   </th>
                   <th style="border-color: #b9b4c2" class="fw-bolder">
                     {{ item.CategoryName }}
-                    <div
-                      [style]="{ float: 'css.float' | translate }"
-                      (click)="item.showMore = !item.showMore"
-                    >
-                      <i
-                        [class]="
+                    <div [style]="{ float: 'css.float' | translate }" (click)="item.showMore = !item.showMore">
+                      <i [class]="
                           item.showMore
                             ? 'fa fa-chevron-up action-icon'
                             : 'fa fa-chevron-down action-icon'
-                        "
-                      ></i>
+                        "></i>
                     </div>
                   </th>
                 </tr>
@@ -218,66 +161,28 @@
                 <tr *ngFor="let itemP of item.Permissions">
                   <td>
                     <div class="form-check form-check-custom form-check-solid">
-                      <input
-                        [disabled]="isDisabledInputName"
-                        class="form-check-input custom-checkbox-style"
-                        type="checkbox"
-                        (change)="autoChecked($event, itemP, item.Permissions)"
-                        [(ngModel)]="itemP.checked"
-                        id="flexCheckDefault"
-                      />
+                      <input [disabled]="isDisabledInputName" class="form-check-input custom-checkbox-style"
+                        type="checkbox" (change)="autoChecked($event, itemP, item.Permissions)"
+                        [(ngModel)]="itemP.checked" id="flexCheckDefault" />
                     </div>
                   </td>
                   <td>
                     <div class="contents">
                       <span class="margin-end-1">{{
                         itemP?.Description_ar
-                      }}</span>
-                      <span
-                        class="tooltip-item svg-icon svg-icon-muted svg-icon-2hx"
-                        [pTooltip]="
+                        }}</span>
+                      <span class="tooltip-item svg-icon svg-icon-muted svg-icon-2hx" [pTooltip]="
                           lang == 'en'
                             ? itemP.Note_En
                             : itemP.Note || lang == 'en'
                             ? itemP.Description
                             : itemP.Description_ar
-                        "
-                        tooltipPosition="left"
-                        ><svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                        >
-                          <rect
-                            opacity="0.3"
-                            x="2"
-                            y="2"
-                            width="20"
-                            height="20"
-                            rx="10"
-                            fill="black"
-                          />
-                          <rect
-                            x="11"
-                            y="14"
-                            width="7"
-                            height="2"
-                            rx="1"
-                            transform="rotate(-90 11 14)"
-                            fill="black"
-                          />
-                          <rect
-                            x="11"
-                            y="17"
-                            width="2"
-                            height="2"
-                            rx="1"
-                            transform="rotate(-90 11 17)"
-                            fill="black"
-                          /></svg
-                      ></span>
+                        " tooltipPosition="left"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                          viewBox="0 0 24 24" fill="none">
+                          <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="black" />
+                          <rect x="11" y="14" width="7" height="2" rx="1" transform="rotate(-90 11 14)" fill="black" />
+                          <rect x="11" y="17" width="2" height="2" rx="1" transform="rotate(-90 11 17)" fill="black" />
+                        </svg></span>
                     </div>
                   </td>
                 </tr>
@@ -288,10 +193,7 @@
       </div>
     </div>
   </ng-template>
-  <confirm-delete
-    #confirmdeleteRole
-    massage="{{ 'CONFIRMDELETE.USER_GROUP' | translate }}"
-    (afterSave)="$event ? deleteRoles() : ''; confirmdeleteRole.CloseModal()"
-  >
+  <confirm-delete #confirmdeleteRole massage="{{ 'CONFIRMDELETE.USER_GROUP' | translate }}"
+    (afterSave)="$event ? deleteRoles() : ''; confirmdeleteRole.CloseModal()">
   </confirm-delete>
 </div>

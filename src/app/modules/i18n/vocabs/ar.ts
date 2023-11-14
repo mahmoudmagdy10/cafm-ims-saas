@@ -2464,7 +2464,7 @@ export const locale = {
     Line_Chart: 'خط الرسم البياني',
     Numbers_Chart: 'مخطط الأرقام',
     Percentage_Chart: 'مخطط النسبة المئوية',
-    Customiz_the_Dashboard: 'تخصيص لحوة القيادة',
+    Customiz_the_Dashboard: 'تخصيص لوحة القيادة',
     Duplicate_Parent_Tree: 'تكرار شجرة الأصول',
     HAS_THE_RIGHT_EMPLOYEE_BEEN_ASSIGNED_TO_THE_TASK:
       'هل تم تحديد الموظف الصحيح لتنفيذ المهمه؟',
