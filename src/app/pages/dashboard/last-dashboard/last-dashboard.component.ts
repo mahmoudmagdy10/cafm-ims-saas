@@ -1,23 +1,24 @@
 import { GMap } from 'primeng/gmap';
-import { AuthService } from './../../modules/auth/services/auth.service';
 import { environment } from 'src/environments/environment';
 import { MatDialog } from '@angular/material/dialog';
-import { WindowInfoComponent } from './window-info/window-info.component';
-import { finalize, map, startWith, tap, take } from 'rxjs/operators';
-import { LocationService } from './../settings/locations/locations.service';
+import { map, startWith, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
-import { DashboardService } from './dashboard.service';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { DashboardFilter } from './filter/dashboard-filter.component';
 import { UntypedFormControl } from '@angular/forms';
+import { DashboardService } from '../dashboard.service';
+import { LocationService } from '../../settings/locations/locations.service';
+import { AuthService } from 'src/app/modules/auth';
+import { DashboardFilter } from '../filter/dashboard-filter.component';
+import { WindowInfoComponent } from '../window-info/window-info.component';
+
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  selector: 'app-last-dashboard',
+  templateUrl: './last-dashboard.component.html',
+  styleUrls: ['./last-dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class LastDashboardComponent implements OnInit {
   constructor(
     private service: DashboardService,
     private router: Router,
@@ -49,13 +50,16 @@ export class DashboardComponent implements OnInit {
   interval: any;
   locations: any;
   showRejectedTask = true;
-
+  // ------- my work
+  locationName : string;
+  cardsData:any;
   ngOnInit(): void {
-    const companyDontUseRejectedTask = ['111'];
-    const companyId = localStorage.getItem('companyId');
-    this.showRejectedTask = companyId !== null && !companyDontUseRejectedTask.includes(companyId);
-    this.chartOptions = {
+    this.prepareData()
 
+    this.chartOptions = {
+      responsive: true,
+      width: 50, // Set the width of the chart
+      height: 50, // Set the height
       // plugins: {
       tooltips: {
         enabled: false, // <-- this option disables tooltips
@@ -89,11 +93,33 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
+  prepareData() {
+    const companyDontUseRejectedTask = ['111'];
+    const companyId = localStorage.getItem('companyId');
+    this.showRejectedTask = companyId !== null && !companyDontUseRejectedTask.includes(companyId);
+    const defaultLocationString = localStorage.getItem('defaultLocation');
+    const currentLocationId = parseInt(defaultLocationString || '0', 10);
+    const locationsString = localStorage.getItem('locations');
+    if (locationsString) {
+        try {
+            const locationsArray = JSON.parse(locationsString);
+            const location = locationsArray.find((loc: any) => loc.LocationId === currentLocationId);
+            this.locationName = location?.LocationName; 
+        } catch (error) {
+            console.error('Error parsing locations data:', error);
+        }
+    }
+}
+
+
+  
   init() {
     this.locationService.GetLocation();
     this.dataLocation();
     this.DashboardData$ = this.service.dataDashboard$.pipe(
       tap((value) => {
+        this.prepareData()
         if (value?.data) {
           this.buildChart(value?.data);
         }
@@ -261,7 +287,7 @@ export class DashboardComponent implements OnInit {
       datasets: [
         {
           data: [value?.Unplanned, value?.Planned],
-          backgroundColor: ['red', '#66BB6A'],
+          backgroundColor: ['#F5375D', '#4ce37e'],
           // hoverBackgroundColor: ['red', '#81C784'],
         },
       ],
@@ -271,7 +297,7 @@ export class DashboardComponent implements OnInit {
       datasets: [
         {
           data: [value?.CompletionTime, 100 - +value?.CompletionTime],
-          backgroundColor: ['#66BB6A', 'red'],
+          backgroundColor: ['#4CE37E', 'red'],
           // hoverBackgroundColor: [ '#81C784','red',],
         },
       ],
@@ -281,11 +307,10 @@ export class DashboardComponent implements OnInit {
       datasets: [
         {
           data: [
-            70, 30,
-            // ,
-            // 100 - +value.ResponsiveTime,
+            value.ResponsiveTime,
+            100 - +value.ResponsiveTime,
           ],
-          backgroundColor: ['#66BB6A', 'red'],
+          backgroundColor: ['#4CE37E', 'red'],
           // hoverBackgroundColor: [ '#81C784','red',],
         },
       ],
@@ -300,10 +325,17 @@ export class DashboardComponent implements OnInit {
             // ,
             // 100 - +value.ResponsiveTime,
           ],
-          backgroundColor: ['orange', 'green'],
+          backgroundColor: ['red', '#4ce37e'],
           // hoverBackgroundColor: [ '#81C784','red',],
         },
       ],
     };
+  }
+
+  imageProfile() {
+    let avatarPath = localStorage.getItem('avatarPath');
+    if (localStorage.getItem('avatarPath')) {
+      return this.Avatar + avatarPath;
+    }
   }
 }

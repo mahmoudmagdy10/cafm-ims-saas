@@ -192,6 +192,9 @@ export const locale = {
       SOFT_SERVICES_TASKS: 'مهام الخدمات ',
       COMPLETED_SOFT_SERVICES_TASKS: 'مهام الخدمات المكتملة',
       LOCATION_NAME: 'اسم الموقع',
+      alerts: {
+        updated: "تم تحديث القائمة الجانبية!"
+      }
     },
     FOOTER: {
       COPY_RIGHT: 'جميع الحقوق محفوظة',
@@ -214,6 +217,7 @@ export const locale = {
     // ---------------------------------------
     DASHBOARD: {
       CARD_TITLE: 'لوحة المعلومات',
+      dashboard_of: " لوحة معلومات {{locationName}}",
       FILTER_BTN: 'فلتر',
 
       TOTAL_MAINTENANCE_HOURS: 'إجمالي ساعات الصيانة',
@@ -254,7 +258,7 @@ export const locale = {
       NUMBER_OF_OPENED_TASKS: 'عدد المهام المفتوحة',
       NUMBER_OF_TASKS_COMPLETED_ON_TIME: 'عدد المهام المنجزة في الموعد',
       NUMBER_OF_TASKS_COMPLETED_LATE: 'عدد المهام المنجزة متأخرا',
-      RESPONSE_ON_TIME: 'نسبة الاستجابة فيه الوقت المحدد',
+      RESPONSE_ON_TIME: 'نسبة الاستجابة في الوقت المحدد',
       REOPEN_TASK: 'نسبة المهام التي تم اعادة فتحها',
       WORKER_NAME: 'اسم العامل',
       NUMBER_OF_OVERDUE_TASKS: 'عدد المهام المتأخرة',

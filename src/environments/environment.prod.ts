@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  DEBUG: true,
-  production: true,
+  DEBUG: false,
+  production: false,
   appVersion: 'v8.0.29',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
@@ -13,8 +13,8 @@ export const environment = {
   // baseUrl: 'http://49.12.56.114:1012/api',
   // baseUrlWithoutApi: 'http://49.12.56.114:1012',
   Avatar: '',
-  baseUrl: 'https://api3.cafm-ims.com/api',
-  baseUrlWithoutApi: 'https://api3.cafm-ims.com',
+  baseUrl: 'https://api.cafm-ims.com/api',
+  baseUrlWithoutApi: 'https://api.cafm-ims.com',
   // Avatar: 'https://api.cafm-ims.com/resources/Files/',
   appThemeName: 'Metronic',
   appPurchaseUrl: 'https://1.envato.market/EA4JP',

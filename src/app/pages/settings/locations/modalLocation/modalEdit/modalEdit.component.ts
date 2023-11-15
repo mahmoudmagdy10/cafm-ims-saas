@@ -20,6 +20,7 @@ import { MapCardComponent } from 'src/app/shared/components/google-map/dilogGoog
 import * as moment from 'moment';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalImgLocationComponent } from '../modal-img-location/modal-img-location.component';
+import { AsideMenuService } from 'src/app/services/aside-menu.service';
 
 @Component({
   selector: 'modalEdit',
@@ -72,6 +73,7 @@ export class modalEditComponent implements OnInit {
   extraServicesOptions: any[] = [];
   softServiceConfig: any;
   serviceData: any;
+  useSoftService = false;
 
   get ClientAcceptanceValue() {
     return this.ClientAcceptanceRequied.value;
@@ -90,6 +92,7 @@ export class modalEditComponent implements OnInit {
   extraServiceForAllLocation :{ code: boolean; Name: string }[]=[];
   TagsAndPiriorty :{ code: boolean; Name: string }[]=[];
   constructor(
+    private asideMenuService: AsideMenuService,
     private translateService: TranslateService,
     private service: LocationService,
     private toster: ToastrService,
@@ -112,6 +115,7 @@ export class modalEditComponent implements OnInit {
     ];
   }
   ngOnInit(): void {
+    this.useSoftService = localStorage.getItem('companyId') === '120';
     this.refreshServiceList();
     this.extraServicesOptions = this.Data.Codes.ExtraServices;
     if (this.Data.disabled) {
@@ -358,7 +362,7 @@ export class modalEditComponent implements OnInit {
     this.service.addLocationExtraService(payload).pipe(
       tap((serviceData:any) => {
         const { ServiceId } = serviceData.data[0];
-        // this.serviceData 
+        this.toster.info(this.translateService.instant('SIDEBAR.alerts.updated'));
         this.extraServicesOptions = this.extraServicesOptions.filter(s=> s.code !== ServiceId)
         this.loadExtraServiceData(serviceData, code);
       }),
@@ -398,6 +402,7 @@ export class modalEditComponent implements OnInit {
           ...s,
           name: getServiceName(s)
         }));
+        this.asideMenuService.softServiceChanged(this.extraServices);
         this.extraServicesOptions = this.extraServicesOptions.filter(option => {
           return !this.extraServices.some(service => 
             service.name === option.name && service.ServiceId === option.code
@@ -425,6 +430,8 @@ export class modalEditComponent implements OnInit {
         const addToOptions = this.Data.Codes.ExtraServices.filter((s:any) => s.code === service.ServiceId)
         this.extraServicesOptions = [...this.extraServicesOptions, ...addToOptions ];
         this.formEdit.get('addedServiceCode')?.enable();
+        this.asideMenuService.softServiceChanged(this.extraServices);
+        this.toster.info(this.translateService.instant('SIDEBAR.alerts.updated'));
         this.loading= false;})
     ).subscribe();
   }

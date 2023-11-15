@@ -1,0 +1,342 @@
+<ng-container *ngIf="DashboardData$ | async as DashboardData">
+    <ng-container *ngIf="!DashboardData.loading; else loading">
+        <ng-container *ngIf="DashboardData.data as data">
+            <div class="bg-gradient-primary pb-8">
+                <div class="container-fluid">
+                    <div class="card-title my-4 m-md-0 d-flex pb-5">
+                        <i class="fas fa-home fa-lg margin-end-1 mt-1"></i>
+                        <h4 class="fw-bolder mb-0 mx-2" [innerHTML]="'DASHBOARD.dashboard_of'  | translate: {locationName: locationName}"></h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0 h-100">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title font-weight-bold  mb-3"><span translate="DASHBOARD.PLANNED_UNPLANNED"></span></h4>
+                                            <span class="h4 font-weight-bold mb-0 mt-3"> 
+                                                <span class="h4 font-weight-bold mb-0 d-flex">
+                                                    <h4 style="color: #4ce37e ; font-weight: 600;">{{ data?.Planned || 0 }}%</h4>&nbsp; - &nbsp;
+                                                    <h4 style="color: #F5375D">{{ data?.Unplanned || 0 }}%</h4>
+                                                </span>
+                                        </span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="">
+                                                <p-chart type="pie" [data]="dataChartPlanned" style="width: 100%; height: 100%;"
+                                                    [options]="chartOptions"></p-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i>
+                                            3.48%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0 h-100">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title  font-weight-bold  mb-3"><span translate="DASHBOARD.BREAKDOWNs_NUMBER"></span></h4>
+                                            <h4 class=" font-weight-bold mb-0">{{ data.BreakdownsNumber }}</h4>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div
+                                                class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                                <i class="fa fa-cogs" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0 h-100">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title font-weight-bold mb-3"><span translate="DASHBOARD.PERCENTAGE_OF_COMPLETION_IN_TIME"></span></h4>
+                                            <h4 class=" font-weight-bold mb-0">{{ data.CompletionTime }}%</h4>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="">
+                                                <p-chart type="pie" [data]="dataChartCompletedTask" style="width: 100%; height: 100%;"
+                                                    [options]="chartOptions"></p-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i>
+                                            {{ data.CompletionTime }}%</span>
+                                        <span class="text-nowrap">Since yesterday</span>
+                                    </p> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0 h-100">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title font-weight-bold mb-3"><span translate="DASHBOARD.RESPONSE_ON_TIME"></span></h4>
+                                            <h4 class="font-weight-bold mb-0">{{ data.ResponsiveTime }}%</h4>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="">
+                                                <p-chart type="pie" [data]="dataChartResponseTask" style="width: 100%; height: 100%;"
+                                                    [options]="chartOptions"></p-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i>
+                                            {{ data.CompletionTime }}%</span>
+                                        <span class="text-nowrap">Since yesterday</span>
+                                    </p> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0 h-100">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title font-weight-bold  mb-3"><span translate="DASHBOARD.REOPEN_TASK"></span></h4>
+                                            <h4 class="h4 font-weight-bold mb-0">{{ data?.ReOpenTask }}%</h4>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="">
+                                                <p-chart type="pie" [data]="dataChartReopenCompletionRate" style="width: 100%; height: 100%;"
+                                                    [options]="chartOptions"></p-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i>
+                                            {{ data.CompletionTime }}%</span>
+                                        <span class="text-nowrap">Since yesterday</span>
+                                    </p> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0 h-100">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title font-weight-bold mb-3"><span translate="DASHBOARD.OPENED_TASKS_NUMBER"></span></h4>
+                                            <h4 class=" font-weight-bold mb-0 ">{{data.OpenTask}}</h4>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div
+                                                class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                                <i class="fa fa-tasks"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>
+                                            12%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0 h-100">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title font-weight-bold mb-3"><span translate="DASHBOARD.COMPLETED_TASKS_NUMBER"></span></h4>
+                                            <h4 class=" font-weight-bold mb-0">{{ data.CompletedTask }}</h4>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div
+                                                class="icon icon-shape text-white rounded-circle shadow" style="background-color: #4ce37e;">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>
+                                            12%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0 h-100">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title font-weight-bold mb-3"><span translate="DASHBOARD.LATE_TASKS_NUMBER"></span></h4>
+                                            <h4 class="font-weight-bold mb-0">{{ data.DeliedTask }}</h4>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div
+                                                class="icon icon-shape text-white rounded-circle shadow" style="background-color: #F5375D;">
+                                                <img src="../../../../assets/icons/late.svg" alt="Late Icon" width="40" height="40">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>
+                                            12%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6" *ngIf="showRejectedTask">
+                            <div class="card card-stats mb-4 mb-xl-0 h-100">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title font-weight-bold mb-3"><span translate="PREVENTIVE_TASKS_MANAGEMENT.TASK_REJECTed"></span></h4>
+                                            <h4 class=" font-weight-bold mb-0">{{ data?.RejectTask }}</h4>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div
+                                                class="icon icon-shape text-white rounded-circle shadow bg-danger">
+                                                <i class="fa fa-times-circle"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>
+                                            12%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0 h-100">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title font-weight-bold mb-3"><span translate="PREVENTIVE_TASKS_MANAGEMENT.GENERAL_TASKS"></span></h4>
+                                            <span class="h2 font-weight-bold mb-0 text-center">{{ data?.GeneralTask }}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div
+                                                class="icon icon-shape text-white rounded-circle shadow bg-info">
+                                                <i class="fa fa-list"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>
+                                            12%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p> -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- <div class="col-xl-3 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0 h-100">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Performance
+                                            </h5>
+                                            <span class="h2 font-weight-bold mb-0">49,65%</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div
+                                                class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                                <i class="fas fa-percent"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>
+                                            12%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="h-divider">
+                    <div class="shadow"></div>
+                    <div class="text"><i> <img [src]="imageProfile() != Avatar + 'null'
+                                               ? imageProfile() : './assets/media/avatars/avatar.svg'" /></i></div>
+                </div>
+            </div>
+            <div class="row p-5">
+                <div class="table-responsive mb-5 mt-5 ">
+                    <table class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6">
+                        <thead>
+                            <tr class="fw-bolder fs-6 text-gray-800">
+                                <th>{{ "DASHBOARD.WORKER_NAME" | translate }}</th>
+                                <th class="text-center">
+                                    {{ "DASHBOARD.NUMBER_OF_OPENED_TASKS" | translate }}
+                                </th>
+                                <th class="text-center">
+                                    {{ "DASHBOARD.NUMBER_OF_TASKS_COMPLETED_ON_TIME" | translate }}
+                                </th>
+                                <th class="text-center">
+                                    {{ "DASHBOARD.NUMBER_OF_OVERDUE_TASKS" | translate }}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data.WorkersUsers">
+                                <td>
+                                    <div class="location d-flex align-items-center">
+                                        <div class="mx-2">
+                                            <p-image *ngIf="item?.AvatarPath; else default" [src]="Avatar + item?.AvatarPath" alt="Image" width="40px"
+                                                [preview]="true" imageClass="symbol symbol-35px symbol-circle "></p-image>
+                                            <ng-template #default>
+                                                <div class="symbol-label" [style.background-image]="
+                                                              'url(assets/media/avatars/avatar.svg)'
+                                                            "></div>
+                                            </ng-template>
+                                        </div>
+                                        <span [style.cursor]="'pointer'" (click)="
+                                                          moveOn('settings/users', { UserID: item.UserId })
+                                                        ">
+                                            {{ item.Name }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <p-avatar label="O" pBadge styleClass="mr-5" [value]="item.NumberOfOpenedTasks"></p-avatar>
+                                </td>
+                                <td class="text-center">
+                                    <p-avatar label="C" pBadge styleClass="mr-5" [value]="item.NumberOfOverdueTasks"></p-avatar>
+                                </td>
+                                <td class="text-center">
+                                    <p-avatar label="C-L" pBadge styleClass="mr-5" [value]="item.NumberOfTasksCompletedOnTime"></p-avatar>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ng-container *ngIf="loading$ | async; else map">
+                    <mat-spinner></mat-spinner>
+                </ng-container>
+                <ng-template #map>
+                    <p-gmap #gmap [options]="options" [style]="{ width: '100%', height: '500px' }" [overlays]="overlays" (onOverlayClick)="handleOverlayClick($event)"></p-gmap>
+                </ng-template>
+            </div>
+            
+        </ng-container>
+    </ng-container>
+</ng-container>
+
+<ng-template #loading>
+    <mat-spinner></mat-spinner>
+</ng-template>
+

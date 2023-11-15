@@ -1,21 +1,13 @@
 <!-- Dashboard -->
 <div class="menu-item" *ngIf="isShow('dashboard')">
-  <a
-    class="menu-link without-sub"
-    routerLink="/dashboard"
-    routerLinkActive="active"
-    ><span class="menu-icon">
+    <a class="menu-link without-sub" routerLink="/dashboard" routerLinkActive="active"><span class="menu-icon">
       <i class="fas fa-home fa-lg text-white"></i>
     </span>
     <span class="menu-title" translate="SIDEBAR.DASHBOARD"></span
   ></a>
 </div>
 <div class="menu-item" [hidden]="true">
-  <a
-    class="menu-link without-sub"
-    routerLink="/workerDashboard"
-    routerLinkActive="active"
-    ><span class="menu-icon">
+    <a class="menu-link without-sub" routerLink="/workerDashboard" routerLinkActive="active"><span class="menu-icon">
       <i class="fas fa-home fa-lgtext-white"></i>
     </span>
     <span class="menu-title" translate>{{
@@ -129,15 +121,8 @@
   </a>
 </div>
 <!-- مجموعات المستخدمين -->
-<div
-  class="menu-item"
-  *ngIf="(isShow('settings/roles') && isSuperUser) || companyId == 0"
->
-  <a
-    class="menu-link without-sub"
-    routerLink="settings/roles"
-    routerLinkActive="active"
-    ><span class="menu-icon">
+<div class="menu-item" *ngIf="(isShow('settings/roles') && isSuperUser) || companyId == 0">
+    <a class="menu-link without-sub" routerLink="settings/roles" routerLinkActive="active"><span class="menu-icon">
       <i class="fas fa-users-cog fa-lg text-white"></i>
     </span>
     <span class="menu-title"> {{ "SIDEBAR.USERSGROUPS" | translate }}</span></a
@@ -180,11 +165,7 @@
 
 <!-- الأصول -->
 <div class="menu-item" *ngIf="isShow('Asset')">
-  <a
-    class="menu-link without-sub"
-    routerLink="Asset/Asset-main"
-    routerLinkActive="active"
-    ><span class="menu-icon">
+    <a class="menu-link without-sub" routerLink="Asset/Asset-main" routerLinkActive="active"><span class="menu-icon">
       <!-- <span [inlineSVG]="'./assets/media/icons/duotune/general/gen017.svg'" class="svg-icon svg-icon-2"></span> -->
       <i class="fas fa-boxes fa-lg text-white"></i> </span
     ><span class="menu-title"> {{ "SIDEBAR.ASSETS" | translate }} </span></a
@@ -300,7 +281,8 @@
     </span></a
   >
 </div>
-<div class="menu-item" *ngIf="isShow('PMs') && showSoftService">
+<!-- hide them for now  -->
+<div class="menu-item" *ngIf="menuSoftService(12) && showSoftService">
   <a class="menu-link without-sub"
      routerLink="PMs/CreateSoftServices" 
      routerLinkActive="active">
@@ -313,33 +295,25 @@
   </a>
 </div>
 
-<div class="menu-item" *ngIf="isShow('PPMCompleted') && showSoftService">
-  <a class="menu-link without-sub"
-     routerLinkActive="active"
-     routerLink="PPMTasks/SoftServiceTasks">
-    <span class="menu-icon">
+<div class="menu-item" *ngIf="menuSoftService(13) && showSoftService">
+    <a class="menu-link without-sub" routerLinkActive="active" routerLink="PPMTasks/SoftServiceTasks">
+        <span class="menu-icon">
        <i class="fa fa-wrench fa-lg text-white"></i></span>
-       <span class="menu-title">{{ "SIDEBAR.SOFT_SERVICES_TASKS" | translate }}</span>
-  </a>
+        <span class="menu-title">{{ "SIDEBAR.SOFT_SERVICES_TASKS" | translate }}</span>
+    </a>
 </div>
 
-<div class="menu-item" *ngIf="isShow('PPMCompleted') && showSoftService">
-  <a class="menu-link without-sub"
-     routerLinkActive="active"
-     routerLink="PPMTasks/CompletedSST">
-    <span class="menu-icon">
+<div class="menu-item" *ngIf="menuSoftService(11) && showSoftService">
+    <a class="menu-link without-sub" routerLinkActive="active" routerLink="PPMTasks/CompletedSST">
+        <span class="menu-icon">
       <i class="fa fa-wrench fa-lg text-white"></i>
     </span>
-    <span class="menu-title" translate="SIDEBAR.COMPLETED_SOFT_SERVICES_TASKS"></span>
-  </a>
+        <span class="menu-title" translate="SIDEBAR.COMPLETED_SOFT_SERVICES_TASKS"></span>
+    </a>
 </div>
-
-<div class="menu-item" *ngIf="isShow('WOPTransaction') && showSoftService">
-  <a
-    class="menu-link without-sub"
-    routerLinkActive="active"
-    routerLink="/WorkOrder-Parts-Transaction"
-    ><span class="menu-icon">
+<!-- --------------------------- -->
+<div class="menu-item" *ngIf="isShow('WOPTransaction')">
+    <a class="menu-link without-sub" routerLinkActive="active" routerLink="/WorkOrder-Parts-Transaction"><span class="menu-icon">
       <span> <i class="fa fa-wrench fa-lg text-white"></i> </span></span
     ><span class="menu-title">{{ "Parts_Transaction" | translate }} </span></a
   >
@@ -390,11 +364,7 @@
     </span></a>
 </div> -->
 <div class="menu-item" *ngIf="isShow('Vendors')">
-  <a
-    class="menu-link without-sub"
-    routerLinkActive="active"
-    routerLink="Vendors"
-    ><span class="menu-icon">
+    <a class="menu-link without-sub" routerLinkActive="active" routerLink="Vendors"><span class="menu-icon">
       <span> <i class="fa fa-truck-moving fa-lg text-white"></i> </span>
     </span>
     <span class="menu-title">
@@ -461,11 +431,7 @@
 </div>
 <!-- المشتريات-->
 <div class="menu-item" *ngIf="isShow('ProcurementManagement')">
-  <a
-    class="menu-link without-sub"
-    routerLink="ProcurementManagement"
-    routerLinkActive="active"
-    ><span class="menu-icon">
+    <a class="menu-link without-sub" routerLink="ProcurementManagement" routerLinkActive="active"><span class="menu-icon">
       <i class="fa fa-money-check-alt text-white"></i> </span
     ><span class="menu-title">{{ "SIDEBAR.PURCHASES" | translate }}</span></a
   >
@@ -604,11 +570,7 @@
 
 <!-- الاشتراكات -->
 <div class="menu-item" *ngIf="isShow('settings/Subscription')">
-  <a
-    class="menu-link without-sub"
-    routerLinkActive="active"
-    routerLink="settings/Subscription"
-    ><span class="menu-icon">
+    <a class="menu-link without-sub" routerLinkActive="active" routerLink="settings/Subscription"><span class="menu-icon">
       <i class="fas fa-money-bill fa-lg text-white"></i> </span
     ><span class="menu-title">
       {{ "SIDEBAR.SUBSCRIPTIONS" | translate }}
@@ -676,11 +638,7 @@
 
 <!-- سلة المحذوفات -->
 <div class="menu-item" *ngIf="isShow('settings/trash')">
-  <a
-    class="menu-link without-sub"
-    routerLink="settings/trash"
-    routerLinkActive="active"
-    ><span class="menu-icon">
+    <a class="menu-link without-sub" routerLink="settings/trash" routerLinkActive="active"><span class="menu-icon">
       <i class="fas fa-trash-alt fa-lg text-white"></i> </span
     ><span class="menu-title"> {{ "SIDEBAR.TRASH" | translate }} </span></a
   >
@@ -750,9 +708,9 @@
         class="menu-title">
         {{ "SIDEBAR.SPAREPARTS" | translate }}
       </span></a>
-  </div> -->
+</div> -->
 
-  <!-- <div class="menu-item">
+<!-- <div class="menu-item">
     <a
       class="menu-link without-sub"
       routerLinkActive="active"
@@ -830,8 +788,8 @@
     >
   </div> -->
 
-  <!-- المالية -->
-  <!-- <div
+<!-- المالية -->
+<!-- <div
       class="menu-item menu-accordion"
       routerLinkActive="here show"
       data-kt-menu-trigger="click"
@@ -893,14 +851,14 @@
         </div>
       </div>
     </div> -->
-  <!-- <div class="menu-item">
+<!-- <div class="menu-item">
       <a class="menu-link without-sub" routerLinkActive="active" routerLink="/crafted/pages/profile/connections"><span
           class="menu-icon"><span class="svg-icon svg-icon-2" [inlineSVG]="
           './assets/media/icons/duotune/communication/com014.svg'
         "></span></span><span class="menu-title">فرق العمل</span></a>
     </div> -->
 
-  <!-- <div class="menu-item">
+<!-- <div class="menu-item">
     <a class="menu-link without-sub" routerLinkActive="active" routerLink="/settings/ThemesEmails"><span
         class="menu-icon">
         <span [inlineSVG]="'./assets/media/icons/duotune/general/Group 88683.svg'" class="svg-icon svg-icon-2"></span>

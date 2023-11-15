@@ -1,13 +1,19 @@
 import { AuthService } from './../../../../../modules/auth/services/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { environment } from '../../../../../../environments/environment';
 import { Router, NavigationEnd } from '@angular/router';
 import { DashboardService } from 'src/app/pages/dashboard/dashboard.service';
+import { Subscription } from 'rxjs';
+import { AsideMenuService } from 'src/app/services/aside-menu.service';
+import { LocationService } from 'src/app/pages/settings/locations/locations.service';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-aside-menu',
   templateUrl: './aside-menu.component.html',
   styleUrls: ['./aside-menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default,
+
 })
 export class AsideMenuComponent implements OnInit {
   appAngularVersion: string = environment.appVersion;
@@ -16,12 +22,23 @@ export class AsideMenuComponent implements OnInit {
   showUserGroup: boolean = false;
   isSuperUser: any;
   showSoftService = false;
+  softServicesOnLocation: any[]= [];
+  private softServiceChangedSubscription: Subscription;
+
   constructor(
     private auth: AuthService,
     private router: Router,
-    private dashboardService: DashboardService
-  ) {
+    private dashboardService: DashboardService,
+    private asideMenuService: AsideMenuService,
+    private locationService: LocationService,
+    private cdr: ChangeDetectorRef
+    ) {
     this.companyId = localStorage.getItem('companyId');
+    if ( this.companyId === '120') {
+      // softService for nebras 
+      this.getLocationExtraServices();
+    }
+    
     if (!this.companyId) {
       document.location.reload();
       this.auth.logout();
@@ -30,8 +47,16 @@ export class AsideMenuComponent implements OnInit {
 
   companyId: any;
   ngOnInit(): void {
-    if (localStorage.getItem('defaultLocation') === '679'){
-      this.showSoftService = true ;
+    if (localStorage.getItem('companyId') === '120') {
+      this.showSoftService = true;
+      this.softServiceChangedSubscription = this.asideMenuService.softServiceChanged$.pipe(
+        map(response => response || []),
+        map((data: any[]) => data.map((item: any) => item.ServiceId)),
+        tap((softServices: number[]) => {
+          this.softServicesOnLocation = softServices;
+          this.cdr.detectChanges();
+        })
+      ).subscribe();
     }
     setTimeout(() => {
       this.isAdminOnLoation();
@@ -44,6 +69,7 @@ export class AsideMenuComponent implements OnInit {
     this.fetchMenuItems();
     this.isSuperUser = JSON.parse(localStorage.getItem('isSuperUser') || '');
   }
+
   isShow(screenName: string) {
     if (this.userMenu?.length) {
       var isShow: boolean = false;
@@ -64,9 +90,31 @@ export class AsideMenuComponent implements OnInit {
     }
   }
 
+  getLocationExtraServices(){
+    const payload = {
+      locationId : localStorage.getItem('defaultLocation')
+    }
+    this.locationService.getLoactionExtraService(payload).pipe(
+      map(response => response.Data || []),
+      map(data => data.map((item: any) => item.ServiceId)),
+      tap((softServices: any[]) => {
+        this.softServicesOnLocation = softServices;
+      })
+    )
+    .subscribe();
+}
+
+  menuSoftService(serviceId : number){
+    if(!this.softServicesOnLocation.length){
+      return false
+    }
+    return this.softServicesOnLocation.includes(serviceId);
+  }
+
   removeFirstCharacter(parg: string) {
     return parg.split('/')[1];
   }
+
   isIncludedUrl(url: any) {
     return this.userMenu.some(
       (item: any) => item.ScreenName && item.ScreenName.includes(url)

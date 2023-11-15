@@ -132,7 +132,7 @@ export class MaintenanceRequestComponent implements OnInit {
     });
   }
   Apply() {
-    if (!this.notRipot && !this.DEBUG) {
+    if (!this.notRipot && !this.DEBUG && this.useCaptcha) {
       return false;
     }
     if (!this.form.value.LocationId) {

@@ -17,14 +17,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ImageModule } from 'primeng/image';
 import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
+import { LastDashboardComponent } from './last-dashboard/last-dashboard.component';
 @NgModule({
-  declarations: [DashboardComponent, WindowInfoComponent, DashboardFilter],
+  declarations: [DashboardComponent, WindowInfoComponent, DashboardFilter, LastDashboardComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
       {
         path: '',
-        component: DashboardComponent,
+        component: LastDashboardComponent,
       },
     ]),
     WidgetsModule,

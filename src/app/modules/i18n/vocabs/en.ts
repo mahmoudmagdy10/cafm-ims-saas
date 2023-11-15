@@ -190,6 +190,9 @@ export const locale = {
       COMPLETED_SOFT_SERVICES_TASKS: 'Completed Soft Services Tasks',
       PPM_TASKS: 'PPM Tasks',
       LOCATION_NAME: 'Location Name',
+      alerts: {
+        updated: "Side menu updated!"
+      }
     },
 
     FOOTER: {
@@ -257,6 +260,7 @@ export const locale = {
 
     DASHBOARD: {
       CARD_TITLE: 'Dashboard',
+      dashboard_of: "Dashboard of {{locationName}}",
       FILTER_BTN: 'Filter',
 
       TOTAL_MAINTENANCE_HOURS: 'Total Maintenance Hours',
