@@ -193,7 +193,7 @@ export const locale = {
       COMPLETED_SOFT_SERVICES_TASKS: 'مهام الخدمات المكتملة',
       LOCATION_NAME: 'اسم الموقع',
       alerts: {
-        updated: "تم تحديث القائمة الجانبية!"
+        updated: "تم تحديث القائمة الجانبية "
       }
     },
     FOOTER: {

@@ -391,6 +391,7 @@ export class modalEditComponent implements OnInit {
   getServiceName (service :any) {
     return this.Data.Codes.ExtraServices.find((s:any) => s.code === service.ServiceId).name;
    }
+
   getLocationExtraServices(payload:any){ 
     this.service.getLoactionExtraService(payload).pipe(
       tap(response => {

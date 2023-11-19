@@ -7,6 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AsideMenuService } from 'src/app/services/aside-menu.service';
 import { LocationService } from 'src/app/pages/settings/locations/locations.service';
 import { map, tap } from 'rxjs/operators';
+import { cl } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-aside-menu',
@@ -40,7 +41,11 @@ export class AsideMenuComponent implements OnInit {
       this.CodeLocation$ = this.locationService.getCodeLocation();
       this.CodeLocation$.subscribe((value) => {
         if (value.ExtraServices.length > 0){
-          this.getLocationExtraServices(value.ExtraServices);
+          const list = value.ExtraServices.map((s: any) => ({
+            ...s,
+            ServiceId : s.code
+          }))
+          this.getLocationExtraServices(list);
         }
       });
     }
@@ -57,7 +62,11 @@ export class AsideMenuComponent implements OnInit {
       this.showSoftService = true;
       this.softServiceChangedSubscription = this.asideMenuService.softServiceChanged$.pipe(
         tap(response => {
-          this.getLocationExtraServices(response);
+          const list = response.map((s: any) => ({
+            ...s,
+            ServiceId : s.ServiceId
+          }))
+          this.getLocationExtraServices(list);
           this.cdr.detectChanges();
         })
       ).subscribe();
@@ -99,7 +108,7 @@ export class AsideMenuComponent implements OnInit {
       locationId: localStorage.getItem('defaultLocation')
     };
     const getServiceName = (service: any) => {
-      return list.find((s: any) => s.code === service.ServiceId || s.ServiceId === service.ServiceId).name;
+      return list.find((s: any) => s.ServiceId === service.ServiceId)?.name;
     };
   
     this.locationService.getLoactionExtraService(payload).pipe(
@@ -118,10 +127,35 @@ export class AsideMenuComponent implements OnInit {
   
 
   menuSoftService(serviceName: string): boolean {
-    if (this.softServicesOnLocation.length > 0) {
-      return this.softServicesOnLocation.some(service => service.name === serviceName);
+    if (serviceName === 'ادارة الخدمات العامة' || serviceName === 'Soft Service Management' ) {
+      const arName = 'ادارة الخدمات العامة';
+      const enName = 'Soft Service Management';
+      if (this.softServicesOnLocation.length > 0) {
+        return this.softServicesOnLocation.some(service => service.name === arName || service.name === enName);
+      }
+      return false;
     }
-    return false;
+    if (serviceName === 'مهام الخدمات العامة' || serviceName === 'Soft service task' ) {
+      const arName = 'مهام الخدمات العامة';
+      const enName = 'Soft service task';
+      if (this.softServicesOnLocation.length > 0) {
+        return this.softServicesOnLocation.some(service => service.name === arName || service.name === enName);
+      }
+      return false;
+    }
+    if (serviceName === 'مهام الخدمات العامة المكتملة' || serviceName === 'Completed soft service task' ) {
+      const arName = 'مهام الخدمات العامة المكتملة';
+      const enName = 'Completed soft service task';
+      if (this.softServicesOnLocation.length > 0) {
+        return this.softServicesOnLocation.some(service => service.name === arName || service.name === enName);
+      }
+      return false;
+    }
+    else{
+      return false;
+    }
+    // Soft service task
+
   }
 
   removeFirstCharacter(parg: string) {
