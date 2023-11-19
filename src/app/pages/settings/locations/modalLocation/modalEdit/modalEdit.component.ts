@@ -388,10 +388,10 @@ export class modalEditComponent implements OnInit {
     this.getLocationExtraServices(payload);
   }
 
-  getLocationExtraServices(payload:any){
-    const getServiceName=(service :any)=>{
-     return this.Data.Codes.ExtraServices.find((s:any) => s.code === service.ServiceId).name;
-    }
+  getServiceName (service :any) {
+    return this.Data.Codes.ExtraServices.find((s:any) => s.code === service.ServiceId).name;
+   }
+  getLocationExtraServices(payload:any){ 
     this.service.getLoactionExtraService(payload).pipe(
       tap(response => {
        const {Data : oldServices} = response; 
@@ -400,14 +400,14 @@ export class modalEditComponent implements OnInit {
        }
         this.extraServices = [...this.extraServices, ...oldServices].map(s=>({
           ...s,
-          name: getServiceName(s)
+          name: this.getServiceName(s)
         }));
-        this.asideMenuService.softServiceChanged(this.extraServices);
         this.extraServicesOptions = this.extraServicesOptions.filter(option => {
           return !this.extraServices.some(service => 
             service.name === option.name && service.ServiceId === option.code
           );
         });
+        this.asideMenuService.softServiceChanged(this.extraServices);
         this.cdr.detectChanges();
         if (!this.extraServicesOptions.length){
           this.formEdit.get('addedServiceCode')?.disable();
@@ -430,6 +430,10 @@ export class modalEditComponent implements OnInit {
         const addToOptions = this.Data.Codes.ExtraServices.filter((s:any) => s.code === service.ServiceId)
         this.extraServicesOptions = [...this.extraServicesOptions, ...addToOptions ];
         this.formEdit.get('addedServiceCode')?.enable();
+        this.extraServices.map(s=>({
+          ...s,
+          name: this.getServiceName(s)
+        }));
         this.asideMenuService.softServiceChanged(this.extraServices);
         this.toster.info(this.translateService.instant('SIDEBAR.alerts.updated'));
         this.loading= false;})

@@ -1,9 +1,9 @@
 import { AuthService } from './../../../../../modules/auth/services/auth.service';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { environment } from '../../../../../../environments/environment';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 import { DashboardService } from 'src/app/pages/dashboard/dashboard.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AsideMenuService } from 'src/app/services/aside-menu.service';
 import { LocationService } from 'src/app/pages/settings/locations/locations.service';
 import { map, tap } from 'rxjs/operators';
@@ -23,7 +23,8 @@ export class AsideMenuComponent implements OnInit {
   isSuperUser: any;
   showSoftService = false;
   softServicesOnLocation: any[]= [];
-  private softServiceChangedSubscription: Subscription;
+  softServiceChangedSubscription: Subscription;
+  CodeLocation$: Observable<any>;
 
   constructor(
     private auth: AuthService,
@@ -31,12 +32,17 @@ export class AsideMenuComponent implements OnInit {
     private dashboardService: DashboardService,
     private asideMenuService: AsideMenuService,
     private locationService: LocationService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
     ) {
     this.companyId = localStorage.getItem('companyId');
     if ( this.companyId === '120') {
       // softService for nebras 
-      this.getLocationExtraServices();
+      this.CodeLocation$ = this.locationService.getCodeLocation();
+      this.CodeLocation$.subscribe((value) => {
+        if (value.ExtraServices.length > 0){
+          this.getLocationExtraServices(value.ExtraServices);
+        }
+      });
     }
     
     if (!this.companyId) {
@@ -50,10 +56,8 @@ export class AsideMenuComponent implements OnInit {
     if (localStorage.getItem('companyId') === '120') {
       this.showSoftService = true;
       this.softServiceChangedSubscription = this.asideMenuService.softServiceChanged$.pipe(
-        map(response => response || []),
-        map((data: any[]) => data.map((item: any) => item.ServiceId)),
-        tap((softServices: number[]) => {
-          this.softServicesOnLocation = softServices;
+        tap(response => {
+          this.getLocationExtraServices(response);
           this.cdr.detectChanges();
         })
       ).subscribe();
@@ -90,25 +94,34 @@ export class AsideMenuComponent implements OnInit {
     }
   }
 
-  getLocationExtraServices(){
+  getLocationExtraServices(list: any) {
     const payload = {
-      locationId : localStorage.getItem('defaultLocation')
-    }
+      locationId: localStorage.getItem('defaultLocation')
+    };
+    const getServiceName = (service: any) => {
+      return list.find((s: any) => s.code === service.ServiceId || s.ServiceId === service.ServiceId).name;
+    };
+  
     this.locationService.getLoactionExtraService(payload).pipe(
       map(response => response.Data || []),
-      map(data => data.map((item: any) => item.ServiceId)),
+      map((i: any[]) => i.map(item => ({
+        ...item,
+        name: getServiceName(item)
+      }))),
       tap((softServices: any[]) => {
         this.softServicesOnLocation = softServices;
+        this.cdr.detectChanges();
       })
     )
     .subscribe();
-}
+  }
+  
 
-  menuSoftService(serviceId : number){
-    if(!this.softServicesOnLocation.length){
-      return false
+  menuSoftService(serviceName: string): boolean {
+    if (this.softServicesOnLocation.length > 0) {
+      return this.softServicesOnLocation.some(service => service.name === serviceName);
     }
-    return this.softServicesOnLocation.includes(serviceId);
+    return false;
   }
 
   removeFirstCharacter(parg: string) {

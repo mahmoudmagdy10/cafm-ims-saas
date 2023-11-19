@@ -234,12 +234,14 @@ ul.p-treenode-children > p-treenode.p-element::before {
 /* ----------------------------------------------------------- */
 /* start aside style */
 .aside.aside-dark {
-  background: #66a9ed;
-  background-color: #66a9ed;
+  /* background: #66a9ed; */
+  /* background-color: #66a9ed; */
+  background: linear-gradient(214.85deg, rgb(0, 168, 134) 0%, rgb(0, 108, 159) 100%) 0% 0% / contain !important;
 }
 
 .aside.aside-dark .aside-logo {
-  background-color: #66a9ed !important;
+  /* background-color: #66a9ed !important; */
+  background: linear-gradient(214.85deg, rgb(0, 168, 134) 0%, rgb(0, 108, 159) 100%) 0% 0% / contain !important;
 }
 
 .aside.aside-dark .aside-logo a {
@@ -249,7 +251,7 @@ ul.p-treenode-children > p-treenode.p-element::before {
 
 .aside-dark .menu .menu-item .menu-link.active {
   transition: color 0.2s ease, background-color 0.2s ease;
-  background-color: #1873cd !important;
+  background-color: #69adb7  !important;
   color: #ffffff;
 }
 
