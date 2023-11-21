@@ -117,7 +117,8 @@ ul.p-treenode-children > p-treenode.p-element::before {
   width: 100%;
   height: 100%;
   content: " ";
-  background-color: #1a6fc2;
+  background: linear-gradient(214.85deg, rgb(0, 168, 134) 0%, rgb(0, 108, 159) 100%) 0% 0% / contain !important;
+  /* background: linear-gradient(214.85deg, rgb(0, 168, 134) 0%, rgb(10 18 22) 100%) 0% 0% / contain !important; */
   opacity: 0.9;
   border-radius: 10px;
   z-index: 3;

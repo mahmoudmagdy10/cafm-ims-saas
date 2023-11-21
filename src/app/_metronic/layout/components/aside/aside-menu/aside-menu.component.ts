@@ -36,7 +36,7 @@ export class AsideMenuComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     ) {
     this.companyId = localStorage.getItem('companyId');
-    if ( this.companyId === '120') {
+    if ( this.companyId === '120' || this.companyId === '110')  {
       // softService for nebras 
       this.CodeLocation$ = this.locationService.getCodeLocation();
       this.CodeLocation$.subscribe((value) => {
@@ -58,7 +58,7 @@ export class AsideMenuComponent implements OnInit {
 
   companyId: any;
   ngOnInit(): void {
-    if (localStorage.getItem('companyId') === '120') {
+    if (localStorage.getItem('companyId') === '120' || localStorage.getItem('companyId') === '110') {
       this.showSoftService = true;
       this.softServiceChangedSubscription = this.asideMenuService.softServiceChanged$.pipe(
         tap(response => {
