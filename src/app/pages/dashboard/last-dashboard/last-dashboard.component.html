@@ -292,35 +292,39 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of data.WorkersUsers">
-                                <td>
-                                    <div class="location d-flex align-items-center">
-                                        <div class="mx-2">
-                                            <p-image *ngIf="item?.AvatarPath; else default" [src]="Avatar + item?.AvatarPath" alt="Image" width="40px"
-                                                [preview]="true" imageClass="symbol symbol-35px symbol-circle "></p-image>
-                                            <ng-template #default>
-                                                <div class="symbol-label" [style.background-image]="
-                                                              'url(assets/media/avatars/avatar.svg)'
-                                                            "></div>
-                                            </ng-template>
-                                        </div>
-                                        <span [style.cursor]="'pointer'" (click)="
-                                                          moveOn('settings/users', { UserID: item.UserId })
-                                                        ">
-                                            {{ item.Name }}
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <p-avatar label="O" pBadge styleClass="mr-5" [value]="item.NumberOfOpenedTasks"></p-avatar>
-                                </td>
-                                <td class="text-center">
-                                    <p-avatar label="C" pBadge styleClass="mr-5" [value]="item.NumberOfOverdueTasks"></p-avatar>
-                                </td>
-                                <td class="text-center">
-                                    <p-avatar label="C-L" pBadge styleClass="mr-5" [value]="item.NumberOfTasksCompletedOnTime"></p-avatar>
-                                </td>
-                            </tr>
+                            <ng-container *ngFor="let item of data.WorkersUsers">
+                                <ng-container *ngIf="item.UserId !== currentUserId">
+                                    <tr>
+                                        <td>
+                                            <div class="location d-flex align-items-center">
+                                                <div class="mx-2">
+                                                    <p-image *ngIf="item?.AvatarPath; else default" [src]="Avatar + item?.AvatarPath" alt="Image" width="40px"
+                                                        [preview]="true" imageClass="symbol symbol-35px symbol-circle "></p-image>
+                                                    <ng-template #default>
+                                                        <div class="symbol-label" [style.background-image]="
+                                                                    'url(assets/media/avatars/avatar.svg)'
+                                                                    "></div>
+                                                    </ng-template>
+                                                </div>
+                                                <span [style.cursor]="'pointer'" (click)="
+                                                                moveOn('settings/users', { UserID: item.UserId })
+                                                                ">
+                                                    {{ item.Name }}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <p-avatar label="O" pBadge styleClass="mr-5" [value]="item.NumberOfOpenedTasks"></p-avatar>
+                                        </td>
+                                        <td class="text-center">
+                                            <p-avatar label="C" pBadge styleClass="mr-5" [value]="item.NumberOfOverdueTasks"></p-avatar>
+                                        </td>
+                                        <td class="text-center">
+                                            <p-avatar label="C-L" pBadge styleClass="mr-5" [value]="item.NumberOfTasksCompletedOnTime"></p-avatar>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </ng-container>
                         </tbody>
                     </table>
                 </div>

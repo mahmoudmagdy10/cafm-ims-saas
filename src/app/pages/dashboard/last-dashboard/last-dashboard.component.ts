@@ -53,6 +53,7 @@ export class LastDashboardComponent implements OnInit {
   // ------- my work
   locationName : string;
   cardsData:any;
+  currentUserId:number;
   ngOnInit(): void {
     this.prepareData()
 
@@ -109,7 +110,8 @@ export class LastDashboardComponent implements OnInit {
         } catch (error) {
             console.error('Error parsing locations data:', error);
         }
-    }
+  };
+  this.currentUserId = Number(localStorage.getItem('userID'));
 }
 
 

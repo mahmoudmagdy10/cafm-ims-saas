@@ -180,7 +180,7 @@ export const locale = {
       SUPPLIERS: 'الموردين',
       FINANCE: 'المالية',
       PREVENTIVEMAINTENANCE: ' الصيانة الوقائية',
-      CREATESOFTSERVICES: 'انشاء خدمات عامة',
+      CREATESOFTSERVICES: 'ادارة الخدمات عامة',
       SECURITYGUARDMANAGEMENT: '  إدارة حراس الأمن ',
       CONTRACTORSMANAGEMENT: ' إدارة المقاولين ',
       MEETINGROOMSBOOKING: 'حجز قاعات الإجتماعات ',
@@ -189,8 +189,8 @@ export const locale = {
       EVENTSLOG: ' سجل الاحداث ',
       PPM_TASKS: 'مهام الصيانة الوقائية',
       COMPLETED_PPM_TASKS: 'مهام الصيانة الوقائية المكتملة',
-      SOFT_SERVICES_TASKS: 'مهام الخدمات ',
-      COMPLETED_SOFT_SERVICES_TASKS: 'مهام الخدمات المكتملة',
+      SOFT_SERVICES_TASKS: 'مهام الخدمات  العامة',
+      COMPLETED_SOFT_SERVICES_TASKS: 'مهام الخدمات العامة المكتملة',
       LOCATION_NAME: 'اسم الموقع',
       alerts: {
         updated: "تم تحديث القائمة الجانبية "

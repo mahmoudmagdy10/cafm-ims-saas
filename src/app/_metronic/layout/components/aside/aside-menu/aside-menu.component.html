@@ -281,28 +281,29 @@
     </span></a
   >
 </div>
-<!-- hide them for now  -->
-<div class="menu-item" *ngIf="menuSoftService('Soft Service Management') && showSoftService">
+<!-- start soft service -->
+<div class="menu-item" *ngIf="isShow('Soft Service Management') && showSoftService">
   <a class="menu-link without-sub"
      routerLink="PMs/CreateSoftServices" 
      routerLinkActive="active">
     <span class="menu-icon">
       <img src="../../../../../../assets/media/icons/duotune/sideNav/create-ppm.svg" alt="Create Soft Service Icon" />
-    </span>
+    </span> 
     <span class="menu-title">
       {{ "SIDEBAR.CREATESOFTSERVICES" | translate }}
     </span>
   </a>
 </div>
 
-<div class="menu-item" *ngIf="menuSoftService('Soft service task') && showSoftService">
+<div class="menu-item" *ngIf="isShow('Soft service task') && showSoftService">
     <a class="menu-link without-sub" routerLinkActive="active" routerLink="PPMTasks/SoftServiceTasks">
         <span class="menu-icon">
        <i class="fa fa-wrench fa-lg text-white"></i></span>
         <span class="menu-title">{{ "SIDEBAR.SOFT_SERVICES_TASKS" | translate }}</span>
     </a>
 </div>
-<div class="menu-item" *ngIf="menuSoftService('Completed soft service task') && showSoftService">
+
+<div class="menu-item" *ngIf="isShow('Completed soft service task') && showSoftService">
     <a class="menu-link without-sub" routerLinkActive="active" routerLink="PPMTasks/CompletedSST">
         <span class="menu-icon">
       <i class="fa fa-wrench fa-lg text-white"></i>
@@ -310,7 +311,7 @@
         <span class="menu-title" translate="SIDEBAR.COMPLETED_SOFT_SERVICES_TASKS"></span>
     </a>
 </div>
-<!-- --------------------------- -->
+<!-- -------------end soft service-------------- -->
 <div class="menu-item" *ngIf="isShow('WOPTransaction')">
     <a class="menu-link without-sub" routerLinkActive="active" routerLink="/WorkOrder-Parts-Transaction"><span class="menu-icon">
       <span> <i class="fa fa-wrench fa-lg text-white"></i> </span></span

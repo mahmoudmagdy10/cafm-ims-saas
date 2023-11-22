@@ -1,13 +1,11 @@
 import { AuthService } from './../../../../../modules/auth/services/auth.service';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { environment } from '../../../../../../environments/environment';
 import { Router } from '@angular/router';
 import { DashboardService } from 'src/app/pages/dashboard/dashboard.service';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AsideMenuService } from 'src/app/services/aside-menu.service';
-import { LocationService } from 'src/app/pages/settings/locations/locations.service';
-import { map, tap } from 'rxjs/operators';
-import { cl } from '@fullcalendar/core/internal-common';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-aside-menu',
@@ -25,48 +23,27 @@ export class AsideMenuComponent implements OnInit {
   showSoftService = false;
   softServicesOnLocation: any[]= [];
   softServiceChangedSubscription: Subscription;
-  CodeLocation$: Observable<any>;
+  companyId: any;
 
   constructor(
     private auth: AuthService,
     private router: Router,
     private dashboardService: DashboardService,
     private asideMenuService: AsideMenuService,
-    private locationService: LocationService,
     private cdr: ChangeDetectorRef,
     ) {
     this.companyId = localStorage.getItem('companyId');
-    if ( this.companyId === '120' || this.companyId === '110')  {
-      // softService for nebras 
-      this.CodeLocation$ = this.locationService.getCodeLocation();
-      this.CodeLocation$.subscribe((value) => {
-        if (value.ExtraServices.length > 0){
-          const list = value.ExtraServices.map((s: any) => ({
-            ...s,
-            ServiceId : s.code
-          }))
-          this.getLocationExtraServices(list);
-        }
-      });
-    }
-    
     if (!this.companyId) {
       document.location.reload();
       this.auth.logout();
     }
   }
-
-  companyId: any;
   ngOnInit(): void {
     if (localStorage.getItem('companyId') === '120' || localStorage.getItem('companyId') === '110') {
       this.showSoftService = true;
       this.softServiceChangedSubscription = this.asideMenuService.softServiceChanged$.pipe(
-        tap(response => {
-          const list = response.map((s: any) => ({
-            ...s,
-            ServiceId : s.ServiceId
-          }))
-          this.getLocationExtraServices(list);
+        tap(() => {
+          this.fetchMenuItems();
           this.cdr.detectChanges();
         })
       ).subscribe();
@@ -84,6 +61,7 @@ export class AsideMenuComponent implements OnInit {
   }
 
   isShow(screenName: string) {
+    // this.fetchMenuItems();
     if (this.userMenu?.length) {
       var isShow: boolean = false;
       this.userMenu.forEach((element: any, index: any) => {
@@ -103,61 +81,6 @@ export class AsideMenuComponent implements OnInit {
     }
   }
 
-  getLocationExtraServices(list: any) {
-    const payload = {
-      locationId: localStorage.getItem('defaultLocation')
-    };
-    const getServiceName = (service: any) => {
-      return list.find((s: any) => s.ServiceId === service.ServiceId)?.name;
-    };
-  
-    this.locationService.getLoactionExtraService(payload).pipe(
-      map(response => response.Data || []),
-      map((i: any[]) => i.map(item => ({
-        ...item,
-        name: getServiceName(item)
-      }))),
-      tap((softServices: any[]) => {
-        this.softServicesOnLocation = softServices;
-        this.cdr.detectChanges();
-      })
-    )
-    .subscribe();
-  }
-  
-
-  menuSoftService(serviceName: string): boolean {
-    if (serviceName === 'ادارة الخدمات العامة' || serviceName === 'Soft Service Management' ) {
-      const arName = 'ادارة الخدمات العامة';
-      const enName = 'Soft Service Management';
-      if (this.softServicesOnLocation.length > 0) {
-        return this.softServicesOnLocation.some(service => service.name === arName || service.name === enName);
-      }
-      return false;
-    }
-    if (serviceName === 'مهام الخدمات العامة' || serviceName === 'Soft service task' ) {
-      const arName = 'مهام الخدمات العامة';
-      const enName = 'Soft service task';
-      if (this.softServicesOnLocation.length > 0) {
-        return this.softServicesOnLocation.some(service => service.name === arName || service.name === enName);
-      }
-      return false;
-    }
-    if (serviceName === 'مهام الخدمات العامة المكتملة' || serviceName === 'Completed soft service task' ) {
-      const arName = 'مهام الخدمات العامة المكتملة';
-      const enName = 'Completed soft service task';
-      if (this.softServicesOnLocation.length > 0) {
-        return this.softServicesOnLocation.some(service => service.name === arName || service.name === enName);
-      }
-      return false;
-    }
-    else{
-      return false;
-    }
-    // Soft service task
-
-  }
-
   removeFirstCharacter(parg: string) {
     return parg.split('/')[1];
   }
@@ -172,6 +95,7 @@ export class AsideMenuComponent implements OnInit {
     this.dashboardService.GetUserMenuPermission().subscribe(
       (res: any) => {
         this.userMenu = res?.[0]?.UserMenu;
+        this.cdr.detectChanges();
         if (!this.userMenu?.length) {
           this.router.navigate(['/page-no-permission']);
           return;
@@ -181,21 +105,15 @@ export class AsideMenuComponent implements OnInit {
         this.userMenu = localStorage.getItem('userMenu');
         if (this.userMenu) {
           this.userMenu = JSON.parse(this.userMenu);
+          this.cdr.detectChanges();
         }
-        // if (this.userMenu.length > 0) {
-        //   const linkUrl = this.removeFirstCharacter(this.router.url);
-        //   const check = this.isIncludedUrl(linkUrl);
-        //   const firstItem = this.userMenu.find(
-        //     (menu: any) => menu.ScreenName
-        //   ).ScreenName;
-        //   if (!check) this.router.navigate([firstItem]);
-        // }
       },
       (error: any) => {
         console.error('Error fetching menu items:', error);
       }
     );
   }
+
   isAdminOnLoation() {
     try {
       if (
@@ -210,6 +128,7 @@ export class AsideMenuComponent implements OnInit {
       return false;
     }
   }
+
   isActiveRoute(): boolean {
     const currentRoute = this.router.url;
     return (

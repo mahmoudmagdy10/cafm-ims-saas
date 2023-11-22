@@ -159,23 +159,15 @@
     <div class="card-title m-0">
       <i class="fas fa-tools fa-lg" *ngIf="!workOrderCompleted"></i>
       <h4 class="fw-bolder mb-0 mx-2" *ngIf="!workOrderCompleted && !isSoftService">
-        {{
-        ("PREVENTIVE_TASKS_MANAGEMENT.CARD_TITLE" | translate) +
-        "" +
-        (" PPM" | translate)
-        }}
+        {{("PREVENTIVE_TASKS_MANAGEMENT.CARD_TITLE" | translate) + "" + (" PPM" | translate) }}
       </h4>
       <img *ngIf="workOrderCompleted" src="../../../assets/media/icons/duotune/sideNav/completed-ppm.svg"
         alt="Completed PPM Icon" width="20px" height="20px">
       <h4 class="fw-bolder mb-0 mx-2" *ngIf="workOrderCompleted && !isSoftService && !CompletedSST">
-        {{
-        CompletedType
-        ? ("PREVENTIVE_TASKS_MANAGEMENT.WORK_ORDER_REGECTED" | translate) +
-        " " +
-        ("PPM" | translate)
-        : ("PREVENTIVE_TASKS_MANAGEMENT.COMPLETED_PPM_TASKS" | translate)
-        }}
+        {{ CompletedType ? ("PREVENTIVE_TASKS_MANAGEMENT.WORK_ORDER_REGECTED" | translate) +
+        " " + ("PPM" | translate) : ("PREVENTIVE_TASKS_MANAGEMENT.COMPLETED_PPM_TASKS" | translate)}}
       </h4>
+      
       <h4 class="fw-bolder mb-0 mx-2" *ngIf="isSoftService && !CompletedSST" translate="SIDEBAR.SOFT_SERVICES_TASKS">
       </h4>
       <h4 class="fw-bolder mb-0 mx-2" *ngIf="CompletedSST && !isSoftService"
