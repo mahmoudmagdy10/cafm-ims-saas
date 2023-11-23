@@ -59,11 +59,11 @@ codes?.PagePermissions?.BalancedRedistribution-->
         <button
           *ngIf="codes?.PagePermissions?.PMAdd"
           class="general-btn add-btn mx-1"
-          (click)="addPMTask()"
-        >
+          (click)="addPMTask()">
           <span>
             <span><i class="fas fa-plus"></i></span>
-            <span>{{ "PM.ADD_PM" | translate }}</span>
+            <span *ngIf="!isSoftService">{{ "PM.ADD_PM" | translate }}</span>
+            <span *ngIf="isSoftService">{{ "PM.ADD_soft_repeated" | translate }}</span>
           </span>
         </button>
         <button
@@ -138,50 +138,42 @@ codes?.PagePermissions?.BalancedRedistribution-->
 
   <div class="card-body" #Report>
     <div class="row mb-3">
-      <div class="col-12" style="text-align: end">
-        <span>
-          {{ "Total" | translate }}
-        </span>
-        <span class="fs-1 margin-end-1">:</span>
-        <a href="javascript:;" *ngIf="viewType == 'List'">{{
-          ((pmsData$|async)?.Setting?.[0]?.TotalCount) || 0
-        }}</a>
-        <a href="javascript:;" *ngIf="viewType == 'FullCalender'">{{
-          ((AllSchedulesTimeCalender$|async)?.Setting?.[0]?.TotalCount) || 0
-        }}</a>
-        <a href="javascript:;" *ngIf="viewType == 'DailyPm'">{{
-          ((AllSchedulesTimeCalender$|async)?.Setting?.[0]?.TotalCount) || 0
-        }}</a>
-        |
-        <span>
-          {{ "PREVENTIVE_TASKS_MANAGEMENT.DISPLAY_AS.DISPLAY_AS" | translate }}
-        </span>
-        <span class="fs-1 margin-end-1">:</span>
-
-        <a href="javascript:;" (click)="viewType = 'List'">{{
-          "PREVENTIVE_TASKS_MANAGEMENT.DISPLAY_AS.DISPLAY_AS_LIST" | translate
-        }}</a>
-        |
-        <a href="javascript:;" (click)="viewType = 'FullCalender'">
-          {{
-            "PREVENTIVE_TASKS_MANAGEMENT.DISPLAY_AS.DISPLAY_AS_CALENDAR"
-              | translate
-          }}
-        </a>
-        |
-        <a
-          href="javascript:;"
-          [class]="viewType == 'DailyPm' ? 'active' : ''"
-          (click)="viewType = 'DailyPm'"
-          >{{ "DailyWo" | translate }}</a
-        >
+      <div class="col-12 my-5">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item d-flex" role="presentation">
+            <button class="nav-link" [class.active]="viewType == 'List'" (click)="viewType = 'List'" role="tab">
+              <span class="d-flex">
+                <h5 class="me-4">{{ "PREVENTIVE_TASKS_MANAGEMENT.DISPLAY_AS.DISPLAY_AS_LIST" | translate }}</h5>
+                <small class="my-1"><b>{{ "Total" | translate }} {{ (pmsData$ | async)?.Setting?.[0]?.TotalCount || 0 }}</b> </small>
+              </span>
+            </button>
+            <div>
+            </div>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" [class.active]="viewType == 'FullCalender'" (click)="viewType = 'FullCalender'" role="tab">
+              <span class="d-flex">
+                <h5 class="me-4">{{ "PREVENTIVE_TASKS_MANAGEMENT.DISPLAY_AS.DISPLAY_AS_CALENDAR" | translate }}</h5>
+                <small class="my-1"><b>{{ "Total" | translate }} {{ (AllSchedulesTimeCalender$ | async)?.Setting?.[0]?.TotalCount || 0 }}</b> </small>
+              </span>
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" [class.active]="viewType == 'DailyPm'" (click)="viewType = 'DailyPm'" role="tab">
+              <span class="d-flex">
+                <h5 class="me-4">{{ "DailyWo" | translate }}</h5>
+                <small class="my-1"><b>{{ "Total" | translate }} {{ (AllSchedulesTimeCalender$ | async)?.Setting?.[0]?.TotalCount || 0 }}</b> </small>
+              </span>
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
     <app-view-data-filter [componentType]="'PPM'"></app-view-data-filter>
     <div class="mt-3"></div>
     <ng-container *ngIf="viewType == 'List'">
       <app-view-table
-        (openCard)="Card($event)"
+        (openCard)="Card($event, undefined, true)"
         (openCardTabUpComing)="Card($event, true)"
       ></app-view-table>
     </ng-container>

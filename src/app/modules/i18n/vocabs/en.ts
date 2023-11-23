@@ -782,6 +782,7 @@ export const locale = {
       DELETETEAM: 'Delete This Team',
       COPYTEAMSETTING: "Copy this team's settings",
       SAVE: 'Save',
+      select: 'Select',
       CANCEL: 'Cancel',
     },
     SUBSCRIPTIONS: {
@@ -1886,6 +1887,7 @@ export const locale = {
         UPCOMMING_SCHEDULE: 'Upcomming Times For This Task',
       },
       ADD_PM: 'Add PM Task',
+      ADD_soft_repeated: 'Add soft task',
       CARD_HEADER: 'Create Preventive Maintenance',
       DAILY: 'Daily',
       WEEKLY: 'Weekly',
@@ -2412,6 +2414,7 @@ export const locale = {
       'Accomplished Tasks within a period of the date of',
     to: 'to',
     SOP: 'SOP',
+    ppm_task_template: 'SOP',
     signature: 'Signature',
     Completion_Reason: 'Completion Note ',
     Problems_Identifications: 'Problems Identifications',

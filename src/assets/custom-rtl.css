@@ -929,3 +929,23 @@ ul.p-treenode-children > p-treenode.p-element::before {
   right: unset !important;
   left: 20px !important;
 }
+
+#freshworks-container {
+  width: 21px;
+  height: 0px;
+  bottom: 0px;
+  right: 0px !important; /* Use !important to override inline styles */
+  z-index: 2147483647;
+  left: 0px;
+}
+
+#freshworks-container iframe {
+  right: 91vw !important; /* Use !important to override inline styles */
+  bottom: 0px !important; /* Use !important to override inline styles */
+  border: none;
+  position: fixed;
+  min-width: 104px;
+  max-width: 156px;
+  height: 56px;
+  z-index: 2147483000;
+}

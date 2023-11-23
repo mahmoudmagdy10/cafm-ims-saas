@@ -1,13 +1,11 @@
 import { TreeAssetsComponent } from 'src/app/shared/components/Tree/tree-assets/tree-assets.component';
 import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs/operators';
-import { Component, Inject, OnInit, Pipe } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { PmsService } from '../../pms.service';
 import { Observable } from 'rxjs';
-import { assetsScreenService } from 'src/app/pages/assetsScreen/assetsScreen.service';
 
 @Component({
   selector: 'pm-card',
@@ -29,10 +27,9 @@ export class PMcard implements OnInit {
 
   ngOnInit(): void {
     this.CodeObz$ = this.service.CodeObz$;
-
     this.itemEdit$ = this.service.getPmsAsId(this.dataPmCard.ID).pipe(
       map((value) => {
-        return { ...value[0], TagsId: JSON.parse(value[0].TagsId) };
+        return { ...value[0], TagsId: JSON.parse(value[0]?.TagsId) };
       })
     );
     this.service.PMSIdOpened = this.dataPmCard.ID;

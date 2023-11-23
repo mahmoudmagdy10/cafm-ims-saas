@@ -188,7 +188,7 @@ export const locale = {
       ENERGYMANAGEMENT: ' إستهلاك الطاقة ',
       EVENTSLOG: ' سجل الاحداث ',
       PPM_TASKS: 'مهام الصيانة الوقائية',
-      COMPLETED_PPM_TASKS: 'مهام الصيانة الوقائية المكتملة',
+      COMPLETED_PPM_TASKS: 'مهام الصيانة الوقائية المغلقة',
       SOFT_SERVICES_TASKS: 'مهام الخدمات  العامة',
       COMPLETED_SOFT_SERVICES_TASKS: 'مهام الخدمات العامة المكتملة',
       LOCATION_NAME: 'اسم الموقع',
@@ -711,6 +711,7 @@ export const locale = {
       DELETETEAM: 'حذف هذا الفريق',
       COPYTEAMSETTING: 'نسخ إعدادات هذ الفريق',
       SAVE: 'حفظ',
+      select: 'اختيار',
       CANCEL: 'إلغاء',
     },
     SUBSCRIPTIONS: {
@@ -1849,6 +1850,7 @@ export const locale = {
         UPCOMMING_SCHEDULE: 'المواعيد القادمة لهذه المهمة',
       },
       ADD_PM: 'إضافة مهمة وقائية',
+      ADD_soft_repeated: 'إضافة مهمة مكررة',
       CARD_HEADER: 'الصيانة الوقائية',
       DAILY: 'يوميا',
       WEEKLY: 'أسبوعيا',
@@ -1906,7 +1908,7 @@ export const locale = {
           NO_SCHEDULING: 'لا يوجد أي جدولة مضافة حتى الآن',
         },
         ADD_PM_TASK: {
-          MODAL_TITLE: 'إضافة مهمة وقائية',
+          MODAL_TITLE: 'إضافة مهمة',
           NAME: 'الاسم',
           PRIORITY_LEVEL: 'درجة الأهمية',
           TAGS: 'فئات العمل',
@@ -2379,6 +2381,7 @@ export const locale = {
     Tasks_accomplished_within_a_period_of_the_date_of:
       '  المهمام المنجزة خلال فترة من تاريخ',
     SOP: 'الأعمال',
+    ppm_task_template: 'القالب',
     signature: 'التوقيع',
     TO: 'إلى',
     Completion_Reason: 'ملاحظة الإكتمال ',

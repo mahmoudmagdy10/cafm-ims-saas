@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ViewDataFilterService } from 'src/app/shared/components/view-data-filter/view-data-filter.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,8 @@ export class TemplatesForSopService {
   RowCountList: any = 50;
   constructor(
     private http: HttpService,
-    private viewDataFilterService: ViewDataFilterService
+    private viewDataFilterService: ViewDataFilterService,
+    private router: Router
   ) {}
   //  Code
   getCodePms() {
@@ -247,6 +249,7 @@ export class TemplatesForSopService {
     this.http
       .getData('/PreventiveMaintenance/SchedulesTime', {
         LocationId: localStorage.getItem('defaultLocation'),
+        isSoftService: this.IsSoftService()
       })
       .subscribe((value) => {
         this.AllSchedulesTimeSub.next(value);
@@ -261,6 +264,7 @@ export class TemplatesForSopService {
       .getData('/PreventiveMaintenance/SchedulesTime', {
         PMId: PMId,
         LocationId: localStorage.getItem('defaultLocation'),
+        isSoftService: this.IsSoftService()
       })
       .subscribe((value) => {
         this.SchedulesTimeByPMSIDSub.next(value);
@@ -294,5 +298,11 @@ export class TemplatesForSopService {
   }
   CalenderUpateDate(body: any) {
     return this.http.saveData('/PreventiveMaintenance/CalenderUpateDate', body);
+  }
+
+  IsSoftService() {
+    const currentRoute = this.router.url;
+    const segmentsToCheck = ['CreateSoftServices', 'SoftServiceTasks', 'CompletedSST'];
+    return segmentsToCheck.some(segment => currentRoute.includes(segment));
   }
 }

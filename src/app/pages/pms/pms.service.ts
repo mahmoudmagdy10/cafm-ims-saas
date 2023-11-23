@@ -110,6 +110,7 @@ export class PmsService {
       .getData('/PreventiveMaintenance', {
         LocationId: localStorage.getItem('defaultLocation'),
         ID: ID,
+        isSoftService: this.IsSoftService()
       })
       .pipe(
         map((value: any) => {
@@ -121,6 +122,7 @@ export class PmsService {
   createOrEditSchedules(body: any) {
     return this.http.saveData('/PreventiveMaintenance/Schedules', {
       ...body,
+      isSoftService: this.IsSoftService()
     });
   }
 
@@ -129,6 +131,7 @@ export class PmsService {
     return this.http.saveData('/WorkOrder/SOP', {
       ...body,
       pmId: this.PMSIdOpened,
+      isSoftService: this.IsSoftService()
     });
   }
 
@@ -140,6 +143,7 @@ export class PmsService {
       .getData('/WorkOrder/SOP', {
         pmId: this.PMSIdOpened,
         LocationId: localStorage.getItem('defaultLocation'),
+        isSoftService: this.IsSoftService()
       })
       .pipe(
         map((value) => {
@@ -168,11 +172,15 @@ export class PmsService {
   }
 
   deleteIns(ID: number) {
-    return this.http.deleteDate('/WorkOrder/SOP', { Ids: ID });
+    return this.http.deleteDate('/WorkOrder/SOP', { 
+      Ids: ID,
+      isSoftService: this.IsSoftService()
+     });
   }
 
   // add New Value To Inst
   addNewValueToInst(body: any) {
+    body.isSoftService = this.IsSoftService();
     return this.http.saveData('/WorkOrder/SOPFieldsValues', body);
   }
 
@@ -235,22 +243,28 @@ export class PmsService {
       ComponentType: 'Assets',
       ComponentId: idAsset,
       fieldType: fieldType,
+      isSoftService: this.IsSoftService()
     });
   }
   // reset Instruction from Tasks
   resetInstructionFromTasks(ids: any) {
-    return this.http.saveData('/WorkOrder/SOPRest', { ids: ids });
+    return this.http.saveData('/WorkOrder/SOPRest', { 
+      ids: ids,
+      isSoftService: this.IsSoftService()
+    });
   }
   // delete  Schedules
   deleteSchedules(ID: any) {
     return this.http.deleteDate('/PreventiveMaintenance/Schedules', {
       ID: ID,
+      isSoftService: this.IsSoftService()
     });
   }
   // delete  SchedulesTime
   deleteSchedulesTime(ID: any) {
     return this.http.deleteDate('/PreventiveMaintenance/SchedulesTime', {
       ID: ID,
+      isSoftService: this.IsSoftService()
     });
   }
   // switch  SchedulesTime
@@ -260,12 +274,14 @@ export class PmsService {
       {
         PMScheduleTimesID: PMScheduleTimesID,
         LocationId: localStorage.getItem('defaultLocation'),
+        isSoftService: this.IsSoftService()
       }
     );
   }
   selectedPageDaliy: any = 1;
   // create WorkOrder
   createWorkOrder(body: any) {
+    body.isSoftService = this.IsSoftService()
     return this.http.saveData('/PreventiveMaintenance/WorkOrder', body);
   }
   getAllSchedulesTime() {
@@ -310,6 +326,7 @@ export class PmsService {
       .getData('/PreventiveMaintenance/SchedulesTime', {
         PMId: PMId,
         LocationId: localStorage.getItem('defaultLocation'),
+        isSoftService: this.IsSoftService()
       })
       .subscribe((value) => {
         this.SchedulesTimeByPMSIDSub.next(value);
