@@ -1,7 +1,7 @@
 import { SkeletonModule } from 'primeng/skeleton';
 import { ChangePasswordModal } from './components/topbar/ChangePasswordModal/ChangePasswordModal.component';
 import { DialogModule } from 'primeng/dialog';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InlineSVGModule } from 'ng-inline-svg';
@@ -30,6 +30,7 @@ import { DrawersModule, DropdownMenusModule, ModalsModule } from '../partials';
 import { LoadingWhenRoutingComponent } from './components/content/loading-when-routing/loading-when-routing.component';
 import { BadgeModule } from 'primeng/badge';
 import { MessageModule } from 'primeng/message';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 const routes: Routes = [
   {
     path: '',
@@ -72,6 +73,9 @@ const routes: Routes = [
     SkeletonModule,
     BadgeModule,
     MessageModule,
+    DragDropModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [RouterModule],
 })

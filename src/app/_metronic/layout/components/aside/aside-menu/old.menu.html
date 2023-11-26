@@ -1,0 +1,867 @@
+<div class="menu-item" *ngIf="isShow('dashboard')">
+    <a class="menu-link without-sub" routerLink="/dashboard" routerLinkActive="active"><span class="menu-icon">
+      <i class="fas fa-home fa-lg text-white"></i>
+    </span>
+    <span class="menu-title" translate="SIDEBAR.DASHBOARD"></span
+  ></a>
+</div>
+
+<div class="menu-item" [hidden]="true">
+    <a class="menu-link without-sub" routerLink="/workerDashboard" routerLinkActive="active"><span class="menu-icon">
+      <i class="fas fa-home fa-lgtext-white"></i>
+    </span>
+    <span class="menu-title" translate>{{
+      "SIDEBAR.WORKER_DASHBOARD" | translate
+    }}</span></a
+  >
+</div>
+
+<div class="menu-item" *ngIf="companyId === 0 &&  isSuperUser ">
+  <a
+    class="menu-link without-sub"
+    routerLink="Admin/administrator"
+    routerLinkActive="active"
+    ><span class="menu-icon">
+      <i class="fa fa-building fa-lg text-white"></i>
+    </span>
+    <span class="menu-title">{{
+      "SIDEBAR.ADMIN.COMPANIES" | translate
+    }}</span></a
+  >
+</div>
+<div class="menu-item" *ngIf="canSeeAdminPanel()">
+  <a
+    class="menu-link without-sub"
+    routerLink="Admin/track-bugs"
+    routerLinkActive="active"
+    ><span class="menu-icon">
+      <i class="fa fa-clipboard-list fa-lg text-white"></i>
+    </span>
+    <span class="menu-title">{{ "track_bugs" | translate }}</span></a
+  >
+</div>
+<!-- Layout builder -->
+
+<!-- لوحة القPREVENTIVEMAINTENANCE-->
+
+<!-- اعدادات متقدمة -->
+<div
+  class="menu-item"
+  *ngIf="isShow('settings/configurations') || canSeeAdminPanel()"
+>
+  <a
+    class="menu-link without-sub"
+    routerLink="settings/configurations"
+    routerLinkActive="active"
+    ><span class="menu-icon"> <i class="fa fa-cog fa-lg text-white"></i> </span
+    ><span class="menu-title">
+      {{ "SIDEBAR.ADVANCEDSETTING.LABEL" | translate }}
+    </span></a
+  >
+</div>
+
+<!-- ادارة المواقع -->
+<div class="menu-item" *ngIf="isShow('settings/locations')">
+  <a
+    class="menu-link without-sub"
+    routerLink="settings/locations"
+    routerLinkActive="active"
+    ><span class="menu-icon">
+      <!-- <span [inlineSVG]="'./assets/media/icons/duotune/general/icon_chat-room.svg'" class="svg-icon svg-icon-2"></span> -->
+      <i class="far fa-building fa-lg text-white"></i> </span
+    ><span class="menu-title">
+      {{ "SIDEBAR.LOCATIONS_MANAGEMENT" | translate }}
+    </span></a
+  >
+</div>
+<!-- طلبات الصيانة -->
+<div class="menu-item" *ngIf="isShow('MaintenanceRequests')">
+  <a
+    class="menu-link without-sub"
+    routerLink="MaintenanceRequests"
+    routerLinkActive="active"
+    ><span class="menu-icon">
+      <svg
+        style="fill: white"
+        width="20px"
+        height="20px"
+        viewBox="0 0 32 32"
+        id="icon"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <style>
+            .cls-1 {
+              fill: none;
+            }
+          </style>
+        </defs>
+        <rect x="8" y="14" width="6" height="2" />
+        <rect x="8" y="6" width="12" height="2" />
+        <rect x="8" y="10" width="12" height="2" />
+        <rect x="8" y="24" width="6" height="2" />
+        <path
+          d="M30,24V22H27.8989a4.9678,4.9678,0,0,0-.7319-1.7529l1.49-1.49-1.414-1.414-1.49,1.49A4.9678,4.9678,0,0,0,24,18.1011V16H22v2.1011a4.9678,4.9678,0,0,0-1.7529.7319l-1.49-1.49-1.414,1.414,1.49,1.49A4.9678,4.9678,0,0,0,18.1011,22H16v2h2.1011a4.9678,4.9678,0,0,0,.7319,1.7529l-1.49,1.49,1.414,1.414,1.49-1.49A4.9678,4.9678,0,0,0,22,27.8989V30h2V27.8989a4.9678,4.9678,0,0,0,1.7529-.7319l1.49,1.49,1.414-1.414-1.49-1.49A4.9678,4.9678,0,0,0,27.8989,24Zm-7,2a3,3,0,1,1,3-3A3.0033,3.0033,0,0,1,23,26Z"
+        />
+        <path
+          d="M14,30H6a2.0021,2.0021,0,0,1-2-2V4A2.0021,2.0021,0,0,1,6,2H22a2.0021,2.0021,0,0,1,2,2V14H22V4H6V28h8Z"
+        />
+        <rect
+          id="_Transparent_Rectangle_"
+          data-name="&lt;Transparent Rectangle&gt;"
+          class="cls-1"
+          width="32"
+          height="32"
+        />
+      </svg>
+    </span>
+    <span class="menu-title">
+      {{ "SIDEBAR.MAINTENANCEREQUESTS" | translate }}
+    </span>
+  </a>
+</div>
+<!-- مجموعات المستخدمين -->
+<div class="menu-item" *ngIf="(isShow('settings/roles') && isSuperUser) || canSeeAdminPanel()">
+    <a class="menu-link without-sub" routerLink="settings/roles" routerLinkActive="active"><span class="menu-icon">
+      <i class="fas fa-users-cog fa-lg text-white"></i>
+    </span>
+    <span class="menu-title"> {{ "SIDEBAR.USERSGROUPS" | translate }}</span></a
+  >
+</div>
+
+<!-- المستخدمون -->
+<div
+  class="menu-item"
+  *ngIf="(isShow('settings/users') && isSuperUser) || canSeeAdminPanel()"
+>
+  <a
+    class="menu-link without-sub"
+    routerLink="settings/users"
+    routerLinkActive="active"
+    ><span class="menu-icon">
+      <!-- <span [inlineSVG]="'./assets/media/icons/duotune/general/icon_chat-room.svg'" class="svg-icon svg-icon-2"></span> -->
+      <i class="fas fa-user fa-lg text-white"></i>
+    </span>
+    <span class="menu-title"> {{ "SIDEBAR.USERS" | translate }} </span></a
+  >
+</div>
+
+<!-- فرق العمل -->
+<div class="menu-item" *ngIf="isShow('settings/CompaniesTeams')">
+  <a
+    class="menu-link without-sub"
+    routerLink="settings/CompaniesTeams"
+    routerLinkActive="active"
+  >
+    <span class="menu-icon">
+      <!-- <span [inlineSVG]="'./assets/media/icons/duotune/general/Icon awesome-star.svg'" class="svg-icon svg-icon-2"></span> -->
+      <i class="fas fa-users fa-lg text-white"></i>
+    </span>
+    <span class="menu-title">
+      {{ "SIDEBAR.WORKINIGTEAMS" | translate }}
+    </span>
+  </a>
+</div>
+
+<!-- الأصول -->
+<div class="menu-item" *ngIf="isShow('Asset')">
+    <a class="menu-link without-sub" routerLink="Asset/Asset-main" routerLinkActive="active"><span class="menu-icon">
+      <!-- <span [inlineSVG]="'./assets/media/icons/duotune/general/gen017.svg'" class="svg-icon svg-icon-2"></span> -->
+      <i class="fas fa-boxes fa-lg text-white"></i> </span
+    ><span class="menu-title"> {{ "SIDEBAR.ASSETS" | translate }} </span></a
+  >
+</div>
+
+<!-- اوامر الصيانة - work order -->
+<div class="menu-item" *ngIf="isShow('WorkOrder')">
+  <a
+    class="menu-link without-sub"
+    [class.active]="isActiveRoute()"
+    routerLink="WorkOrder/workOrderNotCompleted"
+    ><span class="menu-icon">
+      <span> <i class="fa fa-wrench fa-lg text-white"></i> </span></span
+    ><span class="menu-title">
+      {{ "SIDEBAR.WORK_ORDER" | translate }}
+    </span></a
+  >
+</div>
+
+<!-- completed work order -->
+<div class="menu-item" *ngIf="isShow('WorkOrderCompleted')">
+  <a
+    class="menu-link without-sub"
+    routerLinkActive="active"
+    routerLink="WorkOrder/workOrderCompleted"
+  >
+    <span class="menu-icon">
+      <span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20px"
+          height="20px"
+          viewBox="18 18 65 65"
+          fill="white"
+        >
+          <!-- https://www.svgrepo.com/svg/374614/custom-component-task -->
+          <g>
+            <path
+              d="m49.91 50.6-4.91-4.91a1.36 1.36 0 0 0 -2 0l-1.94 2a1.33 1.33 0 0 0 0 1.94l6.94 6.81a2.7 2.7 0 0 0 1.95.83 2.67 2.67 0 0 0 1.94-.83l14.11-14.17a1.34 1.34 0 0 0 0-2l-1.94-1.94a1.34 1.34 0 0 0 -1.95 0z"
+            />
+            <path
+              d="m71.81 54.15a23.31 23.31 0 0 0 0-8.6l4.6-3.9a4.28 4.28 0 0 0 1-5.3l-2-3.5a4.11 4.11 0 0 0 -3.6-2 3.19 3.19 0 0 0 -1.4.3l-5.8 2.1a22.35 22.35 0 0 0 -7.4-4.3l-1-5.9a3.92 3.92 0 0 0 -4.1-3.1h-4a3.85 3.85 0 0 0 -4.1 3.1l-1 5.8a21.59 21.59 0 0 0 -7.5 4.3l-5.9-2.1a7 7 0 0 0 -1.4-.3 4.2 4.2 0 0 0 -3.6 2l-2 3.5a4.16 4.16 0 0 0 1 5.3l4.6 3.9a20.87 20.87 0 0 0 -.4 4.3 20.24 20.24 0 0 0 .4 4.3l-4.6 3.95a4.28 4.28 0 0 0 -1 5.3l2 3.5a4.11 4.11 0 0 0 3.6 2 3.19 3.19 0 0 0 1.4-.3l5.8-2.1a22.35 22.35 0 0 0 7.4 4.3l1 6a4.1 4.1 0 0 0 4.1 3.4h4a4.18 4.18 0 0 0 4.1-3.5l1-6a22.06 22.06 0 0 0 7.8-4.6l5.4 2.1a8 8 0 0 0 1.5.3 4.2 4.2 0 0 0 3.6-2l1.9-3.3a3.67 3.67 0 0 0 -.8-5zm-3.39-9.34-4.55 4.56v.78a13.85 13.85 0 1 1 -6.7-11.81l2.45-2.44a4.84 4.84 0 0 1 6.89 0l2 2a4.9 4.9 0 0 1 1.43 3.7 4.66 4.66 0 0 1 -1.52 3.21z"
+            />
+          </g>
+        </svg>
+      </span> </span
+    ><span class="menu-title">
+      {{ "SIDEBAR.COMPLETED_WORK_ORDER" | translate }}
+    </span></a
+  >
+</div>
+<!-- PM -->
+<div class="menu-item" *ngIf="isShow('PMs')">
+  <a class="menu-link without-sub" routerLink="PMs/create-ppm" routerLinkActive="active"
+    ><span class="menu-icon">
+      <span>
+        <!-- https://www.svgrepo.com/svg/420196/lock-protect-security-15 -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          width="22px"
+          height="22px"
+          viewBox="0 0 512 512"
+          id="Layer_1"
+          style="enable-background: new 0 0 512 512"
+          version="1.1"
+          fill="white"
+          xml:space="preserve"
+        >
+          <g>
+            <path
+              class="st1"
+              d="M481,120.1c-3.6,0.5-7.2,0.7-10.8,0.7c-34.9,0-64.9-21.2-77.8-51.4c-4.4-10.2-6.8-21.4-6.8-33.2   c0-2.8,0.1-5.5,0.4-8.2H126c0.3,2.7,0.4,5.4,0.4,8.2c0,11.8-2.4,23-6.8,33.2c-12.9,30.2-42.9,51.4-77.8,51.4   c-3.7,0-7.3-0.2-10.8-0.7c1.4,40-26,284.3,225,363.9C507,404.4,479.6,160.1,481,120.1z M416.2,291c-13.3,33.6-32.5,62.8-57.1,86.7   c-27.2,26.4-61.8,47.3-103.1,62c-41.3-14.7-75.9-35.6-103.1-62c-24.6-23.9-43.8-53.1-57.1-86.7C76.5,242.1,73,192.6,72.7,158.9   c37.8-9.5,69.7-36.1,85.5-73c2.2-5.2,4.1-10.5,5.6-15.9h184.5c1.5,5.4,3.4,10.8,5.6,16c15.8,36.9,47.7,63.5,85.5,73   C439,192.6,435.5,242.1,416.2,291z"
+            />
+            <path
+              class="st0"
+              d="M348.7,181.2l16.4-16.4c3.3-3.3,3.3-8.6,0-11.9l-19.6-19.6c-3.3-3.3-8.6-3.3-11.9,0l-16.4,16.4   c-11.6-7.7-24.8-13.2-38.9-16.1v-23.2c0-4.6-3.8-8.4-8.4-8.4h-27.8c-4.6,0-8.4,3.8-8.4,8.4v23.2c-14.1,2.9-27.3,8.4-38.9,16.1   l-16.4-16.4c-3.3-3.3-8.6-3.3-11.9,0l-19.6,19.6c-3.3,3.3-3.3,8.6,0,11.9l16.4,16.4c-7.7,11.6-13.3,24.8-16.1,38.9H124   c-4.6,0-8.4,3.8-8.4,8.4v27.8c0,4.6,3.8,8.4,8.4,8.4h23.2c2.9,14.1,8.4,27.3,16.1,38.9l-16.4,16.4c-3.3,3.3-3.3,8.6,0,11.9   l19.6,19.6c3.3,3.3,8.6,3.3,11.9,0l16.4-16.4c11.6,7.7,24.8,13.2,38.9,16.1v23.2c0,4.6,3.8,8.4,8.4,8.4h27.8c4.6,0,8.4-3.8,8.4-8.4   v-23.2c14.1-2.9,27.3-8.4,38.9-16.1l16.4,16.4c3.3,3.3,8.6,3.3,11.9,0l19.6-19.6c3.3-3.3,3.3-8.6,0-11.9l-16.4-16.4   c7.7-11.6,13.3-24.8,16.1-38.9H388c4.6,0,8.4-3.8,8.4-8.4v-27.8c0-4.7-3.8-8.4-8.4-8.4h-23.2C361.9,206,356.4,192.8,348.7,181.2z    M275.9,313.9v-33.9c13-7.1,21.9-20.9,21.9-36.8c0-17.1-10.3-31.9-25.1-38.3v37.4h-33.4V205c-14.8,6.4-25.1,21.2-25.1,38.3   c0,15.9,8.8,29.7,21.9,36.8v33.9c-31.4-8.7-54.4-37.5-54.4-71.6c0-41,33.3-74.3,74.3-74.3c41,0,74.3,33.3,74.3,74.3   C330.3,276.5,307.3,305.3,275.9,313.9z"
+            />
+          </g>
+        </svg>
+      </span> </span
+    ><span class="menu-title">
+      {{ "SIDEBAR.PREVENTIVEMAINTENANCE" | translate }}
+    </span></a
+  >
+</div>
+<!-- ppm-tasks : PPMNotCompleted -->
+<!-- *ngIf="isShow('PPMTasks')" -->
+<div class="menu-item" *ngIf="isShow('PPMNotCompleted')">
+  <a
+    class="menu-link without-sub"
+    routerLinkActive="active"
+    routerLink="PPMTasks/PPMNotCompleted"
+    ><span class="menu-icon">
+      <span> <i class="fa fa-wrench fa-lg text-white"></i> </span></span
+    ><span class="menu-title">
+      {{ "SIDEBAR.PPM_TASKS" | translate }}
+    </span></a
+  >
+</div>
+<!-- ppm-tasks :PPMCompleted -->
+
+<div class="menu-item" *ngIf="isShow('PPMCompleted')">
+  <a
+    class="menu-link without-sub"
+    routerLinkActive="active"
+    routerLink="PPMTasks/PPMCompleted"
+    ><span class="menu-icon">
+      <span> <i class="fa fa-wrench fa-lg text-white"></i> </span></span
+    ><span class="menu-title">
+      {{ "SIDEBAR.COMPLETED_PPM_TASKS" | translate }}
+    </span></a
+  >
+</div>
+<!-- start soft service -->
+<div class="menu-item" *ngIf="isShow('Soft Service Management') && showSoftService">
+  <a class="menu-link without-sub"
+     routerLink="PMs/CreateSoftServices" 
+     routerLinkActive="active">
+    <span class="menu-icon">
+      <img src="../../../../../../assets/media/icons/duotune/sideNav/create-ppm.svg" alt="Create Soft Service Icon" />
+    </span> 
+    <span class="menu-title">
+      {{ "SIDEBAR.CREATESOFTSERVICES" | translate }}
+    </span>
+  </a>
+</div>
+
+<div class="menu-item" *ngIf="isShow('Soft service task') && showSoftService">
+    <a class="menu-link without-sub" routerLinkActive="active" routerLink="PPMTasks/SoftServiceTasks">
+        <span class="menu-icon">
+       <i class="fa fa-wrench fa-lg text-white"></i></span>
+        <span class="menu-title">{{ "SIDEBAR.SOFT_SERVICES_TASKS" | translate }}</span>
+    </a>
+</div>
+
+<div class="menu-item" *ngIf="isShow('Completed soft service task') && showSoftService">
+    <a class="menu-link without-sub" routerLinkActive="active" routerLink="PPMTasks/CompletedSST">
+        <span class="menu-icon">
+      <i class="fa fa-wrench fa-lg text-white"></i>
+    </span>
+        <span class="menu-title" translate="SIDEBAR.COMPLETED_SOFT_SERVICES_TASKS"></span>
+    </a>
+</div>
+<!-- -------------end soft service-------------- -->
+<div class="menu-item" *ngIf="isShow('WOPTransaction')">
+    <a class="menu-link without-sub" routerLinkActive="active" routerLink="/WorkOrder-Parts-Transaction"><span class="menu-icon">
+      <span> <i class="fa fa-wrench fa-lg text-white"></i> </span></span
+    ><span class="menu-title">{{ "Parts_Transaction" | translate }} </span></a
+  >
+</div>
+
+<div class="menu-item" *ngIf="isShow('WorkOrderTemplate')">
+  <a
+    class="menu-link without-sub"
+    routerLink="WorkOrderTemplate"
+    routerLinkActive="active"
+    ><span class="menu-icon">
+      <span>
+        <!-- https://www.svgrepo.com/svg/420196/lock-protect-security-15 -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          width="22px"
+          height="22px"
+          viewBox="0 0 512 512"
+          id="Layer_1"
+          style="enable-background: new 0 0 512 512"
+          version="1.1"
+          fill="white"
+          xml:space="preserve"
+        >
+          <g>
+            <path
+              class="st1"
+              d="M481,120.1c-3.6,0.5-7.2,0.7-10.8,0.7c-34.9,0-64.9-21.2-77.8-51.4c-4.4-10.2-6.8-21.4-6.8-33.2   c0-2.8,0.1-5.5,0.4-8.2H126c0.3,2.7,0.4,5.4,0.4,8.2c0,11.8-2.4,23-6.8,33.2c-12.9,30.2-42.9,51.4-77.8,51.4   c-3.7,0-7.3-0.2-10.8-0.7c1.4,40-26,284.3,225,363.9C507,404.4,479.6,160.1,481,120.1z M416.2,291c-13.3,33.6-32.5,62.8-57.1,86.7   c-27.2,26.4-61.8,47.3-103.1,62c-41.3-14.7-75.9-35.6-103.1-62c-24.6-23.9-43.8-53.1-57.1-86.7C76.5,242.1,73,192.6,72.7,158.9   c37.8-9.5,69.7-36.1,85.5-73c2.2-5.2,4.1-10.5,5.6-15.9h184.5c1.5,5.4,3.4,10.8,5.6,16c15.8,36.9,47.7,63.5,85.5,73   C439,192.6,435.5,242.1,416.2,291z"
+            />
+            <path
+              class="st0"
+              d="M348.7,181.2l16.4-16.4c3.3-3.3,3.3-8.6,0-11.9l-19.6-19.6c-3.3-3.3-8.6-3.3-11.9,0l-16.4,16.4   c-11.6-7.7-24.8-13.2-38.9-16.1v-23.2c0-4.6-3.8-8.4-8.4-8.4h-27.8c-4.6,0-8.4,3.8-8.4,8.4v23.2c-14.1,2.9-27.3,8.4-38.9,16.1   l-16.4-16.4c-3.3-3.3-8.6-3.3-11.9,0l-19.6,19.6c-3.3,3.3-3.3,8.6,0,11.9l16.4,16.4c-7.7,11.6-13.3,24.8-16.1,38.9H124   c-4.6,0-8.4,3.8-8.4,8.4v27.8c0,4.6,3.8,8.4,8.4,8.4h23.2c2.9,14.1,8.4,27.3,16.1,38.9l-16.4,16.4c-3.3,3.3-3.3,8.6,0,11.9   l19.6,19.6c3.3,3.3,8.6,3.3,11.9,0l16.4-16.4c11.6,7.7,24.8,13.2,38.9,16.1v23.2c0,4.6,3.8,8.4,8.4,8.4h27.8c4.6,0,8.4-3.8,8.4-8.4   v-23.2c14.1-2.9,27.3-8.4,38.9-16.1l16.4,16.4c3.3,3.3,8.6,3.3,11.9,0l19.6-19.6c3.3-3.3,3.3-8.6,0-11.9l-16.4-16.4   c7.7-11.6,13.3-24.8,16.1-38.9H388c4.6,0,8.4-3.8,8.4-8.4v-27.8c0-4.7-3.8-8.4-8.4-8.4h-23.2C361.9,206,356.4,192.8,348.7,181.2z    M275.9,313.9v-33.9c13-7.1,21.9-20.9,21.9-36.8c0-17.1-10.3-31.9-25.1-38.3v37.4h-33.4V205c-14.8,6.4-25.1,21.2-25.1,38.3   c0,15.9,8.8,29.7,21.9,36.8v33.9c-31.4-8.7-54.4-37.5-54.4-71.6c0-41,33.3-74.3,74.3-74.3c41,0,74.3,33.3,74.3,74.3   C330.3,276.5,307.3,305.3,275.9,313.9z"
+            />
+          </g>
+        </svg>
+      </span> </span
+    ><span class="menu-title">
+      {{ "Templates_Library" | translate }}
+    </span></a
+  >
+</div>
+<!-- <div class="menu-item">
+  <a class="menu-link without-sub" routerLink="/UnderConstruction" routerLinkActive="active"><span class="menu-icon">
+      <span [inlineSVG]="'./assets/media/icons/duotune/general/icon_products.svg'" class="svg-icon svg-icon-2"></span>
+    </span><span class="menu-title">
+      {{ "SIDEBAR.CUSTOMCONTROLPANEL" | translate }}
+    </span></a>
+</div> -->
+<div class="menu-item" *ngIf="isShow('Vendors')">
+    <a class="menu-link without-sub" routerLinkActive="active" routerLink="Vendors"><span class="menu-icon">
+      <span> <i class="fa fa-truck-moving fa-lg text-white"></i> </span>
+    </span>
+    <span class="menu-title">
+      {{ "SIDEBAR.SUPPLIERS" | translate }}
+    </span></a
+  >
+</div>
+<!-- قطع الغيار-->
+<div class="menu-item" *ngIf="isShow('SpareParts')">
+  <a
+    class="menu-link without-sub"
+    routerLink="Stores"
+    routerLinkActive="active"
+  >
+    <span class="menu-icon margin-end-1">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        version="1.1"
+        id="Capa_1"
+        x="0px"
+        y="0px"
+        width="418.879px"
+        height="418.879px"
+        viewBox="0 0 418.879 418.879"
+        style="enable-background: new 0 0 418.879 418.879"
+        xml:space="preserve"
+        fill="#fff"
+        width="24px"
+        height="24px"
+      >
+        <g>
+          <g>
+            <path
+              d="M188.634,234.066c8.462-5.287,16.126-11.735,22.767-19.127l23.942,13.826l21.8-37.76l-23.894-13.796    c3.038-9.275,4.825-19.113,5.16-29.311l27.183-4.793l-7.574-42.938l-27.178,4.793c-3.756-9.309-8.795-17.965-14.906-25.744    l17.766-21.17L200.3,30.022l-17.751,21.152c-8.67-4.646-18.059-8.119-27.954-10.203V13.385h-43.6v27.586    c-9.896,2.084-19.285,5.557-27.956,10.203l-17.75-21.152l-33.4,28.025l17.764,21.17c-6.11,7.779-11.149,16.436-14.905,25.744    L7.57,100.168L0,143.106l27.179,4.793c0.335,10.199,2.123,20.035,5.161,29.313L8.444,191.007l21.801,37.759l23.943-13.822    c6.639,7.389,14.303,13.838,22.766,19.125l-9.451,25.963l40.972,14.91l9.438-25.928c4.864,0.688,9.831,1.053,14.882,1.053    c5.051,0,10.019-0.363,14.883-1.053l9.437,25.93l40.97-14.914L188.634,234.066z M132.793,200.065    c-30.702,0-55.68-24.977-55.68-55.68c0-30.701,24.978-55.68,55.68-55.68s55.68,24.979,55.68,55.68    C188.473,175.088,163.496,200.065,132.793,200.065z"
+            />
+            <path
+              d="M376.041,266.807l-18.795,6.08c-3.584-6.229-8.014-11.869-13.115-16.779l10.504-16.764l-26.447-16.57l-10.498,16.75    c-6.604-2.438-13.602-3.973-20.826-4.471l-2.725-19.559l-30.912,4.309l2.725,19.559c-6.809,2.453-13.125,5.847-18.812,9.996    l-14.672-13.244l-20.912,23.168l14.684,13.259c-3.562,6.118-6.277,12.752-8.02,19.726l-19.744-0.714l-1.129,31.188l19.743,0.716    c1.246,7.198,3.486,13.991,6.558,20.271l-15.578,12.143l19.185,24.615l15.609-12.164c5.438,4.582,11.511,8.396,18.031,11.311    l-4.138,19.344l30.522,6.52l4.133-19.314c3.516,0.01,7.072-0.229,10.652-0.727c3.582-0.498,7.07-1.25,10.447-2.215l9.256,17.451    l27.574-14.623l-9.266-17.471c5.48-4.586,10.271-9.918,14.252-15.812l18.338,7.436l11.727-28.924l-18.303-7.422    c1.234-6.875,1.529-14.027,0.764-21.293l18.799-6.084L376.041,266.807z M297.129,350.006    c-21.771,3.031-41.949-12.209-44.98-33.977c-3.037-21.769,12.207-41.949,33.977-44.979c21.768-3.036,41.941,12.207,44.98,33.978    C334.135,326.795,318.896,346.969,297.129,350.006z"
+            />
+            <path
+              d="M418.146,158.647l0.732-24.629l-15.586-0.463c-0.977-5.428-2.723-10.803-5.285-15.971l12.24-9.67l-15.271-19.33    l-12.238,9.666c-4.365-3.627-9.193-6.584-14.318-8.816l3.164-15.291l-24.123-4.996l-3.17,15.281    c-5.559,0.008-11.156,0.797-16.641,2.412l-7.391-13.727l-21.695,11.684l7.391,13.729c-4.363,3.686-8.107,7.934-11.176,12.566    l-14.496-5.77l-9.111,22.893l14.508,5.779c-0.955,5.508-1.141,11.158-0.514,16.799l-14.809,4.898l7.732,23.395l14.809-4.896    c2.9,4.986,6.426,9.396,10.426,13.201l-8.191,13.268l20.963,12.946l8.209-13.292c5.285,1.896,10.828,3.051,16.453,3.414    l2.252,15.453l24.383-3.561l-2.246-15.434c2.602-0.957,5.17-2.109,7.684-3.463c2.516-1.352,4.891-2.867,7.123-4.51l11.648,10.371    l16.387-18.398l-11.656-10.383c2.795-4.9,4.875-10.164,6.203-15.619L418.146,158.647z M359.436,171.844    c-15.281,8.227-34.404,2.492-42.627-12.783c-8.23-15.277-2.494-34.404,12.787-42.627c15.273-8.229,34.395-2.49,42.625,12.787    C380.443,144.499,374.711,163.616,359.436,171.844z"
+            />
+          </g>
+        </g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+      </svg>
+    </span>
+    <span class="menu-title">{{ "SIDEBAR.WAREHOUSES" | translate }}</span>
+  </a>
+</div>
+<!-- المشتريات-->
+<div class="menu-item" *ngIf="isShow('ProcurementManagement')">
+    <a class="menu-link without-sub" routerLink="ProcurementManagement" routerLinkActive="active"><span class="menu-icon">
+      <i class="fa fa-money-check-alt text-white"></i> </span
+    ><span class="menu-title">{{ "SIDEBAR.PURCHASES" | translate }}</span></a
+  >
+</div>
+
+<!-- الفواتير-->
+<div class="menu-item" *ngIf="isShow('BillManagement')">
+  <a class="menu-link without-sub" routerLink="Bills" routerLinkActive="active">
+    <span class="menu-icon">
+      <svg
+        id="eW6uhRoXkqO1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="0 0 513.164 513.164"
+        shape-rendering="geometricPrecision"
+        text-rendering="geometricPrecision"
+        style="width: 17px; fill: white"
+      >
+        <g>
+          <g>
+            <path
+              d="M472.992,1.745c-3.491-2.327-8.146-2.327-11.636,0L432.265,21.527L404.337,2.909c-3.491-2.327-9.309-2.327-12.8,0L362.446,21.527L334.519,2.909c-3.491-2.327-9.309-2.327-12.8,0L292.628,21.527L264.701,2.909c-3.491-2.327-9.309-2.327-12.8,0L222.81,21.527L194.883,2.909c-3.491-2.327-9.309-2.327-12.8,0L152.992,21.527L125.064,2.909c-3.491-2.327-9.309-2.327-12.8,0L83.174,21.527L55.246,2.909c-3.491-2.327-8.145-2.327-11.636,0-4.655,1.164-6.982,4.655-6.982,9.309v488.727c0,4.655,2.327,8.145,5.818,10.473c3.491,2.327,8.145,2.327,11.636,0l29.091-19.782L111.1,510.254c3.491,2.327,9.309,2.327,12.8,0l27.927-18.618l27.927,18.618c3.491,2.327,9.309,2.327,12.8,0l27.927-18.618l27.927,18.618c3.491,2.327,9.309,2.327,12.8,0l27.927-18.618l27.927,18.618c3.491,2.327,9.309,2.327,12.8,0l27.927-18.618l27.927,18.618c3.491,2.327,9.309,2.327,12.8,0l27.927-18.618l27.927,18.618c2.327,1.164,4.655,2.327,6.982,2.327s3.491,0,5.818-1.164c3.491-2.327,5.818-5.818,5.818-10.473v-488.726c5.822-4.654,3.495-8.145.004-10.473ZM439.246,467.2c-3.491-2.327-9.309-2.327-12.8,0l-29.091,19.782-27.927-18.618c-2.327-1.164-4.655-2.327-6.982-2.327s-4.655,1.164-6.982,2.327l-27.927,18.618-27.927-18.618c-3.491-2.327-9.309-2.327-12.8,0l-29.091,18.618-27.927-18.618c-3.491-2.327-9.309-2.327-12.8,0l-29.091,18.618-27.927-18.618c-3.491-2.327-9.309-2.327-12.8,0l-29.091,18.618-27.927-18.618c-3.491-2.327-9.309-2.327-12.8,0L61.064,480v-445.673L77.355,45.963c3.491,2.327,9.309,2.327,12.8,0l27.927-19.782L146.01,44.8c3.491,2.327,9.309,2.327,12.8,0l29.091-18.618L215.828,44.8c3.491,2.327,9.309,2.327,12.8,0l29.091-18.618L285.646,44.8c3.491,2.327,9.309,2.327,12.8,0l29.091-18.618L355.464,44.8c3.491,2.327,9.309,2.327,12.8,0l29.091-18.618L425.283,44.8c3.491,2.327,9.309,2.327,12.8,0l16.291-11.636v444.842L439.246,467.2Z"
+            ></path>
+          </g>
+        </g>
+        <g transform="matrix(2.220109 0 0 2.220109-548.147383-442.228424)">
+          <g>
+            <path
+              d="M374.083,303.127h-23.273c-6.982,0-11.636-4.655-11.636-11.636s4.655-11.636,11.636-11.636h34.909c6.982,0,11.636-4.655,11.636-11.636s-4.655-11.636-11.636-11.636h-11.636v-11.636c0-6.982-4.655-11.636-11.636-11.636s-11.636,4.655-11.636,11.636v11.636c-19.782,0-34.909,15.127-34.909,34.909s15.127,34.909,34.909,34.909h23.273c6.982,0,11.636,4.655,11.636,11.636c0,6.982-4.655,11.636-11.636,11.636h-34.909c-6.982,0-11.636,4.655-11.636,11.636s4.655,11.636,11.636,11.636h11.636v11.636c0,6.982,4.655,11.636,11.636,11.636s11.636-4.655,11.636-11.636v-11.636c19.782,0,34.909-15.127,34.909-34.909c0-19.781-15.128-34.909-34.909-34.909Z"
+            ></path>
+          </g>
+        </g>
+      </svg> </span
+    ><span class="menu-title">{{ "SIDEBAR.BILLS" | translate }}</span></a
+  >
+</div>
+<div class="menu-item" *ngIf="isShow('ReportManagement')">
+  <a
+    class="menu-link without-sub"
+    routerLink="Report-management"
+    routerLinkActive="active"
+    ><span class="menu-icon">
+      <i class="fas fa-clipboard-list fa-lg text-white"></i> </span
+    ><span class="menu-title">
+      {{ "Report_management" | translate }}
+    </span></a
+  >
+</div>
+<!-- <div class="menu-item" *ngIf="isShow('Backups')">
+  <a class="menu-link without-sub" routerLink="Backup" routerLinkActive="active"
+    ><span class="menu-icon">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:svgjs="http://svgjs.com/svgjs"
+        width="24px"
+        height="24px"
+        x="0"
+        y="0"
+        viewBox="0 0 32 32"
+        style="enable-background: new 0 0 512 512"
+        xml:space="preserve"
+      >
+        <g>
+          <path
+            d="m24 23h-4a1 1 0 0 1 0-2h4a5 5 0 0 0 .837-9.924 1 1 0 0 1 -.837-.986 7 7 0 1 0 -14-.09 1 1 0 0 1 -1 1h-1a5 5 0 0 0 0 10h4a1 1 0 0 1 0 2h-4a7 7 0 0 1 0-14h.056a9 9 0 0 1 17.916.286 7 7 0 0 1 -1.972 13.714z"
+            fill="#fff"
+            data-original="#fff"
+          ></path>
+          <path
+            d="m20.707 16.293-4-4a1 1 0 0 0 -1.414 0l-4 4a1 1 0 0 0 1.414 1.414l2.293-2.293v14.586a1 1 0 0 0 2 0v-14.586l2.293 2.293a1 1 0 0 0 1.414-1.414z"
+            fill="#fff"
+            data-original="#fff"
+          ></path>
+        </g></svg></span
+    ><span class="menu-title">{{ "Backup" | translate }}</span></a
+  >
+</div> -->
+<!-- <div class="menu-item" *ngIf="isShow('Backups')">
+  <a
+    class="menu-link without-sub"
+    routerLink="FilesBackup"
+    routerLinkActive="active"
+    ><span class="menu-icon">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:svgjs="http://svgjs.com/svgjs"
+        width="24"
+        height="24"
+        x="0"
+        y="0"
+        viewBox="0 0 510 510"
+        style="enable-background: new 0 0 512 512"
+        xml:space="preserve"
+      >
+        <g>
+          <g>
+            <path
+              d="m245.812 60-10-30h-235.812v450h510v-420zm234.188 390h-450v-390h184.188l30 90h235.812zm-214.188-330-10-30h224.188v30z"
+              fill="#fff"
+              data-original="#fff"
+            ></path>
+            <path
+              d="m152.402 278.388c-1.842 8.471-2.78 17.136-2.787 25.756l30 .023c.005-6.488.712-13.017 2.101-19.402 4.923-22.63 18.392-42.209 36.953-53.716 16.84-10.44 36.511-13.573 55.394-8.82 14.428 3.633 27.294 11.54 37.453 22.771h-25.168v30h73.252v-75h-30v20.463c-13.409-13.288-29.887-22.713-48.213-27.326-26.83-6.753-54.716-2.345-78.525 12.415-25.427 15.763-43.819 42.311-50.46 72.836z"
+              fill="#fff"
+              data-original="#fff"
+            ></path>
+            <path
+              d="m327.898 325.289c-4.923 22.63-18.392 42.209-36.952 53.716-16.842 10.44-36.514 13.572-55.394 8.82-12.209-3.074-23.3-9.21-32.582-17.825h20.271v-30h-73.252v75h30v-25.434c13.414 13.301 29.902 22.734 48.24 27.351 8.208 2.067 16.514 3.088 24.774 3.088 18.736 0 37.227-5.259 53.751-15.503 25.427-15.764 43.818-42.312 50.459-72.835 1.843-8.467 2.78-17.133 2.787-25.757l-30-.023c-.005 6.49-.712 13.017-2.102 19.402z"
+              fill="#fff"
+              data-original="#fff"
+            ></path>
+          </g>
+        </g>
+      </svg> </span
+    ><span class="menu-title">{{ "Files Backup" | translate }}</span></a
+  >
+</div> -->
+<!-- استبيان ادارة المرافق -->
+<!-- <div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    routerLink="/AquestionnaireCmms"
+    routerLinkActive="active"
+    ><span class="menu-icon">
+      <i class="fa fa-clipboard-list fa-lg text-white"></i>
+    </span>
+    <span class="menu-title">
+      {{ "SIDEBAR.FMSURVEY" | translate }}
+    </span>
+  </a>
+</div> -->
+
+<!-- الاشتراكات -->
+<div class="menu-item" *ngIf="isShow('settings/Subscription')">
+    <a class="menu-link without-sub" routerLinkActive="active" routerLink="settings/Subscription"><span class="menu-icon">
+      <i class="fas fa-money-bill fa-lg text-white"></i> </span
+    ><span class="menu-title">
+      {{ "SIDEBAR.SUBSCRIPTIONS" | translate }}
+    </span></a
+  >
+</div>
+
+<!-- تقارير الحوادث -->
+<div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    routerLink="AccidentReport"
+    *ngIf="isShow('AccidentReport')"
+    routerLinkActive="active"
+    ><span class="menu-icon">
+      <i class="fas fa-clipboard-list fa-lg text-white"></i> </span
+    ><span class="menu-title">
+      {{ "SIDEBAR.ACCIDENTREPORTS" | translate }}
+    </span></a
+  >
+</div>
+
+<!-- <div class="menu-item">
+  <a class="menu-link without-sub" routerLink="IssueReporting" routerLinkActive="active" *ngIf="isShow('IssueReporting')"><span class="menu-icon">
+      <i class="fas fa-clipboard-list fa-lg text-white"></i></span><span class="menu-title">
+      {{'EventReporting' | translate }}
+    </span>
+  </a>
+</div> -->
+
+<!-- Separator -->
+<!-- <div class="menu-item">
+  <div class="menu-content pt-8 pb-2">
+    <span class="menu-section text-muted text-uppercase fs-8 ls-1"
+      >الرئيسية</span
+    >
+  </div>
+</div> -->
+
+<!-- لوحة التحكم العامة -->
+<!-- <div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    routerLink="/UnderConstruction"
+    routerLinkActive="active"
+    ><span class="menu-icon">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/general/icon_customers.svg'"
+        class="svg-icon svg-icon-2"
+      ></span> </span
+    ><span class="menu-title">
+      {{ "SIDEBAR.GENERALCONTROLPANEL" | translate }}
+    </span></a
+  >
+</div> -->
+
+<!-- لوحة التحكم المخصصة -->
+<!-- <div class="menu-item">
+  <a class="menu-link without-sub" routerLink="/UnderConstruction" routerLinkActive="active"><span class="menu-icon">
+      <span [inlineSVG]="'./assets/media/icons/duotune/general/icon_products.svg'" class="svg-icon svg-icon-2"></span>
+    </span><span class="menu-title">
+      {{ "SIDEBAR.CUSTOMCONTROLPANEL" | translate }}
+    </span></a>
+</div> -->
+
+<!-- سلة المحذوفات -->
+<div class="menu-item" *ngIf="isShow('settings/trash')">
+    <a class="menu-link without-sub" routerLink="settings/trash" routerLinkActive="active"><span class="menu-icon">
+      <i class="fas fa-trash-alt fa-lg text-white"></i> </span
+    ><span class="menu-title"> {{ "SIDEBAR.TRASH" | translate }} </span></a
+  >
+</div>
+
+<div
+  class="menu-item menu-accordion"
+  routerLinkActive="here show"
+  data-kt-menu-trigger="click"
+>
+  <!-- <span class="menu-link"
+      ><span class="menu-icon"
+        ><span
+          class="svg-icon svg-icon-2"
+          [inlineSVG]="'./assets/media/icons/duotune/general/gen019.svg'"
+        ></span></span
+      ><span class="menu-title" data-link="/crafted/pages/wizards">
+        {{ "SIDEBAR.MAINTENANCETASKS" | translate }} </span
+      ><span class="menu-arrow"></span
+    ></span> -->
+  <!-- <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+      <div class="menu-item">
+        <a
+          class="menu-link without-sub"
+          routerLinkActive="active"
+          routerLink="/UnderConstruction"
+          ><span class="menu-icon"
+            ><span
+              class="svg-icon svg-icon-2"
+              [inlineSVG]="'./assets/media/icons/duotune/general/gen045.svg'"
+            ></span></span
+          ><span class="menu-title">المهام المفتوحة</span></a
+        >
+      </div>
+      <div class="menu-item">
+        <a
+          class="menu-link without-sub"
+          routerLinkActive="active"
+          routerLink="/UnderConstruction"
+          ><span class="menu-icon"
+            ><span
+              class="svg-icon svg-icon-2"
+              [inlineSVG]="'./assets/media/icons/duotune/arrows/arr016.svg'"
+            ></span></span
+          ><span class="menu-title">المهام المنجزة</span></a
+        >
+      </div>
+
+      <div class="menu-item">
+        <a
+          class="menu-link without-sub"
+          routerLinkActive="active"
+          routerLink="/UnderConstruction"
+          ><span class="menu-icon"
+            ><span
+              class="svg-icon svg-icon-2"
+              [inlineSVG]="'./assets/media/icons/duotune/general/gen002.svg'"
+            ></span></span
+          ><span class="menu-title">ارسال الأعمال</span></a
+        >
+      </div>
+    </div> -->
+
+  <!-- <div class="menu-item" *ngIf="isShow('SpareParts')">
+    <a class="menu-link without-sub" routerLinkActive="active" routerLink="SpareParts"><span class="menu-icon"><span
+          class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/graphs/gra010.svg'"></span></span><span
+        class="menu-title">
+        {{ "SIDEBAR.SPAREPARTS" | translate }}
+      </span></a>
+</div> -->
+
+<!-- <div class="menu-item">
+    <a
+      class="menu-link without-sub"
+      routerLinkActive="active"
+      routerLink="/UnderConstruction"
+      ><span class="menu-icon">
+        <span> <i class="fas fa-shield-alt fa-lg text-white"></i> </span>
+      </span>
+      <span class="menu-title">
+        {{ "SIDEBAR.SECURITYGUARDMANAGEMENT" | translate }}</span
+      ></a
+    >
+  </div>
+  <div class="menu-item">
+    <a
+      class="menu-link without-sub"
+      routerLinkActive="active"
+      routerLink="/UnderConstruction"
+      ><span class="menu-icon">
+        <span> <i class="fas fa-user-cog fa-lg text-white"></i> </span>
+      </span>
+      <span class="menu-title">
+        {{ "SIDEBAR.CONTRACTORSMANAGEMENT" | translate }}</span
+      ></a
+    >
+  </div>
+  <div class="menu-item">
+    <a
+      class="menu-link without-sub"
+      routerLinkActive="active"
+      routerLink="/UnderConstruction"
+      ><span class="menu-icon">
+        <span><i class="fas fa-hotel fa-lg text-white"></i> </span>
+      </span>
+      <span class="menu-title">
+        {{ "SIDEBAR.MEETINGROOMSBOOKING" | translate }}</span
+      ></a
+    >
+  </div>
+
+  <div class="menu-item">
+    <a
+      class="menu-link without-sub"
+      routerLinkActive="active"
+      routerLink="/UnderConstruction"
+      ><span class="menu-icon">
+        <span> <i class="fas fa-chess-board fa-lg text-white"></i> </span>
+      </span>
+      <span class="menu-title">
+        {{ "SIDEBAR.WARRANTYMANAGEMENT" | translate }}</span
+      ></a
+    >
+  </div>
+  <div class="menu-item">
+    <a
+      class="menu-link without-sub"
+      routerLinkActive="active"
+      routerLink="/UnderConstruction"
+      ><span class="menu-icon">
+        <span><i class="fas fa-charging-station fa-lg text-white"></i> </span>
+      </span>
+      <span class="menu-title">
+        {{ "SIDEBAR.ENERGYMANAGEMENT" | translate }}</span
+      ></a
+    >
+  </div>
+  <div class="menu-item">
+    <a
+      class="menu-link without-sub"
+      routerLinkActive="active"
+      routerLink="/UnderConstruction"
+      ><span class="menu-icon">
+        <span> <i class="fas fa-clipboard-list fa-lg text-white"></i> </span>
+      </span>
+      <span class="menu-title"> {{ "SIDEBAR.EVENTSLOG" | translate }}</span></a
+    >
+  </div> -->
+
+<!-- المالية -->
+<!-- <div
+      class="menu-item menu-accordion"
+      routerLinkActive="here show"
+      data-kt-menu-trigger="click"
+    >
+      <span class="menu-link"
+        ><span class="menu-icon"
+          ><span
+            class="svg-icon svg-icon-2"
+            [inlineSVG]="'./assets/media/icons/duotune/finance/fin010.svg'"
+          ></span></span
+        ><span class="menu-title" data-link="/crafted/pages/wizards">
+          {{ "SIDEBAR.FINANCE" | translate }} </span
+        ><span class="menu-arrow"></span
+      ></span>
+      <div
+        class="menu-sub menu-sub-accordion"
+        routerLinkActive="menu-active-bg"
+      >
+        <div class="menu-item">
+          <a
+            class="menu-link without-sub"
+            routerLinkActive="active"
+            routerLink="/UnderConstructionl"
+            ><span class="menu-icon"
+              ><span
+                class="svg-icon svg-icon-2"
+                [inlineSVG]="
+                  './assets/media/icons/duotune/ecommerce/ecm001.svg'
+                "
+              ></span></span
+            ><span class="menu-title">طلبات الشراء</span></a
+          >
+        </div>
+        <div class="menu-item">
+          <a
+            class="menu-link without-sub"
+            routerLinkActive="active"
+            routerLink="/UnderConstruction"
+            ><span class="menu-icon"
+              ><span
+                class="svg-icon svg-icon-2"
+                [inlineSVG]="'./assets/media/icons/duotune/general/gen005.svg'"
+              ></span></span
+            ><span class="menu-title">الفواتير</span></a
+          >
+        </div>
+        <div class="menu-item">
+          <a
+            class="menu-link without-sub"
+            routerLinkActive="active"
+            routerLink="/UnderConstruction"
+            ><span class="menu-icon"
+              ><span
+                class="svg-icon svg-icon-2"
+                [inlineSVG]="'./assets/media/icons/duotune/finance/fin002.svg'"
+              ></span></span
+            ><span class="menu-title">الميزانية</span></a
+          >
+        </div>
+      </div>
+    </div> -->
+<!-- <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/crafted/pages/profile/connections"><span
+          class="menu-icon"><span class="svg-icon svg-icon-2" [inlineSVG]="
+          './assets/media/icons/duotune/communication/com014.svg'
+        "></span></span><span class="menu-title">فرق العمل</span></a>
+    </div> -->
+
+<!-- <div class="menu-item">
+    <a class="menu-link without-sub" routerLinkActive="active" routerLink="/settings/ThemesEmails"><span
+        class="menu-icon">
+        <span [inlineSVG]="'./assets/media/icons/duotune/general/Group 88683.svg'" class="svg-icon svg-icon-2"></span>
+      </span><span class="menu-title">قوالب البريد</span></a>
+  </div> -->
+</div>

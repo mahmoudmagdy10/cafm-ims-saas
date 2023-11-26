@@ -194,7 +194,8 @@ export const locale = {
       LOCATION_NAME: 'اسم الموقع',
       alerts: {
         updated: "تم تحديث القائمة الجانبية "
-      }
+      },
+      sort_mode: "وضع الفرز"
     },
     FOOTER: {
       COPY_RIGHT: 'جميع الحقوق محفوظة',

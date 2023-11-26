@@ -192,7 +192,8 @@ export const locale = {
       LOCATION_NAME: 'Location Name',
       alerts: {
         updated: "Side menu updated!"
-      }
+      },
+      sort_mode: "Sort mode "
     },
 
     FOOTER: {
