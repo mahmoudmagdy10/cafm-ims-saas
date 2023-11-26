@@ -1106,6 +1106,9 @@ export const locale = {
           DETAILS:
             'to apply a maintenance request, please scan the QR through the camera',
         },
+        extra_fileds_tab: {
+          TABTITLE: 'Extra Fields'
+        },
         PROBLEMIDENTIFICATION: {
           PROBLEMIDENTIFICATION: 'Problems Identification',
           TASK_NAME: 'Task Name',

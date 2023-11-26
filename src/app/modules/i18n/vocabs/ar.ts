@@ -1030,6 +1030,9 @@ export const locale = {
           PRINTPHOTO: 'طباعة',
           DETAILS: 'للتقدم لطلب صيانة، قم بمسح QR من خلال الكاميرا ',
         },
+        extra_fileds_tab: {
+          TABTITLE: 'حقول اضافية'
+        },
         PROBLEMIDENTIFICATION: {
           PROBLEMIDENTIFICATION: 'سجل الأعطال السابقه',
           TASK_NAME: 'اسم التاسك',

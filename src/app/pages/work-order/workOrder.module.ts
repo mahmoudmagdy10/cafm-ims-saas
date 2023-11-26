@@ -107,6 +107,7 @@ import { PrintSelectedComponent } from './actionsOfWorkOrderSelected/print-selec
 import { WeeklyPrintWorkOrderComponent } from './modals/Weekly-print-work-order/Weekly-print-work-order.component';
 import {BlockUIModule} from 'primeng/blockui';
 import { WorkorderCostComponent } from './modals/task-card/TabsCard/workorder-cost/workorder-cost.component';
+import { ExtraFieldsComponent } from './modals/task-card/extra-fields/extra-fields.component';
 
 @NgModule({
   declarations: [
@@ -168,6 +169,7 @@ import { WorkorderCostComponent } from './modals/task-card/TabsCard/workorder-co
     PrintSelectedComponent,
     WeeklyPrintWorkOrderComponent,
     WorkorderCostComponent,
+    ExtraFieldsComponent,
   ],
   imports: [
     CommonModule,
