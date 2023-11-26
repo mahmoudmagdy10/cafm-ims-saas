@@ -13,11 +13,9 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
   selector: 'app-aside-menu',
   templateUrl: './aside-menu.component.html',
   styleUrls: ['./aside-menu.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default,
-  // standalone: true,
-  // imports: [CdkDropList, CdkDrag, CdkDragPlaceholder],
-
+  changeDetection: ChangeDetectionStrategy.Default
 })
+
 export class AsideMenuComponent implements OnInit {
   appAngularVersion: string = environment.appVersion;
   appPreviewChangelogUrl: string = environment.appPreviewChangelogUrl;
@@ -45,6 +43,7 @@ export class AsideMenuComponent implements OnInit {
       this.auth.logout();
     }
   }
+
   ngOnInit(): void {
     if (localStorage.getItem('companyId') === '120' || localStorage.getItem('companyId') === '110') {
       this.showSoftService = true;
@@ -67,8 +66,6 @@ export class AsideMenuComponent implements OnInit {
     this.isSuperUser = JSON.parse(localStorage.getItem('isSuperUser') || '');
   }
 
-
-
   removeFirstCharacter(parg: string) {
     return parg.split('/')[1];
   }
@@ -82,9 +79,7 @@ export class AsideMenuComponent implements OnInit {
   fetchMenuItems() {
     this.dashboardService.GetUserMenuPermission().subscribe(
       (res: any) => {
-        console.log('res :>> ', res);
         this.userMenu = res?.[0]?.UserMenu;
-        console.log('this.userMenu :>> ', this.userMenu);
         this.buildSideMenu(this.userMenu);
         this.cdr.detectChanges();
         if (!this.userMenu?.length) {
@@ -150,7 +145,15 @@ export class AsideMenuComponent implements OnInit {
 
   buildSideMenu(menu: any) {
     /* toDo : backend should support company also */
-    const fullMenu = [...menu , {ScreenName: 'companies', IsShow: 1} , {ScreenName: 'trackBugs', IsShow: 1} ]
+    const fullMenu = [...menu ,
+       {ScreenName: 'companies', IsShow: 1} ,
+       {ScreenName: 'trackBugs', IsShow: 1},
+
+       /* backend should support those endpoint if accountID =0  */
+      this.canSeeAdminPanel() && {ScreenName: 'settings/configurations', IsShow: 1},
+      this.canSeeAdminPanel() && {ScreenName: 'settings/users', IsShow: 1},
+      this.canSeeAdminPanel() && {ScreenName: 'settings/roles', IsShow: 1},
+    ]
     this.userMenu = fullMenu;
     this.sideMenu = fullMenu
       .map((menuItem: any) => this.getTitle(menuItem))
@@ -202,7 +205,6 @@ export class AsideMenuComponent implements OnInit {
     } : menuItem;
   }
 
-
   showItemMenu(menuItem: any) {
     if (!this.userMenu.length) {
       return false;
@@ -228,13 +230,11 @@ export class AsideMenuComponent implements OnInit {
     return false;
   }
     
-
   drop(item: CdkDragDrop<any[]>) {
     moveItemInArray(this.sideMenu, item.previousIndex, item.currentIndex);
   }
 
   canSeeSoftServices(): boolean {
-     /* malek account 100*/
     const softServicesUsers = [120, 110 ];
     return softServicesUsers.includes(Number(localStorage.getItem('companyId')));
   }

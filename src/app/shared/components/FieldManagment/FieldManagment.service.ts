@@ -18,7 +18,6 @@ export class FieldManagmentService {
   constructor(private http: HttpService) {}
 
   getFeild() {
-    console.log(this.ComponentType);
     const body = {
       LocationId: localStorage.getItem('defaultLocation'),
       ComponentType: this.ComponentType || 'Assets',

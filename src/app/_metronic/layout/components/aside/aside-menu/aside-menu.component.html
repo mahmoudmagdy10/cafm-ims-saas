@@ -11,7 +11,7 @@
   <ng-template #generalModeTmpl>
     <div class="mb-5">
       <div *ngFor="let item of sideMenu">
-        <div class="menu-item" *ngIf="item.display" cdkDragHandle>
+        <div class="menu-item">
           <a class="menu-link without-sub" [routerLink]="'/'+ item.route" routerLinkActive="active">
             <span class="menu-icon mx-4">
               <i class="{{ item.icon }} fa-lg text-white bigger-icon"></i>
