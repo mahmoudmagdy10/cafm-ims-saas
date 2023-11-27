@@ -185,7 +185,7 @@ export const locale = {
       WARRANTYMANAGEMENT: 'Warranty Management',
       ENERGYMANAGEMENT: 'Energy Management',
       EVENTSLOG: 'Events Log',
-      COMPLETED_PPM_TASKS: 'Completed PPM Tasks',
+      COMPLETED_PPM_TASKS: 'Closed PPM Tasks',
       SOFT_SERVICES_TASKS: 'Soft Services Tasks',
       COMPLETED_SOFT_SERVICES_TASKS: 'Completed Soft Services Tasks',
       PPM_TASKS: 'PPM Tasks',
