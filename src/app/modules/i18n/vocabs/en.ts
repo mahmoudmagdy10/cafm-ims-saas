@@ -467,7 +467,7 @@ export const locale = {
       EDIT_LOCATION_MODAL: {
         MODAL_TITLE: 'Edit Location',
         LOCATION_NAME: 'Location Name',
-        GEO_LOCATION: 'Location',
+        GEO_LOCATION: 'Location Time Zone',
         ADDRESS: 'Address',
         PHONE: 'FM Help Desk',
         WORKING_DAYS: 'The number of working days',
