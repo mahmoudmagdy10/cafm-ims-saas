@@ -2335,6 +2335,7 @@ export const locale = {
     Asset_Card_please_scan_the_QR_through_the_camera:
       'لعرض بطاقة الأصل يرجى مسح الرمز الشفاف من خلال الكاميرا',
     All: 'الكل',
+    Scheduled: "المجدول",
     Open: 'مفتوح',
     In_Process: 'قيد التنفيذ',
     Pending: 'معلق',

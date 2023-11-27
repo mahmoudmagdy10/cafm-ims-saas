@@ -2368,6 +2368,7 @@ export const locale = {
       'Asset Card please scan the QR through the camera',
     All: 'All',
     Open: 'Open',
+    Scheduled: "Scheduled",
     In_Process: 'In Process',
     Pending: 'Pending',
     RequesterPhone: 'Requester Phone',
