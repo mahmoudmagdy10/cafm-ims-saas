@@ -1306,7 +1306,7 @@ export const locale = {
     },
     PREVENTIVE_TASKS_MANAGEMENT: {
       CARD_TITLE: 'أوامر الصيانة ',
-      ClosedOrders: 'أوامر الصيانة المكتملة',
+      ClosedOrders: 'أوامر الصيانة المغلقة',
       WORK_ORDER_COMPLETED: 'أوامر الصيانة المكتملة ',
       COMPLETED_PPM_TASKS: 'المهام المكتملة ',
       WORK_ORDER_REGECTED: 'أوامر الصيانة المرفوضة ',
