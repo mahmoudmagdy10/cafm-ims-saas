@@ -23,7 +23,7 @@
     <div class="col-3 d-none d-lg-block">
       <ng-container *ngIf="statistics$ | async as statistics; else loading">
         <!-- open tasks card -->
-
+        
         <!-- completed tasks card -->
         <div class="card mb-4 text-center">
           <div class="card-header align-items-center justify-content-center px-4" style="min-height: 45px !important">
@@ -53,7 +53,7 @@
     <div class="col-3 d-none d-lg-block">
       <ng-container *ngIf="statistics$ | async as statistics; else loading">
         <!-- open tasks card -->
-
+        
         <!-- completed tasks card -->
 
         <!-- planned vs unplanned card -->
@@ -100,10 +100,11 @@
       </ng-container>
     </div>
   </ng-container>
-  <ng-container *ngIf="!workOrderCompleted && service.isShedule?.value">
+  <!-- this comment related to issue number cafm-7 -->
+  <!-- <ng-container *ngIf="!workOrderCompleted && service.isShedule?.value">
     <ng-container *ngIf="statistics$ | async as statistics; else loading">
-      <!-- open tasks card -->
-
+      
+      
       <p-accordion>
         <p-accordionTab header="Show Statistics" headerStyle="{'background-color': 'rebeccapurple'}">
           <div class="row justify-content-center">
@@ -149,9 +150,9 @@
             </div>
           </div>
         </div>
-      </div> -->
+      </div> 
     </ng-container>
-  </ng-container>
+  </ng-container> -->
 </div>
 <div class="card card-custom">
   <!-- begin::Header -->
