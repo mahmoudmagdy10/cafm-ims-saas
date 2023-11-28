@@ -107,6 +107,7 @@ import { PrintSelectedComponent } from './actionsOfWorkOrderSelected/print-selec
 import { WeeklyPrintWorkOrderComponent } from './modals/Weekly-print-work-order/Weekly-print-work-order.component';
 import {BlockUIModule} from 'primeng/blockui';
 import { WorkorderCostComponent } from './modals/task-card/TabsCard/workorder-cost/workorder-cost.component';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -196,6 +197,7 @@ import { WorkorderCostComponent } from './modals/task-card/TabsCard/workorder-co
     RuqestForginServiceOrSparePartModule,
     SidebarModule,
     CalenderFeildModule,
+    DialogModule,
     RouterModule.forChild([
       {
         path: 'workOrderNotCompleted',

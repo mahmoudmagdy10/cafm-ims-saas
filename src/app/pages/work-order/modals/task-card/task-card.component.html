@@ -202,7 +202,7 @@
             {{
               "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.CANCEL" | translate
             }}
-            zooz
+            
           </span>
         </span>
       </button>
@@ -270,6 +270,7 @@
           >
             <span>
               <span> <i class="fa fa-check"></i> </span>
+              
               <span> {{ "GENERAL.COMPLETE" | translate }}</span>
             </span>
           </button>
@@ -330,3 +331,47 @@
   </div>
   <div class="modal-footer position-relative"></div>
 </ng-template>
+
+
+<!-- confirmation message  -->
+<p-dialog [modal]="true" [draggable]="false" [resizable]="false" header="Confirmation Message"
+  [(visible)]="displaymodalConfirmation" [style]="{ width: '35vw' }">
+  <div class="modal-contents">
+    <!-- begin dialog body -->
+    <div class="modal-body p-0 pb-5">
+      <p>Are you sure to complete the task ?</p>
+    </div>
+
+    <div class="dialog-footer">
+      <div class="footer-actions d-flex">
+
+        <button
+            type="button"
+            class="btn btn-success"
+            data-bs-dismiss="modal"
+            (click)="confirmCompleteNewTask()"
+          >
+            <span>
+              <span> <i class="fa fa-check"></i> </span>
+              
+              <span> {{ "GENERAL.CONFIRM" | translate }}</span>
+            </span>
+          </button>
+
+        <button type="button" class="btn  btn-light" data-bs-dismiss="modal" mat-dialog-close>
+
+          <span>
+            <span> <i class="fa fa-times"></i> </span>
+            <span>
+              {{
+              "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.CANCEL" | translate
+              }}
+
+            </span>
+          </span>
+        </button>
+
+      </div>
+    </div>
+  </div>
+</p-dialog>

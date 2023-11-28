@@ -108,6 +108,7 @@ import { ppmTasksComponent } from './ppm-tasks.component';
 import { WeeklyPrintPpmTaskComponent } from './modals/Weekly-print-ppm-task/Weekly-print-ppm-task.component';
 import { UserAndTeamsModal } from './modals/filter-for-print-pdf/User&TeamsModal/User&TeamsModal.component';
 import { PpmCostComponent } from './modals/task-card/TabsCard/ppm-cost/ppm-cost.component';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -249,6 +250,7 @@ import { PpmCostComponent } from './modals/task-card/TabsCard/ppm-cost/ppm-cost.
     ContextMenuModule,
     LogsByComponentTypeModule,
     PMsModule,
+    DialogModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
 })
