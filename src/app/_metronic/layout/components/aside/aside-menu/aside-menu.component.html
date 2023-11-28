@@ -1,15 +1,15 @@
 <div class="section">
-  <div class="form-check form-switch my-3 mx-4">
+  <!-- <div class="form-check form-switch my-3 mx-4">
     <input class="form-check-input  bigger-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" [(ngModel)]="sortMode">
     <label class="form-check-label text-white mx-1 " for="flexSwitchCheckDefault" translate="SIDEBAR.sort_mode"></label>
-  </div>
+  </div> -->
   <ng-container *ngIf="!sortMode"
                  [ngTemplateOutlet]="generalModeTmpl"></ng-container>
   <ng-container *ngIf="sortMode"
-                [ngTemplateOutlet]="sortModeTmpl"></ng-container>
+                 [ngTemplateOutlet]="sortModeTmpl"></ng-container>
 
   <ng-template #generalModeTmpl>
-    <div class="mb-5">
+    <div class="mb-5 my-4">
       <div *ngFor="let item of sideMenu">
         <div class="menu-item">
           <a class="menu-link without-sub" [routerLink]="'/'+ item.route" routerLinkActive="active">

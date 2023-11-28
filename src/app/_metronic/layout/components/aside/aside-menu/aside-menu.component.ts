@@ -214,6 +214,7 @@ export class AsideMenuComponent implements OnInit {
       switch (ScreenName) {
         case 'settings/users':
         case 'settings/roles':
+        case 'settings/configurations':
           return this.canSeeAdminPanel() || this.isSuperUser;
         case 'settings/configurations':
         case 'companies':
