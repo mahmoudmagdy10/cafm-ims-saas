@@ -3,10 +3,14 @@
   color: #50cd89;
   position: absolute;
   font-size: 2rem;
-  top: 33%;
-  left: 50%;
-  transform: translate(-50%,127%) !important;
   animation: taskCompleteIconAnimate 2s ease forwards;
+}
+
+.task-complete-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 @keyframes taskCompleteIconAnimate {

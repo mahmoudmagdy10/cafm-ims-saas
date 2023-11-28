@@ -86,7 +86,7 @@ export const locale = {
       closeReport: 'غلق التقرير',
       openReport: 'فتح التقرير',
       LinkFile: 'رابط الملف',
-      CONFIRMATION_DIALOG : 'هل أنت متأكد من إكمال المهمة؟',
+      CONFIRMATION_DIALOG : 'هل أنت متأكد من إغلاق المهمة؟',
       Confirmation_Message : 'رسالة تأكيد'
     },
     ERRORS: {
