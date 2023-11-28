@@ -1,81 +1,89 @@
 <!DOCTYPE html>
-<!-- <html direction="ltr" dir="ltr" style="direction: ltr"> -->
-<html direction="rtl" dir="rtl" style="direction: rtl">
-
+<html lang="en">
 <head>
+  <!-- Meta tags for character set, title, base URL, and viewport settings -->
   <meta charset="utf-8" />
   <title>CAFM-IMS</title>
   <base href="/" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Favicon -->
   <link rel="shortcut icon" href="./assets/media/LogoForIcon.png" />
 
+  <!-- Google Fonts -->
   <link href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet" />
-  <!-- SPLASH SCREEN-->
+
+  <!-- SPLASH SCREEN Styles -->
   <link rel="stylesheet" id="layout-styles-anchor" href="./assets/splash-screen.css" />
 
+  <!-- Additional Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400" rel="stylesheet" />
 
+  <!-- Custom Stylesheets -->
   <link rel="stylesheet" href="./assets/assets-style.css" />
   <link rel="stylesheet" href="./assets/general-style.css" />
-  <!-- <script src="//fw-cdn.com/2482593/3046220.js" chat="true"></script> -->
+  <!-- Uncomment the line below if custom styles for right-to-left layout are needed -->
   <!-- <link rel="stylesheet" href="./assets/custom-rtl.css" /> -->
 </head>
-<script type="text/javascript" src="test.ts"></script>
-<script type='text/javascript' src='https://widget.freshworks.com/widgets/151000002166.js' async defer></script>
-<script>
-  var html = document.getElementsByTagName("html")[0];
-  const lang = window.localStorage.getItem("language");
-  html.lang = lang;
-  html.dir = lang == "en" ? "ltr" : "rtl";
-  html.style = lang == "en" ? "direction: ltr" : "direction: rtl";
-  html.direction = lang == "en" ? "ltr" : "rtl";
-  if (html.dir == "rtl") {
-    // document.write('<link rel="stylesheet" href="./assets/css/style.angular.rtl.css">')
-    // document.write('<link rel="stylesheet" href="./assets/css/override_rtl.css">')
-    document.write(
-      '<link rel="stylesheet" href="./assets/custom-rtl.css" />'
-    );
-  } else {
-  }
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwJUM0hr8YvnEvLFzWe_9DhWfF42zGMrU&v=weekly"></script>
-<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
-<script>
-  (function (h, o, t, j, a, r) {
-    h.hj =
-      h.hj ||
-      function () {
-        (h.hj.q = h.hj.q || []).push(arguments);
-      };
-    h._hjSettings = { hjid: 3489365, hjsv: 6 };
-    a = o.getElementsByTagName("head")[0];
-    r = o.createElement("script");
-    r.async = 1;
-    r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-    a.appendChild(r);
-  })(window, document, "https://static.hotjar.com/c/hotjar-", ".js?sv=");
-</script>
 
 <body root id="kt_body">
+  <!-- SPLASH SCREEN -->
   <div id="splash-screen" class="splash-screen">
     <img src="./assets/media/LogoForIcon.png" alt="Metron ic logo" width="80px" height="80px" />
     <span>...Loading </span>
   </div>
-</body>
-<script>
-  if (localStorage.getItem("token")) {
-    // window.fwSettings = {
-    //   'widget_id': 151000002166
-    // };
-    // !function () { if ("function" != typeof window.FreshworksWidget) { var n = function () { n.q.push(arguments) }; n.q = [], window.FreshworksWidget = n } }()
-  } else {
-    if (!window.location.href?.includes("public")) {
-      const script = document.createElement("script");
-      script.src = "//fw-cdn.com/2482593/3046220.js";
-      script.chat = true;
-      document.body.appendChild(script);
-    }
-  }
-</script>
 
+  <!-- Language and direction script -->
+  <!-- <script type="text/javascript" src="test.ts"></script> -->
+  <script>
+    // Set language and direction based on local storage
+    var html = document.getElementsByTagName("html")[0];
+    const lang = window.localStorage.getItem("language");
+    html.lang = lang;
+    html.dir = lang == "en" ? "ltr" : "rtl";
+    html.style = lang == "en" ? "direction: ltr" : "direction: rtl";
+    html.direction = lang == "en" ? "ltr" : "rtl";
+
+    // If the language is right-to-left, include custom styles for RTL layout
+    if (html.dir == "rtl") {
+      document.write('<link rel="stylesheet" href="./assets/custom-rtl.css" />');
+    }
+  </script>
+
+  <!-- External scripts -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&v=weekly"></script>
+  <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+
+  <!-- Hotjar script -->
+  <script>
+    (function (h, o, t, j, a, r) {
+      h.hj =
+        h.hj ||
+        function () {
+          (h.hj.q = h.hj.q || []).push(arguments);
+        };
+      h._hjSettings = { hjid: 3489365, hjsv: 6 };
+      a = o.getElementsByTagName("head")[0];
+      r = o.createElement("script");
+      r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window, document, "https://static.hotjar.com/c/hotjar-", ".js?sv=");
+  </script>
+
+  <!-- Conditional scripts based on local storage -->
+  <script>
+    if (localStorage.getItem("token")) {
+      // Uncomment and add your FreshworksWidget script here if needed
+    } else {
+      // Load external script for non-public pages
+      if (!window.location.href?.includes("public")) {
+        const script = document.createElement("script");
+        script.src = "//fw-cdn.com/2482593/3046220.js";
+        script.chat = true;
+        document.body.appendChild(script);
+      }
+    }
+  </script>
+</body>
 </html>
