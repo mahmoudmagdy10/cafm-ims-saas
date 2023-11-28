@@ -8,27 +8,16 @@
       {{ dataEdit.TaskName }}
       #
       <div class="mx-3">
-        <input
-          style="width: 70px"
-          type="text"
-          class="form-control"
-          [formControl]="TaskNoForSearch"
-          (keydown.enter)="getTaskByNo()"
-        />
+        <input style="width: 70px" type="text" class="form-control" [formControl]="TaskNoForSearch"
+          (keydown.enter)="getTaskByNo()" />
       </div>
       <div class="mx-3">
-        <i
-          class="{{
+        <i class="{{
             'css.fas_fa_chevron_left' | translate
-          }} action-icon btn-info"
-          (click)="PreviousTask()"
-        ></i>
-        <i
-          class="{{
+          }} action-icon btn-info" (click)="PreviousTask()"></i>
+        <i class="{{
             'css.fas_fa_chevron_right' | translate
-          }} action-icon btn-info"
-          (click)="nextTask()"
-        ></i>
+          }} action-icon btn-info" (click)="nextTask()"></i>
       </div>
     </h5>
 
@@ -58,71 +47,40 @@
     </div>
   </div> -->
   <!-- begin dialog body -->
-  <div
-    class="modal-body"
-    [style]="
+  <div class="modal-body" [style]="
       'max-height: 75vh; ' +
       ((isCalenderOpen$ | async) ? 'overflow:unset' : 'overflow-y: auto')
     ">
 
     <ng-container *ngIf="orderItem?.TaskStatusId === 1">
       <div class="form-group" *ngIf="orderItem.ClientUserDisApproveName">
-        <label
-          >Disapprove Reson By (<span class="text-warning">{{
+        <label>Disapprove Reson By (<span class="text-warning">{{
             orderItem?.DatetimePending | date : "dd/MM/yyyy : HH:mm"
-          }}</span
-          >)
+            }}</span>)
         </label>
-        <input
-          [disabled]="true"
-          [ngModel]="orderItem?.ClientUserDisApproveName"
-          class="form-control text-danger'"
-        />
+        <input [disabled]="true" [ngModel]="orderItem?.ClientUserDisApproveName" class="form-control text-danger'" />
       </div>
       <div class="form-group" *ngIf="orderItem.ClientUserDisApproveReason">
         <label>Disapprove Reson </label>
-        <textarea
-          [disabled]="true"
-          name=""
-          id=""
-          cols="30"
-          rows="4"
-          [ngModel]="orderItem?.ClientUserDisApproveReason"
-          class="form-control text-danger"
-        ></textarea>
+        <textarea [disabled]="true" name="" id="" cols="30" rows="4" [ngModel]="orderItem?.ClientUserDisApproveReason"
+          class="form-control text-danger"></textarea>
       </div>
     </ng-container>
     <app-informtion-row [dataEdit]="dataEdit"></app-informtion-row>
     <app-reson-with-status [dataEdit]="dataEdit"></app-reson-with-status>
 
     <ng-container [ngSwitch]="templateType">
-      <app-defualt-template
-        [workOrderCompleted]="workOrderCompletedValue"
-        *ngSwitchCase="1"
-        [taskEdit$]="this.taskEdit$"
-        (timeConsuming)="timeConsuming($event)"
-      ></app-defualt-template>
-      <app-vertical-template
-        *ngSwitchCase="2"
-        [taskEdit$]="this.taskEdit$"
-        (timeConsuming)="timeConsuming($event)"
-      ></app-vertical-template>
-      <app-defualt-template
-        [workOrderCompleted]="workOrderCompletedValue"
-        *ngSwitchDefault
-        [taskEdit$]="this.taskEdit$"
-        (timeConsuming)="timeConsuming($event)"
-      ></app-defualt-template>
+      <app-defualt-template [workOrderCompleted]="workOrderCompletedValue" *ngSwitchCase="1"
+        [taskEdit$]="this.taskEdit$" (timeConsuming)="timeConsuming($event)"></app-defualt-template>
+      <app-vertical-template *ngSwitchCase="2" [taskEdit$]="this.taskEdit$"
+        (timeConsuming)="timeConsuming($event)"></app-vertical-template>
+      <app-defualt-template [workOrderCompleted]="workOrderCompletedValue" *ngSwitchDefault [taskEdit$]="this.taskEdit$"
+        (timeConsuming)="timeConsuming($event)"></app-defualt-template>
     </ng-container>
   </div>
   <div class="modal-footer position-relative" *ngIf="codes$ | async as code">
-    <button
-      *ngIf="this.DataEdit?.OrginalScheduleId"
-      type="button"
-      class="btn  btn-light"
-      data-bs-dismiss="modal"
-      (click)="openPPM()"
-    >
+    <button *ngIf="this.DataEdit?.OrginalScheduleId" type="button" class="btn  btn-light" data-bs-dismiss="modal"
+      (click)="openPPM()">
       <span>
         <span>
           {{ "Open PPM" | translate }}
@@ -130,50 +88,32 @@
       </span>
     </button>
 
-    <button
-      *ngIf="
+    <button *ngIf="
         WorkOrderOpened?.isTC != 1 &&
         WorkOrderOpened.TaskStatusId != 5 &&
         !workOrderCompletedValue
-      "
-      type="button"
-      class="btn  btn-success"
-      data-bs-dismiss="modal"
-      (click)="TC(dataEdit)"
-    >
+      " type="button" class="btn  btn-success" data-bs-dismiss="modal" (click)="TC(dataEdit)">
       <span>
         <span> <i class="fa fa-check"></i> </span>
         <span> {{ "TC_button" | translate }} </span>
       </span>
     </button>
     <ng-container *ngIf="!orderItem?.ClientUserDisApproveReason">
-      <button
-        *ngIf="
+      <button *ngIf="
           !WorkOrderOpened?.ClientUserAcceptanceDoneByUserID &&
           !workOrderCompleted &&
           code?.IsClientAcceptanceRequied?.[0]?.ClientAcceptanceRequied
-        "
-        type="button"
-        class="btn  btn-success"
-        data-bs-dismiss="modal"
-        (click)="saveClientAcceptance(1)"
-      >
+        " type="button" class="btn  btn-success" data-bs-dismiss="modal" (click)="saveClientAcceptance(1)">
         <span>
           <span> <i class="fa fa-check"></i> </span>
           <span> {{ "Client Aproval" | translate }} </span>
         </span>
       </button>
-      <button
-        *ngIf="
+      <button *ngIf="
           WorkOrderOpened?.ClientUserAcceptanceDoneByUserID &&
           !workOrderCompleted &&
           code?.IsClientAcceptanceRequied?.[0]?.ClientAcceptanceRequied
-        "
-        type="button"
-        class="btn  btn-danger"
-        data-bs-dismiss="modal"
-        (click)="saveClientAcceptance(0)"
-      >
+        " type="button" class="btn  btn-danger" data-bs-dismiss="modal" (click)="saveClientAcceptance(0)">
         <span>
           <span> <i class="fa fa-times"></i> </span>
           <span> {{ "Client Reject" | translate }} </span>
@@ -188,113 +128,75 @@
     </span>
   </button> -->
     <ng-container *ngIf="this.codes$ | async as code">
-      <button
-        *ngIf="dataEdit?.PMId"
-        type="button"
-        class="btn  btn-light"
-        data-bs-dismiss="modal"
-        mat-dialog-close
-      >
+      <button *ngIf="dataEdit?.PMId" type="button" class="btn  btn-light" data-bs-dismiss="modal" mat-dialog-close>
         <!-- {{ "MAINTENANCEREQUESTS.COPYSETTINGSMODAL.CANCEL" | translate }} -->
         <span>
           <span> <i class="fa fa-times"></i> </span>
           <span>
             {{
-              "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.CANCEL" | translate
+            "PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.CANCEL" | translate
             }}
-            zooz
+
           </span>
         </span>
       </button>
 
-      <button
-        (click)="reOpen(dataEdit.ID)"
-        *ngIf="
+      <button (click)="reOpen(dataEdit.ID)" *ngIf="
           (this.WorkOrderOpened?.TaskStatusId == 3 ||
             this.WorkOrderOpened?.TaskStatusId == 4) &&
           code?.PagePermissions?.Reopenclosedorderstasks
-        "
-        type="button"
-        class="btn  btn-info"
-        data-bs-dismiss="modal"
-      >
+        " type="button" class="btn  btn-info" data-bs-dismiss="modal">
         <span>
           <span> <i class="fa-solid fa-arrow-rotate-right"></i> </span>
           <span> {{ "Re_Open" | translate }} zoz</span>
         </span>
       </button>
       <ng-container *ngIf="!orderItem?.ClientUserDisApproveReason">
-        <button
-          *ngIf="
+        <button *ngIf="
             this.WorkOrderOpened?.TaskStatusId != 3 &&
             this.WorkOrderOpened?.TaskStatusId != 4 &&
             code?.PagePermissions?.WorkOrdersCancel
-          "
-          type="button"
-          class="btn  btn-danger"
-          data-bs-dismiss="modal"
-          (click)="Reject(dataEdit)"
-        >
+          " type="button" class="btn  btn-danger" data-bs-dismiss="modal" (click)="Reject(dataEdit)">
           <span>
             <span> <i class="fa fa-times"></i> </span>
             <span> {{ "GENERAL.REJECT" | translate }} </span>
           </span>
         </button>
         <!-- *ngIf="code?.PagePermissions?.WorkOrdersReassign" -->
-        <button
-          *ngIf="
+        <button *ngIf="
             dataEdit.TaskStatusId != 5 &&
             this.WorkOrderOpened?.TaskStatusId != 3 &&
             this.WorkOrderOpened?.TaskStatusId != 4
-          "
-          type="button"
-          class="btn  btn-warning"
-          data-bs-dismiss="modal"
-          (click)="changeToPending(dataEdit.ID)"
-        >
+          " type="button" class="btn  btn-warning" data-bs-dismiss="modal" (click)="changeToPending(dataEdit.ID)">
           <span> {{ "Pending" | translate }} </span>
         </button>
       </ng-container>
       <ng-container *ngIf="codes$ | async as code">
         <ng-container *ngIf="!orderItem?.ClientUserDisApproveReason">
-          <button
-            *ngIf="
+          <button *ngIf="
               dataEdit.TaskStatusId != 3 &&
               dataEdit.TaskStatusId != 4 &&
               code?.PagePermissions?.WorkOrdersComplete
-            "
-            type="button"
-            class="btn  btn-success"
-            data-bs-dismiss="modal"
-            (click)="CompleteNewTask(dataEdit)"
-          >
+            " type="button" class="btn  btn-success" data-bs-dismiss="modal" (click)="CompleteNewTask(dataEdit)">
             <span>
               <span> <i class="fa fa-check"></i> </span>
+
               <span> {{ "GENERAL.COMPLETE" | translate }}</span>
             </span>
           </button>
         </ng-container>
       </ng-container>
-      <button
-        *ngIf="code?.PagePermissions?.WorkOrdersPrint"
-        type="button"
-        class="btn  btn-info"
-        data-bs-dismiss="modal"
-        (click)="printWorkOrder()"
-      >
-        <div
-          *ngIf="loadingPrint"
-          class="spinner-border text-dark"
-          style="width: 10px; height: 10px"
-          role="status"
-        >
+      <button *ngIf="code?.PagePermissions?.WorkOrdersPrint" type="button" class="btn  btn-info" data-bs-dismiss="modal"
+        (click)="printWorkOrder()">
+        <div *ngIf="loadingPrint" class="spinner-border text-dark" style="width: 10px; height: 10px" role="status">
           <span class="sr-only">Loading...</span>
         </div>
         <span> {{ "GENERAL.PRINT" | translate }} </span>
       </button>
       <i class="fas fa-cogs modal-bg-icon"></i>
-    </ng-container></div
-></ng-container>
+    </ng-container>
+  </div>
+</ng-container>
 
 <ng-template #loading>
   <div class="modal-header position-relative">
@@ -330,3 +232,39 @@
   </div>
   <div class="modal-footer position-relative"></div>
 </ng-template>
+
+
+<!-- confirmation message  -->
+<p-dialog [modal]="true" [draggable]="false" [resizable]="false" header="{{ 'GENERAL.Confirmation_Message' | translate }}"
+  [(visible)]="displaymodalConfirmation" [style]="{ width: '35vw' }">
+  <div class="modal-contents">
+
+    <div class="modal-body p-0 pb-5">
+      <p translate="GENERAL.CONFIRMATION_DIALOG"></p>
+    </div>
+
+    <div class="dialog-footer">
+      <div class="footer-actions btn-wrapper">
+
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="confirmCompleteNewTask()">
+          <span>
+            <span> <i class="fa fa-check"></i> </span>
+
+            <span translate="GENERAL.CONFIRM"> </span>
+          </span>
+        </button>
+
+        <button type="button" class="btn  btn-light" data-bs-dismiss="modal" mat-dialog-close>
+
+          <span>
+            <span> <i class="fa fa-times"></i> </span>
+            <span translate="PREVENTIVE_TASKS_MANAGEMENT.MODALS.TASK_MODAL.CANCEL">
+
+            </span>
+          </span>
+        </button>
+
+      </div>
+    </div>
+  </div>
+</p-dialog>

@@ -38,6 +38,8 @@ export class TaskCardComponent implements OnInit {
   collapsed: boolean = true;
   workOrderCompleted: boolean = false;
   isForceSOP: any;
+  displaymodalConfirmation: boolean = false;
+  dataEdit : any;
   constructor(
     public dialogRef: MatDialogRef<TaskCardComponent>,
     private toastr: ToastrService,
@@ -201,21 +203,8 @@ export class TaskCardComponent implements OnInit {
   }
 
   CompleteNewTask(data: any) {
-    const dialogRef = this.dialog
-      .open(CompleteNewTask, {
-        width: '40vw',
-        data: { dataEdit: data, type: 'complete' },
-        disableClose: true,
-      })
-      .addPanelClass('cmms-custom-modal');
-    dialogRef.afterClosed().subscribe((value) => {
-      if (value) {
-        this.service.getAllTask({});
-        this.applyComplete();
-        this.dialogRef.close();
-      }
-    });
-
+    this.displaymodalConfirmation = true;
+    this.dataEdit = data;
     // this.service
     //   .InstructionCompleted({ ID: this?.dataCard?.filter?.Id })
     //   .subscribe(
@@ -232,6 +221,23 @@ export class TaskCardComponent implements OnInit {
     //
     //     }
     //   );
+  }
+
+  confirmCompleteNewTask(){
+    const dialogRef = this.dialog
+      .open(CompleteNewTask, {
+        width: '40vw',
+        data: { dataEdit: this.dataEdit, type: 'complete' },
+        disableClose: true,
+      })
+      .addPanelClass('cmms-custom-modal');
+    dialogRef.afterClosed().subscribe((value) => {
+      if (value) {
+        this.service.getAllTask({});
+        this.applyComplete();
+        this.dialogRef.close();
+      }
+    });
   }
 
   applyComplete() {

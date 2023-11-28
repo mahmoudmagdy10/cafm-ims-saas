@@ -85,6 +85,8 @@ export const locale = {
       closeReport: 'Close Report',
       openReport: 'Open Report',
       LinkFile: 'Link File',
+      CONFIRMATION_DIALOG : 'Are you sure to complete the task ?',
+      Confirmation_Message : 'Confirmation Message'
     },
     ERRORS: {
       STORES: {

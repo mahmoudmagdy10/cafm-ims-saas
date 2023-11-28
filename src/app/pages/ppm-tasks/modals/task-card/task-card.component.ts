@@ -35,6 +35,8 @@ export class TaskCardComponent implements OnInit {
   taskEdit$: Observable<any>;
   codes$: Observable<any>;
   collapsed: boolean = true;
+  displaymodalConfirmation  : boolean = false;
+  dataEdit : any;
   constructor(
     public dialogRef: MatDialogRef<TaskCardComponent>,
     private toastr: ToastrService,
@@ -165,19 +167,9 @@ export class TaskCardComponent implements OnInit {
   }
 
   CompleteNewTask(data: any) {
-    const dialogRef = this.dialog
-      .open(CompleteNewTask, {
-        width: '40vw',
-        data: { dataEdit: data, type: 'complete' },
-        disableClose: true,
-      })
-      .addPanelClass('cmms-custom-modal');
-    dialogRef.afterClosed().subscribe((value) => {
-      if (value) {
-        this.applyComplete();
-        this.dialogRef.close();
-      }
-    });
+    this.displaymodalConfirmation = true;
+    this.dataEdit = data;
+    
     // this.service
     //   .InstructionCompleted({ ID: this?.dataCard?.filter?.Id })
     //   .subscribe(
@@ -194,6 +186,22 @@ export class TaskCardComponent implements OnInit {
     //
     //     }
     //   );
+  }
+
+  confirmCompleteNewTask(){
+    const dialogRef = this.dialog
+      .open(CompleteNewTask, {
+        width: '40vw',
+        data: { dataEdit: this.dataEdit, type: 'complete' },
+        disableClose: true,
+      })
+      .addPanelClass('cmms-custom-modal');
+    dialogRef.afterClosed().subscribe((value) => {
+      if (value) {
+        this.applyComplete();
+        this.dialogRef.close();
+      }
+    });
   }
   applyComplete() {
     const dialogRef = this.dialog
