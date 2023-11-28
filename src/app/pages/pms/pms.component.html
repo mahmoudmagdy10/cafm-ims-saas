@@ -138,39 +138,34 @@ codes?.PagePermissions?.BalancedRedistribution-->
 
   <div class="card-body" #Report>
     <div class="row mb-3">
-      <div class="col-12 my-5">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item d-flex" role="presentation">
-            <button class="nav-link" [class.active]="viewType == 'List'" (click)="viewType = 'List'" role="tab">
-              <span class="d-flex">
-                <h5 class="me-4">{{ "PREVENTIVE_TASKS_MANAGEMENT.DISPLAY_AS.DISPLAY_AS_LIST" | translate }}</h5>
-                <small class="my-1"><b>{{ "Total" | translate }} {{ (pmsData$ | async)?.Setting?.[0]?.TotalCount || 0 }}</b> </small>
-              </span>
-            </button>
-            <div>
-            </div>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" [class.active]="viewType == 'FullCalender'" (click)="viewType = 'FullCalender'" role="tab">
-              <span class="d-flex">
-                <h5 class="me-4">{{ "PREVENTIVE_TASKS_MANAGEMENT.DISPLAY_AS.DISPLAY_AS_CALENDAR" | translate }}</h5>
-                <small class="my-1"><b>{{ "Total" | translate }} {{ (AllSchedulesTimeCalender$ | async)?.Setting?.[0]?.TotalCount || 0 }}</b> </small>
-              </span>
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" [class.active]="viewType == 'DailyPm'" (click)="viewType = 'DailyPm'" role="tab">
-              <span class="d-flex">
-                <h5 class="me-4">{{ "DailyWo" | translate }}</h5>
-                <small class="my-1"><b>{{ "Total" | translate }} {{ (AllSchedulesTimeCalender$ | async)?.Setting?.[0]?.TotalCount || 0 }}</b> </small>
-              </span>
-            </button>
-          </li>
-        </ul>
+      <div class="col-12">
+
+        <div class="tabs_wrap">
+          <ul>
+            <li data-tabs="male" [class.active]="viewType == 'List'">
+              <button class="nav-link w-100 d-flex justify-content-between" (click)="viewType = 'List'" role="tab">
+                <h5 class="m-0">{{ "PREVENTIVE_TASKS_MANAGEMENT.DISPLAY_AS.DISPLAY_AS_LIST" | translate }}</h5>
+                <span class="badge rounded-pill bg-white text-dark p-2">{{ (pmsData$ | async)?.Setting?.[0]?.TotalCount || 0 }}</span>
+              </button>
+            </li>
+            <li data-tabs="male" [class.active]="viewType == 'FullCalender'">
+              <button class="nav-link w-100 d-flex justify-content-between" (click)="viewType = 'FullCalender'" role="tab">
+                <h5 class="m-0">{{ "PREVENTIVE_TASKS_MANAGEMENT.DISPLAY_AS.DISPLAY_AS_CALENDAR" | translate }}</h5>
+                <span class="badge rounded-pill bg-white text-dark p-2">{{ (AllSchedulesTimeCalender$ | async)?.Setting?.[0]?.TotalCount || 0 }}</span>
+              </button>
+            </li>
+
+            <li data-tabs="male" [class.active]="viewType == 'DailyPm'">
+              <button class="nav-link w-100 d-flex justify-content-between" (click)="viewType = 'DailyPm'" role="tab">
+                <h5 class="m-0">{{ "DailyWo" | translate }}</h5>
+                <span class="badge rounded-pill bg-white text-dark p-2">{{ (AllSchedulesTimeCalender$ | async)?.Setting?.[0]?.TotalCount || 0 }}</span>
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <app-view-data-filter [componentType]="'PPM'"></app-view-data-filter>
-    <div class="mt-3"></div>
     <ng-container *ngIf="viewType == 'List'">
       <app-view-table
         (openCard)="Card($event, undefined, true)"

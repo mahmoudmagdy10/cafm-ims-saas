@@ -1,3 +1,7 @@
+:host{
+  height: 100% !important;
+}
+
 .menu-item{
     width: 100%;
 
@@ -69,4 +73,23 @@
   .bigger-icon {
     font-size: 18px;
   }
+
+  .full-sidebar{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    inset: 0;
+  }
+
+  .fixed-bottom-container {
+    margin-top: auto !important;
+  }
+
+  /* Media query for smaller screens */
+@media (max-width: 768px) {
+  .full-sidebar {
+    position: absolute;
+  }
+}
+  
   

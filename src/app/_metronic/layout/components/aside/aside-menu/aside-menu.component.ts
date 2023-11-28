@@ -28,6 +28,7 @@ export class AsideMenuComponent implements OnInit {
   companyId: any;
   sideMenu : any[] = [];
   sortMode = false;
+  settingsMenu: any[];
   
   constructor(
     private auth: AuthService,
@@ -160,6 +161,33 @@ export class AsideMenuComponent implements OnInit {
       .sort((a: { index: number }, b: { index: number }) => a.index - b.index)
       .filter((item:any) => item.title)
       .filter((item:any) => item.display)
+      const helpPageLink = {
+        title: this.translate.instant('SIDEBAR.help_page'),
+        route: 'https://cafm-ims.com/en/blog/',
+        targetBlank: true,
+        isLink: true,
+        icon: 'fas fa-question-circle',
+        display: true,
+        index: 29,
+        permission: [],
+    };
+    const contactUsLink = {
+      title:  this.translate.instant('SIDEBAR.contact_us'),
+      route: 'https://cafm-ims.com/en/contact-us/',
+      targetBlank: true,
+      isLink: true,
+      icon: 'fas fa-envelope',
+      display: true,
+      index: 30,
+      permission: [],
+  };
+    const advancedSettings = this.sideMenu.filter(item => item.route === 'settings/configurations');
+    this.settingsMenu = [
+      ...(this.canSeeAdminPanel() || this.isSuperUser ? advancedSettings : []),
+      helpPageLink,
+      contactUsLink
+    ];
+    this.sideMenu = this.sideMenu.filter(item => item.route !== 'settings/configurations');
   }
   
   getTitle(menuItem: any): any {
@@ -214,6 +242,7 @@ export class AsideMenuComponent implements OnInit {
       switch (ScreenName) {
         case 'settings/users':
         case 'settings/roles':
+        case 'settings/configurations':
           return this.canSeeAdminPanel() || this.isSuperUser;
         case 'settings/configurations':
         case 'companies':
@@ -235,7 +264,7 @@ export class AsideMenuComponent implements OnInit {
   }
 
   canSeeSoftServices(): boolean {
-    const softServicesUsers = [120, 110 ];
+    const softServicesUsers = [ 110 ];
     return softServicesUsers.includes(Number(localStorage.getItem('companyId')));
   }
   

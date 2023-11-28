@@ -36,8 +36,9 @@
   <!-- end::Logo -->
 
   <!-- begin::Aside toggle -->
+  <!-- minimize sideMenu icon here  -->
   <ng-container *ngIf="asideMinimize">
-    <div
+    <!-- <div
       id="kt_aside_toggle"
       class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle"
       data-kt-toggle="true"
@@ -49,7 +50,7 @@
         [inlineSVG]="'./assets/media/icons/duotune/arrows/arr079.svg'"
         class="svg-icon svg-icon-1 rotate-180"
       ></span>
-    </div>
+    </div> -->
   </ng-container>
   <!-- end::Aside toggler -->
 </div>
@@ -60,7 +61,7 @@
   <div
     #ktAsideScroll
     id="kt_aside_menu_wrapper"
-    class="hover-scroll-overlay-y"
+    class="hover-scroll-overlay-y h-100"
     data-kt-scroll="true"
     data-kt-scroll-activate="{default: false, lg: true}"
     data-kt-scroll-height="auto"
@@ -71,7 +72,7 @@
     <div
       id="#kt_aside_menu"
       data-kt-menu="true"
-      class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+      class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 h-100"
     >
       <app-aside-menu id="asideMenu"></app-aside-menu>
     </div>

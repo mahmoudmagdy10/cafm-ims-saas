@@ -115,7 +115,7 @@ export class modalEditComponent implements OnInit {
     ];
   }
   ngOnInit(): void {
-    this.useSoftService = localStorage.getItem('companyId') === '120' || localStorage.getItem('companyId') === '110';
+    this.useSoftService = localStorage.getItem('companyId') === '110';
     this.refreshServiceList();
     this.extraServicesOptions = this.Data.Codes.ExtraServices;
     if (this.Data.disabled) {

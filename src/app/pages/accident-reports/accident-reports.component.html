@@ -70,11 +70,11 @@
       >
         <thead>
           <tr class="fw-bolder fs-6 text-gray-800">
-            <th style="width: 8%;">{{ "ACCIDENTS_REPORTS.TABLE.REPORT_NUMBER" | translate }}</th>
-            <th>{{ "ACCIDENTS_REPORTS.TABLE.REPORT_NAME" | translate }}</th>
-            <th>{{ "ACCIDENTS_REPORTS.TABLE.TEMPLATE" | translate }}</th>
-            <th>{{ "ACCIDENTS_REPORTS.TABLE.ACCIDENT_DATE" | translate }}</th>
-            <th>{{ "ACCIDENTS_REPORTS.TABLE.USER_NAME" | translate }}</th>
+            <th class="nowrap">{{ "ACCIDENTS_REPORTS.TABLE.REPORT_NUMBER" | translate }}</th>
+            <th class="nowrap">{{ "ACCIDENTS_REPORTS.TABLE.REPORT_NAME" | translate }} bla bla bla sqsq</th>
+            <th class="nowrap">{{ "ACCIDENTS_REPORTS.TABLE.TEMPLATE" | translate }}</th>
+            <th class="nowrap">{{ "ACCIDENTS_REPORTS.TABLE.ACCIDENT_DATE" | translate }}</th>
+            <th class="nowrap">{{ "ACCIDENTS_REPORTS.TABLE.USER_NAME" | translate }}</th>
             <th *ngFor="let obj of feildsViewInTable">
               {{ obj.Name }}
             </th>

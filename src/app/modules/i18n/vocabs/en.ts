@@ -154,7 +154,7 @@ export const locale = {
       DASHBOARD: 'Dashboard',
       WORKER_DASHBOARD: 'My Tasks',
       ADVANCEDSETTING: {
-        LABEL: 'Advanced Settings',
+        LABEL: 'Settings',
         SETTINGS: 'Settings',
         USERSGROUPS: 'Users Groups',
       },
@@ -195,7 +195,9 @@ export const locale = {
       alerts: {
         updated: "Side menu updated!"
       },
-      sort_mode: "Sort mode "
+      sort_mode: "Sort mode ",
+      help_page: "Help page",
+      contact_us: "Contact us",
     },
 
     FOOTER: {
@@ -1387,7 +1389,7 @@ export const locale = {
       ClosedOrders: 'Closed Orders',
       CARD_TITLE: 'Work Orders',
       WORK_ORDER_COMPLETED: 'Completed Maintenance Tasks',
-      COMPLETED_PPM_TASKS: 'Completed PPM Tasks',
+      COMPLETED_PPM_TASKS: 'Closed PPM Tasks',
       WORK_ORDER_REGECTED: 'Rejected Maintenance Tasks',
       TASK_REJECTed: 'Rejected Tasks',
       GENERAL_TASKS: ' General Tasks',
@@ -1454,7 +1456,7 @@ export const locale = {
 
       MODALS: {
         ADD_MODAL: {
-          MODAL_TITLE: 'Add New Maintenance Task',
+          MODAL_TITLE: 'Add New Work Order',
           TASK_NAME: 'Task Name',
           TASK_TYPE: 'Task Type',
           TASK_STATUS: 'Task Status',

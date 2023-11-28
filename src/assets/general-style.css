@@ -241,8 +241,8 @@ ul.p-treenode-children > p-treenode.p-element::before {
 }
 
 .aside.aside-dark .aside-logo {
-  /* background-color: #66a9ed !important; */
-  background: linear-gradient(214.85deg, rgb(0, 168, 134) 0%, rgb(0, 108, 159) 100%) 0% 0% / contain !important;
+  background-color: #009C8B !important;
+  /* background: linear-gradient(214.85deg, rgb(0, 168, 134) 0%, rgb(0, 108, 159) 100%) 0% 0% / contain !important; */
 }
 
 .aside.aside-dark .aside-logo a {
