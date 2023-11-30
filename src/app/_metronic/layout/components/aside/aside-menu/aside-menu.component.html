@@ -9,7 +9,7 @@
                  [ngTemplateOutlet]="sortModeTmpl"></ng-container>
 
   <ng-template #generalModeTmpl>
-    <div class="mb-5 my-4">
+    <div class="mt-4">
       <div *ngFor="let item of sideMenu">
         <div class="menu-item">
           <a class="menu-link without-sub" [routerLink]="'/'+ item.route" routerLinkActive="active">
@@ -18,6 +18,35 @@
             </span>
             <span class="menu-title" [translate]="item.title"></span>
           </a>
+        </div>
+      </div>
+      <div class="fixed-bottom-container text-center mb-2">
+        <div class="row my-4  w-100 justify-content-center text-center">
+          <div class="col d-block" *ngFor="let item of settingsMenu">
+            <ng-container *ngIf="item.isLink; else internalLink">
+              <!-- External Link -->
+              <a class="menu-link without-sub" style="display: grid;"
+                 [attr.href]="item.route"
+                 [attr.target]="item.targetBlank ? '_blank' : null">
+                <span class="menu-icon">
+                  <i class="{{ item.icon }} fa-lg text-white bigger-icon"></i>
+                </span>
+                <span class="menu-title text-white" [translate]="item.title"></span>
+              </a>
+            </ng-container>
+            <ng-template #internalLink>
+              <!-- Internal Link -->
+              <a class="menu-link without-sub" style="display: grid;"
+                 [routerLink]="['/' + item.route]"
+                 routerLinkActive="active">
+                <span class="menu-icon">
+                  <i class="{{ item.icon }} fa-lg text-white bigger-icon"></i>
+                </span>
+                <span class="menu-title text-white"
+                      [translate]="item.title"></span>
+              </a>
+            </ng-template>
+          </div>
         </div>
       </div>
     </div>

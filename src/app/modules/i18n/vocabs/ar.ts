@@ -197,7 +197,9 @@ export const locale = {
       alerts: {
         updated: "تم تحديث القائمة الجانبية "
       },
-      sort_mode: "وضع الفرز"
+      sort_mode: "وضع الفرز",
+      help_page: "صفحة المساعدة",
+      contact_us: "اتصل بنا",
     },
     FOOTER: {
       COPY_RIGHT: 'جميع الحقوق محفوظة',

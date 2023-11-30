@@ -127,6 +127,9 @@ export class DailyWoComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.DailyWo$.pipe(
       tap((value) => {
+        if(!value){
+          return;
+        }
         value?.forEach((value: any) => {
           value?.WorkOrders?.forEach((element: any) => {
             element.checked = false;

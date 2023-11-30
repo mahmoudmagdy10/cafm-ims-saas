@@ -154,7 +154,7 @@ export const locale = {
       DASHBOARD: 'Dashboard',
       WORKER_DASHBOARD: 'My Tasks',
       ADVANCEDSETTING: {
-        LABEL: 'Advanced Settings',
+        LABEL: 'Settings',
         SETTINGS: 'Settings',
         USERSGROUPS: 'Users Groups',
       },
@@ -195,7 +195,9 @@ export const locale = {
       alerts: {
         updated: "Side menu updated!"
       },
-      sort_mode: "Sort mode "
+      sort_mode: "Sort mode ",
+      help_page: "Help page",
+      contact_us: "Contact us",
     },
 
     FOOTER: {
