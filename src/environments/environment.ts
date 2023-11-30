@@ -15,8 +15,8 @@ export const environment = {
   // baseUrlWithoutApi: 'http://49.12.56.114:1012',
   // Avatar: '',
 
-  baseUrl: 'https://api3.cafm-ims.com/api',
-  baseUrlWithoutApi: 'https://api3.cafm-ims.com',
+  baseUrl: 'https://api.cafm-ims.com/api',
+  baseUrlWithoutApi: 'https://api.cafm-ims.com',
   Avatar: '',
   appThemeName: 'Metronic',
   appPurchaseUrl: 'https://1.envato.market/EA4JP',
