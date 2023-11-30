@@ -96,6 +96,12 @@
       >
         <QRCode [dataEdit]="dataEdit"></QRCode>
       </p-tabPanel>
+
+      <p-tabPanel
+        header="{{ 'ASSETS.ASSETCARDMODAL.EXTRAFEILDSTAB.HEADER' | translate }}"
+      >
+        <app-extra-fields ></app-extra-fields>
+      </p-tabPanel>
     </p-tabView>
   </div>
 </ng-container>

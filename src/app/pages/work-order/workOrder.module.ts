@@ -108,6 +108,8 @@ import { WeeklyPrintWorkOrderComponent } from './modals/Weekly-print-work-order/
 import {BlockUIModule} from 'primeng/blockui';
 import { WorkorderCostComponent } from './modals/task-card/TabsCard/workorder-cost/workorder-cost.component';
 import { DialogModule } from 'primeng/dialog';
+import { ExtraFieldsComponent } from './modals/task-card/TabsCard/extra-fields/extra-fields.component';
+
 
 @NgModule({
   declarations: [
@@ -169,6 +171,7 @@ import { DialogModule } from 'primeng/dialog';
     PrintSelectedComponent,
     WeeklyPrintWorkOrderComponent,
     WorkorderCostComponent,
+    ExtraFieldsComponent,
   ],
   imports: [
     CommonModule,
@@ -198,6 +201,7 @@ import { DialogModule } from 'primeng/dialog';
     SidebarModule,
     CalenderFeildModule,
     DialogModule,
+   
     RouterModule.forChild([
       {
         path: 'workOrderNotCompleted',

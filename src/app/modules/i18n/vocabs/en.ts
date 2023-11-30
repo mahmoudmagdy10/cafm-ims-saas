@@ -1108,6 +1108,14 @@ export const locale = {
           DETAILS:
             'to apply a maintenance request, please scan the QR through the camera',
         },
+
+        EXTRAFEILDSTAB : {
+          HEADER : 'Extra Fields',
+          UPLOAD_IMG : 'Upload Image',
+          VOICE : 'Voice',
+          Location : 'Location Time Zone'
+        },
+
         PROBLEMIDENTIFICATION: {
           PROBLEMIDENTIFICATION: 'Problems Identification',
           TASK_NAME: 'Task Name',
