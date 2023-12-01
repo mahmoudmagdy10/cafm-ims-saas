@@ -9,7 +9,7 @@
                  [ngTemplateOutlet]="sortModeTmpl"></ng-container>
 
   <ng-template #generalModeTmpl>
-    <div class="mt-4">
+    <div class="mt-4 full-sidebar">
       <div *ngFor="let item of sideMenu">
         <div class="menu-item">
           <a class="menu-link without-sub" [routerLink]="'/'+ item.route" routerLinkActive="active">
@@ -20,7 +20,7 @@
           </a>
         </div>
       </div>
-      <div class="fixed-bottom-container text-center mb-2">
+      <div class="fixed-bottom-container text-center mb-2" >
         <div class="row my-4  w-100 justify-content-center text-center">
           <div class="col d-block" *ngFor="let item of settingsMenu">
             <ng-container *ngIf="item.isLink; else internalLink">
