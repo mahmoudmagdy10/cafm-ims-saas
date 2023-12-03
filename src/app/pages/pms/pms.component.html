@@ -49,7 +49,8 @@ codes?.PagePermissions?.BalancedRedistribution-->
             <span>{{ "Balanced Redistribution" | translate }}</span>
           </span>
         </button>
-        <button class="general-btn filter-btn mx-1" (click)="Filter()">
+        <div class="button-container">
+        <button class="btn btn-secondary btn-lg mx-1" (click)="Filter()">
           <span>
             <span><i class="fas fa-filter"></i></span>
             <span>{{ "PREVENTIVE_TASKS_MANAGEMENT.FILTER" | translate }}</span>
@@ -58,7 +59,7 @@ codes?.PagePermissions?.BalancedRedistribution-->
 
         <button
           *ngIf="codes?.PagePermissions?.PMAdd"
-          class="general-btn add-btn mx-1"
+          class="btn btn-primary btn-lg mx-1"
           (click)="addPMTask()">
           <span>
             <span><i class="fas fa-plus"></i></span>
@@ -68,9 +69,11 @@ codes?.PagePermissions?.BalancedRedistribution-->
         </button>
         <button
           *ngIf="codes?.PagePermissions?.PMExport && viewType == 'List'"
-          class="btn btn-success mx-1"
+          class="btn btn-success btn-lg mx-1"
           (click)="export()"
         >
+      
+
           <span>
             <i class="fas fa-upload fa-lg"></i>
 
@@ -80,7 +83,7 @@ codes?.PagePermissions?.BalancedRedistribution-->
         <button
           *ngIf="codes?.PagePermissions?.PMPrint && viewType == 'List'"
           type="button"
-          class="general-btn filter-btn mx-1"
+          class="btn btn-secondary btn-lg mx-1"
           data-bs-dismiss="modal"
           (click)="weeklyPrint()"
         >
@@ -89,7 +92,7 @@ codes?.PagePermissions?.BalancedRedistribution-->
             <span> {{ "GENERAL.PRINT" | translate }} </span>
           </span>
         </button>
-
+      
         <button
           [disabled]="WorkOrderSelected.length == 0"
           *ngIf="viewType !== 'List' && viewType !== 'FullCalender'"
@@ -110,6 +113,7 @@ codes?.PagePermissions?.BalancedRedistribution-->
 
           <span> {{ "GENERAL.PRINT_SELECTED" | translate }} </span>
         </button>
+      </div>
         <!-- <button
           *ngIf="codes?.PagePermissions?.PMAdd"
           type="button"
