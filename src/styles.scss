@@ -22,15 +22,11 @@ $demo1-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$demo1-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $demo1-primary,
-      accent: $demo1-accent,
-      warn: $demo1-warn,
-    ),
-  )
-);
+$demo1-theme: mat.define-light-theme((color: (primary: $demo1-primary,
+        accent: $demo1-accent,
+        warn: $demo1-warn,
+      ),
+    ));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -63,24 +59,29 @@ html,
 body {
   height: 100%;
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   /* display: none; <- Crashes Chrome on hover */
   -webkit-appearance: none;
-  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
 body {
   margin: 0;
   font-family: "Almarai", sans-serif;
   background-color: #f5f8fa !important;
 }
+
 .p-tooltipStyleClassBig .p-tooltip-text {
   width: 300px !important;
 }
+
 .viewImageInEditor {
   img {
     width: 100px !important;
@@ -95,18 +96,23 @@ body {
 .fc-license-message {
   display: none;
 }
+
 html {
   scroll-behavior: smooth;
 }
+
 .editorImg-25 .ql-editor p img {
   width: 20vw !important;
 }
+
 .editorImg-50 .ql-editor p img {
   width: 40vw !important;
 }
+
 .editorImg-75 .ql-editor p img {
   width: 60vw !important;
 }
+
 .editorImg-100 .ql-editor p img {
   width: 100vw !important;
 }
@@ -114,52 +120,84 @@ html {
 .p-tree .test {
   background-color: #122164 !important;
 }
+
 .fc-popover-body {
   height: 200px !important;
   overflow-y: scroll !important;
 }
+
 .fc-more-popover {
   z-index: 1 !important;
 }
+
 .fc-scroller-harness {
   z-index: 0 !important;
 }
+
 /* Distinguish the start and end of the range */
 .p-calendar .ui-state-active {
-  background-color: #007bff; /* You can choose your preferred color */
+  background-color: #007bff;
+  /* You can choose your preferred color */
   color: white;
 }
 
 /* Style for the in-between days */
 .p-calendar span.ui-state-highlight {
-  background-color: rgba(
-    0,
-    123,
-    255,
-    0.2
-  ); /* Lighter shade of the above color */
+  background-color: rgba(0,
+      123,
+      255,
+      0.2);
+  /* Lighter shade of the above color */
   border-color: transparent;
 }
+
 .p-tabview .p-tabview-nav {
   display: flex !important;
   justify-content: flex-start !important;
 }
+
 .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
   background: #5797dd !important;
   border-color: #6366f1 !important;
   color: #ffffff !important;
 }
+
 .p-tabview-ink-bar {
   display: none !important;
 }
+
 .p-skeleton {
   background-color: #ccddee !important;
 }
+
 .sortable-ghost {
   opacity: 0 !important;
 }
+
+.extra-fields-section {
+  .location{
+    margin-top: 1.5rem !important;
+    justify-content: space-between;
+    .delete-icon{
+      width: 50px;
+      display: flex;
+      height: 46px;
+      justify-content: center;
+      align-items: center;
+    }
+     span{
+      display: none;
+     }
+  }
+  .symbol.symbol-35px .symbol-label {
+    width: 80px;
+    height: 80px;
+    margin-left: -1rem;
+    border-radius: unset;
+  }
+}
+
 // .sortable-chosen {
 //   background-color: #007bff !important;
 //   color: white !important;
 // }
-

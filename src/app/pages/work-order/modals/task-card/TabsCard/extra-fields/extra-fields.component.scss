@@ -1,12 +1,47 @@
-.btns-wrapper{
+.btns-wrapper {
     display: flex;
     gap: 1.5rem;
     margin-bottom: 1rem;
     margin-top: 1rem;
+}
 
-    // .icon-wrapper{
-    //     svg{
-    //         width: ;
-    //     }
-    // }
+.border-right {
+    border-right-style: groove;
+
+    label {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 19px;
+        color: #6c757d;
+        font-weight: 700;
+    }
+}
+
+.border-right-location {
+    label {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 19px;
+        color: #6c757d;
+        font-weight: 700;
+    }
+}
+
+ol {
+    .location {
+        .symbol-label {
+            width: 60px;
+            height: 60px;
+        }
+    }
+}
+
+
+.symbol.symbol-35px .symbol-label {
+    width: 60px;
+    height: 60px;
 }

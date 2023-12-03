@@ -115,6 +115,8 @@ export class ExtraFieldsComponent implements OnInit {
 
   SaveNewValue(files: any) {
     this.files = files;
+    console.log(this.files);
+    
   }
 
 }
