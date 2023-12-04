@@ -70,9 +70,11 @@ codes?.PagePermissions?.BalancedRedistribution-->
         </button>
         <button
           *ngIf="codes?.PagePermissions?.PMExport && viewType == 'List'"
-          class="btn btn-success mx-1"
+          class="btn btn-success btn-lg mx-1"
           (click)="export()"
         >
+      
+
           <span>
             <i class="fas fa-upload fa-lg"></i>
 
@@ -82,7 +84,7 @@ codes?.PagePermissions?.BalancedRedistribution-->
         <button
           *ngIf="codes?.PagePermissions?.PMPrint && viewType == 'List'"
           type="button"
-          class="general-btn filter-btn mx-1"
+          class="btn btn-secondary btn-lg mx-1"
           data-bs-dismiss="modal"
           (click)="weeklyPrint()"
         >
@@ -91,7 +93,7 @@ codes?.PagePermissions?.BalancedRedistribution-->
             <span> {{ "GENERAL.PRINT" | translate }} </span>
           </span>
         </button>
-
+      
         <button
           [disabled]="WorkOrderSelected.length == 0"
           *ngIf="viewType !== 'List' && viewType !== 'FullCalender'"
