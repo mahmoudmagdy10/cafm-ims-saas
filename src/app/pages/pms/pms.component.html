@@ -1,7 +1,7 @@
 <div class="card card-custom">
   <!-- begin::Header -->
   <div class="card-header card-header-stretch align-items-center">
-    <div class="card-title m-0">
+    <div class="card-title m-0 pms-header">
       <!-- https://www.svgrepo.com/svg/420196/lock-protect-security-15 -->
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -26,7 +26,7 @@
           />
         </g>
       </svg>
-      <h4 class="fw-bolder mb-0 mx-2" *ngIf="!isSoftService">
+      <h4 class="fw-bolder mb-0 mx-2 " *ngIf="!isSoftService">
         {{ "PM.CARD_HEADER" | translate }}
       </h4>
       <h4 class="fw-bolder mb-0 mx-2" *ngIf="isSoftService">
@@ -37,7 +37,9 @@
       <div class="add-new-task">
         <!-- Balanced Redistribution
 codes?.PagePermissions?.BalancedRedistribution-->
-        <button
+          
+
+              <button
           *ngIf="viewType == 'FullCalender'"
           class="general-btn btn-info mx-1"
           (click)="BalancedRedistribution()"
@@ -49,7 +51,7 @@ codes?.PagePermissions?.BalancedRedistribution-->
             <span>{{ "Balanced Redistribution" | translate }}</span>
           </span>
         </button>
-        <button class="general-btn filter-btn mx-1" (click)="Filter()">
+        <button class="general-btn filter-btn mx-1 " (click)="Filter()">
           <span>
             <span><i class="fas fa-filter"></i></span>
             <span>{{ "PREVENTIVE_TASKS_MANAGEMENT.FILTER" | translate }}</span>
@@ -58,7 +60,7 @@ codes?.PagePermissions?.BalancedRedistribution-->
 
         <button
           *ngIf="codes?.PagePermissions?.PMAdd"
-          class="general-btn add-btn mx-1"
+          class="general-btn add-btn mx-1 "
           (click)="addPMTask()">
           <span>
             <span><i class="fas fa-plus"></i></span>
@@ -110,6 +112,8 @@ codes?.PagePermissions?.BalancedRedistribution-->
 
           <span> {{ "GENERAL.PRINT_SELECTED" | translate }} </span>
         </button>
+         
+      
         <!-- <button
           *ngIf="codes?.PagePermissions?.PMAdd"
           type="button"
