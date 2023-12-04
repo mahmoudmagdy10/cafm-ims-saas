@@ -1445,3 +1445,7 @@ bs-datepicker-container {
   text-decoration: underline;
   cursor: pointer;
 }
+
+.nowrap{
+  white-space: nowrap;
+}
