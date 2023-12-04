@@ -33,50 +33,14 @@
           formControlName="InternalNumber"
         />
       </div>
-      <!-- تاريخ الحدث من -->
       <div class="form-group col-md-4 mb-5">
-        <label class="mb-2">
-          {{ "ACCIDENTS_REPORTS.MODALS.FILTER.ACCIDENT_DATE_FROM" | translate }}
-        </label>
-
-        <div class="form-group custom-datepicker">
-          <input
-            class="form-control"
-            [matDatepicker]="IncidentDateFrom"
-            type="datetime"
-            placeholder="dd-mm-yy"
-            formControlName="IncidentDateFrom"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="IncidentDateFrom"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #IncidentDateFrom></mat-datepicker>
-        </div>
+        <label class="mb-2" translate="ACCIDENTS_REPORTS.MODALS.FILTER.ACCIDENT_DATE_FROM"></label>
+        <p-calendar placeholder="dd-mm-yy" dateFormat="dd/mm/yy" formControlName="StartDate" [showTime]="true" inputId="time" appendTo="body" [showIcon]="true"></p-calendar>
       </div>
-
-      <!-- تاريخ الحدث الى -->
       <div class="form-group col-md-4 mb-5">
-        <label class="mb-2">
-          {{ "ACCIDENTS_REPORTS.MODALS.FILTER.ACCIDENT_DATE_TO" | translate }}
-        </label>
-
-        <div class="form-group custom-datepicker">
-          <input
-            class="form-control"
-            [matDatepicker]="IncidentDateTo"
-            type="datetime"
-            placeholder="dd-mm-yy"
-            formControlName="IncidentDateTo"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="IncidentDateTo"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #IncidentDateTo></mat-datepicker>
-        </div>
+        <label class="mb-2" translate="ACCIDENTS_REPORTS.MODALS.FILTER.ACCIDENT_DATE_TO"></label>
+        <p-calendar placeholder="dd-mm-yy" dateFormat="dd/mm/yy" formControlName="StartDate" [showTime]="true" inputId="time" appendTo="body" [showIcon]="true"></p-calendar>
       </div>
-
       <!-- القالب -->
       <ng-container *ngIf="this.Codes$ | async as codes">
         <div class="form-group col-md-4 mb-5">

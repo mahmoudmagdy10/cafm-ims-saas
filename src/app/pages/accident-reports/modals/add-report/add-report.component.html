@@ -32,25 +32,12 @@
           filterBy="name">
         </p-dropdown>
       </div>
-      <!-- تاريخ الحدث -->
       <div class="col-12 col-md-3 mb-3 mb-md-0">
-        <label class="mb-2">
-          {{ "ACCIDENTS_REPORTS.MODALS.ADD_REPORT.ACCIDENT_DATE" | translate }}
-        </label>
-
-        <div class="form-group custom-datepicker">
-          <input class="form-control" [matDatepicker]="picker" type="datetime" placeholder="dd-mm-yy"
-            formControlName="IncidentDate" />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </div>
+        <label class="mb-2" translate="ACCIDENTS_REPORTS.MODALS.ADD_REPORT.ACCIDENT_DATE"></label>
+        <p-calendar placeholder="dd-mm-yy" dateFormat="dd/mm/yy" formControlName="StartDate" [showTime]="true" inputId="time" appendTo="body" [showIcon]="true"></p-calendar>
       </div>
-
-      <!-- وقت الحدث -->
       <div class="col-12 col-md-3 mb-3 mb-md-0">
-        <label class="mb-2">
-          {{ "ACCIDENTS_REPORTS.MODALS.ADD_REPORT.ACCIDENT_TIME" | translate }}
-        </label>
+        <label class="mb-2" translate="ACCIDENTS_REPORTS.MODALS.ADD_REPORT.ACCIDENT_TIME"></label>
         <!-- [(ngModel)]="value" -->
         <div class="form-group custom-datepicker" style="direction: ltr">
           <p-calendar [showTime]="true" hourFormat="12" inputId="timeonly" [timeOnly]="true"

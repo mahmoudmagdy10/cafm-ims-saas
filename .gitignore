@@ -53,3 +53,6 @@ Thumbs.db
 /babel.config.js
 /dist/    
 # (or wherever Babel transpiles your code)
+
+yarn.lock
+package-lock.json
