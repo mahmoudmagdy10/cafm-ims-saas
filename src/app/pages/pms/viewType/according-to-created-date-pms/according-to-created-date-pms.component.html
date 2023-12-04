@@ -4,8 +4,7 @@
       <!-- (click)="itemUser.showMore = !itemUser.showMore"
       [style.cursor]="'pointer'" -->
       <div
-        class="task-info bg-light p-3 mb-3 d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center"
-      >
+        class="task-info bg-light p-3 mb-3 d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
         <div class="user">
           <span class="username fw-bolder mx-2"> {{ itemUser?.date }} </span>
         </div>
@@ -51,38 +50,26 @@
         </div> -->
       </div>
       <ng-container *ngIf="CodeObz$ | async as codes">
-        <table
-          class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6"
-        >
+        <table class="table table-rounded table-row-bordered border custom-table-style vertical-align-middle fs-6">
           <thead>
             <tr class="fw-bolder fs-6 text-gray-800">
-              <th style="width: 10%">#</th>
-              <th style="width: 17%">
-                <input
-                  type="checkbox"
-                  class="form-check-input margin-end-1 custom-checkbox-style"
-                />
+              <th>#</th>
+              <th>
+                <input type="checkbox" class="form-check-input margin-end-1 custom-checkbox-style" />
                 {{ "Name" | translate }}
               </th>
               <!-- <th>{{ "PM.TABLE.ASSET" | translate }}</th> -->
-              <th style="width: 15%">{{ "Schedule_Date" | translate }}</th>
-              <th style="width: 15%">{{ "Due_Date" | translate }}</th>
-              <th style="width: 25%">
+              <th>{{ "Schedule_Date" | translate }}</th>
+              <th>{{ "Due_Date" | translate }}</th>
+              <th>
                 {{ "Asset Name" | translate }}
               </th>
-              <th style="width: 20%">
+              <th>
                 {{ "Schedule Type" | translate }}
               </th>
-              <th style="width: 20%">
+              <th class="nowrap">
                 {{ "Task Type" | translate }}
               </th>
-
-              <!--
-              <th class="text-center">
-                {{ "PM.TABLE.SCHEDULES" | translate }}
-              </th>
-              <th>{{ "PM.TABLE.ASSIGNED_TO" | translate }}</th>
-              <th>{{ "GENERAL.PROCEDUERS" | translate }}</th> -->
             </tr>
           </thead>
           <tbody>
@@ -92,21 +79,14 @@
               </td>
               <td>
                 <div class="d-flex">
-                  <input
-                    type="checkbox"
-                    class="form-check-input margin-end-1 custom-checkbox-style"
-                    [(ngModel)]="item.checked"
-                    (click)="selectWorkOrder($event, item)"
-                    [disabled]="!codes.PagePermissions?.PMPrint"
-                  />
+                  <input type="checkbox" class="form-check-input margin-end-1 custom-checkbox-style"
+                    [(ngModel)]="item.checked" (click)="selectWorkOrder($event, item)"
+                    [disabled]="!codes.PagePermissions?.PMPrint" />
                   <div>
-                    <a
-                      href="javascript:;"
-                      (click)="
+                    <a href="javascript:;" (click)="
                         codes.PagePermissions?.PMShowCard &&
                           handleEventClick(item)
-                      "
-                    >
+                      ">
                       {{ item.TaskName }}
                     </a>
                   </div>
@@ -126,20 +106,23 @@
                 {{ item.ScheduleType }}
               </td>
               <td>
-                <i
-                  (click)="
+                <i (click)="
                     codes.PagePermissions?.PMShowCard &&
                       openLinkInWorkOrder(item)
-                  "
-                  class="action-icon completed-request-status"
-                  [style]="{ color: item.PriorityColor }"
-                  [pTooltip]="
+                  " class="action-icon completed-request-status" [style]="{ color: item.PriorityColor }" [pTooltip]="
                     item.WorkOrderID ? 'Work Order' : 'Preventive Maintenance'
-                  "
-                >
-                  {{ item.WorkOrderID ? "W" : "P" }}</i
-                >
+                  ">
+                  {{ item.WorkOrderID ? "W" : "P" }}</i>
               </td>
+
+
+
+
+
+
+
+
+
               <!-- <td> -->
               <!-- <i
             class="fa fa-info-circle fa-lg"
@@ -226,18 +209,11 @@
         </table>
       </ng-container>
     </ng-container>
-    <div
-      class="d-flex justify-content-center align-items-center m-3"
-      *ngIf="data.length == 0"
-    >
+    <div class="d-flex justify-content-center align-items-center m-3" *ngIf="data.length == 0">
       <h3><i class="pi pi-inbox mx-1"></i>{{ "NO_DATA" | translate }}</h3>
     </div>
-    <app-pagination-component
-      [Setting]="data?.Setting"
-      [(selectedPage)]="selectedPageDaliy"
-      (selectedPageChange)="changePage()"
-      (selectedRowCount)="selectedRowCount($event)"
-    ></app-pagination-component>
+    <app-pagination-component [Setting]="data?.Setting" [(selectedPage)]="selectedPageDaliy"
+      (selectedPageChange)="changePage()" (selectedRowCount)="selectedRowCount($event)"></app-pagination-component>
   </ng-container>
 </ng-container>
 <ng-template #loading>
@@ -248,9 +224,6 @@
   <p-skeleton width="10rem" height="4rem"></p-skeleton> -->
 </ng-template>
 
-<confirm-delete
-  #confirmdeletePMS
-  massage="{{ 'PM.CARD_HEADER' | translate }}"
-  (afterSave)="$event ? deletePMS() : ''; confirmdeletePMS.CloseModal()"
->
+<confirm-delete #confirmdeletePMS massage="{{ 'PM.CARD_HEADER' | translate }}"
+  (afterSave)="$event ? deletePMS() : ''; confirmdeletePMS.CloseModal()">
 </confirm-delete>
